@@ -353,7 +353,7 @@ async def check_locations(ctx: TPContext) -> None:
         else:
             addr = data.offset
 
-        if not addr or not flag:
+        if not addr or not flag or data.code == None:
             # logger.error(f"Invalid location: {location}")
             continue
 
