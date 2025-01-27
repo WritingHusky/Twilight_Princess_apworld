@@ -33,7 +33,7 @@ CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 # CURR_NODE_ADDR = 0x80406B38
 # SLOT_NAME_ADDR = 0x80406374
 # ITEM_WRITE_ADDR = 0x80406AB0
-# EXPECTED_INDEX_ADDR = 0x80406394
+# EXPECTED_INDEX_ADDR = 0x80406734
 # NODES_START_ADDR = 0x804063B0
 # ACTIVE_NODE_ADDR = 0x80406B18
 
@@ -73,7 +73,7 @@ def set_address(
         item_write_addr if item_write_addr is not None else saveFileAddr + 0x8F0
     )
     EXPECTED_INDEX_ADDR = (
-        expected_index_addr if expected_index_addr is not None else saveFileAddr + 0x1D4
+        expected_index_addr if expected_index_addr is not None else saveFileAddr + 0x900
     )
     NODES_START_ADDR = (
         nodes_start_addr if nodes_start_addr is not None else saveFileAddr + 0x1F0
