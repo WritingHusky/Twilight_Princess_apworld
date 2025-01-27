@@ -139,6 +139,10 @@ def set_location_access_rules(world: "TPWorld"):
 
     player = world.player
 
+    world.multiworld.completion_condition[player] = lambda state: state.has(
+        "Victory", player
+    )
+
     set_rule_if_exists(
         "Arbiters Grounds Big Key Chest",
         lambda state: (
@@ -769,6 +773,9 @@ def set_location_access_rules(world: "TPWorld"):
         "Hyrule Castle East Wing Boomerang Puzzle Chest",
         lambda state: (state.has("Gale Boomerang", player)),
     )
+    set_rule_if_exists(
+        "Hyrule Castle Ganondorf", lambda state: (can_defeat_Ganondorf(state, player))
+    )  # Technically reduntent
     set_rule_if_exists(
         "Hyrule Castle Graveyard Grave Switch Room Back Left Chest",
         lambda state: (can_smash(state, player)),
