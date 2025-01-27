@@ -6,29 +6,29 @@ from BaseClasses import Location, Region
 
 
 class NodeID(IntEnum):
-    Ordon = 0x804063B0
-    Sewers = 0x804063D0
-    Faron = 0x804063F0
-    Eldin = 0x80406410
-    Lanayru = 0x80406430
-    Hyrule_Field = 0x80406470
-    Sacred_Grove = 0x80406490
-    Snowpeak = 0x804064B0
-    Castle_Town = 0x804064D0
-    Gerudo_Desert = 0x804064F0
-    Fishing_Pond = 0x80406510
-    Forest_Temple = 0x804065B0
-    Goron_Mines = 0x804065D0
-    Lakebed_Temple = 0x804065F0
-    Arbiters_Grounds = 0x80406610
-    Snowpeak_Ruins = 0x80406630
-    Temple_of_Time = 0x80406650
-    City_in_the_Sky = 0x80406670
-    Palace_of_Twilight = 0x80406690
-    Hyrule_Castle = 0x804066B0
-    Cave_of_Ordeals = 0x804066D0
-    Lake_Hylia_Cave = 0x804066F0
-    Grotto = 0x80406710
+    Ordon = 0x0
+    Sewers = 0x01
+    Faron = 0x02
+    Eldin = 0x03
+    Lanayru = 0x04
+    Hyrule_Field = 0x06
+    Sacred_Grove = 0x07
+    Snowpeak = 0x08
+    Castle_Town = 0x09
+    Gerudo_Desert = 0x0A
+    Fishing_Pond = 0x0B
+    Forest_Temple = 0x10
+    Goron_Mines = 0x11
+    Lakebed_Temple = 0x12
+    Arbiters_Grounds = 0x13
+    Snowpeak_Ruins = 0x14
+    Temple_of_Time = 0x15
+    City_in_the_Sky = 0x16
+    Palace_of_Twilight = 0x17
+    Hyrule_Castle = 0x18
+    Cave_of_Ordeals = 0x19
+    Lake_Hylia_Cave = 0x1A
+    Grotto = 0x1B
 
 
 class TPStages(Enum):
@@ -895,7 +895,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E0,
+        offset=0x820,
         bit=0x8,
     ),
     "Goron Mines Gor Amato Small Chest": TPLocationData(
@@ -922,7 +922,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E7,
+        offset=0x827,
         bit=0x2,
     ),
     "Goron Mines Gor Liggs Chest": TPLocationData(
@@ -940,7 +940,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E7,
+        offset=0x827,
         bit=0x1,
     ),
     "Goron Mines Magnet Maze Chest": TPLocationData(
@@ -2074,7 +2074,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069B9,
+        offset=0x7F9,
         bit=0x8,
     ),
     "Bridge of Eldin Female Phasmid": TPLocationData(
@@ -2299,7 +2299,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EB,
+        offset=0x82B,
         bit=0x80,
     ),
     "Goron Springwater Rush": TPLocationData(
@@ -2389,7 +2389,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069ED,
+        offset=0x82D,
         bit=0x80,
     ),
     "Kakariko Graveyard Grave Poe": TPLocationData(
@@ -2533,7 +2533,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069B8,
+        offset=0x7F8,
         bit=0x4,
     ),
     "Skybook From Impaz": TPLocationData(
@@ -2542,16 +2542,16 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x80406A0F,
+        offset=0x84F,
         bit=0x80,
     ),
     "Talo Sharpshooting": TPLocationData(
         code=265,
         flags=TPFlag.Always | TPFlag.Overworld | TPFlag.Npc,
         stage_id=TPStages.Kakariko_Village,
-        type=TPLocationType.Region,
+        type=TPLocationType.Flag,
         region=None,
-        offset=0x804069B9,
+        offset=0x7F9,
         bit=0x20,
     ),
     "Coro Bottle": TPLocationData(
@@ -2560,7 +2560,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069CA,
+        offset=0x80A,
         bit=0x8,
     ),
     "Faron Field Bridge Chest": TPLocationData(
@@ -2695,7 +2695,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EC,
+        offset=0x82C,
         bit=0x10,
     ),
     "Faron Woods Owl Statue Chest": TPLocationData(
@@ -2803,7 +2803,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Sacred_Grove,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D1,
+        offset=0x811,
         bit=0x20,
     ),
     "Sacred Grove Pedestal Shadow Crystal": TPLocationData(
@@ -2812,7 +2812,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Sacred_Grove,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D1,
+        offset=0x811,
         bit=0x20,
     ),
     "Sacred Grove Spinner Chest": TPLocationData(
@@ -2983,7 +2983,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EC,
+        offset=0x82C,
         bit=0x1,
     ),
     "Gerudo Desert Lone Small Chest": TPLocationData(
@@ -3163,7 +3163,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E4,
+        offset=0x824,
         bit=0x80,
     ),
     "Agitha Female Beetle Reward": TPLocationData(
@@ -3172,7 +3172,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E1,
+        offset=0x821,
         bit=0x8,
     ),
     "Agitha Female Butterfly Reward": TPLocationData(
@@ -3181,7 +3181,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E1,
+        offset=0x821,
         bit=0x2,
     ),
     "Agitha Female Dayfly Reward": TPLocationData(
@@ -3190,7 +3190,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E4,
+        offset=0x824,
         bit=0x20,
     ),
     "Agitha Female Dragonfly Reward": TPLocationData(
@@ -3199,7 +3199,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x2,
     ),
     "Agitha Female Grasshopper Reward": TPLocationData(
@@ -3208,7 +3208,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x20,
     ),
     "Agitha Female Ladybug Reward": TPLocationData(
@@ -3217,7 +3217,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x20,
     ),
     "Agitha Female Mantis Reward": TPLocationData(
@@ -3226,7 +3226,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x80,
     ),
     "Agitha Female Phasmid Reward": TPLocationData(
@@ -3235,7 +3235,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x8,
     ),
     "Agitha Female Pill Bug Reward": TPLocationData(
@@ -3244,7 +3244,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x2,
     ),
     "Agitha Female Snail Reward": TPLocationData(
@@ -3253,7 +3253,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x8,
     ),
     "Agitha Female Stag Beetle Reward": TPLocationData(
@@ -3262,7 +3262,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x80,
     ),
     "Agitha Male Ant Reward": TPLocationData(
@@ -3271,7 +3271,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x1,
     ),
     "Agitha Male Beetle Reward": TPLocationData(
@@ -3280,7 +3280,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E1,
+        offset=0x821,
         bit=0x10,
     ),
     "Agitha Male Butterfly Reward": TPLocationData(
@@ -3289,7 +3289,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E1,
+        offset=0x821,
         bit=0x4,
     ),
     "Agitha Male Dayfly Reward": TPLocationData(
@@ -3298,7 +3298,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E4,
+        offset=0x824,
         bit=0x40,
     ),
     "Agitha Male Dragonfly Reward": TPLocationData(
@@ -3307,7 +3307,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x4,
     ),
     "Agitha Male Grasshopper Reward": TPLocationData(
@@ -3316,7 +3316,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x40,
     ),
     "Agitha Male Ladybug Reward": TPLocationData(
@@ -3325,7 +3325,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x40,
     ),
     "Agitha Male Mantis Reward": TPLocationData(
@@ -3334,7 +3334,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x1,
     ),
     "Agitha Male Phasmid Reward": TPLocationData(
@@ -3343,7 +3343,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x10,
     ),
     "Agitha Male Pill Bug Reward": TPLocationData(
@@ -3352,7 +3352,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E2,
+        offset=0x822,
         bit=0x4,
     ),
     "Agitha Male Snail Reward": TPLocationData(
@@ -3361,7 +3361,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E3,
+        offset=0x823,
         bit=0x10,
     ),
     "Agitha Male Stag Beetle Reward": TPLocationData(
@@ -3370,7 +3370,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E1,
+        offset=0x821,
         bit=0x1,
     ),
     "Auru Gift To Fyer": TPLocationData(
@@ -3379,7 +3379,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D5,
+        offset=0x815,
         bit=0x10,
     ),
     "Castle Town Malo Mart Magic Armor": TPLocationData(
@@ -3397,7 +3397,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D4,
+        offset=0x814,
         bit=0x80,
     ),
     "Doctors Office Balcony Chest": TPLocationData(
@@ -3424,7 +3424,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Fishing_Pond,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E9,
+        offset=0x829,
         bit=0x8,
     ),
     "Fishing Hole Heart Piece": TPLocationData(
@@ -3532,7 +3532,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069BB,
+        offset=0x7FB,
         bit=0x1,
     ),
     "Iza Raging Rapids Minigame": TPLocationData(
@@ -3541,7 +3541,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x80406A09,
+        offset=0x849,
         bit=0x8,
     ),
     "Jovani 20 Poe Soul Reward": TPLocationData(
@@ -3550,7 +3550,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069FD,
+        offset=0x83D,
         bit=0x80,
     ),
     "Jovani 60 Poe Soul Reward": TPLocationData(
@@ -3559,7 +3559,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069E8,
+        offset=0x828,
         bit=0x20,
     ),
     "Jovani House Poe": TPLocationData(
@@ -4009,7 +4009,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069ED,
+        offset=0x82D,
         bit=0x40,
     ),
     "Outside Lanayru Spring Left Statue Chest": TPLocationData(
@@ -4063,7 +4063,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EC,
+        offset=0x82C,
         bit=0x2,
     ),
     "Outside South Castle Town Male Ladybug": TPLocationData(
@@ -4108,7 +4108,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D3,
+        offset=0x813,
         bit=0x80,
     ),
     "STAR Prize 1": TPLocationData(
@@ -4117,7 +4117,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D3,
+        offset=0x813,
         bit=0x8,
     ),
     "STAR Prize 2": TPLocationData(
@@ -4126,7 +4126,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D3,
+        offset=0x813,
         bit=0x1,
     ),
     "Upper Zoras River Female Dragonfly": TPLocationData(
@@ -4162,7 +4162,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EC,
+        offset=0x82C,
         bit=0x4,
     ),
     "West Hyrule Field Helmasaur Grotto Chest": TPLocationData(
@@ -4243,7 +4243,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D9,
+        offset=0x819,
         bit=0x20,
     ),
     "Zoras Domain Waterfall Poe": TPLocationData(
@@ -4261,7 +4261,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069F2,
+        offset=0x832,
         bit=0x40,
     ),
     "Links Basement Chest": TPLocationData(
@@ -4279,7 +4279,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069C4,
+        offset=0x804,
         bit=0x8,
     ),
     "Ordon Ranch Grotto Lantern Chest": TPLocationData(
@@ -4306,7 +4306,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Skill,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EC,
+        offset=0x82C,
         bit=0x8,
     ),
     "Ordon Sword": TPLocationData(
@@ -4324,7 +4324,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069F9,
+        offset=0x839,
         bit=0x2,
     ),
     "Uli Cradle Delivery": TPLocationData(
@@ -4333,7 +4333,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069B3,
+        offset=0x7F3,
         bit=0x1,
     ),
     "Wooden Sword Chest": TPLocationData(
@@ -4360,7 +4360,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D9,
+        offset=0x819,
         bit=0x40,
     ),
     "Snowboard Racing Prize": TPLocationData(
@@ -4369,7 +4369,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069EB,
+        offset=0x82B,
         bit=0x10,
     ),
     "Snowpeak Above Freezard Grotto Poe": TPLocationData(
@@ -4513,7 +4513,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069BF,
+        offset=0x7FF,
         bit=0x80,
     ),
     "Ilia Charm": TPLocationData(
@@ -4522,7 +4522,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D2,
+        offset=0x812,
         bit=0x80,
     ),
     "Ilia Memory Reward": TPLocationData(
@@ -4531,7 +4531,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x804069D3,
+        offset=0x813,
         bit=0x40,
     ),
     "Wooden Statue": TPLocationData(
@@ -4540,7 +4540,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x8040629F,
+        offset=0xDF,
         bit=0x04,
     ),
     "Telma Invoice": TPLocationData(
@@ -4549,7 +4549,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Castle_Town,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x8040629F,
+        offset=0xDF,
         bit=0x2,
     ),
 }
