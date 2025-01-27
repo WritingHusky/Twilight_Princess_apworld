@@ -106,6 +106,30 @@ class TPCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, TPContext):
             logger.info(f"Dolphin Status: {self.ctx.dolphin_status}")
 
+    def _cmd_name(self, name: str = "") -> None:
+        """Change the name of the current save file"""
+
+        if not isinstance(self.ctx, TPContext):
+            return
+
+        if self.ctx.dolphin_status != CONNECTION_CONNECTED_STATUS:
+            logger.info("Client must be connected to dolphin first")
+            return
+
+        if self.ctx.current_node == 0xFF:
+            logger.info("Must be in game to change name")
+            return
+
+        if len(name) > 16:
+            name = name[:16]
+
+        # Pad the name with 0x00 characters to make it 16 characters long
+        padded_name = name.ljust(16, "\x00")
+
+        logger.info(f"giving name {padded_name}")
+        write_string(SLOT_NAME_ADDR, padded_name)
+        return
+
 
 class TPContext(CommonContext):
     """
@@ -267,6 +291,19 @@ def write_short(console_address: int, value: int) -> None:
     dolphin_memory_engine.write_bytes(
         console_address, value.to_bytes(2, byteorder="big")
     )
+
+
+def write_string(console_address: int, string: str) -> None:
+    """
+    Write a string to Dolphin memory.
+
+    :param console_address: Address to write to.
+    :param string: String to write.
+    """
+    if len(string) > 16:
+        raise ValueError("String length must be 16 characters or less.")
+
+    dolphin_memory_engine.write_bytes(console_address, string.encode() + b"\0")
 
 
 def _give_death(ctx: TPContext) -> None:
