@@ -7,7 +7,7 @@ import dolphin_memory_engine
 
 from .ClientUtils import ITEM_TO_HEX
 from .Items import LOOKUP_ID_TO_NAME
-from .Locations import LOCATION_TABLE, TPLocation
+from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
 from CommonClient import (
     ClientCommandProcessor,
@@ -58,7 +58,7 @@ def set_address(
         case 0x4A:  # ASCII for 'J', which is JP
             saveFileAddr = 0x80400300
 
-    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR
+    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR
 
     CURR_HEALTH_ADDR = (
         curr_health_addr if curr_health_addr is not None else saveFileAddr + 0x2
@@ -81,6 +81,7 @@ def set_address(
     ACTIVE_NODE_ADDR = (
         active_node_addr if active_node_addr is not None else saveFileAddr + 0x958
     )
+    SAVE_FILE_ADDR = saveFileAddr
 
 
 # ...existing code...
@@ -339,23 +340,39 @@ async def check_locations(ctx: TPContext) -> None:
     """
     current_node = read_byte(CURR_NODE_ADDR)
 
-    node_start_addr = (current_node * 32) + NODES_START_ADDR
+    node_start_addr = (current_node * 0x20) + NODES_START_ADDR
 
     for location, data in LOCATION_TABLE.items():
 
-        # logger.debug(f"Checking location: {location}: {data}")
+        # If there is not a valid apid dont bother checking that location
+        # apids not given when logic only location
+        if not isinstance(data.code, int):
+            continue
+
+        # Debug functionality
+        # if not isinstance(data.bit, int) or not isinstance(data.offset, int):
+        #     logger.info(f"location:{location} has weird formating")
+        #     continue
 
         flag = data.bit
-        if data.region and data.region == node_start_addr:
-            addr = ACTIVE_NODE_ADDR + data.offset
-        elif data.region:
-            addr = data.region + data.offset
-        else:
-            addr = data.offset
 
-        if not addr or not flag or data.code == None:
-            # logger.error(f"Invalid location: {location}")
-            continue
+        match (data.type):
+            case TPLocationType.Region:
+                region = data.region.value
+                # Debug functionality
+                # assert (
+                #     isinstance(region, int) and data.offset < 0x20
+                # ), f"Location {location=} has bad region {region} {data=}"
+                if region == current_node:
+                    addr = ACTIVE_NODE_ADDR + data.offset
+                else:
+                    addr = (region * 32) + NODES_START_ADDR + data.offset
+            case TPLocationType.Flag:
+                addr = SAVE_FILE_ADDR + data.offset
+            case TPLocationType.Event:
+                # Debug functionality
+                # logger.info(f"{location} has Event type and a code")
+                continue
 
         byte = read_byte(addr)
         checked = (byte & flag) != 0
