@@ -177,7 +177,7 @@ class TPContext(CommonContext):
             if args["slot_data"] is not None and "Version" in args["slot_data"]:
                 if args["slot_data"]["Version"] != VERSION:
                     logger.warn(
-                        "Client version does not match version of generated seed.\n\tThings may not work as intended"
+                        f"Client version does not match version of generated seed.\n\tThings may not work as intended\n\tSeed version:{args["slot_data"]["Version"]} client version:{VERSION}"
                     )
             # Request the connected slot's dictionary (used as a set) of visited stages.
         elif cmd == "ReceivedItems":
