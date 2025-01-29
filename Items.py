@@ -248,6 +248,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ordon Pumpkin": TPItemData("Item", IC.progression, 129, 1, 0xF4),
     "Ordon Goat Cheese": TPItemData("Item", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
+    "Victory": TPItemData("Event", IC.progression, 132, 1, None),
 }
 
 LOOKUP_ID_TO_NAME: dict[int, Item] = {

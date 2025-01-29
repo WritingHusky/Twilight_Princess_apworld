@@ -174,7 +174,7 @@ def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], Lis
 
     # Add regular items to the item pool.
     for item, data in ITEM_TABLE.items():
-        if data.classification != ItemClassification.filler:
+        if data.classification != ItemClassification.filler and item != "Victory":
             pool.extend([item] * data.quantity)
             n_pending_junk -= data.quantity
 
@@ -191,17 +191,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
 
     # Place a "Victory" item on "Defeat Ganondorf" for the spoiler log.
     world.get_location("Hyrule Castle Ganondorf").place_locked_item(
-        TPItem(
-            "Victory",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Event",
-                quantity=1,
-                classification=ItemClassification.progression,
-                item_id=1,
-            ),
-        )
+        item_factory("Victory", world)
     )
 
     # Place a Boss Defeated item on the boss rooms

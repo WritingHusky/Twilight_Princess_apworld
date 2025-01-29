@@ -338,6 +338,10 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
         return False
 
+    # Simple victory handling (not actually an item)
+    if item_name == "Victory":
+        return True
+
     if read_byte(ITEM_WRITE_ADDR) != 0x00:
         return False
 
@@ -382,7 +386,7 @@ async def check_locations(ctx: TPContext) -> None:
     """
     current_node = read_byte(CURR_NODE_ADDR)
 
-    node_start_addr = (current_node * 0x20) + NODES_START_ADDR
+    # node_start_addr = (current_node * 0x20) + NODES_START_ADDR
 
     for location, data in LOCATION_TABLE.items():
 
@@ -419,7 +423,8 @@ async def check_locations(ctx: TPContext) -> None:
         byte = read_byte(addr)
         checked = (byte & flag) != 0
         if checked:
-            if data.code is None and location == "Hyrule Castle Ganondorf":
+            if location == "Hyrule Castle Ganondorf":
+                logger.info("Game finished")
                 if not ctx.finished_game:
                     await ctx.send_msgs(
                         [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]

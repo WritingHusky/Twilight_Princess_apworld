@@ -362,7 +362,7 @@ class TPWorld(World):
         # Output which item has been placed at each location.
         locations = multiworld.get_locations(player)
         for location in locations:
-            if location.name != "Hyrule Castle Ganondorf":
+            if location.name:
                 if location.item:
                     item_info = {
                         "player": location.item.player,

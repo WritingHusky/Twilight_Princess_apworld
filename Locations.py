@@ -4451,7 +4451,13 @@ LOCATION_TABLE = {
         None, TPFlag.Dungeon, TPStages.Temple_of_Time, TPLocationType.Region
     ),
     "Hyrule Castle Ganondorf": TPLocationData(
-        None, TPFlag.Dungeon, TPStages.Hyrule_Castle, TPLocationType.Region
+        code=475,
+        flags=TPFlag.Dungeon,
+        stage_id=TPStages.Hyrule_Castle,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x857,
+        bit=0x80,
     ),
     "Goron Mines Fyrus": TPLocationData(
         None, TPFlag.Dungeon, TPStages.Goron_Mines, TPLocationType.Region
