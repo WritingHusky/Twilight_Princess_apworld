@@ -128,3 +128,5 @@ ITEM_TO_HEX: Dict[str, int] = {
     "Ordon Goat Cheese": 0xF5,
     "Ice Trap": 0x13,
 }
+
+VERSION = "v0.1.4"
