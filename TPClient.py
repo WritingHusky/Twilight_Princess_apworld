@@ -198,10 +198,15 @@ class TPContext(CommonContext):
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["death_link"]))
                 )
-            if args["slot_data"] is not None and "World Version" in args["slot_data"]:
-                if args["slot_data"]["World Version"] != VERSION:
+            if args["slot_data"] is not None:
+                if (
+                    not args["slot_data"]["World Version"]
+                    or args["slot_data"]["World Version"] != VERSION
+                ):
                     logger.warn(
-                        f"Client version does not match version of generated seed.\n\tThings may not work as intended\n\tSeed version:{args["slot_data"]["World Version"]} client version:{VERSION}"
+                        f"""Client version does not match version of generated seed. 
+                            Things may not work as intended,
+                            Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                     )
             # Request the connected slot's dictionary (used as a set) of visited stages.
         elif cmd == "ReceivedItems":
