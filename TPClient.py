@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 
 import dolphin_memory_engine
 
-from .ClientUtils import ITEM_TO_HEX
+from .ClientUtils import ITEM_TO_HEX, VERSION
 from .Items import LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
@@ -174,6 +174,11 @@ class TPContext(CommonContext):
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["death_link"]))
                 )
+            if args["slot_data"] is not None and "Version" in args["slot_data"]:
+                if args["slot_data"]["Version"] != VERSION:
+                    logger.warn(
+                        "Client version does not match version of generated seed.\n\tThings may not work as intended"
+                    )
             # Request the connected slot's dictionary (used as a set) of visited stages.
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
