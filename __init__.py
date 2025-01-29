@@ -8,7 +8,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Set, Tuple
 from BaseClasses import CollectionState, Item
 from BaseClasses import ItemClassification as IC
 from BaseClasses import MultiWorld, Tutorial
-from ClientUtils import VERSION
+from .ClientUtils import VERSION
 from .Items import ITEM_TABLE, TPItem, item_name_groups
 from Options import Toggle
 from .Locations import LOCATION_TABLE, TPFlag, TPLocation
@@ -345,7 +345,7 @@ class TPWorld(World):
 
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
-            "Version": "v0.1.3",
+            "Version": VERSION,
             "Seed": multiworld.seed_name,
             "Slot": player,
             "Name": self.player_name,
