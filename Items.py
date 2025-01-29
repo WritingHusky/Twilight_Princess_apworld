@@ -241,13 +241,14 @@ ITEM_TABLE: dict[str, TPItemData] = {
     # "Sky Character 4": TPItemData("Item", IC.useful, 135, 1, 0xDE),
     # "Sky Character 5": TPItemData("Item", IC.useful, 136, 1, 0xDF),
     "Poe Soul": TPItemData("Item", IC.progression, 124, 60, 0xE0),
-    #"Poe 1 (Fire)": TPItemData("Item", IC.useful, 125, 1, 0xEF),
-    #"Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
-    #"Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),
-    #"Poe 4 (Fire)": TPItemData("Item", IC.useful, 128, 1, 0xF2),
+    # "Poe 1 (Fire)": TPItemData("Item", IC.useful, 125, 1, 0xEF),
+    # "Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
+    # "Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),
+    # "Poe 4 (Fire)": TPItemData("Item", IC.useful, 128, 1, 0xF2),
     "Ordon Pumpkin": TPItemData("Item", IC.progression, 129, 1, 0xF4),
     "Ordon Goat Cheese": TPItemData("Item", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
+    "Victory": TPItemData("Event", IC.progression, 132, 1, None),
 }
 
 LOOKUP_ID_TO_NAME: dict[int, Item] = {

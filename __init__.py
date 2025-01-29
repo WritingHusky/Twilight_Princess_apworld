@@ -8,6 +8,7 @@ from typing import Any, ClassVar, Dict, List, Optional, Set, Tuple
 from BaseClasses import CollectionState, Item
 from BaseClasses import ItemClassification as IC
 from BaseClasses import MultiWorld, Tutorial
+from .ClientUtils import VERSION
 from .Items import ITEM_TABLE, TPItem, item_name_groups
 from Options import Toggle
 from .Locations import LOCATION_TABLE, TPFlag, TPLocation
@@ -344,7 +345,7 @@ class TPWorld(World):
 
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
-            "Version": "v0.1.3",
+            "Version": VERSION,
             "Seed": multiworld.seed_name,
             "Slot": player,
             "Name": self.player_name,
@@ -361,7 +362,7 @@ class TPWorld(World):
         # Output which item has been placed at each location.
         locations = multiworld.get_locations(player)
         for location in locations:
-            if location.name != "Hyrule Castle Ganondorf":
+            if location.name:
                 if location.item:
                     item_info = {
                         "player": location.item.player,
@@ -516,86 +517,9 @@ class TPWorld(World):
 
         :return: A dictionary to be sent to the client when it connects to the server.
         """
-        # slot_data = {
-        #     "progression_dungeons": self.options.progression_dungeons.value,
-        #     "progression_tingle_chests": self.options.progression_tingle_chests.value,
-        #     "progression_dungeon_secrets": self.options.progression_dungeon_secrets.value,
-        #     "progression_puzzle_secret_caves": self.options.progression_puzzle_secret_caves.value,
-        #     "progression_combat_secret_caves": self.options.progression_combat_secret_caves.value,
-        #     "progression_savage_labyrinth": self.options.progression_savage_labyrinth.value,
-        #     "progression_great_fairies": self.options.progression_great_fairies.value,
-        #     "progression_short_sidequests": self.options.progression_short_sidequests.value,
-        #     "progression_long_sidequests": self.options.progression_long_sidequests.value,
-        #     "progression_spoils_trading": self.options.progression_spoils_trading.value,
-        #     "progression_minigames": self.options.progression_minigames.value,
-        #     "progression_battlesquid": self.options.progression_battlesquid.value,
-        #     "progression_free_gifts": self.options.progression_free_gifts.value,
-        #     "progression_mail": self.options.progression_mail.value,
-        #     "progression_platforms_rafts": self.options.progression_platforms_rafts.value,
-        #     "progression_submarines": self.options.progression_submarines.value,
-        #     "progression_eye_reef_chests": self.options.progression_eye_reef_chests.value,
-        #     "progression_big_octos_gunboats": self.options.progression_big_octos_gunboats.value,
-        #     "progression_triforce_charts": self.options.progression_triforce_charts.value,
-        #     "progression_treasure_charts": self.options.progression_treasure_charts.value,
-        #     "progression_expensive_purchases": self.options.progression_expensive_purchases.value,
-        #     "progression_island_puzzles": self.options.progression_island_puzzles.value,
-        #     "progression_misc": self.options.progression_misc.value,
-        #     "randomize_mapcompass": self.options.randomize_mapcompass.value,
-        #     "randomize_smallkeys": self.options.randomize_smallkeys.value,
-        #     "randomize_bigkeys": self.options.randomize_bigkeys.value,
-        #     "sword_mode": self.options.sword_mode.value,
-        #     "required_bosses": self.options.required_bosses.value,
-        #     "num_required_bosses": self.options.num_required_bosses.value,
-        #     "chest_type_matches_contents": self.options.chest_type_matches_contents.value,
-        #     "included_dungeons": self.options.included_dungeons.value,
-        #     "excluded_dungeons": self.options.excluded_dungeons.value,
-        #     # "trap_chests": self.options.trap_chests.value,
-        #     "hero_mode": self.options.hero_mode.value,
-        #     "logic_obscurity": self.options.logic_obscurity.value,
-        #     "logic_precision": self.options.logic_precision.value,
-        #     "enable_tuner_logic": self.options.enable_tuner_logic.value,
-        #     "randomize_dungeon_entrances": self.options.randomize_dungeon_entrances.value,
-        #     "randomize_secret_cave_entrances": self.options.randomize_secret_cave_entrances.value,
-        #     "randomize_miniboss_entrances": self.options.randomize_miniboss_entrances.value,
-        #     "randomize_boss_entrances": self.options.randomize_boss_entrances.value,
-        #     "randomize_secret_cave_inner_entrances": self.options.randomize_secret_cave_inner_entrances.value,
-        #     "randomize_fairy_fountain_entrances": self.options.randomize_fairy_fountain_entrances.value,
-        #     "mix_entrances": self.options.mix_entrances.value,
-        #     "randomize_enemies": self.options.randomize_enemies.value,
-        #     # "randomize_music": self.options.randomize_music.value,
-        #     "randomize_starting_island": self.options.randomize_starting_island.value,
-        #     "randomize_charts": self.options.randomize_charts.value,
-        #     # "hoho_hints": self.options.hoho_hints.value,
-        #     # "fishmen_hints": self.options.fishmen_hints.value,
-        #     # "korl_hints": self.options.korl_hints.value,
-        #     # "num_item_hints": self.options.num_item_hints.value,
-        #     # "num_location_hints": self.options.num_location_hints.value,
-        #     # "num_barren_hints": self.options.num_barren_hints.value,
-        #     # "num_path_hints": self.options.num_path_hints.value,
-        #     # "prioritize_remote_hints": self.options.prioritize_remote_hints.value,
-        #     "swift_sail": self.options.swift_sail.value,
-        #     "instant_text_boxes": self.options.instant_text_boxes.value,
-        #     "reveal_full_sea_chart": self.options.reveal_full_sea_chart.value,
-        #     "add_shortcut_warps_between_dungeons": self.options.add_shortcut_warps_between_dungeons.value,
-        #     "skip_rematch_bosses": self.options.skip_rematch_bosses.value,
-        #     "remove_music": self.options.remove_music.value,
-        #     "death_link": self.options.death_link.value,
-        # }
-        #
-        # # Add entrances to `slot_data`. This is the same data that is written to the .aptww file.
-        # all_entrance_names = [en.entrance_name for en in ALL_ENTRANCES]
-        # entrances = {
-        #     entrance.parent_region.name: entrance.connected_region.name
-        #     for entrance in self.multiworld.get_entrances(self.player)
-        #     if entrance.parent_region is not None
-        #        and entrance.connected_region is not None
-        #        and entrance.parent_region.name in all_entrance_names
-        # }
-        # slot_data["entrances"] = entrances
-        #
-        # return slot_data
+        slot_data = {"World Version": VERSION}
 
-        # Add handling for progressive Bottle?
+        return slot_data
 
     def collect_item(
         self, state: "CollectionState", item: "Item", remove: bool = False

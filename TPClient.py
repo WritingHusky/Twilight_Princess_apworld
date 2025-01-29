@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 
 import dolphin_memory_engine
 
-from .ClientUtils import ITEM_TO_HEX
+from .ClientUtils import ITEM_TO_HEX, VERSION
 from .Items import LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
@@ -198,6 +198,16 @@ class TPContext(CommonContext):
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["death_link"]))
                 )
+            if args["slot_data"] is not None:
+                if (
+                    not args["slot_data"]["World Version"]
+                    or args["slot_data"]["World Version"] != VERSION
+                ):
+                    logger.warn(
+                        f"""Client version does not match version of generated seed. 
+                            Things may not work as intended,
+                            Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
+                    )
             # Request the connected slot's dictionary (used as a set) of visited stages.
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
@@ -333,6 +343,10 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
         return False
 
+    # Simple victory handling (not actually an item)
+    if item_name == "Victory":
+        return True
+
     if read_byte(ITEM_WRITE_ADDR) != 0x00:
         return False
 
@@ -377,7 +391,7 @@ async def check_locations(ctx: TPContext) -> None:
     """
     current_node = read_byte(CURR_NODE_ADDR)
 
-    node_start_addr = (current_node * 0x20) + NODES_START_ADDR
+    # node_start_addr = (current_node * 0x20) + NODES_START_ADDR
 
     for location, data in LOCATION_TABLE.items():
 
@@ -414,7 +428,8 @@ async def check_locations(ctx: TPContext) -> None:
         byte = read_byte(addr)
         checked = (byte & flag) != 0
         if checked:
-            if data.code is None and location == "Hyrule Castle Ganondorf":
+            if location == "Hyrule Castle Ganondorf":
+                logger.info("Game finished")
                 if not ctx.finished_game:
                     await ctx.send_msgs(
                         [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
