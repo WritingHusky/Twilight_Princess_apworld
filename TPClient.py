@@ -440,7 +440,7 @@ async def check_locations(ctx: TPContext) -> None:
                 ctx.locations_checked.add(TPLocation.get_apid(data.code))
 
     locations_checked = ctx.locations_checked.difference(ctx.checked_locations)
-    if locations_checked:
+    if locations_checked and current_node == read_byte(CURR_NODE_ADDR):
         logger.info(f"Sending location checks: {locations_checked}")
         await ctx.send_msgs([{"cmd": "LocationChecks", "locations": locations_checked}])
 
