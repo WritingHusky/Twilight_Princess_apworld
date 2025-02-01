@@ -23,7 +23,7 @@ from NetUtils import NetworkItem, ClientStatus
 if TYPE_CHECKING:
     import kvui
 
-CONNECTION_REFUSED_GAME_STATUS = "Dolphin failed to connect. Please load a randomized ROM for Twilight Princess. Trying again in 5 seconds..."
+CONNECTION_REFUSED_GAME_STATUS = "Dolphin failed to connect. Please load a ROM for Twilight Princess. Trying again in 5 seconds..."
 CONNECTION_REFUSED_SAVE_STATUS = "Dolphin failed to connect. Please load into the save file. Trying again in 5 seconds..."
 CONNECTION_LOST_STATUS = "Dolphin connection was lost. Please restart your emulator and make sure Twilight Princess is running."
 CONNECTION_CONNECTED_STATUS = "Dolphin connected successfully."
@@ -518,6 +518,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 dolphin_memory_engine.is_hooked()
                 and ctx.dolphin_status == CONNECTION_CONNECTED_STATUS
             ):
+
                 if not await check_ingame(ctx):
                     await asyncio.sleep(0.1)
                     continue
