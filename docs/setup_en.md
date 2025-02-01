@@ -12,7 +12,7 @@ You'll need the following components to be able to play/generate with Twilight P
 
 - Install [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) v0.5.1 or higher.\
    **Make sure to install the Generator if you intend to generate multiworlds.**
-- The latest version of the [TP APWorld](https://github.com/WritingHusky/Twilight_Princess_apworld/releases/latest).
+- The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/Twilight_Princess_apworld/releases/latest).
 
 If you're playing Twilight Princess, you'll also need:
 
@@ -32,14 +32,14 @@ If you intend to play under Linux, you will need to consider the following infor
 
 All users should follow these steps:
 
-1. Unzip the downloaded TP APWorld zip file.
+1. Unzip the downloaded Twilight Princess APWorld zip file.
 2. Double-click the `Twilight Princess.apworld` file. It should automatically install the APWorld after a little while. You will get a
    little dialog window telling you it has been installed successfully. \* Alternatively, copy the `Twilight Princess.apworld` to your Archipelago installation's `custom_worlds` folder (Windows default
    to: `%programdata%/Archipelago`).
 3. Copy the contents of the `lib` folder in the downloaded Twilight Princess APWorld zip file to your Archipelago installation's `lib`
    folder.
 
-If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and place both that file and the gci file in the save data of dolphin
+If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and the [custom seed file](missing-link) and place both in the save data of dolphin
 
 ## Setting Up a YAML
 
@@ -49,7 +49,7 @@ setting's function.
 
 Once you're happy with your settings, provide the room host with your YAML file and proceed to the next step.
 
-Note: As this is still early alpha changing settings in the YAML my not work / do anything (I recomend only changing the player name for now)
+Note: Please note the settings lable NOT IMPLEMENTED as these settings are still under devlopment
 
 ## Generating a Multiworld
 
@@ -64,7 +64,7 @@ generator does not yet support Twilight Princess. Follow these steps to generate
    you will need the corresponding ROM files. A ROM file is not required for Twilight Princess at this stage.
 4. Unzip the `AP_XXXXX.zip` file. It should include a `aptp` file for each player in the room playing Twilight Princess.
    Each file will be named `AP_XXXXX_P#_<name>.aptp`, where `#` corresponds to that player's slot number and `<name>` is
-   their slot (player) name. Distribute each file to the appropriate player.
+   their slot (player) name. The `aptp` file currently contains a spoiler log and other debug information it can be safely ignored.
 5. In the next section, use the archive file `AP_XXXXX.zip` to host a room or provide it to the room host.
 
 ## Hosting a Room
@@ -76,7 +76,7 @@ the instructions for hosting on the website from a locally generated game or on 
 
 ## Connecting to a Room
 
-You should have the `.aptp` file provided to you by the multiworld generator. You should also have the room's server
+You may have the `.aptp` file provided to you by the multiworld generator (you can ignore it.) You should also have the room's server
 name and port number from the room's host.
 
 Once you do, follow these steps to connect to the room:
@@ -85,10 +85,11 @@ Once you do, follow these steps to connect to the room:
 2. If you haven't gotten the REL loader and randomizer files, now is a good time to do that.
 3. Open Dolphin and use it to open Twilight Princess.
 4. Start the REL loader save file and select APTest as the seed you want to use.
-5. Start a new save file with links name as the name you gave for the multi world.
+5. Start a new save file feel free to leave links name as default for now we change it later.
 6. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the
    text client. If Dolphin is not already open you will be prompted to do so.
-7. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
+7. Now with dolphin connected run the `/name` command with the player name you put in the YAML file. eg: /name GamingHusky (max 16 characters)
+8. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
    on the website, this will be `archipelago.gg:<port>`, where `<port>` is the port number. If a game is hosted from the
    `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
 
@@ -101,6 +102,10 @@ Once you do, follow these steps to connect to the room:
 - If the client is not working, double-check that you have the most recent release of the `Twilight Princess.apworld` file.
   Ensure that the content of the `lib` folder from the release download has been placed in
   your Archipelago installation's `lib` folder.
+- If the client says that seed version and client version do not match, it is recomended regenerate the seed with the current version
+  differences in version can cause bugs which may make it unplayable.
+- If the client throws an error along the lines of "could not read memory at "< some number > dolphin has been disconnected.
+  It should automaticly reconnect, so ensure that dolphin is open and running
 - Ensure that you do not have any Dolphin cheats or codes enabled. Some cheats or codes can unexpectedly interfere with
   emulation and make troubleshooting errors difficult.
 - If you get an error message, ensure that `Enable Emulated Memory Size Override` in Dolphin (under `Options` >
