@@ -28,12 +28,14 @@ from worlds.LauncherComponents import (
     components,
     launch_subprocess,
 )
-from .Randomizer.Dungeons import Dungeon, create_dungeons
+
+# from .Randomizer.Dungeons import Dungeon, create_dungeons
 from .Randomizer.ItemPool import (
     generate_itempool,
     place_deterministic_items,
 )
-from .Randomizer.RequiredBosses import RequiredBossesRandomizer
+
+# from .Randomizer.RequiredBosses import RequiredBossesRandomizer
 from .Logic.Rules import set_location_access_rules
 from .Logic.RegionConnection import connect_regions
 from .Logic.RegionCreation import (
@@ -144,9 +146,6 @@ class TPWorld(World):
         # TODO: calculate nonprogress items dynamically
 
         adjusted_classification = None
-        # if dungeons are not progression, then the key is filler
-        if not self.options.dungeons_shuffled and name.endswith(" Key"):
-            adjusted_classification = IC.filler
 
         return adjusted_classification
 
@@ -191,12 +190,12 @@ class TPWorld(World):
         options = self.options
 
         # if dungeons are not progression, then keys should be vanilla
-        if not options.dungeons_shuffled:
-            options.small_key_settings.value = SmallKeySettings.option_vanilla
-            options.big_key_settings.value = BigKeySettings.option_vanilla
-            options.map_and_compass_settings.value = (
-                MapAndCompassSettings.option_vanilla
-            )
+        # if not options.dungeons_shuffled:
+        #     options.small_key_settings.value = SmallKeySettings.option_vanilla
+        #     options.big_key_settings.value = BigKeySettings.option_vanilla
+        #     options.map_and_compass_settings.value = (
+        #         MapAndCompassSettings.option_vanilla
+        #     )
 
         # Here we assign dungeon items (Keys, Map, Compass) to the dungeon pools.
         # for dungeon_item in [
@@ -289,7 +288,6 @@ class TPWorld(World):
         """
         Apply special fill rules before the fill stage.
         """
-
         # For the MVP, we will not be pre-filling anything.
 
         # Ban the Bait Bag slot from having bait.

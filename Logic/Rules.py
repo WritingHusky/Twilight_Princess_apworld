@@ -96,8 +96,8 @@ class TPLogic(LogicMixin):
     def _tp_open_map(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.open_map.value
 
-    def _tp_barren_dungeons(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.barren_dungeons.value
+    # def _tp_barren_dungeons(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.barren_dungeons.value
 
     def _tp_increase_wallet(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.increase_wallet.value
@@ -1704,7 +1704,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 can_complete_goron_mines(state, player)
-                and (not state._tp_barren_dungeons(player))
+                # and (not state._tp_barren_dungeons(player))
             )
             or (
                 state.has("Progressive Clawshot", player, 1)
