@@ -530,13 +530,13 @@ class NumRequiredBosses(Range):
     default = 4
 
 
-class BarrenDungeons(Toggle):
-    """
-    Controls whether dungeons can be barren.
-    """
+# class BarrenDungeons(Toggle):
+#     """
+#     Controls whether dungeons can be barren.
+#     """
 
-    display_name = "Barren Dungeons"
-    default = False
+#     display_name = "Barren Dungeons"
+#     default = False
 
 
 @dataclass
@@ -584,7 +584,7 @@ class TPOptions(PerGameCommonOptions):
     # skip_major_cutscenes: SkipMajorCutscenes
     # fast_iron_boots: FastIronBoots
     # quick_transform: QuickTransform
-    barren_dungeons: BarrenDungeons  #
+    # barren_dungeons: BarrenDungeons  #
     # instant_message_text: InstantMessageText
     open_map: OpenMap  #
     # increase_spinner_speed: IncreaseSpinnerSpeed

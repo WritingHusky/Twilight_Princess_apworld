@@ -4,8 +4,8 @@ from BaseClasses import CollectionState, Location, MultiWorld
 from Fill import fill_restrictive
 from ..Items import TPItem, item_factory
 
-# if TYPE_CHECKING:
-#     from .. import TPWorld
+if TYPE_CHECKING:
+    from .. import TPWorld
 
 
 class Dungeon:
