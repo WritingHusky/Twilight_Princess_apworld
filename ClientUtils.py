@@ -129,4 +129,4 @@ ITEM_TO_HEX: Dict[str, int] = {
     "Ice Trap": 0x13,
 }
 
-VERSION = "v0.1.4"
+VERSION = "v0.1.5"
