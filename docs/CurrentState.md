@@ -32,6 +32,8 @@ The client now checks for version numbers of the generate seed and will log a me
 
 With custom randomizer gci, defeating ganon will trigger the release of the world.
 
+Non US Region support (EU, JP) currently under devlopment.
+
 ## Locations
 
 With ther being 475 locations in the game there are bound to be mistakes in the data. If you notice a location not triggering please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
