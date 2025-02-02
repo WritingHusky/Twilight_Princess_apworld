@@ -114,6 +114,7 @@ function cp_data() {
     echo "=> Copying over the extra data"
     cp --verbose ${root}/LICENSE.md ${destdir}
     cp --verbose ${root}/README.md ${destdir}
+    cp --verbose ${root}/Randomizer.us.gci ${destdir}
     cp --verbose "${root}/Twilight Princess.yaml" ${destdir}
 }
 
