@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 
 import dolphin_memory_engine
 
-from .ClientUtils import ITEM_TO_HEX, VERSION
-from .Items import LOOKUP_ID_TO_NAME
+from .ClientUtils import VERSION
+from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
 from CommonClient import (
@@ -343,6 +343,9 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
         return False
 
+    if item_name not in ITEM_TABLE:
+        logger.info(f"Cannot give item {item_name}")
+
     # Simple victory handling (not actually an item)
     if item_name == "Victory":
         return True
@@ -350,7 +353,7 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     if read_byte(ITEM_WRITE_ADDR) != 0x00:
         return False
 
-    write_byte(ITEM_WRITE_ADDR, ITEM_TO_HEX[item_name])
+    write_byte(ITEM_WRITE_ADDR, ITEM_TABLE[item_name].item_id)
     return True
 
 
