@@ -77,7 +77,7 @@ class TPItem(Item):
         :param code: The unique code for the item.
         :return: The computed Archipelago ID.
         """
-        base_id: int = 2322432
+        base_id: int = 2320000
         return base_id + code
 
 

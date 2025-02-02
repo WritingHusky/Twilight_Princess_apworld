@@ -143,7 +143,7 @@ class TPLocation(Location):
 
     @staticmethod
     def get_apid(code: int) -> int:
-        base_id: int = 2326528
+        base_id: int = 2320000
         return base_id + code
 
 
