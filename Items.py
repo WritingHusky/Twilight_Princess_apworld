@@ -182,7 +182,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ashei's Sketch": TPItemData("Item", IC.progression, 68, 1, 0x91),
     "Forest Temple Big Key": TPItemData("Big Key", IC.progression, 69, 1, 0x92),
     "Lakebed Temple Big Key": TPItemData("Big Key", IC.progression, 70, 1, 0x93),
-    "Goron Mines Key Shard": TPItemData("Big Key", IC.progression, 71, 3, 0xFB),
+    "Goron Mines Key Shard": TPItemData("Big Key", IC.progression, 71, 3, 0xF9),
     "Arbiter's Grounds Big Key": TPItemData("Big Key", IC.progression, 72, 1, 0x94),
     "Bedroom Key": TPItemData("Big Key", IC.progression, 73, 1, 0xF6),
     "Temple of Time Big Key": TPItemData("Big Key", IC.progression, 74, 1, 0x95),
