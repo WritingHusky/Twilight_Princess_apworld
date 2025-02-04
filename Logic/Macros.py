@@ -1407,11 +1407,7 @@ def has_bombs(state: CollectionState, player: int):
 
 
 def has_bomb_bag(state: CollectionState, player: int):
-    return (
-        state.has("Empty Bomb Bag", player)
-        or state.has("Giant Bomb Bag", player)
-        or state.has("Goron Bomb Bag", player)
-    )
+    return state.has("Bomb Bag", player)
 
 
 def can_use_water_bombs(state: CollectionState, player: int):

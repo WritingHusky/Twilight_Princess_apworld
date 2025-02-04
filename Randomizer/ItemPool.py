@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from BaseClasses import ItemClassification
+from BaseClasses import ItemClassification as IC
+from Fill import FillError
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory
 
@@ -170,18 +171,51 @@ def generate_itempool(world: "TPWorld", location_count: int) -> None:
 def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], List[str]]:
     pool: List[str] = []
     precollected_items: List[str] = []
-    n_pending_junk: int = location_count
+    # n_pending_junk: int = location_count
+
+    # Split items into three different pools: progression, useful, and filler.
+    progression_pool: list[str] = []
+    useful_pool: list[str] = []
+    filler_pool: list[str] = []
 
     # Add regular items to the item pool.
     for item, data in ITEM_TABLE.items():
-        if data.classification != ItemClassification.filler and item != "Victory":
-            pool.extend([item] * data.quantity)
-            n_pending_junk -= data.quantity
+        if data.code != None and item not in ["Victory", "Ice Trap"]:
+            adjusted_classification = world.determine_item_classification(item)
+            classification = (
+                data.classification
+                if adjusted_classification is None
+                else adjusted_classification
+            )
 
-    # TODO: Precollected items and filler items
+            if classification & IC.progression:
+                progression_pool.extend([item] * data.quantity)
+            elif classification & IC.useful:
+                useful_pool.extend([item] * data.quantity)
+            else:
+                filler_pool.extend([item] * data.quantity)
+
+    num_items_left_to_place = len(world.multiworld.get_locations(world.player)) - 1
+
+    # TODO DUNGEON ITEMS THAT WERE PLACED
+
+    if len(progression_pool) > num_items_left_to_place:
+        raise FillError(
+            "There are insufficient locations to place progression items! "
+            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
+        )
+    pool.extend(progression_pool)
+    num_items_left_to_place -= len(progression_pool)
+
+    world.multiworld.random.shuffle(useful_pool)
+    world.multiworld.random.shuffle(filler_pool)
+    world.useful_pool = useful_pool
+    world.filler_pool = filler_pool
+
+    # TODO Add or remove items from the item pool
 
     # Place filler items ensure that the pool has the correct number of items.
-    pool.extend([world.get_filler_item_name() for _ in range(n_pending_junk)])
+    pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
 
     return pool, precollected_items
 
@@ -203,7 +237,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -216,7 +250,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -229,7 +263,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -242,7 +276,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -255,7 +289,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -268,7 +302,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -281,7 +315,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -294,7 +328,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -310,7 +344,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -323,7 +357,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -336,7 +370,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -349,7 +383,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -368,7 +402,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -381,7 +415,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -394,7 +428,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -407,7 +441,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -420,7 +454,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -433,7 +467,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -446,7 +480,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -459,7 +493,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -472,7 +506,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -485,7 +519,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -498,7 +532,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -511,7 +545,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -524,7 +558,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -537,7 +571,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -550,7 +584,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )

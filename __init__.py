@@ -11,7 +11,7 @@ from BaseClasses import MultiWorld, Tutorial
 from .ClientUtils import VERSION
 from .Items import ITEM_TABLE, TPItem, item_name_groups
 from Options import Toggle
-from .Locations import LOCATION_TABLE, TPFlag, TPLocation
+from .Locations import LOCATION_TABLE, LOCATION_TO_REGION, TPFlag, TPLocation
 from .options import (
     BigKeySettings,
     DungeonItem,
@@ -39,8 +39,8 @@ from .Randomizer.ItemPool import (
 from .Logic.Rules import set_location_access_rules
 from .Logic.RegionConnection import connect_regions
 from .Logic.RegionCreation import (
-    create_portal_location,
     create_regions,
+    add_location_to_regions,
 )
 from .Logic.RegionRules import set_region_access_rules
 
@@ -136,20 +136,16 @@ class TPWorld(World):
         # self.dungeons: Dict[str, Dungeon] = {}
 
         self.nonprogress_locations: Set[str] = set()
+        self.progress_locations: set[str] = set()
+
+        self.useful_pool: list[str] = []
+        self.filler_pool: list[str] = []
 
         self.invalid_locations: List[str] = []
 
         # self.boss_reqs = RequiredBossesRandomizer(self)
 
-    # Overides the base classification of an item if not None
-    def determine_item_classification(self, name: str) -> IC | None:
-        # TODO: calculate nonprogress items dynamically
-
-        adjusted_classification = None
-
-        return adjusted_classification
-
-    def _determine_nonprogress_locations(
+    def _determine_nonprogress_and_progress_locations(
         self,
     ) -> tuple[set[str], set[str]]:
 
@@ -171,12 +167,17 @@ class TPWorld(World):
 
         # If not all the flags for a location are set, then force that location to have a non-progress item.
         nonprogress_locations: Set[str] = set()
-        for location in self.multiworld.get_locations(self.player):
-            assert isinstance(location, TPLocation)
-            if location.flags & enabled_flags != location.flags:
-                nonprogress_locations.add(location.name)
+        progress_locations: set[str] = set()
 
-        return nonprogress_locations
+        for location, data in LOCATION_TABLE.items():
+            if data.flags & enabled_flags == data.flags:
+                progress_locations.add(location)
+            else:
+                nonprogress_locations.add(location)
+
+        assert progress_locations.isdisjoint(nonprogress_locations)
+
+        return nonprogress_locations, progress_locations
 
     # Start of generation Process -----------------------------------------------------------------------
 
@@ -188,6 +189,10 @@ class TPWorld(World):
         """
         # Early into generation, set the options for the keys and map/compass.
         options = self.options
+
+        self.nonprogress_locations, self.progress_locations = (
+            self._determine_nonprogress_and_progress_locations()
+        )
 
         # if dungeons are not progression, then keys should be vanilla
         # if not options.dungeons_shuffled:
@@ -245,11 +250,31 @@ class TPWorld(World):
 
         # This adds all the regions and assingns the locations to them. (build vertices)
         create_regions(self.multiworld, self.player)
-        create_portal_location(
-            self.multiworld, self.player
-        )  # This adds the portal locations to the regions. address None so only for logic
+        # create_portal_location(
+        #     self.multiworld, self.player
+        # )  # This adds the portal locations to the regions. address None so only for logic
         # This connects all the regions to each other. (build edges)
+
         connect_regions(self.multiworld, self.player)
+
+        # Debug to catch if all locations are caught TODO: Remove debug
+        if len(self.progress_locations) + len(self.nonprogress_locations) != len(
+            LOCATION_TABLE.items()
+        ):
+            locations_set = set(LOCATION_TABLE.keys())
+            locations_set.difference_update(self.progress_locations)
+            locations_set.difference_update(self.nonprogress_locations)
+            if len(locations_set) > 0:
+                raise RuntimeError(
+                    f"location(s) dropped from the locations lists {locations_set=}"
+                )
+
+        # Place progess locations in their locations
+        for location in self.progress_locations:
+            add_location_to_regions(
+                self.multiworld, self.player, LOCATION_TO_REGION[location], location
+            )
+        # print(f"{self.progress_locations}")
 
         # Create_items
 
@@ -415,6 +440,47 @@ class TPWorld(World):
                 assert location.stage_id is not None
                 hint_data[self.player][location.address] = location.stage_id.name
 
+    # Overides the base classification of an item if not None
+    def determine_item_classification(self, name: str) -> IC | None:
+        # TODO: calculate nonprogress items dynamically
+
+        adjusted_classification = None
+        if not self.options.golden_bugs_shuffled and name in item_name_groups["Bugs"]:
+            adjusted_classification = IC.filler
+        elif (
+            not self.options.sky_characters_shuffled
+            and name == "Progressive Ancient Sky Book"
+        ):
+            adjusted_classification = IC.filler
+        elif (
+            not self.options.npc_items_shuffled
+            and name in item_name_groups["NPC Items"]
+        ):
+            adjusted_classification = IC.filler
+        elif (
+            not self.options.shop_items_shuffled
+            and name in item_name_groups["Shop Items"]
+        ):
+            adjusted_classification = IC.filler
+        # elif (
+        #     not self.options.hidden_skills_shuffled
+        #     and name == "Progressive Hidden Skill"
+        # ):
+        #     adjusted_classification = IC.filler
+        elif not self.options.poe_shuffled and name == "Poe Soul":
+            adjusted_classification = IC.filler
+        elif (
+            not self.options.overworld_shuffled
+            and name in item_name_groups["Overworld Items"]
+        ):
+            adjusted_classification = IC.filler
+        elif (
+            not self.options.heart_piece_shuffled and name in item_name_groups["Heart"]
+        ):
+            adjusted_classification = IC.filler
+
+        return adjusted_classification
+
     def create_item(self, name: str) -> TPItem:
         """
         Create an item for this world type and player.
@@ -437,6 +503,15 @@ class TPWorld(World):
 
         :return: The name of a filler item from this world.
         """
+
+        # If there are still useful items to place, place those first.
+        if len(self.useful_pool) > 0:
+            return self.useful_pool.pop()
+
+        # If there are still vanilla filler items to place, place those first.
+        if len(self.filler_pool) > 0:
+            return self.filler_pool.pop()
+
         # Use the same weights for filler items used in the base randomizer.
         filler_consumables = [
             "Green Rupee",
@@ -446,7 +521,7 @@ class TPWorld(World):
             "Purple Rupee",
             "Orange Rupee",
             "Silver Rupee",
-            "Arrows (10)",
+            # "Arrows (10)",
             "Arrows (20)",
             "Arrows (30)",
             "Seeds (50)",
@@ -470,7 +545,7 @@ class TPWorld(World):
             5,  # Purple Rupee
             2,  # Orange Rupee
             1,  # Silver Rupee
-            1,  # Arrows 10
+            # 1,  # Arrows 10
             2,  # Arrows 20
             3,  # Arrows 30
             1,  # Seeds 50
