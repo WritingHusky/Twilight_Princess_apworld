@@ -152,7 +152,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Lantern": TPItemData("Item", VERY_USEFUL, 39, 1, 0x48),
     "Progressive Fishing Rod": TPItemData("Item", IC.progression, 40, 2, 0x4A),
     "Slingshot": TPItemData("Item", IC.useful, 41, 1, 0x4B),
-    "Goron Bomb Bag": TPItemData("Item", IC.progression, 44, 3, 0x51),
+    "Bomb Bag": TPItemData("Item", IC.progression, 44, 3, 0x51),
     "Empty Bottle (Fishing Hole)": TPItemData("Bottle", IC.useful, 45, 1, 0x60),
     "Milk (half) (Sera Bottle)": TPItemData("Bottle", IC.useful, 46, 1, 0x65),
     "Lantern Oil (Coro Bottle)": TPItemData("Bottle", IC.useful, 47, 1, 0x9D),
@@ -249,6 +249,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ordon Goat Cheese": TPItemData("Item", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
     "Victory": TPItemData("Event", IC.progression, 132, 1, None),
+    "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
 }
 
 LOOKUP_ID_TO_NAME: dict[int, Item] = {
@@ -304,11 +305,6 @@ item_name_groups = {
     "Tunics": {
         "Zora Armor",
         "Magic Armor",
-    },
-    "Bomb Bags": {
-        "Empty Bomb Bag",
-        "Goron Bomb Bag",
-        "Giant Bomb Bag",
     },
     "Small Keys": {
         "Forest Temple Small Key",
