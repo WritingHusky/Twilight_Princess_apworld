@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, Callable
 
+from Fill import FillError
 from BaseClasses import CollectionState, MultiWorld
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule
@@ -130,10 +131,17 @@ def set_location_access_rules(world: "TPWorld"):
                 world.invalid_locations.append(location_name)  # Debug
                 return
 
-            if world.options.logic_rules.value == LogicRules.option_glitched:
+            if (
+                world.options.logic_rules.value == LogicRules.option_glitched
+                and glitched_rule
+            ):
                 set_rule(location, glitched_rule)
-            else:
+            elif not glitched_rule:
                 set_rule(location, rule)
+            else:
+                raise FillError(
+                    f"Location {location_name} does not have a glitched rule"
+                )
         else:
             raise Exception(f"Location {location_name} not found in location table")
 
