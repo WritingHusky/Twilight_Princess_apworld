@@ -383,25 +383,27 @@ class TPWorld(World):
             output_data["Options"][field.name] = getattr(self.options, field.name).value
 
         # Output which item has been placed at each location.
-        locations = multiworld.get_locations(player)
-        for location in locations:
-            if location.name:
-                if location.item:
-                    item_info = {
-                        "player": location.item.player,
-                        "name": location.item.name,
-                        "game": location.item.game,
-                        "classification": location.item.classification.name,
-                    }
-                else:
-                    item_info = {
-                        "name": "Nothing",
-                        "game": "Twilight Princess",
-                        "classification": "filler",
-                    }
-                output_data["Locations"][location.name] = item_info
+        # locations = multiworld.get_locations(player)
+        # for location in locations:
+        #     if location.name:
+        #         if location.item:
+        #             item_info = {
+        #                 "player": location.item.player,
+        #                 "name": location.item.name,
+        #                 "game": location.item.game,
+        #                 "classification": location.item.classification.name,
+        #             }
+        #         else:
+        #             item_info = {
+        #                 "name": "Nothing",
+        #                 "game": "Twilight Princess",
+        #                 "classification": "filler",
+        #             }
+        #         output_data["Locations"][location.name] = item_info
 
         output_data["InvalidLocations"] = self.invalid_locations
+        output_data["UsefulPool"] = self.useful_pool
+        output_data["FillerPool"] = self.filler_pool
 
         #
         # # Output the mapping of entrances to exits.
@@ -525,40 +527,40 @@ class TPWorld(World):
             "Arrows (20)",
             "Arrows (30)",
             "Seeds (50)",
-            "Bombs (5)",
-            "Bombs (10)",
+            # "Bombs (5)",
+            # "Bombs (10)",
             "Bombs (20)",
             "Bombs (30)",
-            "Bomblings (3)",
-            "Bomblings (5)",
+            # "Bomblings (3)",
+            # "Bomblings (5)",
             "Bomblings (10)",
-            "Water Bombs (3)",
-            "Water Bombs (5)",
+            # "Water Bombs (3)",
+            # "Water Bombs (5)",
             "Water Bombs (10)",
             "Ice Trap",
         ]
         filler_weights = [
             1,  # Green Rupee
             2,  # Blue Rupee
-            7,  # Yellow Rupee
-            4,  # Red Rupee
-            5,  # Purple Rupee
-            2,  # Orange Rupee
+            3,  # Yellow Rupee
+            3,  # Red Rupee
+            2,  # Purple Rupee
+            1,  # Orange Rupee
             1,  # Silver Rupee
             # 1,  # Arrows 10
             2,  # Arrows 20
-            3,  # Arrows 30
+            1,  # Arrows 30
             1,  # Seeds 50
-            1,  # Bombs 5
-            2,  # Bombs 10
-            3,  # Bombs 20
-            4,  # Bombs 30
-            1,  # Bomblings 3
-            2,  # Bomblings 5
-            3,  # Bomblings 10
-            1,  # Water Bombs 3
-            2,  # Water Bombs 5
-            3,  # Water Bombs 10
+            # 1,  # Bombs 5
+            # 2,  # Bombs 10
+            2,  # Bombs 20
+            1,  # Bombs 30
+            # 1,  # Bomblings 3
+            # 2,  # Bomblings 5
+            1,  # Bomblings 10
+            # 1,  # Water Bombs 3
+            # 2,  # Water Bombs 5
+            2,  # Water Bombs 10
             1,  # Ice Trap
         ]
         return self.multiworld.random.choices(
