@@ -28,13 +28,13 @@ class DungeonItem(Choice):
         return self.value in (2, 3)
 
 
-class Dungeons(DefaultOnToggle):
-    """This controls whether dungeons can contain progress items.
+# class Dungeons(DefaultOnToggle):
+#     """This controls whether dungeons can contain progress items.
 
-    If off, dungeons will still be randomized, but will only contain optional items you don't need to beat the game.
-    """
+#     If off, dungeons will still be randomized, but will only contain optional items you don't need to beat the game.
+#     """
 
-    display_name = "Dungeons"
+#     display_name = "Dungeons"
 
 
 # Logic Settings
@@ -89,7 +89,7 @@ class PalaceRequirements(Choice):
     option_open = 0
     option_fused_shadows = 1
     option_mirror_shards = 2
-    option_vanilla = 2
+    option_vanilla = 3
     default = 0
 
 
@@ -159,15 +159,6 @@ class PoeSettings(Toggle):
     """
 
     display_name = "Poe Settings"
-    default = False
-
-
-class NPCItemsShuffled(Toggle):
-    """
-    Controls whether NPC items are in the item pool.
-    """
-
-    display_name = "NPC Items"
     default = False
 
 
@@ -495,41 +486,6 @@ class TotEntrance(Choice):
     default = 0
 
 
-class ProgressionDungeons(Toggle):
-    """
-    Controls whether progression dungeons are enabled.
-    """
-
-    display_name = "Progression Dungeons"
-    default = True
-
-
-class IncludedDungeons(OptionSet):
-    """A list of dungeons which should always be included when required bosses mode is on."""
-
-    display_name = "Included Dungeons"
-    valid_keys = frozenset(DUNGEON_NAMES)
-
-
-class ExcludedDungeons(OptionSet):
-    """A list of dungeons which should always be excluded when required bosses mode is on."""
-
-    display_name = "Excluded Dungeons"
-    valid_keys = frozenset(DUNGEON_NAMES)
-
-
-class NumRequiredBosses(Range):
-    """Select the number of randomly-chosen bosses that are required in Required Bosses Mode.
-
-    The door to Puppet Ganon will not unlock until you've defeated all of these bosses. Nothing in dungeons for other
-    bosses will ever be required."""
-
-    display_name = "Number of Required Bosses"
-    range_start = 1
-    range_end = 6
-    default = 4
-
-
 # class BarrenDungeons(Toggle):
 #     """
 #     Controls whether dungeons can be barren.
@@ -609,26 +565,12 @@ class TPOptions(PerGameCommonOptions):
     goron_mines_entrance: GoronMinesEntrance  #
     tot_entrance: TotEntrance  #
 
-    progression_dungeons: ProgressionDungeons  #
-    # included_dungeons: IncludedDungeons
-    # excluded_dungeons: ExcludedDungeons
-    # num_required_bosses: NumRequiredBosses
-
 
 tp_option_groups: list[OptionGroup] = [
     OptionGroup(
         "Logic Settings",
         [
             LogicRules,
-            CastleRequirements,
-            PalaceRequirements,
-            FaronWoodsLogic,
-        ],
-        start_collapsed=True,
-    ),
-    OptionGroup(
-        "Access Settings",
-        [
             CastleRequirements,
             PalaceRequirements,
             FaronWoodsLogic,
