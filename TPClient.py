@@ -432,8 +432,8 @@ async def check_locations(ctx: TPContext) -> None:
         checked = (byte & flag) != 0
         if checked:
             if location == "Hyrule Castle Ganondorf":
-                logger.info("Game finished")
                 if not ctx.finished_game:
+                    logger.info("Game finished")
                     await ctx.send_msgs(
                         [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
                     )
