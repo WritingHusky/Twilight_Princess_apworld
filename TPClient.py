@@ -48,15 +48,18 @@ def set_address(
     nodes_start_addr=None,
     active_node_addr=None,
 ):
+    global STRING_ENCODING
     if regionCode is None:
         regionCode = read_byte(0x80000003)
     saveFileAddr = 0x804061C0  # US by default
-
+    STRING_ENCODING = "ascii"
     match (regionCode):
         case 0x50:  # ASCII for 'P', which is EU
             saveFileAddr = 0x80408160
+            STRING_ENCODING = "ascii"
         case 0x4A:  # ASCII for 'J', which is JP
             saveFileAddr = 0x80400300
+            STRING_ENCODING = "shift-jis"
 
     global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR
 
@@ -276,7 +279,7 @@ def read_string(console_address: int, strlen: int) -> str:
     return (
         dolphin_memory_engine.read_bytes(console_address, strlen)
         .split(b"\0", 1)[0]
-        .decode()
+        .decode(STRING_ENCODING)
     )
 
 
@@ -313,8 +316,9 @@ def write_string(console_address: int, string: str) -> None:
     """
     if len(string) > 16:
         raise ValueError("String length must be 16 characters or less.")
-
-    dolphin_memory_engine.write_bytes(console_address, string.encode() + b"\0")
+    dolphin_memory_engine.write_bytes(
+        console_address, string.encode(STRING_ENCODING) + b"\0"
+    )
 
 
 def _give_death(ctx: TPContext) -> None:
@@ -414,9 +418,9 @@ async def check_locations(ctx: TPContext) -> None:
             case TPLocationType.Region:
                 region = data.region.value
                 # Debug functionality
-                # assert (
-                #     isinstance(region, int) and data.offset < 0x20
-                # ), f"Location {location=} has bad region {region} {data=}"
+                assert (
+                    isinstance(region, int) and data.offset < 0x20
+                ), f"Location {location=} has bad region {region} {data=}"
                 if region == current_node:
                     addr = ACTIVE_NODE_ADDR + data.offset
                 else:
@@ -442,8 +446,15 @@ async def check_locations(ctx: TPContext) -> None:
 
                 ctx.locations_checked.add(TPLocation.get_apid(data.code))
 
+    # In an attempt to handle stop things from going wrong
+    asyncio.sleep(0.1)
+    if current_node != read_byte(CURR_NODE_ADDR):
+        logger.info("Changed nodes between location checks, everything is fine")
+        ctx.locations_checked = set()
+        return
+
     locations_checked = ctx.locations_checked.difference(ctx.checked_locations)
-    if locations_checked and current_node == read_byte(CURR_NODE_ADDR):
+    if locations_checked:
         logger.info(f"Sending location checks: {locations_checked}")
         await ctx.send_msgs([{"cmd": "LocationChecks", "locations": locations_checked}])
 
