@@ -11,7 +11,7 @@ from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory
 if TYPE_CHECKING:
     from .. import TPWorld
 
-VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
+VANILLA_SMALL_KEYS_LOCATIONS = {
     "Forest Temple Small Key": [
         "Forest Temple Big Baba Key",
         "Forest Temple North Deku Like Chest",
@@ -28,7 +28,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Lakebed Temple East Lower Waterwheel Stalactite Chest",
         "Lakebed Temple East Second Floor Southeast Chest",
     ],
-    "Arbiter's Grounds Small Key": [
+    "Arbiters Grounds Small Key": [
         "Arbiters Grounds Entrance Chest",
         "Arbiters Grounds East Lower Turnable Redead Chest",
         "Arbiters Grounds East Upper Turnable Redead Chest",
@@ -46,7 +46,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Temple of Time Armos Antechamber East Chest",
         "Temple of Time Gilloutine Chest",
     ],
-    "City in the Sky Small Key": [
+    "City in The Sky Small Key": [
         "City in The Sky West Wing First Chest",
     ],
     "Palace of Twilight Small Key": [
@@ -63,6 +63,9 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Hyrule Castle Graveyard Owl Statue Chest",
         "Hyrule Castle Southeast Balcony Tower Chest",
     ],
+}
+
+VANILLA_BIG_KEY_LOCATIONS = {
     "Forest Temple Big Key": [
         "Forest Temple Big Key Chest",
     ],
@@ -74,7 +77,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Big Key": [
         "Lakebed Temple Big Key Chest",
     ],
-    "Arbiter's Grounds Big Key": [
+    "Arbiters Grounds Big Key": [
         "Arbiters Grounds Big Key Chest",
     ],
     "Bedroom Key": [
@@ -83,7 +86,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Big Key": [
         "Temple of Time Big Key Chest",
     ],
-    "City in the Sky Big Key": [
+    "City in The Sky Big Key": [
         "City in The Sky Big Key Chest",
     ],
     "Palace of Twilight Big Key": [
@@ -92,6 +95,9 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Hyrule Castle Big Key": [
         "Hyrule Castle Big Key Chest",
     ],
+}
+
+VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
     "Forest Temple Map": [
         "Forest Temple Central North Chest",
     ],
@@ -110,7 +116,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Map": [
         "Temple of Time First Staircase Armos Chest",
     ],
-    "City in the Sky Map": [
+    "City in The Sky Map": [
         "City in The Sky East First Wing Chest After Fans",
     ],
     "Palace of Twilight Map": [
@@ -137,7 +143,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Compass": [
         "Temple of Time Moving Wall Beamos Room Chest",
     ],
-    "City in the Sky Compass": [
+    "City in The Sky Compass": [
         "City in The Sky East Wing Lower Level Chest",
     ],
     "Palace of Twilight Compass": [
