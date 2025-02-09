@@ -1,5 +1,5 @@
 from typing import Dict
-from BaseClasses import MultiWorld, Region
+from BaseClasses import MultiWorld, Region, LocationProgressType
 from ..Locations import TPLocation, LOCATION_TABLE
 from ..options import SkipArbitersGroundsEntrance
 
@@ -1360,6 +1360,22 @@ def add_location_to_regions(
                 LOCATION_TABLE[location],
             )
         )
+    else:
+        raise RuntimeError(f"{location=} is not in location table")
+
+
+def add_location_to_regions_excluded(
+    multiworld: MultiWorld, player: int, region: str, location: str
+):
+    if location in LOCATION_TABLE:
+        location = TPLocation(
+            player,
+            location,
+            multiworld.get_region(region, player),
+            LOCATION_TABLE[location],
+        )
+        location.progress_type = LocationProgressType.EXCLUDED
+        multiworld.get_region(region, player).locations.append(location)
     else:
         raise RuntimeError(f"{location=} is not in location table")
 

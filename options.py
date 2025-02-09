@@ -25,7 +25,7 @@ class DungeonItem(Choice):
 
     @property
     def in_dungeon(self) -> bool:
-        return self.value in (2, 3)
+        return self.value in (1, 2, 3)
 
 
 # class Dungeons(DefaultOnToggle):
@@ -567,6 +567,21 @@ class TPOptions(PerGameCommonOptions):
 
 
 tp_option_groups: list[OptionGroup] = [
+    OptionGroup(
+        "Item Pool Settings",
+        [
+            GoldenBugsShuffled,
+            SkyCharactersShuffled,
+            NpcItemsShuffled,
+            ShopItemsShuffled,
+            HiddenSkillsShuffled,
+            PoeSettings,
+            OverWoldShuffled,
+            HeartPieceShuffled,
+            DungeonsShuffled,
+        ],
+        start_collapsed=True,
+    ),
     OptionGroup(
         "Logic Settings",
         [

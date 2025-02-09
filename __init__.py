@@ -1,17 +1,25 @@
 from base64 import b64encode
 from collections.abc import Mapping
+from copy import deepcopy
 from dataclasses import fields
 import json
 import os
 from typing import Any, ClassVar, Dict, List, Optional, Set, Tuple
 
+from Fill import FillError, fill_restrictive
 from BaseClasses import CollectionState, Item
 from BaseClasses import ItemClassification as IC
 from BaseClasses import MultiWorld, Tutorial
 from .ClientUtils import VERSION
-from .Items import ITEM_TABLE, TPItem, item_name_groups
+from .Items import ITEM_TABLE, TPItem, item_factory, item_name_groups
 from Options import Toggle
-from .Locations import LOCATION_TABLE, LOCATION_TO_REGION, TPFlag, TPLocation
+from .Locations import (
+    DUNGEON_NAMES,
+    LOCATION_TABLE,
+    LOCATION_TO_REGION,
+    TPFlag,
+    TPLocation,
+)
 from .options import (
     BigKeySettings,
     DungeonItem,
@@ -32,11 +40,15 @@ from worlds.LauncherComponents import (
 from .Randomizer.ItemPool import (
     generate_itempool,
     place_deterministic_items,
+    VANILLA_SMALL_KEYS_LOCATIONS,
+    VANILLA_BIG_KEY_LOCATIONS,
+    VANILLA_MAP_AND_COMPASS_LOCATIONS,
 )
 
 from .Logic.Rules import set_location_access_rules
 from .Logic.RegionConnection import connect_regions
 from .Logic.RegionCreation import (
+    add_location_to_regions_excluded,
     create_regions,
     add_location_to_regions,
 )
@@ -138,6 +150,7 @@ class TPWorld(World):
 
         self.useful_pool: list[str] = []
         self.filler_pool: list[str] = []
+        self.prefill_pool: list[str] = []
 
         self.invalid_locations: List[str] = []
 
@@ -192,43 +205,6 @@ class TPWorld(World):
             self._determine_nonprogress_and_progress_locations()
         )
 
-        # if dungeons are not progression, then keys should be vanilla
-        # if not options.dungeons_shuffled:
-        #     options.small_key_settings.value = SmallKeySettings.option_vanilla
-        #     options.big_key_settings.value = BigKeySettings.option_vanilla
-        #     options.map_and_compass_settings.value = (
-        #         MapAndCompassSettings.option_vanilla
-        #     )
-
-        # Here we assign dungeon items (Keys, Map, Compass) to the dungeon pools.
-        # for dungeon_item in [
-        #     "small_key_settings",
-        #     "big_key_settings",
-        #     "map_and_compass_settings",
-        # ]:
-        #     option = getattr(options, dungeon_item)
-        #     if option.value == DungeonItem.option_keysy:
-        #         options.local_items.value |= self.item_name_to_id[
-        #             option.item_name_group
-        #         ]
-        #     # If dungeon items are randomized in the local world.
-        #     elif option.in_dungeon:
-        #         # Add them to the local item pool.
-        #         self.dungeon_local_item_names |= self.item_name_groups[
-        #             option.item_name_group
-        #         ]
-        #         # If items are to be in own dungeon
-        #         if option == DungeonItem.option_own_dungeon:
-        #             self.dungeon_specific_item_names |= self.item_name_groups[
-        #                 option.item_name_group
-        #             ]
-        #         # If items are to be in any dungeon
-        #         elif option == DungeonItem.option_any_dungeon:
-        #             self.options.local_items.value |= self.dungeon_local_item_names
-
-    # create_dungeons = create_dungeons
-
-    # TODO
     def create_regions(self) -> None:
         """
         Create and connect regions for the Twilight Princess world.
@@ -248,11 +224,8 @@ class TPWorld(World):
 
         # This adds all the regions and assingns the locations to them. (build vertices)
         create_regions(self.multiworld, self.player)
-        # create_portal_location(
-        #     self.multiworld, self.player
-        # )  # This adds the portal locations to the regions. address None so only for logic
-        # This connects all the regions to each other. (build edges)
 
+        # This connects all the regions to each other. (build edges)
         connect_regions(self.multiworld, self.player)
 
         # Debug to catch if all locations are caught TODO: Remove debug
@@ -272,9 +245,12 @@ class TPWorld(World):
             add_location_to_regions(
                 self.multiworld, self.player, LOCATION_TO_REGION[location], location
             )
-        # print(f"{self.progress_locations}")
 
-        # Create_items
+        # Place nonprogess locations as excluded location
+        for location in self.nonprogress_locations:
+            add_location_to_regions_excluded(
+                self.multiworld, self.player, LOCATION_TO_REGION[location], location
+            )
 
     def create_items(self) -> None:
         """
@@ -283,17 +259,8 @@ class TPWorld(World):
         # First Items with deterministic locations are placed (mostly for logic in generation)
         place_deterministic_items(self)
 
-        # Get the number of locations that have not been filled yet (So we can fill the itempool with filler items)
-        location_count = len(
-            [
-                location
-                for location in self.multiworld.get_locations(self.player)
-                if location.address is not None and location.item is None
-            ]
-        )
-
         # This fills the itempool with items according to the location count (any precollected items are pushed to precollected_items)
-        generate_itempool(self, location_count)
+        generate_itempool(self)
 
     # No more items, locations, or regions can be created past this point
 
@@ -311,49 +278,195 @@ class TPWorld(World):
         """
         Apply special fill rules before the fill stage.
         """
-        # For the MVP, we will not be pre-filling anything.
+        collection_state = self.multiworld.get_all_state(False)
+        pre_fill_items = self.get_pre_fill_items()
 
-        # Ban the Bait Bag slot from having bait.
-        # if "The Great Sea - Beedle's Shop Ship - 20 Rupee Item" in self.progress_locations:
-        #     beedle_20 = self.get_location("The Great Sea - Beedle's Shop Ship - 20 Rupee Item")
-        #     add_item_rule(beedle_20, lambda item: item.name not in ["All-Purpose Bait", "Hyoi Pear"])
-        #
-        # # Also, the same item should not appear more than once on the Rock Spire Isle shop ship.
-        # locations = [f"Rock Spire Isle - Beedle's Special Shop Ship - {v} Rupee Item" for v in [500, 950, 900]]
-        # if all(loc in self.progress_locations for loc in locations):
-        #     rock_spire_shop_ship_locations = [self.get_location(location_name) for location_name in locations]
-        #
-        #     for i in range(len(rock_spire_shop_ship_locations)):
-        #         curr_loc = rock_spire_shop_ship_locations[i]
-        #         other_locs = rock_spire_shop_ship_locations[:i] + rock_spire_shop_ship_locations[i + 1:]
-        #
-        #         add_item_rule(
-        #             curr_loc,
-        #             lambda item, locations=other_locs: (
-        #                                                        item.game == "Twilight Princess"
-        #                                                        and all(
-        #                                                    location.item is None or item.name != location.item.name for
-        #                                                    location in locations)
-        #                                                )
-        #                                                or (
-        #                                                        item.game != "Twilight Princess"
-        #                                                        and all(
-        #                                                    location.item is None or location.item.game == "Twilight Princess"
-        #                                                    for location in locations
-        #                                                )
-        #                                                ),
-        #         )
+        # Helpful debug to make sure that if I want a item in the prefill it is in the prefill
+        if self.options.small_key_settings.in_dungeon:
+            for item_name in item_name_groups["Small Keys"]:
+                assert (
+                    item_name in self.prefill_pool
+                ), f"{item_name=} not in prefill pool"
 
-    @classmethod
-    def stage_pre_fill(cls, world: MultiWorld) -> None:
-        """
-        Class method used to correctly place dungeon items for Twilight Princess worlds.
+        if self.options.big_key_settings.in_dungeon:
+            for item_name in item_name_groups["Big Keys"]:
+                assert (
+                    item_name in self.prefill_pool
+                ), f"{item_name=} not in prefill pool"
 
-        :param world: The MultiWorld.
-        """
-        # from .Randomizer.Dungeons import fill_dungeons_restrictive
+        if self.options.map_and_compass_settings.in_dungeon:
+            for item_name in item_name_groups["Maps and Compasses"]:
+                assert (
+                    item_name in self.prefill_pool
+                ), f"{item_name=} not in prefill pool"
 
-        # fill_dungeons_restrictive(world)
+        # All the information about what is to be pre filled is stored here to condense code
+        options = [
+            self.options.small_key_settings.value,
+            self.options.big_key_settings.value,
+            self.options.map_and_compass_settings.value,
+        ]
+        settings = [SmallKeySettings, BigKeySettings, MapAndCompassSettings]
+        vanillas = [
+            VANILLA_SMALL_KEYS_LOCATIONS,
+            VANILLA_BIG_KEY_LOCATIONS,
+            VANILLA_MAP_AND_COMPASS_LOCATIONS,
+        ]
+
+        for option, setting, vanilla in zip(options, settings, vanillas):
+            if option == setting.option_vanilla:
+                for item_name in vanilla:
+                    assert item_name in ITEM_TABLE
+                    assert item_name in self.prefill_pool
+
+                    items = list(
+                        filter(lambda item: item.name == item_name, pre_fill_items)
+                    )
+
+                    assert isinstance(items, list)
+                    assert len(items) > 0
+                    assert len(items) == len(vanilla[item_name])
+
+                    for location, index in zip(vanilla[item_name], range(len(items))):
+                        assert location in LOCATION_TABLE
+
+                        self.get_location(location).place_locked_item(items[index])
+
+                        pre_fill_items.remove(items[index])
+
+        for option, setting, vanilla in zip(options, settings, vanillas):
+            if option == setting.option_own_dungeon:
+                for item_name in vanilla:
+                    assert item_name in ITEM_TABLE
+                    assert item_name in self.prefill_pool
+
+                    items = list(
+                        filter(lambda item: item.name == item_name, pre_fill_items)
+                    )
+
+                    assert isinstance(items, list)
+                    assert len(items) > 0
+                    assert len(items) == len(vanilla[item_name])
+
+                    for dungeon_name in DUNGEON_NAMES:
+                        if dungeon_name in item_name:
+                            item_dungeon = dungeon_name
+                            break
+
+                    assert item_dungeon, f"{item_name}"
+
+                    location_names = [
+                        location_name
+                        for location_name in LOCATION_TABLE.keys()
+                        if dungeon_name in location_name
+                    ]
+
+                    assert len(location_names) > 0
+
+                    locations = [
+                        self.get_location(location_name)
+                        for location_name in location_names
+                    ]
+                    locations = [
+                        location
+                        for location in locations
+                        if location.item is None and location.address is not None
+                    ]
+
+                    assert len(locations) > 0
+
+                    items_copy = deepcopy(items)
+                    self.multiworld.random.shuffle(items_copy)
+                    self.multiworld.random.shuffle(locations)
+
+                    fill_restrictive(
+                        self.multiworld,
+                        collection_state,
+                        locations,
+                        items_copy,
+                        single_player_placement=True,
+                        lock=True,
+                        allow_excluded=True,
+                    )
+
+                    # All items should be placed
+                    assert len(items_copy) == 0
+
+                    for item in items:
+                        pre_fill_items.remove(item)
+
+        for option, setting, vanilla in zip(options, settings, vanillas):
+            if option == setting.option_any_dungeon:
+                items = []
+                locations = []
+                for item_name in vanilla:
+                    assert item_name in ITEM_TABLE
+                    assert item_name in self.prefill_pool
+
+                    new_items = list(
+                        filter(lambda item: item.name == item_name, pre_fill_items)
+                    )
+
+                    assert isinstance(items, list)
+                    assert len(items) > 0
+                    assert len(items) == len(vanilla[item_name])
+
+                    items += new_items
+
+                    for dungeon_name in DUNGEON_NAMES:
+                        if dungeon_name in item_name:
+                            item_dungeon = dungeon_name
+                            break
+                    assert item_dungeon, f"{item_name}"
+
+                    location_names = [
+                        location_name
+                        for location_name in LOCATION_TABLE.keys()
+                        if dungeon_name in location_name
+                    ]
+
+                    assert len(location_names) > 0
+
+                    new_locations = [
+                        self.get_location(location_name)
+                        for location_name in location_names
+                    ]
+                    new_locations = [
+                        location
+                        for location in new_locations
+                        if location.item is None and location.address is not None
+                    ]
+
+                    assert len(new_locations) > 0
+
+                    locations += new_locations
+
+                assert len(items) > 0
+                assert len(locations) > 0
+
+                items_copy = deepcopy(items)
+
+                self.multiworld.random.shuffle(items_copy)
+                self.multiworld.random.shuffle(locations)
+
+                fill_restrictive(
+                    self.multiworld,
+                    collection_state,
+                    locations,
+                    items_copy,
+                    single_player_placement=True,
+                    lock=True,
+                    allow_excluded=True,
+                )
+
+                # All items should be placed
+                assert len(items_copy) == 0
+
+                for item in items:
+                    pre_fill_items.remove(item)
+
+        # All items in the pre fill pool need to be processed in the pre fill
+        assert len(pre_fill_items) == 0, f"{pre_fill_items=}"
 
     def generate_output(self, output_directory: str) -> None:
         """
@@ -381,23 +494,23 @@ class TPWorld(World):
             output_data["Options"][field.name] = getattr(self.options, field.name).value
 
         # Output which item has been placed at each location.
-        # locations = multiworld.get_locations(player)
-        # for location in locations:
-        #     if location.name:
-        #         if location.item:
-        #             item_info = {
-        #                 "player": location.item.player,
-        #                 "name": location.item.name,
-        #                 "game": location.item.game,
-        #                 "classification": location.item.classification.name,
-        #             }
-        #         else:
-        #             item_info = {
-        #                 "name": "Nothing",
-        #                 "game": "Twilight Princess",
-        #                 "classification": "filler",
-        #             }
-        #         output_data["Locations"][location.name] = item_info
+        locations = multiworld.get_locations(player)
+        for location in locations:
+            if location.name:
+                if location.item:
+                    item_info = {
+                        "player": location.item.player,
+                        "name": location.item.name,
+                        "game": location.item.game,
+                        "classification": location.item.classification.name,
+                    }
+                else:
+                    item_info = {
+                        "name": "Nothing",
+                        "game": "Twilight Princess",
+                        "classification": "filler",
+                    }
+                output_data["Locations"][location.name] = item_info
 
         output_data["InvalidLocations"] = self.invalid_locations
         output_data["UsefulPool"] = self.useful_pool
@@ -572,14 +685,10 @@ class TPWorld(World):
 
         :return: A list of pre-fill items.
         """
-        # Dungeon Items need to be pre-filled to ensure that the dungeons are filled with the correct items.
-        res = []
-        # if self.dungeon_local_item_names:
-        #     for dungeon in self.dungeons.values():
-        #         for item in dungeon.all_items:
-        #             if item.name in self.dungeon_local_item_names:
-        #                 res.append(item)
-        return res
+        pre_fiill_items = item_factory(self.prefill_pool, self)
+        if pre_fiill_items:
+            assert isinstance(pre_fiill_items, list)
+        return pre_fiill_items
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         """

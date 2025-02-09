@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from BaseClasses import ItemClassification as IC
+from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
+from ..options import SmallKeySettings
 
-from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory
+from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
 # from ..Options import DungeonItem
 # from .Dungeons import get_dungeon_item_pool_player
@@ -107,7 +108,7 @@ VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Map": [
         "Lakebed Temple Central Room Chest",
     ],
-    "Arbiter's Grounds Map": [
+    "Arbiters Grounds Map": [
         "Arbiters Grounds Torch Room West Chest",
     ],
     "Snowpeak Ruins Map": [
@@ -134,7 +135,7 @@ VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Compass": [
         "Lakebed Temple West Water Supply Chest",
     ],
-    "Arbiter's Grounds Compass": [
+    "Arbiters Grounds Compass": [
         "Arbiters Grounds East Upper Turnable Chest",
     ],
     "Snowpeak Ruins Compass": [
@@ -156,11 +157,11 @@ VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
 
 
 # This takes all the items form the world and adds them to the multiworld itempool
-def generate_itempool(world: "TPWorld", location_count: int) -> None:
+def generate_itempool(world: "TPWorld") -> None:
     multiworld = world.multiworld
 
     # Get the core pool of items.
-    pool, precollected_items = get_pool_core(world, location_count)
+    pool, precollected_items = get_pool_core(world)
 
     # Add precollected items to the multiworld's `precollected_items` list.
     for item in precollected_items:
@@ -174,7 +175,7 @@ def generate_itempool(world: "TPWorld", location_count: int) -> None:
 
 
 # This gets all the items from the world and
-def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], List[str]]:
+def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     pool: List[str] = []
     precollected_items: List[str] = []
     # n_pending_junk: int = location_count
@@ -183,10 +184,49 @@ def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], Lis
     progression_pool: list[str] = []
     useful_pool: list[str] = []
     filler_pool: list[str] = []
+    prefill_pool: list[str] = []
 
     # Add regular items to the item pool.
     for item, data in ITEM_TABLE.items():
         if data.code != None and item not in ["Victory", "Ice Trap"]:
+
+            # If item is in a dungeon then they will be placed pre_fill so they should not be in the pool
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.in_dungeon
+                )
+            ):
+                prefill_pool.extend([item] * data.quantity)
+                continue
+
+            # If item is started with then precollect it
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.option_startwith
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.option_startwith
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.option_startwith
+                )
+            ):
+                print(item)
+                precollected_items.extend([item] * data.quantity)
+                continue
+
             adjusted_classification = world.determine_item_classification(item)
             classification = (
                 data.classification
@@ -201,15 +241,28 @@ def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], Lis
             else:
                 filler_pool.extend([item] * data.quantity)
 
-    num_items_left_to_place = len(world.multiworld.get_locations(world.player)) - 1
+        # Get the number of locations that have not been filled yet
+    placeable_locations = [
+        location
+        for location in world.multiworld.get_locations(world.player)
+        if location.address is not None and location.item is None
+    ]
 
-    # TODO DUNGEON ITEMS THAT WERE PLACED
+    num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
 
-    if len(progression_pool) > num_items_left_to_place:
+    # Check progression pool against locations that can hold progression items
+    if len(progression_pool) > len(
+        [
+            location
+            for location in placeable_locations
+            if location.progress_type != LocationProgressType.EXCLUDED
+        ]
+    ):
         raise FillError(
             "There are insufficient locations to place progression items! "
             f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
         )
+
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
 
@@ -217,8 +270,10 @@ def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], Lis
     world.multiworld.random.shuffle(filler_pool)
     world.useful_pool = useful_pool
     world.filler_pool = filler_pool
+    world.prefill_pool = prefill_pool
 
-    # TODO Add or remove items from the item pool
+    assert len(world.useful_pool) > 0
+    assert len(world.filler_pool) > 0
 
     # Place filler items ensure that the pool has the correct number of items.
     pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
