@@ -136,12 +136,12 @@ def set_location_access_rules(world: "TPWorld"):
                 and glitched_rule
             ):
                 set_rule(location, glitched_rule)
-            elif not glitched_rule:
-                set_rule(location, rule)
             else:
-                raise FillError(
-                    f"Location {location_name} does not have a glitched rule"
-                )
+                # if not glitched_rule:
+                #     raise FillError(
+                #         f"Location {location_name} does not have a glitched rule"
+                #     )
+                set_rule(location, rule)
         else:
             raise Exception(f"Location {location_name} not found in location table")
 

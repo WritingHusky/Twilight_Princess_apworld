@@ -29,13 +29,11 @@ from worlds.LauncherComponents import (
     launch_subprocess,
 )
 
-# from .Randomizer.Dungeons import Dungeon, create_dungeons
 from .Randomizer.ItemPool import (
     generate_itempool,
     place_deterministic_items,
 )
 
-# from .Randomizer.RequiredBosses import RequiredBossesRandomizer
 from .Logic.Rules import set_location_access_rules
 from .Logic.RegionConnection import connect_regions
 from .Logic.RegionCreation import (

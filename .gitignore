@@ -1,3 +1,7 @@
 /build/target/*
+/Docs/Notes.md
+
+# Testing script
+thing.py 
 
 __pycache__
