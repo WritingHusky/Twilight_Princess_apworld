@@ -171,7 +171,7 @@ def generate_itempool(world: "TPWorld") -> None:
     items = item_factory(pool, world)
     multiworld.random.shuffle(items)
 
-    multiworld.itempool += items
+    multiworld.itempool.extend(items)
 
 
 # This gets all the items from the world and
