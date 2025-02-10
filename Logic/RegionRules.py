@@ -35,7 +35,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             (
-                state.has("Arbiter's Grounds Small Key", player, 1)
+                state.has("Arbiters Grounds Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -84,7 +84,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             and can_defeat_GhoulRat(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -125,7 +125,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (
             state.has("Spinner", player)
             and (
-                state.has("Arbiter's Grounds Big Key", player)
+                state.has("Arbiters Grounds Big Key", player)
                 or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
             )
         ),
@@ -201,7 +201,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (
             state.has("Spinner", player)
             and (
-                state.has("City in the Sky Small Key", player, 1)
+                state.has("City in The Sky Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -247,7 +247,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             state.has("Progressive Clawshot", player, 2)
             and can_defeat_Aeralfos(state, player)
             and (
-                state.has("City in the Sky Big Key", player)
+                state.has("City in The Sky Big Key", player)
                 or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
             )
         ),

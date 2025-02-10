@@ -437,10 +437,10 @@ class SkipLakebedEntrance(Toggle):
 
 class SkipArbitersGroundsEntrance(Toggle):
     """
-    Controls whether the Arbiter's Grounds does not require Bublin Key.
+    Controls whether the Arbiters Grounds does not require Bublin Key.
     """
 
-    display_name = "Arbiter's Grounds Does not require Bublin Key"
+    display_name = "Arbiters Grounds Does not require Bublin Key"
     default = False
 
 
@@ -455,10 +455,10 @@ class SkipSnowpeakEntrance(Toggle):
 
 class SkipCityInTheSkyEntrance(Toggle):
     """
-    Controls whether the City in the Sky does not require filled Skybook.
+    Controls whether the City in The Sky does not require filled Skybook.
     """
 
-    display_name = "City in the Sky Does not require filled Skybook"
+    display_name = "City in The Sky Does not require filled Skybook"
     default = False
 
 
