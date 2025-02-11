@@ -339,7 +339,7 @@ class TPWorld(World):
             for player in self.multiworld.player_ids:
                 if player == self.player:
                     continue
-                subworld = self.worlds[player]
+                subworld = self.multiworld.worlds[player]
                 for item in subworld.get_pre_fill_items():
                     collection_state.collect(item)
             collection_state.sweep_for_advancements()
