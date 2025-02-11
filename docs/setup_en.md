@@ -39,7 +39,7 @@ All users should follow these steps:
 3. Copy the contents of the `lib` folder in the downloaded Twilight Princess APWorld zip file to your Archipelago installation's `lib`
    folder.
 
-If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and the [custom seed file](missing-link) and place both in the save data of dolphin
+If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and the [custom seed file](https://generator.tprandomizer.com/s/aptest) and place both in the save data of dolphin
 
 ## Setting Up a YAML
 

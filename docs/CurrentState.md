@@ -36,6 +36,8 @@ Node changes mid locations checking now reset checked locations. This should sto
 
 Death link apperntly does not work. So more testing is needed when client work starts.
 
+Non US Region support (EU, JP) currently under devlopment.
+
 ## Locations
 
 The new location settings will label locations as excluded which will means that they will prevent progession and usefull items from being placed at that location.
