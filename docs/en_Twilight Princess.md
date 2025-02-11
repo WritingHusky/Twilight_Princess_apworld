@@ -2,11 +2,11 @@
 
 ## What does randomization do to this game?
 
-Items get shuffled between the different locations in the game, so each playthrough is unique. Randomized locations might include chests, items received from NPCs, Golden Bugs, Poes. The randomizer also includes quality-of-life features such as a fully-opened world, removing many cutscenes, transform anywhere, and more.
+Items get shuffled between the different locations in the game, so each playthrough is unique. Randomized locations might include chests, items received from NPCs, Golden Bugs, Poes. The randomizer also includes quality-of-life features such as a fully-opened world, removing many cutscenes, transform anywhere, and more. Note: These QOL settings cannot be changed currently.
 
 ## Which locations get shuffled?
 
-Currently all possible locations get shuffled into the pool and get an item. New versions plan to expand this functionality
+All locations will be given an item. According to settings some locations can be set to not have progession or usefull items so you can ignore that location.
 
 ## What is the goal of Twilight Princess?
 
