@@ -145,8 +145,8 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
         self.assertTrue(valid, "Dungeon options cause error check logs")
 
     def test_all_bool_options(self):
-        # if not self.run_long_tests:
-        return
+        if not self.run_long_tests:
+            return
         combinations = generate_all_shuffle_options_bool(DungeonItem.option_vanilla)
         combinations.extend(generate_all_shuffle_options_bool(DungeonItem.option_keysy))
         valid = True
