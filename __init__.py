@@ -820,11 +820,11 @@ class TPWorld(World):
             and name == "Progressive Ancient Sky Book"
         ):
             adjusted_classification = IC.filler
-        elif (
-            not self.options.npc_items_shuffled
-            and name in item_name_groups["NPC Items"]
-        ):
-            adjusted_classification = IC.filler
+        # elif (
+        #     not self.options.npc_items_shuffled
+        #     and name in item_name_groups["NPC Items"]
+        # ):
+        #     adjusted_classification = IC.filler
         elif (
             not self.options.shop_items_shuffled
             and name in item_name_groups["Shop Items"]
@@ -837,11 +837,11 @@ class TPWorld(World):
         #     adjusted_classification = IC.filler
         elif not self.options.poe_shuffled and name == "Poe Soul":
             adjusted_classification = IC.filler
-        elif (
-            not self.options.overworld_shuffled
-            and name in item_name_groups["Overworld Items"]
-        ):
-            adjusted_classification = IC.filler
+        # elif (
+        #     not self.options.overworld_shuffled
+        #     and name in item_name_groups["Overworld Items"]
+        # ):
+        #     adjusted_classification = IC.filler
         elif (
             not self.options.heart_piece_shuffled and name in item_name_groups["Heart"]
         ):

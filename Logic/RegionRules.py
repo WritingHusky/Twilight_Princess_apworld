@@ -3093,13 +3093,12 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
+    # NOTE: Continuation of bottleless reachability
     exit = multiworld.get_entrance("Faron Field Behind Boulder -> Faron Field")
     set_rule(
         exit,
-        lambda state: (
-            can_get_hot_spring_water(state, player)
-            and state.can_reach_region("Outside Castle Town South", player)
-        ),
+        # lambda state: (True),
+        lambda state: (can_get_hot_spring_water(state, player)),
     )
 
     exit = multiworld.get_entrance(
@@ -4230,14 +4229,23 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (True),
     )
 
+    # NOTE: This is a hotfix to get full region reachablity without making bottles progression
     exit = multiworld.get_entrance(
-        "Outside Castle Town South -> Faron Field Behind Boulder"
+        "Outside Castle Town South Inside Boulder -> Faron Field Behind Boulder"
     )
     set_rule(
         exit,
-        lambda state: (can_get_hot_spring_water(state, player)),
+        # lambda state: (can_get_hot_spring_water(state, player)),
+        lambda stat: (True)
     )
 
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South -> Outside Castle Town South Inside Boulder"
+    )
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
     exit = multiworld.get_entrance("Outside Castle Town South -> Lake Hylia")
     set_rule(
         exit,

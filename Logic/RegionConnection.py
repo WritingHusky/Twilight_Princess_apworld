@@ -2399,9 +2399,9 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
         "Outside Castle Town South -> Castle Town South",
     )
 
-    multiworld.get_region("Outside Castle Town South", player).connect(
+    multiworld.get_region("Outside Castle Town South Inside Boulder", player).connect(
         multiworld.get_region("Faron Field Behind Boulder", player),
-        "Outside Castle Town South -> Faron Field Behind Boulder",
+        "Outside Castle Town South Inside Boulder -> Faron Field Behind Boulder",
     )
 
     multiworld.get_region("Outside Castle Town South", player).connect(
@@ -2417,6 +2417,11 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
     multiworld.get_region("Outside Castle Town South Inside Boulder", player).connect(
         multiworld.get_region("Outside Castle Town South", player),
         "Outside Castle Town South Inside Boulder -> Outside Castle Town South",
+    )
+
+    multiworld.get_region("Outside Castle Town South", player).connect(
+        multiworld.get_region("Outside Castle Town South Inside Boulder", player),
+        "Outside Castle Town South -> Outside Castle Town South Inside Boulder",
     )
 
     multiworld.get_region("Outside Castle Town South Tektite Grotto", player).connect(
