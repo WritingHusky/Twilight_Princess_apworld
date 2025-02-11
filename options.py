@@ -637,6 +637,8 @@ tp_option_groups: list[OptionGroup] = [
             SmallKeySettings,
             BigKeySettings,
             MapAndCompassSettings,
+            DungeonRewardsProgression,
+            SmallKeysOnBosses,
         ],
         start_collapsed=True,
     ),
