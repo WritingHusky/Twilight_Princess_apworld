@@ -316,7 +316,6 @@ item_name_groups = {
         "City in The Sky Small Key",
         "Palace of Twilight Small Key",
         "Hyrule Castle Small Key",
-        "Gerudo Desert Bublin Camp Key",
     },
     "Big Keys": {
         "Forest Temple Big Key",
