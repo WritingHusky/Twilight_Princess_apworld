@@ -28,18 +28,10 @@ class DungeonItem(Choice):
         return self.value in (1, 2, 3)
 
 
-# class Dungeons(DefaultOnToggle):
-#     """This controls whether dungeons can contain progress items.
-
-#     If off, dungeons will still be randomized, but will only contain optional items you don't need to beat the game.
-#     """
-
-#     display_name = "Dungeons"
-
-
 # Logic Settings
 class LogicRules(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls what types of tricks the logic can expect you to perform.
 
     - Glitchless: Only intended mechanics are required
@@ -57,6 +49,7 @@ class LogicRules(Choice):
 # Access Settings
 class CastleRequirements(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls requirements for accessing Hyrule Castle.
 
     - Open: No requirements
@@ -77,6 +70,7 @@ class CastleRequirements(Choice):
 
 class PalaceRequirements(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls requirements for accessing Palace of Twilight.
 
     - Open: No requirements
@@ -95,6 +89,7 @@ class PalaceRequirements(Choice):
 
 class FaronWoodsLogic(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls logic for accessing Faron Woods.
 
     - Open: No special requirements
@@ -110,79 +105,81 @@ class FaronWoodsLogic(Choice):
 # Item Pool Settings
 class GoldenBugsShuffled(Toggle):
     """
-    Controls whether golden bugs are in the item pool.
+    Controls whether golden bug locations can contain progression items.
     """
 
     display_name = "Golden Bugs"
-    default = False
+    default = True
 
 
 class SkyCharactersShuffled(Toggle):
     """
-    Controls whether sky characters are in the item pool.
+    Controls whether sky characters locations can contain progression items.
     """
 
     display_name = "Sky Characters"
-    default = False
+    default = True
 
 
 class NpcItemsShuffled(Toggle):
     """
-    Controls whether Gifts from NPCs are in the item pool.
+    Controls whether Gifts from NPCs can contain progression items.
     """
 
     display_name = "Gifts from NPCs"
-    default = False
+    default = True
 
 
 class ShopItemsShuffled(Toggle):
     """
-    Controls whether shop items are in the item pool.
+    Controls whether Shop locations can contain progression items.
     """
 
     display_name = "Shop Items"
-    default = False
+    default = True
 
 
 class HiddenSkillsShuffled(Toggle):
     """
-    Controls whether hidden skills are in the item pool.
+    Controls whether hidden skill locations can contain progression items.
     """
 
     display_name = "Hidden Skills"
-    default = False
+    default = True
 
 
-class PoeSettings(Toggle):
+class PoeShuffled(Toggle):
     """
-    Controls weither poes are in the item pool.
-    """
-
-    display_name = "Poe Settings"
-    default = False
-
-
-class DungeonsShuffled(Toggle):
-    """
-    Controls whether items in dungeons are randomized.
+    Controls whether Poes can contain progression items.
     """
 
-    display_name = "Dungeons Shuffled"
-    default = False
+    display_name = "Poe Shuffled"
+    default = True
 
 
 class HeartPieceShuffled(Toggle):
     """
-    Controls whether heart pieces are in the item pool.
+    Controls whether Heart Piece locations can contain progression items.
     """
 
     display_name = "Heart Pieces"
-    default = False
+    default = True
+
+
+class DungeonsShuffled(Toggle):
+    """
+    Controls whether dungeons locations can contain progression items.
+    Cannot be disabled if Overworld shuffle is disabled
+    """
+
+    display_name = "Dungeons Shuffled"
+    default = True
 
 
 class OverWoldShuffled(Toggle):
     """
-    Controls whether overworld items are in the item pool.
+    Controls whether Overworld locations can contain progression items.
+    Cannot be disabled if Dungeon shuffle is disabled
     """
 
     display_name = "Overworld Items"
@@ -192,46 +189,74 @@ class OverWoldShuffled(Toggle):
 # Dungeon Items
 class SmallKeySettings(DungeonItem):
     """
-    Controls requirements for obtaining small keys.
+    Controls how small keys are randomized.
+
+    - **Start With Small Keys:** You will start the game with the small keys for all dungeons.
+    - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
+    - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
+    - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
+    - **Key-Sanity:** Small keys can be found in any progression location, if dungeons are randomized.
+
+    Note:
+    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
     """
 
     item_name_group = "Small Keys"
     display_name = "Randomize Small Keys"
-    default = 2
 
 
 class BigKeySettings(DungeonItem):
     """
-    Controls requirements for obtaining big keys.
+    Controls how big keys are randomized.
+
+    - **Start With Big Keys:** You will start the game with the big keys for all dungeons.
+    - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
+    - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
+    - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
+    - **Key-Sanity:** Big keys can be found in any progression location.
+
+    Note:
+    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
     """
 
     item_name_group = "Big Keys"
     display_name = "Randomize Big Keys"
-    default = 2
 
 
 class MapAndCompassSettings(DungeonItem):
     """
     Controls requirements for obtaining maps and compasses.
+
+    Controls how dungeon maps and compasses are randomized.
+
+    - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
+    - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
+    - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
+    - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
+    - **Key-Sanity:** Dungeon maps and compasses can be found anywhere, without restriction.
+
+    Note:
+    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
     """
 
     item_name_group = "Maps and Compasses"
     display_name = "Randomize Maps & Compasses"
-    default = 2
 
 
 class DungeonRewardsProgression(Toggle):
     """
-    Controls whether dungeon rewards are shuffled.
+    NOT IMPLEMENTED YET
+    Controls whether dungeon rewards are "forced" to have progression items.
     """
 
-    display_name = "Dungeon Rewards can be anywhere"
-    default = False
+    display_name = "Dungeon Rewards are prgression"
+    default = True
 
 
 class SmallKeysOnBosses(Toggle):
     """
-    Controls whether small keys are on bosses.
+    NOT IMPLEMENTED YET
+    Controls whether small keys can be on bosses.
     """
 
     display_name = "Small Keys on Bosses"
@@ -241,142 +266,159 @@ class SmallKeysOnBosses(Toggle):
 # Timesavers
 class SkipPrologue(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the prologue is skipped.
     """
 
     display_name = "Skip Prologue"
-    default = False
+    default = True
 
 
 class FaronTwilightCleared(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether Faron Twilight is cleared.
     """
 
     display_name = "Faron Twilight Cleared"
-    default = False
+    default = True
 
 
 class EldinTwilightCleared(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether Eldin Twilight is cleared.
     """
 
     display_name = "Eldin Twilight Cleared"
-    default = False
+    default = True
 
 
 class LanayruTwilightCleared(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether Lanayru Twilight is cleared.
     """
 
     display_name = "Lanayru Twilight Cleared"
-    default = False
+    default = True
 
 
 class SkipMdh(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the Midna's Darkest Hour is skipped.
     """
 
     display_name = "Skip Midna's Darkest Hour"
-    default = False
+    default = True
 
 
 class SkipMinorCutscenes(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the minor cutscenes are skipped.
     """
 
     display_name = "Skip Minor Cutscenes"
-    default = False
+    default = True
 
 
 class SkipMajorCutscenes(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the major cutscenes are skipped.
     """
 
     display_name = "Skip Major Cutscenes"
-    default = False
+    default = True
 
 
 class FastIronBoots(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the Iron Boots are fast.
     """
 
     display_name = "Fast Iron Boots"
-    default = False
+    default = True
 
 
 class QuickTransform(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the transform is quick.
     """
 
     display_name = "Quick Transform"
-    default = False
+    default = True
 
 
 class InstantMessageText(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the message text is instant.
     """
 
     display_name = "Instant Message Text"
-    default = False
+    default = True
 
 
 class OpenMap(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the map is open.
+    Note: Logic for this not added yet. So logic assumes you cannot warp.
     """
 
     display_name = "Open Map"
-    default = False
+    default = True
 
 
 class IncreaseSpinnerSpeed(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the spinner speed is increased.
     """
 
     display_name = "Increase Spinner Speed"
-    default = False
+    default = True
 
 
 class OpenDoorOfTime(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the Door of Time is open.
     """
 
     display_name = "Open Door of Time"
-    default = False
+    default = True
 
 
 # Additional Settings
 class TransformAnywhere(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the player can transform anywhere.
     """
 
     display_name = "Transform Anywhere"
-    default = False
+    default = True
 
 
 class IncreaseWalletCapacity(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the wallet capacity is increased.
     """
 
     display_name = "Increase Wallet Capacity"
-    default = False
+    default = True
 
 
 class BonksDoDamage(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether bonks do damage.
     """
 
@@ -392,14 +434,15 @@ class TrapFrequency(Choice):
     display_name = "Trap Frequency"
     option_no_traps = 0
     option_few = 1
-    option_many = 2
-    option_mayhem = 3
-    option_nightmare = 4
+    option_many = 3
+    option_mayhem = 5
+    option_nightmare = 10
     default = 0
 
 
 class DamageMagnification(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Multiplies the damage the player takes.
     """
 
@@ -414,6 +457,7 @@ class DamageMagnification(Choice):
 
 class StartingToD(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls the starting time of day.
     """
 
@@ -428,54 +472,60 @@ class StartingToD(Choice):
 # Dungeon Entrance Settings
 class SkipLakebedEntrance(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the Lakebed does not require water bombs.
     """
 
     display_name = "Lakebed Does not require water bombs"
-    default = False
+    default = True
 
 
 class SkipArbitersGroundsEntrance(Toggle):
     """
-    Controls whether the Arbiters Grounds does not require Bublin Key.
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    Controls whether the Arbiters Grounds does not require defeating King Bublin.
     """
 
-    display_name = "Arbiters Grounds Does not require Bublin Key"
-    default = False
+    display_name = "Arbiters Grounds Does not require Bublin Camp"
+    default = True
 
 
 class SkipSnowpeakEntrance(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the Snowpeak Entrance is skipped.
     """
 
     display_name = "Snowpeak Does not require Reekfish Scent"
-    default = False
+    default = True
 
 
 class SkipCityInTheSkyEntrance(Toggle):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls whether the City in The Sky does not require filled Skybook.
     """
 
     display_name = "City in The Sky Does not require filled Skybook"
-    default = False
+    default = True
 
 
 class GoronMinesEntrance(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls requirements for accessing the Goron Mines.
     """
 
     display_name = "Goron Mines Entrance"
-    option_closed = 0
+    option_open = 0
     option_no_wrestling = 1
-    option_open = 2
+    option_closed = 2
     default = 0
 
 
 class TotEntrance(Choice):
     """
+    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls requirements for accessing the Temple of Time.
     """
 
@@ -484,15 +534,6 @@ class TotEntrance(Choice):
     option_open_grove = 1
     option_closed = 2
     default = 0
-
-
-# class BarrenDungeons(Toggle):
-#     """
-#     Controls whether dungeons can be barren.
-#     """
-
-#     display_name = "Barren Dungeons"
-#     default = False
 
 
 @dataclass
@@ -516,7 +557,7 @@ class TPOptions(PerGameCommonOptions):
     npc_items_shuffled: NpcItemsShuffled  #
     shop_items_shuffled: ShopItemsShuffled  #
     hidden_skills_shuffled: HiddenSkillsShuffled  #
-    poe_shuffled: PoeSettings  #
+    poe_shuffled: PoeShuffled  #
     overworld_shuffled: OverWoldShuffled  #
     heart_piece_shuffled: HeartPieceShuffled  #
     dungeons_shuffled: DungeonsShuffled  #
@@ -552,7 +593,7 @@ class TPOptions(PerGameCommonOptions):
     # increase_wallet_capacity: IncreaseWalletCapacity
     # shops_display_shuffled: ShopsDisplayShuffled
     bonks_do_damage: BonksDoDamage  #
-    # trap_frequency: TrapFrequency
+    trap_frequency: TrapFrequency
     damage_magnification: DamageMagnification  #
     # starting_tod: StartingToD
     # hint_distribution: HintDistribution
@@ -575,7 +616,7 @@ tp_option_groups: list[OptionGroup] = [
             NpcItemsShuffled,
             ShopItemsShuffled,
             HiddenSkillsShuffled,
-            PoeSettings,
+            PoeShuffled,
             OverWoldShuffled,
             HeartPieceShuffled,
             DungeonsShuffled,
