@@ -1,7 +1,10 @@
 /build/target/*
 /Docs/Notes.md
 
-# Testing script
+# Testing Files
 thing.py 
+scripts.txt
+test.py
+/tests/logs.log
 
 __pycache__
