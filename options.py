@@ -543,33 +543,31 @@ class TPOptions(PerGameCommonOptions):
     """
 
     start_inventory_from_pool: StartInventoryPool
-    death_link: DeathLink
+    death_link: DeathLink  # Potentially broken
+
+    # Item Pool Settings
+    golden_bugs_shuffled: GoldenBugsShuffled
+    sky_characters_shuffled: SkyCharactersShuffled
+    npc_items_shuffled: NpcItemsShuffled
+    shop_items_shuffled: ShopItemsShuffled
+    hidden_skills_shuffled: HiddenSkillsShuffled
+    poe_shuffled: PoeShuffled
+    heart_piece_shuffled: HeartPieceShuffled
+    overworld_shuffled: OverWoldShuffled
+    dungeons_shuffled: DungeonsShuffled
+
+    # Dungeon Items
+    small_key_settings: SmallKeySettings
+    big_key_settings: BigKeySettings
+    map_and_compass_settings: MapAndCompassSettings
+    dungeon_rewards_progression: DungeonRewardsProgression  # Not yet useful
+    small_keys_on_bosses: SmallKeysOnBosses  # Not yet useful
 
     # Logic Settings
     logic_rules: LogicRules  #
     castle_requirements: CastleRequirements  #
     palace_requirements: PalaceRequirements  #
     faron_woods_logic: FaronWoodsLogic  #
-
-    # Item Pool Settings
-    golden_bugs_shuffled: GoldenBugsShuffled  #
-    sky_characters_shuffled: SkyCharactersShuffled  #
-    npc_items_shuffled: NpcItemsShuffled  #
-    shop_items_shuffled: ShopItemsShuffled  #
-    hidden_skills_shuffled: HiddenSkillsShuffled  #
-    poe_shuffled: PoeShuffled  #
-    overworld_shuffled: OverWoldShuffled  #
-    heart_piece_shuffled: HeartPieceShuffled  #
-    dungeons_shuffled: DungeonsShuffled  #
-
-    # item_scarcity: ItemScarcity
-
-    # Dungeon Items
-    small_key_settings: SmallKeySettings  #
-    big_key_settings: BigKeySettings  #
-    map_and_compass_settings: MapAndCompassSettings  #
-    dungeon_rewards_progression: DungeonRewardsProgression
-    small_keys_on_bosses: SmallKeysOnBosses
 
     # Timesavers
     skip_prologue: SkipPrologue  #
@@ -617,8 +615,8 @@ tp_option_groups: list[OptionGroup] = [
             ShopItemsShuffled,
             HiddenSkillsShuffled,
             PoeShuffled,
-            OverWoldShuffled,
             HeartPieceShuffled,
+            OverWoldShuffled,
             DungeonsShuffled,
         ],
         start_collapsed=True,
