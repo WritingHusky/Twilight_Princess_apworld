@@ -20,7 +20,7 @@
 #    You can also verify that your Archipelago options are valid at this site:
 #        https://archipelago.gg/check
 
-# Your name in-game, limited to 8 characters. (16 if you are willing to change memory data)
+# Your name in-game, limited to 16 characters.
 #     {player} will be replaced with the player's slot number.
 #     {PLAYER} will be replaced with the player's slot number, if that slot number is greater than 1.
 #     {number} will be replaced with the counter value of the name.
@@ -38,7 +38,7 @@ Twilight Princess:
   # Game Options
   progression_balancing:
     # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
-    #
+    # 
     # A lower setting means more getting stuck. A higher setting means less getting stuck.
     #
     # You can define additional values between the minimum and maximum values.
@@ -53,315 +53,293 @@ Twilight Princess:
 
   accessibility:
     # Set rules for reachability of your items/locations.
-    #
+    # 
     # **Full:** ensure everything can be reached and acquired.
-    #
+    # 
     # **Minimal:** ensure what is needed to reach your goal can be acquired.
     full: 50
     minimal: 0
 
   death_link:
     # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
-    "false": 50
-    "true": 0
+    'false': 50
+    'true': 0
 
-  # Progression Locations
+  dungeon_rewards_progression:
+    # NOT IMPLEMENTED YET
+    # Controls whether dungeon rewards are "forced" to have progression items.
+    'false': 0
+    'true': 50
 
+  small_keys_on_bosses:
+    # NOT IMPLEMENTED YET
+    # Controls whether small keys can be on bosses.
+    'false': 50
+    'true': 0
+
+  # Item Pool Settings
   golden_bugs_shuffled:
-    # Not Implemented
-    # This controls whether the golden bugs can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether golden bug locations can contain progression items.
+    'false': 0
+    'true': 50
 
   sky_characters_shuffled:
-    # Not Implemented
-    # This controls whether the sky characters can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether sky characters locations can contain progression items.
+    'false': 0
+    'true': 50
 
   npc_items_shuffled:
-    # Not Implemented
-    # This controls whether the NPC items can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether Gifts from NPCs can contain progression items.
+    'false': 0
+    'true': 50
 
   shop_items_shuffled:
-    # Not Implemented
-    # This controls whether the shop items can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether Shop locations can contain progression items.
+    'false': 0
+    'true': 50
 
   hidden_skills_shuffled:
-    # Not Implemented
-    # This controls whether the hidden skills can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether hidden skill locations can contain progression items.
+    'false': 0
+    'true': 50
 
   poe_shuffled:
-    # Not Implemented
-    # This controls whether Poe Souls can contain Progression items.
-    "false": 0
-    "true": 50
-
-  overworld_shuffled:
-    # Not Implemented
-    # This controls whether overworld locations can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether Poes can contain progression items.
+    'false': 0
+    'true': 50
 
   heart_piece_shuffled:
-    # Not Implemented
-    # This controls whether heart pieces can contain Progression items.
-    "false": 0
-    "true": 50
+    # Controls whether Heart Piece locations can contain progression items.
+    'false': 0
+    'true': 50
+
+  overworld_shuffled:
+    # Controls whether Overworld locations can contain progression items.
+    # Cannot be disabled if Dungeon shuffle is disabled
+    'false': 0
+    'true': 50
 
   dungeons_shuffled:
-    # Not Implemented
-    # This controls whether dungeons can contain Progression items.
-    "false": 50
-    "true": 0
+    # Controls whether dungeons locations can contain progression items.
+    # Cannot be disabled if Overworld shuffle is disabled
+    'false': 0
+    'true': 50
 
-  # Item Randomizer Modes
-  map_and_compass_settings:
-    # NOT IMPLEMENTED YET
-    # Controls how dungeon maps and compasses are randomized.
-    #
-    # - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
-    # - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
-    # - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
-    # - **Local Maps & Compasses:** Dungeon maps and compasses will be randomized locally anywhere.
-    # - **Key-Lunacy:** Dungeon maps and compasses can be found anywhere, without restriction.
-    startwith: 0
-    vanilla: 0
-    own_dungeon: 50
-    any_dungeon: 0
-    keysy: 0
-
-  small_key_settings:
-    # NOT IMPLEMENTED YET
-    # Controls how small keys are randomized.
-    #
-    # - **Start With Small Keys:** You will start the game with the small keys for all dungeons.
-    # - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
-    # - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
-    # - **Local Small Keys:** Small keys will be randomized locally anywhere.
-    # - **Key-Lunacy:** Small keys can be found in any progression location, if dungeons are randomized.
-    startwith: 0
-    vanilla: 0
-    own_dungeon: 50
-    any_dungeon: 0
-    keysy: 0
-
-  big_key_settings:
-    # NOT IMPLEMENTED YET
-    # Controls how big keys are randomized.
-    #
-    # - **Start With Big Keys:** You will start the game with the big keys for all dungeons.
-    # - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
-    # - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
-    # - **Local Big Keys:** Big keys will be randomized locally anywhere.
-    # - **Key-Lunacy:** Big keys can be found in any progression location, if dungeons are randomized.
-    startwith: 0
-    vanilla: 0
-    own_dungeon: 50
-    any_dungeon: 0
-    keysy: 0
-
-  # Convenience Tweaks
-  skip_lakebed_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the Lakebed Temple entrance.
-    "false": 50
-    "true": 0
-
-  skip_arbiters_grounds_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the Arbiter's Grounds entrance.
-    "false": 50
-    "true": 0
-
-  skip_snowpeak_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the Snowpeak Ruins entrance.
-    "false": 50
-    "true": 0
-
-  skip_city_in_the_sky_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the City in the Sky entrance.
-    "false": 50
-    "true": 0
-
-  goron_mines_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Set the entrance to Goron Mines.
-    #
-    # - **Open:** The entrance is open.
-    # - **Closed:** The entrance is closed.
-    # - **No Wrestling:** The entrance is closed, but the Goron Wrestling mini-game is not required.
-    closed: 0
-    no_wrestling: 50
-    open: 0
-
-  tot_entrance:
-    # NOT IMPLEMENTED YET (Do not change)
-    open: 50
-    open_grove: 0
-    closed: 0
-
-  skip_prologue:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the prologue.
-    "false": 0
-    "true": 50
-
-  faron_twilight_cleared:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Faron Twilight is cleared.
-    "false": 0
-    "true": 50
-
-  eldin_twilight_cleared:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Eldin Twilight is cleared.
-    "false": 0
-    "true": 50
-
-  lanayru_twilight_cleared:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Lanayru Twilight is cleared.
-    "false": 0
-    "true": 50
-
-  skip_mdh:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Skip the Midnas Darkest Hour.
-    "false": 0
-    "true": 50
-
-  open_map:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Start with the map open.
-    "false": 50
-    "true": 0
-
-  increase_wallet:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Increase the wallet size.
-    #
-    "false": 50
-    "true": 0
-
-  transform_anywhere:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Transform into a wolf anywhere.
-    "false": 50
-    "true": 0
-
-  barren_dungeons:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Set the dungeons to be barren.
-    #
-    "false": 50
-    "true": 0
-
-  # Required Bosses (Not Implemented Yet)
-  # required_bosses:
-  #   # In this mode, you will not be allowed to beat the game until certain randomly-chosen bosses are defeated. Nothing in
-  #   # dungeons for other bosses will ever be required.
-  #   #
-  #   # You can see which islands have the required bosses on them by opening the sea chart and checking which islands have
-  #   # blue quest markers.
-  #   "false": 50
-  #   "true": 0
-
-  # num_required_bosses:
-  #   # Select the number of randomly-chosen bosses that are required in Required Bosses Mode.
-  #   #
-  #   # The door to Puppet Ganon will not unlock until you've defeated all of these bosses. Nothing in dungeons for other
-  #   # bosses will ever be required.
-  #   #
-  #   # You can define additional values between the minimum and maximum values.
-  #   # Minimum value is 1
-  #   # Maximum value is 6
-  #   4: 50
-  #   random: 0
-  #   random-low: 0
-  #   random-high: 0
-
-  # included_dungeons:
-  #   # A list of dungeons that should always be included when required bosses mode is on.
-  #   []
-
-  # excluded_dungeons:
-  #   # A list of dungeons that should always be excluded when required bosses mode is on.
-  #   []
-
-  # Difficulty Options
+  # Logic Settings
   logic_rules:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Set the logic rules for the game.
-    #
-    # - **No Glitches:** The game is completable without using glitches.
-    # - **Glitches:** The game is completable using glitches.
-    # - **No Logic:** The game is completable without using glitches, but the logic is not guaranteed to be fair.
-    # - **Glitches Logic:** The game is completable using glitches, but the logic is not guaranteed to be fair.
-    #
-    # **Glitchless** is recommended for most players.
-    #
-    # **Glitches** is recommended for players who are familiar with the game and are looking for a challenge.
-    #
-    # **No Logic** is recommended for players who are looking for a very challenging experience.
-    #
-    # **Glitches Logic** is recommended for players who are looking for a very challenging experience and are familiar with the game.
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls what types of tricks the logic can expect you to perform.
+    # 
+    # - Glitchless: Only intended mechanics are required
+    # - Glitched: Some glitches may be required
+    # - No Logic: No logical requirements are enforced
     glitchless: 50
     glitched: 0
     no_logic: 0
 
   castle_requirements:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Set the requirements for Hyrule Castle.
-    #
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls requirements for accessing Hyrule Castle.
+    # 
+    # - Open: No requirements
+    # - Fused Shadows: Requires all Fused Shadows
+    # - Mirror Shards: Requires all Mirror Shards
+    # - All Dungeons: Requires completing all dungeons
+    # - Vanilla: Vanilla requirements
     open: 50
     fused_shadows: 0
-    mirror_shard: 0
+    mirror_shards: 0
     all_dungeons: 0
     vanilla: 0
 
   palace_requirements:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Set the requirements for Palace of Twilight.
-    #
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls requirements for accessing Palace of Twilight.
+    # 
+    # - Open: No requirements
+    # - Fused Shadows: Requires all Fused Shadows
+    # - Mirror Shards: Requires all Mirror Shards
+    # - Vanilla: Vanilla requirements
     open: 50
     fused_shadows: 0
-    mirror_shard: 0
+    mirror_shards: 0
     vanilla: 0
 
   faron_woods_logic:
-    # NOT IMPLEMENTED YET (Do not change)
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls logic for accessing Faron Woods.
+    # 
+    # - Open: No special requirements
+    # - Closed: Requires normal progression
     open: 50
     closed: 0
 
+  # Dungeon Items
+  small_key_settings:
+    # Controls how small keys are randomized.
+    # 
+    # - **Start With Small Keys:** You will start the game with the small keys for all dungeons.
+    # - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
+    # - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
+    # - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
+    # - **Key-Sanity:** Small keys can be found in any progression location, if dungeons are randomized.
+    # 
+    # Note:
+    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    startwith: 0
+    vanilla: 50
+    own_dungeon: 0
+    any_dungeon: 0
+    keysy: 0
+
+  big_key_settings:
+    # Controls how big keys are randomized.
+    # 
+    # - **Start With Big Keys:** You will start the game with the big keys for all dungeons.
+    # - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
+    # - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
+    # - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
+    # - **Key-Sanity:** Big keys can be found in any progression location.
+    # 
+    # Note:
+    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    startwith: 0
+    vanilla: 50
+    own_dungeon: 0
+    any_dungeon: 0
+    keysy: 0
+
+  map_and_compass_settings:
+    # Controls requirements for obtaining maps and compasses.
+    # 
+    # Controls how dungeon maps and compasses are randomized.
+    # 
+    # - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
+    # - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
+    # - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
+    # - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
+    # - **Key-Sanity:** Dungeon maps and compasses can be found anywhere, without restriction.
+    # 
+    # Note:
+    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    startwith: 0
+    vanilla: 50
+    own_dungeon: 0
+    any_dungeon: 0
+    keysy: 0
+
+  # Timesavers
+  skip_prologue:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the prologue is skipped.
+    'false': 0
+    'true': 50
+
+  faron_twilight_cleared:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether Faron Twilight is cleared.
+    'false': 0
+    'true': 50
+
+  eldin_twilight_cleared:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether Eldin Twilight is cleared.
+    'false': 0
+    'true': 50
+
+  lanayru_twilight_cleared:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether Lanayru Twilight is cleared.
+    'false': 0
+    'true': 50
+
+  skip_mdh:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the Midna's Darkest Hour is skipped.
+    'false': 0
+    'true': 50
+
+  open_map:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the map is open.
+    # Note: Logic for this not added yet. So logic assumes you cannot warp.
+    'false': 0
+    'true': 50
+
+  # Additional Settings
+  increase_wallet:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the wallet capacity is increased.
+    'false': 0
+    'true': 50
+
+  transform_anywhere:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the player can transform anywhere.
+    'false': 0
+    'true': 50
+
   bonks_do_damage:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Bonking into walls will cause damage.
-    "false": 50
-    "true": 0
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether bonks do damage.
+    'false': 50
+    'true': 0
+
+  trap_frequency:
+    # Controls the frequency of traps in the game.
+    no_traps: 50
+    few: 0
+    many: 0
+    mayhem: 0
+    nightmare: 0
 
   damage_magnification:
-    # NOT IMPLEMENTED YET (Do not change)
-    # Increase the amount of damage taken.
-    #
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Multiplies the damage the player takes.
     vanilla: 50
     double: 0
     triple: 0
     quadruple: 0
     ohko: 0
 
-  # Work-in-Progress Options
+  # Dungeon Entrance Settings
+  skip_lakebed_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the Lakebed does not require water bombs.
+    'false': 0
+    'true': 50
+
+  skip_arbiters_grounds_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the Arbiters Grounds does not require defeating King Bublin.
+    'false': 0
+    'true': 50
+
+  skip_snowpeak_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the Snowpeak Entrance is skipped.
+    'false': 0
+    'true': 50
+
+  skip_city_in_the_sky_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls whether the City in The Sky does not require filled Skybook.
+    'false': 0
+    'true': 50
+
+  goron_mines_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls requirements for accessing the Goron Mines.
+    open: 50
+    no_wrestling: 0
+    closed: 0
+
+  tot_entrance:
+    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # Controls requirements for accessing the Temple of Time.
+    open: 50
+    open_grove: 0
+    closed: 0
 
   # Item & Location Options
   local_items:
@@ -398,6 +376,6 @@ Twilight Princess:
 
   start_inventory_from_pool:
     # Start with these items and don't place them in the world.
-    #
+    # 
     # The game decides what the replacement items will be.
     {}
