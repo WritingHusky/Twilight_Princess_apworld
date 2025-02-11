@@ -1407,11 +1407,7 @@ def has_bombs(state: CollectionState, player: int):
 
 
 def has_bomb_bag(state: CollectionState, player: int):
-    return (
-        state.has("Empty Bomb Bag", player)
-        or state.has("Giant Bomb Bag", player)
-        or state.has("Goron Bomb Bag", player)
-    )
+    return state.has("Bomb Bag", player)
 
 
 def can_use_water_bombs(state: CollectionState, player: int):
@@ -1718,7 +1714,9 @@ def has_bottle(state: CollectionState, player: int):
         or state.has("Milk (half) (Sera Bottle)", player)
         or state.has("Great Fairy Tears (Jovani)", player)
         or state.has("Lantern Oil (Coro Bottle)", player)
-    ) and state.has("Lantern", player)
+    ) and state.has(
+        "Lantern", player
+    )  # NOTE: Is this true?
 
 
 def has_bottles(state: CollectionState, player: int):

@@ -18,24 +18,24 @@ from ..options import (
 # - Look at logic for uncleared twilight provinces as logic may be weird with that
 
 
-def set_region_access_rules(world: MultiWorld, player: int):
+def set_region_access_rules(multiworld: MultiWorld, player: int):
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Entrance"} -> {"Outside Arbiters Grounds"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Entrance -> Outside Arbiters Grounds"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Entrance"} -> {"Arbiters Grounds Lobby"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Entrance -> Arbiters Grounds Lobby"
     )
     set_rule(
         exit,
         lambda state: (
             (
-                state.has("Arbiter's Grounds Small Key", player, 1)
+                state.has("Arbiters Grounds Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -45,32 +45,32 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Lobby"} -> {"Arbiters Grounds Entrance"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Lobby -> Arbiters Grounds Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Lobby"} -> {"Arbiters Grounds East Wing"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Lobby -> Arbiters Grounds East Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Lobby"} -> {"Arbiters Grounds West Wing"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Lobby -> Arbiters Grounds West Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Lobby"} -> {"Arbiters Grounds After Poe Gate"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds Lobby -> Arbiters Grounds After Poe Gate"
     )
     set_rule(
         exit,
@@ -84,7 +84,7 @@ def set_region_access_rules(world: MultiWorld, player: int):
             and can_defeat_GhoulRat(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -93,70 +93,68 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds East Wing"} -> {"Arbiters Grounds Lobby"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds East Wing -> Arbiters Grounds Lobby"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds West Wing"} -> {"Arbiters Grounds Lobby"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds West Wing -> Arbiters Grounds Lobby"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds After Poe Gate"} -> {"Arbiters Grounds Lobby"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds After Poe Gate -> Arbiters Grounds Lobby"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds After Poe Gate"} -> {"Arbiters Grounds Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Arbiters Grounds After Poe Gate -> Arbiters Grounds Boss Room"
     )
     set_rule(
         exit,
         lambda state: (
             state.has("Spinner", player)
             and (
-                state.has("Arbiter's Grounds Big Key", player)
+                state.has("Arbiters Grounds Big Key", player)
                 or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
             )
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Arbiters Grounds Boss Room"} -> {"Mirror Chamber Lower"}"
-    )
+    exit = multiworld.get_entrance("Arbiters Grounds Boss Room -> Mirror Chamber Lower")
     set_rule(
         exit,
         lambda state: (can_defeat_Stallord(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Boss Room"} -> {"City in The Sky Entrance"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky Boss Room -> City in The Sky Entrance"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Argorok(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Central Tower Second Floor"} -> {"City in The Sky West Wing"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky Central Tower Second Floor -> City in The Sky West Wing"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 2)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Central Tower Second Floor"} -> {"City in The Sky Lobby"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky Central Tower Second Floor -> City in The Sky Lobby"
     )
     set_rule(
         exit,
@@ -173,47 +171,37 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky East Wing"} -> {"City in The Sky Lobby"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky East Wing -> City in The Sky Lobby")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Entrance"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky Entrance -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Entrance"} -> {"City in The Sky Lobby"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky Entrance -> City in The Sky Lobby")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Lobby"} -> {"City in The Sky Entrance"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky Lobby -> City in The Sky Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Lobby"} -> {"City in The Sky East Wing"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky Lobby -> City in The Sky East Wing")
     set_rule(
         exit,
         lambda state: (
             state.has("Spinner", player)
             and (
-                state.has("City in the Sky Small Key", player, 1)
+                state.has("City in The Sky Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -222,16 +210,14 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Lobby"} -> {"City in The Sky West Wing"}"
-    )
+    exit = multiworld.get_entrance("City in The Sky Lobby -> City in The Sky West Wing")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 2)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky Lobby"} -> {"City in The Sky North Wing"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky Lobby -> City in The Sky North Wing"
     )
     set_rule(
         exit,
@@ -244,16 +230,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky North Wing"} -> {"City in The Sky Lobby"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky North Wing -> City in The Sky Lobby"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky North Wing"} -> {"City in The Sky Boss Room"}"
+    exit = multiworld.get_entrance(
+        "City in The Sky North Wing -> City in The Sky Boss Room"
     )
     set_rule(
         exit,
@@ -261,63 +247,53 @@ def set_region_access_rules(world: MultiWorld, player: int):
             state.has("Progressive Clawshot", player, 2)
             and can_defeat_Aeralfos(state, player)
             and (
-                state.has("City in the Sky Big Key", player)
+                state.has("City in The Sky Big Key", player)
                 or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
             )
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky West Wing"} -> {"City in The Sky Lobby"}"
+    exit = multiworld.get_entrance("City in The Sky West Wing -> City in The Sky Lobby")
+    set_rule(
+        exit,
+        lambda state: (state.has("Progressive Clawshot", player, 2)),
+    )
+
+    exit = multiworld.get_entrance(
+        "City in The Sky West Wing -> City in The Sky Central Tower Second Floor"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 2)),
     )
 
-    exit = world.get_entrance(
-        f"{"City in The Sky West Wing"} -> {"City in The Sky Central Tower Second Floor"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (state.has("Progressive Clawshot", player, 2)),
-    )
-
-    exit = world.get_entrance(
-        f"{"Forest Temple Boss Room"} -> {"South Faron Woods"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Boss Room -> South Faron Woods")
     set_rule(
         exit,
         lambda state: (can_defeat_Diababa(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple East Wing"} -> {"Forest Temple Lobby"}"
+    exit = multiworld.get_entrance("Forest Temple East Wing -> Forest Temple Lobby")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Forest Temple East Wing -> Forest Temple North Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple East Wing"} -> {"Forest Temple North Wing"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Entrance -> North Faron Woods")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple Entrance"} -> {"North Faron Woods"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Forest Temple Entrance"} -> {"Forest Temple Lobby"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Entrance -> Forest Temple Lobby")
     set_rule(
         exit,
         lambda state: (
@@ -327,25 +303,19 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple Lobby"} -> {"Forest Temple Entrance"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Lobby -> Forest Temple Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple Lobby"} -> {"Forest Temple East Wing"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Lobby -> Forest Temple East Wing")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple Lobby"} -> {"Forest Temple West Wing"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple Lobby -> Forest Temple West Wing")
     set_rule(
         exit,
         lambda state: (
@@ -366,7 +336,7 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(f"{"Forest Temple Lobby"} -> {"Ook"}")
+    exit = multiworld.get_entrance("Forest Temple Lobby -> Ook")
     set_rule(
         exit,
         lambda state: (
@@ -384,16 +354,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple North Wing"} -> {"Forest Temple East Wing"}"
+    exit = multiworld.get_entrance(
+        "Forest Temple North Wing -> Forest Temple East Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple North Wing"} -> {"Forest Temple Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Forest Temple North Wing -> Forest Temple Boss Room"
     )
     set_rule(
         exit,
@@ -410,21 +380,19 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Forest Temple West Wing"} -> {"Forest Temple Lobby"}"
-    )
+    exit = multiworld.get_entrance("Forest Temple West Wing -> Forest Temple Lobby")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Forest Temple West Wing"} -> {"Ook"}")
+    exit = multiworld.get_entrance("Forest Temple West Wing -> Ook")
     set_rule(
         exit,
         lambda state: (state.has("Gale Boomerang", player)),
     )
 
-    exit = world.get_entrance(f"{"Ook"} -> {"Forest Temple West Wing"}")
+    exit = multiworld.get_entrance("Ook -> Forest Temple West Wing")
     set_rule(
         exit,
         lambda state: (
@@ -432,24 +400,22 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Boss Room"} -> {"Lower Kakariko Village"}"
-    )
+    exit = multiworld.get_entrance("Goron Mines Boss Room -> Lower Kakariko Village")
     set_rule(
         exit,
         lambda state: (can_defeat_Fyrus(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Crystal Switch Room"} -> {"Goron Mines Magnet Room"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Crystal Switch Room -> Goron Mines Magnet Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Crystal Switch Room"} -> {"Goron Mines North Wing"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Crystal Switch Room -> Goron Mines North Wing"
     )
     set_rule(
         exit,
@@ -468,43 +434,38 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Entrance"} -> {"Death Mountain Sumo Hall Goron Mines Tunnel"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Entrance -> Death Mountain Sumo Hall Goron Mines Tunnel"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Entrance"} -> {"Goron Mines Magnet Room"}"
-    )
+    exit = multiworld.get_entrance("Goron Mines Entrance -> Goron Mines Magnet Room")
     set_rule(
         exit,
         lambda state: (
-            state.has("Iron Boots", player)
-            and can_break_wooden_door(state, player)
+            state.has("Iron Boots", player) and can_break_wooden_door(state, player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Lower West Wing"} -> {"Goron Mines Magnet Room"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Lower West Wing -> Goron Mines Magnet Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Magnet Room"} -> {"Goron Mines Entrance"}"
-    )
+    exit = multiworld.get_entrance("Goron Mines Magnet Room -> Goron Mines Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Magnet Room"} -> {"Goron Mines Lower West Wing"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Magnet Room -> Goron Mines Lower West Wing"
     )
     set_rule(
         exit,
@@ -519,8 +480,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Magnet Room"} -> {"Goron Mines Crystal Switch Room"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Magnet Room -> Goron Mines Crystal Switch Room"
     )
     set_rule(
         exit,
@@ -536,16 +497,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines North Wing"} -> {"Goron Mines Crystal Switch Room"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines North Wing -> Goron Mines Crystal Switch Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines North Wing"} -> {"Goron Mines Upper East Wing"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines North Wing -> Goron Mines Upper East Wing"
     )
     set_rule(
         exit,
@@ -560,9 +521,7 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines North Wing"} -> {"Goron Mines Boss Room"}"
-    )
+    exit = multiworld.get_entrance("Goron Mines North Wing -> Goron Mines Boss Room")
     set_rule(
         exit,
         lambda state: (
@@ -576,16 +535,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Upper East Wing"} -> {"Goron Mines North Wing"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Upper East Wing -> Goron Mines North Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Goron Mines Upper East Wing"} -> {"Goron Mines Magnet Room"}"
+    exit = multiworld.get_entrance(
+        "Goron Mines Upper East Wing -> Goron Mines Magnet Room"
     )
     set_rule(
         exit,
@@ -596,25 +555,21 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Ganondorf Castle"} -> {"Hyrule Castle Tower Climb"}"
+    exit = multiworld.get_entrance("Ganondorf Castle -> Hyrule Castle Tower Climb")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Entrance -> Castle Town North Inside Barrier"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Entrance"} -> {"Castle Town North Inside Barrier"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Entrance"} -> {"Hyrule Castle Main Hall"}"
-    )
+    exit = multiworld.get_entrance("Hyrule Castle Entrance -> Hyrule Castle Main Hall")
     set_rule(
         exit,
         lambda state: (
@@ -628,40 +583,40 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Entrance"} -> {"Hyrule Castle Outside West Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Entrance -> Hyrule Castle Outside West Wing"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Bokoblin_Red(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Entrance"} -> {"Hyrule Castle Outside East Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Entrance -> Hyrule Castle Outside East Wing"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Bokoblin_Red(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Graveyard"} -> {"Hyrule Castle Outside East Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Graveyard -> Hyrule Castle Outside East Wing"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Inside East Wing"} -> {"Hyrule Castle Main Hall"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Inside East Wing -> Hyrule Castle Main Hall"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Inside East Wing"} -> {"Hyrule Castle Third Floor Balcony"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Inside East Wing -> Hyrule Castle Third Floor Balcony"
     )
     set_rule(
         exit,
@@ -670,16 +625,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Inside West Wing"} -> {"Hyrule Castle Main Hall"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Inside West Wing -> Hyrule Castle Main Hall"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Inside West Wing"} -> {"Hyrule Castle Third Floor Balcony"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Inside West Wing -> Hyrule Castle Third Floor Balcony"
     )
     set_rule(
         exit,
@@ -690,16 +645,14 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Main Hall"} -> {"Hyrule Castle Entrance"}"
-    )
+    exit = multiworld.get_entrance("Hyrule Castle Main Hall -> Hyrule Castle Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Main Hall"} -> {"Hyrule Castle Inside East Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Main Hall -> Hyrule Castle Inside East Wing"
     )
     set_rule(
         exit,
@@ -712,8 +665,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Main Hall"} -> {"Hyrule Castle Inside West Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Main Hall -> Hyrule Castle Inside West Wing"
     )
     set_rule(
         exit,
@@ -726,32 +679,32 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Outside East Wing"} -> {"Hyrule Castle Entrance"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Outside East Wing -> Hyrule Castle Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Outside East Wing"} -> {"Hyrule Castle Graveyard"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Outside East Wing -> Hyrule Castle Graveyard"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Outside West Wing"} -> {"Hyrule Castle Entrance"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Outside West Wing -> Hyrule Castle Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Third Floor Balcony"} -> {"Hyrule Castle Inside West Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Third Floor Balcony -> Hyrule Castle Inside West Wing"
     )
     set_rule(
         exit,
@@ -762,8 +715,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Third Floor Balcony"} -> {"Hyrule Castle Inside East Wing"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Third Floor Balcony -> Hyrule Castle Inside East Wing"
     )
     set_rule(
         exit,
@@ -772,8 +725,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Third Floor Balcony"} -> {"Hyrule Castle Tower Climb"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Third Floor Balcony -> Hyrule Castle Tower Climb"
     )
     set_rule(
         exit,
@@ -788,16 +741,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Tower Climb"} -> {"Hyrule Castle Third Floor Balcony"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Tower Climb -> Hyrule Castle Third Floor Balcony"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Tower Climb"} -> {"Hyrule Castle Treasure Room"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Tower Climb -> Hyrule Castle Treasure Room"
     )
     set_rule(
         exit,
@@ -816,9 +769,7 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Tower Climb"} -> {"Ganondorf Castle"}"
-    )
+    exit = multiworld.get_entrance("Hyrule Castle Tower Climb -> Ganondorf Castle")
     set_rule(
         exit,
         lambda state: (
@@ -834,32 +785,32 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Castle Treasure Room"} -> {"Hyrule Castle Tower Climb"}"
+    exit = multiworld.get_entrance(
+        "Hyrule Castle Treasure Room -> Hyrule Castle Tower Climb"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Boss Room"} -> {"Lake Hylia Lanayru Spring"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Boss Room -> Lake Hylia Lanayru Spring"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Morpheel(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Central Room"} -> {"Lakebed Temple Entrance"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Central Room -> Lakebed Temple Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Central Room"} -> {"Lakebed Temple East Wing Second Floor"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Central Room -> Lakebed Temple East Wing Second Floor"
     )
     set_rule(
         exit,
@@ -874,16 +825,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Central Room"} -> {"Lakebed Temple East Wing First Floor"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Central Room -> Lakebed Temple East Wing First Floor"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Central Room"} -> {"Lakebed Temple West Wing"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Central Room -> Lakebed Temple West Wing"
     )
     set_rule(
         exit,
@@ -900,8 +851,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Central Room"} -> {"Lakebed Temple Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Central Room -> Lakebed Temple Boss Room"
     )
     set_rule(
         exit,
@@ -922,24 +873,24 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple East Wing First Floor"} -> {"Lakebed Temple Central Room"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple East Wing First Floor -> Lakebed Temple Central Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple East Wing Second Floor"} -> {"Lakebed Temple Central Room"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple East Wing Second Floor -> Lakebed Temple Central Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple East Wing Second Floor"} -> {"Lakebed Temple East Wing First Floor"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple East Wing Second Floor -> Lakebed Temple East Wing First Floor"
     )
     set_rule(
         exit,
@@ -949,88 +900,88 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Entrance"} -> {"Lake Hylia Lakebed Temple Entrance"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Entrance -> Lake Hylia Lakebed Temple Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple Entrance"} -> {"Lakebed Temple Central Room"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple Entrance -> Lakebed Temple Central Room"
     )
     set_rule(
         exit,
         lambda state: (can_launch_bombs(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lakebed Temple West Wing"} -> {"Lakebed Temple Central Room"}"
+    exit = multiworld.get_entrance(
+        "Lakebed Temple West Wing -> Lakebed Temple Central Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Entrance"} -> {"Mirror Chamber Upper"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Entrance -> Mirror Chamber Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Entrance"} -> {"Palace of Twilight West Wing"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Entrance -> Palace of Twilight West Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Entrance"} -> {"Palace of Twilight East Wing"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Entrance -> Palace of Twilight East Wing"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Entrance"} -> {"Palace of Twilight Central First Room"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Entrance -> Palace of Twilight Central First Room"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Master Sword", player, 4)),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight West Wing"} -> {"Palace of Twilight Entrance"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight West Wing -> Palace of Twilight Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight East Wing"} -> {"Palace of Twilight Entrance"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight East Wing -> Palace of Twilight Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Central First Room"} -> {"Palace of Twilight Entrance"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Central First Room -> Palace of Twilight Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Central First Room"} -> {"Palace of Twilight Outside Room"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Central First Room -> Palace of Twilight Outside Room"
     )
     set_rule(
         exit,
@@ -1046,16 +997,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Outside Room"} -> {"Palace of Twilight Central First Room"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Outside Room -> Palace of Twilight Central First Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Outside Room"} -> {"Palace of Twilight North Tower"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Outside Room -> Palace of Twilight North Tower"
     )
     set_rule(
         exit,
@@ -1070,16 +1021,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight North Tower"} -> {"Palace of Twilight Outside Room"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight North Tower -> Palace of Twilight Outside Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight North Tower"} -> {"Palace of Twilight Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight North Tower -> Palace of Twilight Boss Room"
     )
     set_rule(
         exit,
@@ -1102,64 +1053,58 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Palace of Twilight Boss Room"} -> {"Palace of Twilight Entrance"}"
+    exit = multiworld.get_entrance(
+        "Palace of Twilight Boss Room -> Palace of Twilight Entrance"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Zant(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Left Door"} -> {"Snowpeak Ruins Entrance"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Left Door -> Snowpeak Ruins Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Left Door"} -> {"Snowpeak Summit Lower"}"
+    exit = multiworld.get_entrance("Snowpeak Ruins Left Door -> Snowpeak Summit Lower")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Right Door -> Snowpeak Ruins Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Right Door"} -> {"Snowpeak Ruins Entrance"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Ruins Right Door -> Snowpeak Summit Lower")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Right Door"} -> {"Snowpeak Summit Lower"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Boss Room"} -> {"Snowpeak Summit Lower"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Ruins Boss Room -> Snowpeak Summit Lower")
     set_rule(
         exit,
         lambda state: (can_defeat_Blizzeta(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Caged Freezard Room"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Caged Freezard Room"} -> {"Snowpeak Ruins Second Floor Mini Freezard Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Second Floor Mini Freezard Room"
     )
     set_rule(
         exit,
@@ -1175,16 +1120,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Caged Freezard Room"} -> {"Snowpeak Ruins Wooden Beam Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Wooden Beam Room"
     )
     set_rule(
         exit,
         lambda state: (state.has("Ball and Chain", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Caged Freezard Room"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
@@ -1199,43 +1144,42 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Chapel"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Chapel -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Chilfos(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Darkhammer Room"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Darkhammer Room -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Darkhammer(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins East Courtyard"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins East Courtyard -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (
-            state.has("Shadow Crystal", player)
-            or state.has("Ball and Chain", player)
+            state.has("Shadow Crystal", player) or state.has("Ball and Chain", player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins East Courtyard"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins East Courtyard -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
         lambda state: (state.has("Ball and Chain", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins East Courtyard"} -> {"Snowpeak Ruins Northeast Chilfos Room First Floor"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins East Courtyard -> Snowpeak Ruins Northeast Chilfos Room First Floor"
     )
     set_rule(
         exit,
@@ -1264,83 +1208,82 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Entrance"} -> {"Snowpeak Ruins Left Door"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Entrance -> Snowpeak Ruins Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Entrance"} -> {"Snowpeak Ruins Right Door"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Entrance -> Snowpeak Ruins Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Entrance"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Entrance -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Northeast Chilfos Room First Floor"} -> {"Snowpeak Ruins East Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Northeast Chilfos Room First Floor -> Snowpeak Ruins East Courtyard"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Northeast Chilfos Room First Floor"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Northeast Chilfos Room First Floor -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Chilfos(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Northeast Chilfos Room Second Floor"} -> {"Snowpeak Ruins Northeast Chilfos Room First Floor"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Northeast Chilfos Room Second Floor -> Snowpeak Ruins Northeast Chilfos Room First Floor"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Northeast Chilfos Room Second Floor"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Northeast Chilfos Room Second Floor -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (state.has("Ball and Chain", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Second Floor Mini Freezard Room"} -> {"Snowpeak Ruins Entrance"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Second Floor Mini Freezard Room"} -> {"Snowpeak Ruins East Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins East Courtyard"
     )
     set_rule(
         exit,
         lambda state: (
-            state.has("Shadow Crystal", player)
-            or state.has("Ball and Chain", player)
+            state.has("Shadow Crystal", player) or state.has("Ball and Chain", player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Second Floor Mini Freezard Room"} -> {"Snowpeak Ruins Northeast Chilfos Room Second Floor"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins Northeast Chilfos Room Second Floor"
     )
     set_rule(
         exit,
@@ -1351,8 +1294,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Second Floor Mini Freezard Room"} -> {"Snowpeak Ruins Caged Freezard Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins Caged Freezard Room"
     )
     set_rule(
         exit,
@@ -1367,48 +1310,48 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Cannon Room"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Cannon Room -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Cannon Room"} -> {"Snowpeak Ruins Wooden Beam Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Cannon Room -> Snowpeak Ruins Wooden Beam Room"
     )
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins Yeto and Yeta"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins Yeto and Yeta"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins East Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins East Courtyard"
     )
     set_rule(
         exit,
         lambda state: (state.has("Ball and Chain", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins West Cannon Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins West Cannon Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins Chapel"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins Chapel"
     )
     set_rule(
         exit,
@@ -1428,8 +1371,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins Darkhammer Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins Darkhammer Room"
     )
     set_rule(
         exit,
@@ -1451,8 +1394,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins West Courtyard"} -> {"Snowpeak Ruins Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins West Courtyard -> Snowpeak Ruins Boss Room"
     )
     set_rule(
         exit,
@@ -1476,24 +1419,24 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Wooden Beam Room"} -> {"Snowpeak Ruins West Cannon Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Wooden Beam Room -> Snowpeak Ruins West Cannon Room"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Yeto and Yeta"} -> {"Snowpeak Ruins Entrance"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Yeto and Yeta -> Snowpeak Ruins Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Yeto and Yeta"} -> {"Snowpeak Ruins Caged Freezard Room"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Yeto and Yeta -> Snowpeak Ruins Caged Freezard Room"
     )
     set_rule(
         exit,
@@ -1503,8 +1446,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Yeto and Yeta"} -> {"Snowpeak Ruins West Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Yeto and Yeta -> Snowpeak Ruins West Courtyard"
     )
     set_rule(
         exit,
@@ -1514,51 +1457,48 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ruins Yeto and Yeta"} -> {"Snowpeak Ruins East Courtyard"}"
+    exit = multiworld.get_entrance(
+        "Snowpeak Ruins Yeto and Yeta -> Snowpeak Ruins East Courtyard"
     )
     set_rule(
         exit,
         lambda state: (
-            state.has("Shadow Crystal", player)
-            or state.has("Ball and Chain", player)
+            state.has("Shadow Crystal", player) or state.has("Ball and Chain", player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Armos Antechamber"} -> {"Temple of Time Central Mechanical Platform"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Armos Antechamber -> Temple of Time Central Mechanical Platform"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Boss Room"} -> {"Sacred Grove Past"}"
-    )
+    exit = multiworld.get_entrance("Temple of Time Boss Room -> Sacred Grove Past")
     set_rule(
         exit,
         lambda state: (can_defeat_Armogohma(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Central Mechanical Platform"} -> {"Temple of Time Connecting Corridors"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Central Mechanical Platform -> Temple of Time Connecting Corridors"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Central Mechanical Platform"} -> {"Temple of Time Armos Antechamber"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Central Mechanical Platform -> Temple of Time Armos Antechamber"
     )
     set_rule(
         exit,
         lambda state: (state.has("Spinner", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Central Mechanical Platform"} -> {"Temple of Time Moving Wall Hallways"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Central Mechanical Platform -> Temple of Time Moving Wall Hallways"
     )
     set_rule(
         exit,
@@ -1574,16 +1514,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Connecting Corridors"} -> {"Temple of Time Entrance"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Connecting Corridors -> Temple of Time Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Connecting Corridors"} -> {"Temple of Time Central Mechanical Platform"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Connecting Corridors -> Temple of Time Central Mechanical Platform"
     )
     set_rule(
         exit,
@@ -1594,16 +1534,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Crumbling Corridor"} -> {"Temple of Time Entrance"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Crumbling Corridor -> Temple of Time Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Crumbling Corridor"} -> {"Temple of Time Boss Room"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Crumbling Corridor -> Temple of Time Boss Room"
     )
     set_rule(
         exit,
@@ -1616,8 +1556,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Darknut Arena"} -> {"Temple of Time Upper Spike Trap Corridor"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Darknut Arena -> Temple of Time Upper Spike Trap Corridor"
     )
     set_rule(
         exit,
@@ -1627,16 +1567,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Entrance"} -> {"Sacred Grove Past Behind Window"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Entrance -> Sacred Grove Past Behind Window"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Entrance"} -> {"Temple of Time Connecting Corridors"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Entrance -> Temple of Time Connecting Corridors"
     )
     set_rule(
         exit,
@@ -1651,8 +1591,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Entrance"} -> {"Temple of Time Crumbling Corridor"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Entrance -> Temple of Time Crumbling Corridor"
     )
     set_rule(
         exit,
@@ -1676,24 +1616,24 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Floor Switch Puzzle Room"} -> {"Temple of Time Scales of Time"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Floor Switch Puzzle Room -> Temple of Time Scales of Time"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Moving Wall Hallways"} -> {"Temple of Time Central Mechanical Platform"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Moving Wall Hallways -> Temple of Time Central Mechanical Platform"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Moving Wall Hallways"} -> {"Temple of Time Scales of Time"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Moving Wall Hallways -> Temple of Time Scales of Time"
     )
     set_rule(
         exit,
@@ -1704,16 +1644,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Scales of Time"} -> {"Temple of Time Moving Wall Hallways"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Scales of Time -> Temple of Time Moving Wall Hallways"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Scales of Time"} -> {"Temple of Time Floor Switch Puzzle Room"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Scales of Time -> Temple of Time Floor Switch Puzzle Room"
     )
     set_rule(
         exit,
@@ -1723,24 +1663,24 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Scales of Time"} -> {"Temple of Time Upper Spike Trap Corridor"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Scales of Time -> Temple of Time Upper Spike Trap Corridor"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Upper Spike Trap Corridor"} -> {"Temple of Time Scales of Time"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Upper Spike Trap Corridor -> Temple of Time Scales of Time"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Temple of Time Upper Spike Trap Corridor"} -> {"Temple of Time Darknut Arena"}"
+    exit = multiworld.get_entrance(
+        "Temple of Time Upper Spike Trap Corridor -> Temple of Time Darknut Arena"
     )
     set_rule(
         exit,
@@ -1759,51 +1699,46 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Near Kakariko"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Near Kakariko -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Near Kakariko"} -> {"Death Mountain Trail"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Near Kakariko -> Death Mountain Trail"
     )
     set_rule(
         exit,
         lambda state: (
-            state.has("Iron Boots", player)
-            or can_complete_goron_mines(state, player)
+            state.has("Iron Boots", player) or can_complete_goron_mines(state, player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Trail"} -> {"Death Mountain Near Kakariko"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Trail -> Death Mountain Near Kakariko"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Trail"} -> {"Death Mountain Volcano"}"
-    )
+    exit = multiworld.get_entrance("Death Mountain Trail -> Death Mountain Volcano")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Volcano"} -> {"Death Mountain Trail"}"
-    )
+    exit = multiworld.get_entrance("Death Mountain Volcano -> Death Mountain Trail")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Volcano"} -> {"Death Mountain Outside Sumo Hall"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Volcano -> Death Mountain Outside Sumo Hall"
     )
     set_rule(
         exit,
@@ -1816,8 +1751,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Volcano"} -> {"Death Mountain Elevator Lower"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Volcano -> Death Mountain Elevator Lower"
     )
     set_rule(
         exit,
@@ -1830,48 +1765,48 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Outside Sumo Hall"} -> {"Death Mountain Volcano"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Outside Sumo Hall -> Death Mountain Volcano"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Outside Sumo Hall"} -> {"Death Mountain Sumo Hall"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Outside Sumo Hall -> Death Mountain Sumo Hall"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Elevator Lower"} -> {"Death Mountain Volcano"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Elevator Lower -> Death Mountain Volcano"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Elevator Lower"} -> {"Death Mountain Sumo Hall Elevator"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Elevator Lower -> Death Mountain Sumo Hall Elevator"
     )
     set_rule(
         exit,
         lambda state: (state.has("Iron Boots", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall"} -> {"Death Mountain Outside Sumo Hall"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall -> Death Mountain Outside Sumo Hall"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall"} -> {"Death Mountain Sumo Hall Elevator"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall -> Death Mountain Sumo Hall Elevator"
     )
     set_rule(
         exit,
@@ -1888,8 +1823,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall"} -> {"Death Mountain Sumo Hall Goron Mines Tunnel"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall -> Death Mountain Sumo Hall Goron Mines Tunnel"
     )
     set_rule(
         exit,
@@ -1906,16 +1841,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall Elevator"} -> {"Death Mountain Elevator Lower"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall Elevator -> Death Mountain Elevator Lower"
     )
     set_rule(
         exit,
         lambda state: (state.has("Iron Boots", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall Elevator"} -> {"Death Mountain Sumo Hall"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall Elevator -> Death Mountain Sumo Hall"
     )
     set_rule(
         exit,
@@ -1935,8 +1870,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall Goron Mines Tunnel"} -> {"Death Mountain Sumo Hall"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall Goron Mines Tunnel -> Death Mountain Sumo Hall"
     )
     set_rule(
         exit,
@@ -1956,25 +1891,23 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Death Mountain Sumo Hall Goron Mines Tunnel"} -> {"Goron Mines Entrance"}"
+    exit = multiworld.get_entrance(
+        "Death Mountain Sumo Hall Goron Mines Tunnel -> Goron Mines Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hidden Village"} -> {"Eldin Field Outside Hidden Village"}"
+    exit = multiworld.get_entrance(
+        "Hidden Village -> Eldin Field Outside Hidden Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hidden Village"} -> {"Hidden Village Impaz House"}"
-    )
+    exit = multiworld.get_entrance("Hidden Village -> Hidden Village Impaz House")
     set_rule(
         exit,
         lambda state: (
@@ -1983,69 +1916,55 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Hidden Village Impaz House"} -> {"Hidden Village"}"
-    )
+    exit = multiworld.get_entrance("Hidden Village Impaz House -> Hidden Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge"} -> {"Kakariko Gorge Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge -> Kakariko Gorge Cave Entrance")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge"} -> {"Kakariko Gorge Behind Gate"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge -> Kakariko Gorge Behind Gate")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Kakariko Gorge"} -> {"Faron Field"}")
+    exit = multiworld.get_entrance("Kakariko Gorge -> Faron Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Kakariko Gorge"} -> {"Eldin Field"}")
+    exit = multiworld.get_entrance("Kakariko Gorge -> Eldin Field")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge"} -> {"Kakariko Gorge Keese Grotto"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge -> Kakariko Gorge Keese Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge Cave Entrance"} -> {"Kakariko Gorge"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge Cave Entrance -> Kakariko Gorge")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge Cave Entrance"} -> {"Eldin Lantern Cave"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge Cave Entrance -> Eldin Lantern Cave")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge Behind Gate"} -> {"Kakariko Gorge"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge Behind Gate -> Kakariko Gorge")
     set_rule(
         exit,
         lambda state: (
@@ -2055,140 +1974,118 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge Behind Gate"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Gorge Behind Gate -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Lantern Cave"} -> {"Kakariko Gorge Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Eldin Lantern Cave -> Kakariko Gorge Cave Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Gorge Keese Grotto"} -> {"Kakariko Gorge"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Gorge Keese Grotto -> Kakariko Gorge")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field"} -> {"Eldin Field Near Castle Town"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field -> Eldin Field Near Castle Town")
     set_rule(
         exit,
-        lambda state: (
-            state.can_reach_region("Eldin Field Near Castle Town", player)
-        ),
+        lambda state: (state.can_reach_region("Eldin Field Near Castle Town", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field"} -> {"Eldin Field Lava Cave Ledge"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field -> Eldin Field Lava Cave Ledge")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(f"{"Eldin Field"} -> {"Kakariko Gorge"}")
+    exit = multiworld.get_entrance("Eldin Field -> Kakariko Gorge")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field"} -> {"Kakariko Village Behind Gate"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field -> Kakariko Village Behind Gate")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Eldin Field"} -> {"North Eldin Field"}")
+    exit = multiworld.get_entrance("Eldin Field -> North Eldin Field")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field"} -> {"Eldin Field Bomskit Grotto"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field -> Eldin Field Bomskit Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field"} -> {"Eldin Field Water Bomb Fish Grotto"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field -> Eldin Field Water Bomb Fish Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Near Castle Town"} -> {"Eldin Field"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field Near Castle Town -> Eldin Field")
     set_rule(
         exit,
         lambda state: (state.can_reach_region("Kakariko Malo Mart", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Near Castle Town"} -> {"Outside Castle Town East"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Near Castle Town -> Outside Castle Town East"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Lava Cave Ledge"} -> {"Eldin Field"}"
+    exit = multiworld.get_entrance("Eldin Field Lava Cave Ledge -> Eldin Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Eldin Field Lava Cave Ledge -> Eldin Field Lava Cave Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Lava Cave Ledge"} -> {"Eldin Field Lava Cave Upper"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Eldin Field From Lava Cave Lower"} -> {"Eldin Field"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field From Lava Cave Lower -> Eldin Field")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field From Lava Cave Lower"} -> {"Eldin Field Lava Cave Lower"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field From Lava Cave Lower -> Eldin Field Lava Cave Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"North Eldin Field"} -> {"Eldin Field"}")
+    exit = multiworld.get_entrance("North Eldin Field -> Eldin Field")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"North Eldin Field"} -> {"Eldin Field Outside Hidden Village"}"
+    exit = multiworld.get_entrance(
+        "North Eldin Field -> Eldin Field Outside Hidden Village"
     )
     set_rule(
         exit,
@@ -2198,24 +2095,20 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"North Eldin Field"} -> {"Eldin Field Grotto Platform"}"
-    )
+    exit = multiworld.get_entrance("North Eldin Field -> Eldin Field Grotto Platform")
     set_rule(
         exit,
         lambda state: (state.has("Spinner", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"North Eldin Field"} -> {"Lanayru Field"}"
-    )
+    exit = multiworld.get_entrance("North Eldin Field -> Lanayru Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Outside Hidden Village"} -> {"North Eldin Field"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Outside Hidden Village -> North Eldin Field"
     )
     set_rule(
         exit,
@@ -2225,81 +2118,73 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Outside Hidden Village"} -> {"Hidden Village"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Outside Hidden Village -> Hidden Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Grotto Platform"} -> {"North Eldin Field"}"
-    )
+    exit = multiworld.get_entrance("Eldin Field Grotto Platform -> North Eldin Field")
     set_rule(
         exit,
         lambda state: (state.has("Spinner", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Grotto Platform"} -> {"Eldin Field Stalfos Grotto"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Grotto Platform -> Eldin Field Stalfos Grotto"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Lava Cave Upper"} -> {"Eldin Field Lava Cave Ledge"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Lava Cave Upper -> Eldin Field Lava Cave Ledge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Lava Cave Upper"} -> {"Eldin Field Lava Cave Lower"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Lava Cave Upper -> Eldin Field Lava Cave Lower"
     )
     set_rule(
         exit,
         lambda state: (state.has("Iron Boots", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Lava Cave Lower"} -> {"Eldin Field From Lava Cave Lower"}"
+    exit = multiworld.get_entrance(
+        "Eldin Field Lava Cave Lower -> Eldin Field From Lava Cave Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Bomskit Grotto"} -> {"Eldin Field"}"
+    exit = multiworld.get_entrance("Eldin Field Bomskit Grotto -> Eldin Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Eldin Field Water Bomb Fish Grotto -> Eldin Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Eldin Field Stalfos Grotto -> Eldin Field Grotto Platform"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Eldin Field Water Bomb Fish Grotto"} -> {"Eldin Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Eldin Field Stalfos Grotto"} -> {"Eldin Field Grotto Platform"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Upper Kakariko Village"}"
-    )
+    exit = multiworld.get_entrance("Lower Kakariko Village -> Upper Kakariko Village")
     set_rule(
         exit,
         lambda state: (
@@ -2308,128 +2193,120 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Village Behind Gate"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Village Behind Gate"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Gorge Behind Gate"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Gorge Behind Gate"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Graveyard"}"
+    exit = multiworld.get_entrance("Lower Kakariko Village -> Kakariko Graveyard")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Death Mountain Near Kakariko"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Death Mountain Near Kakariko"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Renados Sanctuary Front Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Renados Sanctuary Front Left Door"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Renados Sanctuary Front Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Renados Sanctuary Front Right Door"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Renados Sanctuary Back Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Renados Sanctuary Back Left Door"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Renados Sanctuary Back Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Renados Sanctuary Back Right Door"}"
-    )
+    exit = multiworld.get_entrance("Lower Kakariko Village -> Kakariko Malo Mart")
     set_rule(
         exit,
-        lambda state: (True),
+        lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Malo Mart"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Elde Inn Left Door"
     )
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Elde Inn Left Door"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Elde Inn Right Door"
     )
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Elde Inn Right Door"}"
-    )
+    exit = multiworld.get_entrance("Lower Kakariko Village -> Kakariko Bug House Door")
     set_rule(
         exit,
-        lambda state: (can_change_time(state, player)),
+        lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Bug House Door"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Bug House Ceiling Hole"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Bug House Ceiling Hole"}"
+    exit = multiworld.get_entrance(
+        "Lower Kakariko Village -> Kakariko Barnes Bomb Shop Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lower Kakariko Village"} -> {"Kakariko Barnes Bomb Shop Lower"}"
-    )
+    exit = multiworld.get_entrance("Upper Kakariko Village -> Lower Kakariko Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Kakariko Village"} -> {"Lower Kakariko Village"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Upper Kakariko Village"} -> {"Kakariko Top of Watchtower"}"
+    exit = multiworld.get_entrance(
+        "Upper Kakariko Village -> Kakariko Top of Watchtower"
     )
     set_rule(
         exit,
@@ -2438,48 +2315,48 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Kakariko Village"} -> {"Kakariko Barnes Bomb Shop Upper"}"
+    exit = multiworld.get_entrance(
+        "Upper Kakariko Village -> Kakariko Barnes Bomb Shop Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Kakariko Village"} -> {"Kakariko Watchtower Lower Door"}"
+    exit = multiworld.get_entrance(
+        "Upper Kakariko Village -> Kakariko Watchtower Lower Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Kakariko Village"} -> {"Kakariko Watchtower Dig Spot"}"
+    exit = multiworld.get_entrance(
+        "Upper Kakariko Village -> Kakariko Watchtower Dig Spot"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Top of Watchtower"} -> {"Upper Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Top of Watchtower -> Upper Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Top of Watchtower"} -> {"Kakariko Watchtower Upper Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Top of Watchtower -> Kakariko Watchtower Upper Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Village Behind Gate"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Village Behind Gate -> Lower Kakariko Village"
     )
     set_rule(
         exit,
@@ -2489,343 +2366,323 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Village Behind Gate"} -> {"Eldin Field"}"
+    exit = multiworld.get_entrance("Kakariko Village Behind Gate -> Eldin Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Front Left Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Front Left Door"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Front Left Door -> Kakariko Renados Sanctuary"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Front Left Door"} -> {"Kakariko Renados Sanctuary"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Front Right Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Front Right Door"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Front Right Door -> Kakariko Renados Sanctuary"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Front Right Door"} -> {"Kakariko Renados Sanctuary"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Back Left Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Back Left Door"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Back Left Door -> Kakariko Renados Sanctuary"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Back Left Door"} -> {"Kakariko Renados Sanctuary"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Back Right Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Back Right Door"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Back Right Door -> Kakariko Renados Sanctuary"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Back Right Door"} -> {"Kakariko Renados Sanctuary"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary -> Kakariko Renados Sanctuary Front Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary"} -> {"Kakariko Renados Sanctuary Front Left Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary -> Kakariko Renados Sanctuary Front Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary"} -> {"Kakariko Renados Sanctuary Front Right Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary -> Kakariko Renados Sanctuary Back Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary"} -> {"Kakariko Renados Sanctuary Back Left Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary -> Kakariko Renados Sanctuary Back Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary"} -> {"Kakariko Renados Sanctuary Back Right Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary -> Kakariko Renados Sanctuary Basement"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary"} -> {"Kakariko Renados Sanctuary Basement"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Renados Sanctuary Basement -> Kakariko Renados Sanctuary"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Renados Sanctuary Basement"} -> {"Kakariko Renados Sanctuary"}"
+    exit = multiworld.get_entrance("Kakariko Malo Mart -> Lower Kakariko Village")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Kakariko Elde Inn Left Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Malo Mart"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance("Kakariko Elde Inn Left Door -> Kakariko Elde Inn")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Kakariko Elde Inn Right Door -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn Left Door"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance("Kakariko Elde Inn Right Door -> Kakariko Elde Inn")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Kakariko Elde Inn -> Kakariko Elde Inn Left Door")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Kakariko Elde Inn -> Kakariko Elde Inn Right Door")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Kakariko Bug House Door -> Lower Kakariko Village")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Kakariko Bug House Door -> Kakariko Bug House")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Kakariko Bug House Ceiling Hole -> Kakariko Bug House"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn Left Door"} -> {"Kakariko Elde Inn"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Bug House Ceiling Hole -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn Right Door"} -> {"Lower Kakariko Village"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Bug House -> Kakariko Bug House Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn Right Door"} -> {"Kakariko Elde Inn"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn"} -> {"Kakariko Elde Inn Left Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Elde Inn"} -> {"Kakariko Elde Inn Right Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House Door"} -> {"Lower Kakariko Village"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House Door"} -> {"Kakariko Bug House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House Ceiling Hole"} -> {"Kakariko Bug House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House Ceiling Hole"} -> {"Lower Kakariko Village"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House"} -> {"Kakariko Bug House Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Kakariko Bug House"} -> {"Kakariko Bug House Ceiling Hole"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Bug House -> Kakariko Bug House Ceiling Hole"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Barnes Bomb Shop Lower"} -> {"Lower Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Barnes Bomb Shop Lower -> Lower Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Barnes Bomb Shop Lower"} -> {"Kakariko Barnes Bomb Shop Upper"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Barnes Bomb Shop Lower -> Kakariko Barnes Bomb Shop Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Barnes Bomb Shop Upper"} -> {"Upper Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Barnes Bomb Shop Upper -> Upper Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Barnes Bomb Shop Upper"} -> {"Kakariko Barnes Bomb Shop Lower"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Barnes Bomb Shop Upper -> Kakariko Barnes Bomb Shop Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Lower Door"} -> {"Upper Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Lower Door -> Upper Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Lower Door"} -> {"Kakariko Watchtower"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Lower Door -> Kakariko Watchtower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Dig Spot"} -> {"Upper Kakariko Village"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Dig Spot -> Upper Kakariko Village"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Dig Spot"} -> {"Kakariko Watchtower"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Dig Spot -> Kakariko Watchtower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Upper Door"} -> {"Kakariko Top of Watchtower"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Upper Door -> Kakariko Top of Watchtower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower Upper Door"} -> {"Kakariko Watchtower"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower Upper Door -> Kakariko Watchtower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower"} -> {"Kakariko Watchtower Lower Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower -> Kakariko Watchtower Lower Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower"} -> {"Kakariko Watchtower Dig Spot"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower -> Kakariko Watchtower Dig Spot"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Watchtower"} -> {"Kakariko Watchtower Upper Door"}"
+    exit = multiworld.get_entrance(
+        "Kakariko Watchtower -> Kakariko Watchtower Upper Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Kakariko Graveyard"} -> {"Lower Kakariko Village"}"
-    )
+    exit = multiworld.get_entrance("Kakariko Graveyard -> Lower Kakariko Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Kakariko Graveyard"} -> {"Lake Hylia"}")
+    exit = multiworld.get_entrance("Kakariko Graveyard -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (
@@ -2836,55 +2693,44 @@ def set_region_access_rules(world: MultiWorld, player: int):
                     == SmallKeySettings.option_keysy
                 )
             )
-            and (
-                state.has("Iron Boots", player)
-                or state.has("Zora Armor", player)
-            )
+            and (state.has("Iron Boots", player) or state.has("Zora Armor", player))
             and can_use_water_bombs(state, player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods"} -> {"South Faron Woods Behind Gate"}"
-    )
+    exit = multiworld.get_entrance("South Faron Woods -> South Faron Woods Behind Gate")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods"} -> {"South Faron Woods Owl Statue Area"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods -> South Faron Woods Owl Statue Area"
     )
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods"} -> {"Ordon Bridge"}"
-    )
+    exit = multiworld.get_entrance("South Faron Woods -> Ordon Bridge")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"South Faron Woods"} -> {"Faron Field"}")
+    exit = multiworld.get_entrance("South Faron Woods -> Faron Field")
     set_rule(
         exit,
         lambda state: (can_clear_forest(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods"} -> {"Faron Woods Coros House Lower"}"
-    )
+    exit = multiworld.get_entrance("South Faron Woods -> Faron Woods Coros House Lower")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Behind Gate"} -> {"South Faron Woods"}"
-    )
+    exit = multiworld.get_entrance("South Faron Woods Behind Gate -> South Faron Woods")
     set_rule(
         exit,
         lambda state: (
@@ -2894,40 +2740,38 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Behind Gate"} -> {"Faron Woods Cave Southern Entrance"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods Behind Gate -> Faron Woods Cave Southern Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Coros Ledge"} -> {"South Faron Woods"}"
+    exit = multiworld.get_entrance("South Faron Woods Coros Ledge -> South Faron Woods")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "South Faron Woods Coros Ledge -> Faron Woods Coros House Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Coros Ledge"} -> {"Faron Woods Coros House Upper"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"South Faron Woods Owl Statue Area"} -> {"South Faron Woods"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods Owl Statue Area -> South Faron Woods"
     )
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Owl Statue Area"} -> {"South Faron Woods Above Owl Statue"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods Owl Statue Area -> South Faron Woods Above Owl Statue"
     )
     set_rule(
         exit,
@@ -2938,227 +2782,222 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Above Owl Statue"} -> {"South Faron Woods Owl Statue Area"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods Above Owl Statue -> South Faron Woods Owl Statue Area"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"South Faron Woods Above Owl Statue"} -> {"Mist Area Near Owl Statue Chest"}"
+    exit = multiworld.get_entrance(
+        "South Faron Woods Above Owl Statue -> Mist Area Near Owl Statue Chest"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Coros House Lower"} -> {"Faron Woods Coros House Upper"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Coros House Lower -> Faron Woods Coros House Upper"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Coros House Lower"} -> {"South Faron Woods"}"
+    exit = multiworld.get_entrance("Faron Woods Coros House Lower -> South Faron Woods")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Faron Woods Coros House Upper -> Faron Woods Coros House Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Coros House Upper"} -> {"Faron Woods Coros House Lower"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Coros House Upper -> South Faron Woods Coros Ledge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Coros House Upper"} -> {"South Faron Woods Coros Ledge"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave Southern Entrance -> South Faron Woods Behind Gate"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave Southern Entrance"} -> {"South Faron Woods Behind Gate"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave Southern Entrance -> Faron Woods Cave"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave Southern Entrance"} -> {"Faron Woods Cave"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave -> Faron Woods Cave Southern Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave"} -> {"Faron Woods Cave Southern Entrance"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave -> Faron Woods Cave Northern Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave"} -> {"Faron Woods Cave Northern Entrance"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Mist Area Near Faron Woods Cave"} -> {"Mist Area Inside Mist"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near Faron Woods Cave -> Mist Area Inside Mist"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near Faron Woods Cave"} -> {"Mist Area Under Owl Statue Chest"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near Faron Woods Cave -> Mist Area Under Owl Statue Chest"
     )
     set_rule(
         exit,
         lambda state: (
-            state.has("Lantern", player)
-            or state.has("Shadow Crystal", player)
+            state.has("Lantern", player) or state.has("Shadow Crystal", player)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near Faron Woods Cave"} -> {"Faron Woods Cave Northern Entrance"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near Faron Woods Cave -> Faron Woods Cave Northern Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Inside Mist"} -> {"Mist Area Near Faron Woods Cave"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Inside Mist -> Mist Area Near Faron Woods Cave"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Inside Mist"} -> {"Mist Area Under Owl Statue Chest"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Inside Mist -> Mist Area Under Owl Statue Chest"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Inside Mist"} -> {"Mist Area Outside Faron Mist Cave"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Inside Mist -> Mist Area Outside Faron Mist Cave"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Inside Mist"} -> {"Mist Area Near North Faron Woods"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Inside Mist -> Mist Area Near North Faron Woods"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Under Owl Statue Chest"} -> {"Mist Area Inside Mist"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Under Owl Statue Chest -> Mist Area Inside Mist"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Under Owl Statue Chest"} -> {"Mist Area Center Stump"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Under Owl Statue Chest -> Mist Area Center Stump"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near Owl Statue Chest"} -> {"Mist Area Under Owl Statue Chest"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near Owl Statue Chest -> Mist Area Under Owl Statue Chest"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near Owl Statue Chest"} -> {"South Faron Woods Above Owl Statue"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near Owl Statue Chest -> South Faron Woods Above Owl Statue"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Center Stump"} -> {"Mist Area Inside Mist"}"
-    )
+    exit = multiworld.get_entrance("Mist Area Center Stump -> Mist Area Inside Mist")
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Center Stump"} -> {"Mist Area Near North Faron Woods"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Center Stump -> Mist Area Near North Faron Woods"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Outside Faron Mist Cave"} -> {"Mist Area Inside Mist"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Outside Faron Mist Cave -> Mist Area Inside Mist"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Outside Faron Mist Cave"} -> {"Mist Area Faron Mist Cave"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Outside Faron Mist Cave -> Mist Area Faron Mist Cave"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near North Faron Woods"} -> {"Mist Area Inside Mist"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near North Faron Woods -> Mist Area Inside Mist"
     )
     set_rule(
         exit,
         lambda state: (state.has("Lantern", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near North Faron Woods"} -> {"Mist Area Near Faron Woods Cave"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near North Faron Woods -> Mist Area Near Faron Woods Cave"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Near North Faron Woods"} -> {"North Faron Woods"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Near North Faron Woods -> North Faron Woods"
     )
     set_rule(
         exit,
@@ -3168,55 +3007,51 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave Northern Entrance"} -> {"Mist Area Near Faron Woods Cave"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave Northern Entrance -> Mist Area Near Faron Woods Cave"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Woods Cave Northern Entrance"} -> {"Faron Woods Cave"}"
+    exit = multiworld.get_entrance(
+        "Faron Woods Cave Northern Entrance -> Faron Woods Cave"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mist Area Faron Mist Cave"} -> {"Mist Area Outside Faron Mist Cave"}"
+    exit = multiworld.get_entrance(
+        "Mist Area Faron Mist Cave -> Mist Area Outside Faron Mist Cave"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"North Faron Woods"} -> {"Mist Area Near North Faron Woods"}"
+    exit = multiworld.get_entrance(
+        "North Faron Woods -> Mist Area Near North Faron Woods"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"North Faron Woods"} -> {"Lost Woods"}")
+    exit = multiworld.get_entrance("North Faron Woods -> Lost Woods")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"North Faron Woods"} -> {"Forest Temple Entrance"}"
-    )
+    exit = multiworld.get_entrance("North Faron Woods -> Forest Temple Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Field"} -> {"Faron Field Behind Boulder"}"
-    )
+    exit = multiworld.get_entrance("Faron Field -> Faron Field Behind Boulder")
     set_rule(
         exit,
         lambda state: (
@@ -3225,19 +3060,19 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(f"{"Faron Field"} -> {"South Faron Woods"}")
+    exit = multiworld.get_entrance("Faron Field -> South Faron Woods")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Faron Field"} -> {"Kakariko Gorge"}")
+    exit = multiworld.get_entrance("Faron Field -> Kakariko Gorge")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Faron Field"} -> {"Lake Hylia Bridge"}")
+    exit = multiworld.get_entrance("Faron Field -> Lake Hylia Bridge")
     set_rule(
         exit,
         lambda state: (
@@ -3246,103 +3081,80 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Field"} -> {"Faron Field Corner Grotto"}"
-    )
+    exit = multiworld.get_entrance("Faron Field -> Faron Field Corner Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Field"} -> {"Faron Field Fishing Grotto"}"
-    )
+    exit = multiworld.get_entrance("Faron Field -> Faron Field Fishing Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Faron Field Behind Boulder"} -> {"Faron Field"}"
+    # NOTE: Continuation of bottleless reachability
+    exit = multiworld.get_entrance("Faron Field Behind Boulder -> Faron Field")
+    set_rule(
+        exit,
+        # lambda state: (True),
+        lambda state: (can_get_hot_spring_water(state, player)),
     )
+
+    exit = multiworld.get_entrance(
+        "Faron Field Behind Boulder -> Outside Castle Town South Inside Boulder"
+    )
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Faron Field Corner Grotto -> Faron Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Faron Field Fishing Grotto -> Faron Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Lost Woods -> Lost Woods Lower Battle Arena")
     set_rule(
         exit,
         lambda state: (
-            can_get_hot_spring_water(state, player)
-            and state.can_reach_region("Outside Castle Town South", player)
-        ),
-    )
-
-    exit = world.get_entrance(
-        f"{"Faron Field Behind Boulder"} -> {"Outside Castle Town South Inside Boulder"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Faron Field Corner Grotto"} -> {"Faron Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Faron Field Fishing Grotto"} -> {"Faron Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Lost Woods"} -> {"Lost Woods Lower Battle Arena"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (
-            (
-                can_defeat_SkullKid(state, player)
-                and state.has("Shadow Crystal", player)
-            )
+            (can_defeat_SkullKid(state, player) and state.has("Shadow Crystal", player))
             or (state._tp_tot_entrance(player) == TotEntrance.option_open)
             or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods"} -> {"Lost Woods Upper Battle Arena"}"
-    )
+    exit = multiworld.get_entrance("Lost Woods -> Lost Woods Upper Battle Arena")
     set_rule(
         exit,
         lambda state: (
-            (
-                can_defeat_SkullKid(state, player)
-                and state.has("Shadow Crystal", player)
-            )
+            (can_defeat_SkullKid(state, player) and state.has("Shadow Crystal", player))
             or (state._tp_tot_entrance(player) == TotEntrance.option_open)
             or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)
         ),
     )
 
-    exit = world.get_entrance(f"{"Lost Woods"} -> {"North Faron Woods"}")
+    exit = multiworld.get_entrance("Lost Woods -> North Faron Woods")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods Lower Battle Arena"} -> {"Lost Woods"}"
-    )
+    exit = multiworld.get_entrance("Lost Woods Lower Battle Arena -> Lost Woods")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods Lower Battle Arena"} -> {"Sacred Grove Lower"}"
+    exit = multiworld.get_entrance(
+        "Lost Woods Lower Battle Arena -> Sacred Grove Lower"
     )
     set_rule(
         exit,
@@ -3353,8 +3165,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods Lower Battle Arena"} -> {"Lost Woods Baba Serpent Grotto"}"
+    exit = multiworld.get_entrance(
+        "Lost Woods Lower Battle Arena -> Lost Woods Baba Serpent Grotto"
     )
     set_rule(
         exit,
@@ -3363,8 +3175,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods Upper Battle Arena"} -> {"Sacred Grove Before Block"}"
+    exit = multiworld.get_entrance(
+        "Lost Woods Upper Battle Arena -> Sacred Grove Before Block"
     )
     set_rule(
         exit,
@@ -3375,41 +3187,35 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lost Woods Baba Serpent Grotto"} -> {"Lost Woods Lower Battle Arena"}"
+    exit = multiworld.get_entrance(
+        "Lost Woods Baba Serpent Grotto -> Lost Woods Lower Battle Arena"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Before Block"} -> {"Lost Woods Upper Battle Arena"}"
+    exit = multiworld.get_entrance(
+        "Sacred Grove Before Block -> Lost Woods Upper Battle Arena"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Before Block"} -> {"Sacred Grove Upper"}"
-    )
+    exit = multiworld.get_entrance("Sacred Grove Before Block -> Sacred Grove Upper")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Upper"} -> {"Sacred Grove Lower"}"
-    )
+    exit = multiworld.get_entrance("Sacred Grove Upper -> Sacred Grove Lower")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Upper"} -> {"Sacred Grove Past"}"
-    )
+    exit = multiworld.get_entrance("Sacred Grove Upper -> Sacred Grove Past")
     set_rule(
         exit,
         lambda state: (
@@ -3423,17 +3229,15 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Lower"} -> {"Lost Woods Lower Battle Arena"}"
+    exit = multiworld.get_entrance(
+        "Sacred Grove Lower -> Lost Woods Lower Battle Arena"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Lower"} -> {"Sacred Grove Upper"}"
-    )
+    exit = multiworld.get_entrance("Sacred Grove Lower -> Sacred Grove Upper")
     set_rule(
         exit,
         lambda state: (
@@ -3443,8 +3247,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Past"} -> {"Sacred Grove Past Behind Window"}"
+    exit = multiworld.get_entrance(
+        "Sacred Grove Past -> Sacred Grove Past Behind Window"
     )
     set_rule(
         exit,
@@ -3454,40 +3258,38 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Past"} -> {"Sacred Grove Upper"}"
+    exit = multiworld.get_entrance("Sacred Grove Past -> Sacred Grove Upper")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Sacred Grove Past Behind Window -> Sacred Grove Past"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Past Behind Window"} -> {"Sacred Grove Past"}"
+    exit = multiworld.get_entrance(
+        "Sacred Grove Past Behind Window -> Temple of Time Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Sacred Grove Past Behind Window"} -> {"Temple of Time Entrance"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 01-11"} -> {"Gerudo Desert Cave of Ordeals Plateau"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 01-11 -> Gerudo Desert Cave of Ordeals Plateau"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 01-11"} -> {"Gerudo Desert Cave of Ordeals Floors 12-21"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 01-11 -> Gerudo Desert Cave of Ordeals Floors 12-21"
     )
     set_rule(
         exit,
@@ -3507,8 +3309,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 12-21"} -> {"Gerudo Desert Cave of Ordeals Floors 22-31"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 12-21 -> Gerudo Desert Cave of Ordeals Floors 22-31"
     )
     set_rule(
         exit,
@@ -3528,8 +3330,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 22-31"} -> {"Gerudo Desert Cave of Ordeals Floors 32-41"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 22-31 -> Gerudo Desert Cave of Ordeals Floors 32-41"
     )
     set_rule(
         exit,
@@ -3551,8 +3353,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 32-41"} -> {"Gerudo Desert Cave of Ordeals Floors 42-50"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 32-41 -> Gerudo Desert Cave of Ordeals Floors 42-50"
     )
     set_rule(
         exit,
@@ -3577,8 +3379,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Floors 42-50"} -> {"Lake Hylia Lanayru Spring"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Floors 42-50 -> Lake Hylia Lanayru Spring"
     )
     set_rule(
         exit,
@@ -3602,8 +3404,8 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert"} -> {"Gerudo Desert Cave of Ordeals Plateau"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert -> Gerudo Desert Cave of Ordeals Plateau"
     )
     set_rule(
         exit,
@@ -3613,88 +3415,80 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert"} -> {"Gerudo Desert Basin"}"
-    )
+    exit = multiworld.get_entrance("Gerudo Desert -> Gerudo Desert Basin")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert"} -> {"Gerudo Desert Skulltula Grotto"}"
-    )
+    exit = multiworld.get_entrance("Gerudo Desert -> Gerudo Desert Skulltula Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Plateau"} -> {"Gerudo Desert"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Plateau -> Gerudo Desert"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Cave of Ordeals Plateau"} -> {"Gerudo Desert Cave of Ordeals Floors 01-11"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Cave of Ordeals Plateau -> Gerudo Desert Cave of Ordeals Floors 01-11"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Basin"} -> {"Gerudo Desert"}"
-    )
+    exit = multiworld.get_entrance("Gerudo Desert Basin -> Gerudo Desert")
     set_rule(
         exit,
         lambda state: (can_defeat_Bulblin(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Basin"} -> {"Gerudo Desert North East Ledge"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Basin -> Gerudo Desert North East Ledge"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Basin"} -> {"Gerudo Desert Outside Bulblin Camp"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Basin -> Gerudo Desert Outside Bulblin Camp"
     )
     set_rule(
         exit,
         lambda state: (can_defeat_Bulblin(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Basin"} -> {"Gerudo Desert Chu Grotto"}"
-    )
+    exit = multiworld.get_entrance("Gerudo Desert Basin -> Gerudo Desert Chu Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert North East Ledge"} -> {"Gerudo Desert Basin"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert North East Ledge -> Gerudo Desert Basin"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert North East Ledge"} -> {"Gerudo Desert Rock Grotto"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert North East Ledge -> Gerudo Desert Rock Grotto"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Outside Bulblin Camp"} -> {"Gerudo Desert Basin"}"
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Outside Bulblin Camp -> Gerudo Desert Basin"
     )
     set_rule(
         exit,
@@ -3704,49 +3498,39 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Outside Bulblin Camp"} -> {"Bulblin Camp"}"
+    exit = multiworld.get_entrance("Gerudo Desert Outside Bulblin Camp -> Bulblin Camp")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Gerudo Desert Skulltula Grotto -> Gerudo Desert")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Gerudo Desert Chu Grotto -> Gerudo Desert Basin")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Gerudo Desert Rock Grotto -> Gerudo Desert North East Ledge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Skulltula Grotto"} -> {"Gerudo Desert"}"
-    )
+    exit = multiworld.get_entrance("Bulblin Camp -> Gerudo Desert Outside Bulblin Camp")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Chu Grotto"} -> {"Gerudo Desert Basin"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Gerudo Desert Rock Grotto"} -> {"Gerudo Desert North East Ledge"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Bulblin Camp"} -> {"Gerudo Desert Outside Bulblin Camp"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Bulblin Camp"} -> {"Outside Arbiters Grounds"}"
-    )
+    exit = multiworld.get_entrance("Bulblin Camp -> Outside Arbiters Grounds")
     set_rule(
         exit,
         lambda state: (
@@ -3764,49 +3548,39 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Arbiters Grounds"} -> {"Bulblin Camp"}"
+    exit = multiworld.get_entrance("Outside Arbiters Grounds -> Bulblin Camp")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Outside Arbiters Grounds -> Arbiters Grounds Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Arbiters Grounds"} -> {"Arbiters Grounds Entrance"}"
-    )
+    exit = multiworld.get_entrance("Mirror Chamber Lower -> Arbiters Grounds Boss Room")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mirror Chamber Lower"} -> {"Arbiters Grounds Boss Room"}"
-    )
+    exit = multiworld.get_entrance("Mirror Chamber Lower -> Mirror Chamber Upper")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Mirror Chamber Lower"} -> {"Mirror Chamber Upper"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Mirror Chamber Upper"} -> {"Mirror Chamber Lower"}"
-    )
+    exit = multiworld.get_entrance("Mirror Chamber Upper -> Mirror Chamber Lower")
     set_rule(
         exit,
         lambda state: (can_defeat_ShadowBeast(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mirror Chamber Upper"} -> {"Mirror of Twilight"}"
-    )
+    exit = multiworld.get_entrance("Mirror Chamber Upper -> Mirror of Twilight")
     set_rule(
         exit,
         lambda state: (
@@ -3841,200 +3615,172 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Mirror of Twilight"} -> {"Mirror Chamber Upper"}"
-    )
+    exit = multiworld.get_entrance("Mirror of Twilight -> Mirror Chamber Upper")
     set_rule(
         exit,
         lambda state: (can_defeat_ShadowBeast(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Mirror of Twilight"} -> {"Palace of Twilight Entrance"}"
+    exit = multiworld.get_entrance("Mirror of Twilight -> Palace of Twilight Entrance")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town West -> Outside Castle Town West")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town West -> Castle Town Center")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town West -> Castle Town South")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town West -> Castle Town STAR Game")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town STAR Game -> Castle Town West")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town Center -> Castle Town West")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town Center -> Castle Town North")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town Center -> Castle Town East")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town Center -> Castle Town South")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Castle Town Center -> Castle Town Goron House Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town West"} -> {"Outside Castle Town West"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Center -> Castle Town Goron House Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town West"} -> {"Castle Town Center"}"
+    exit = multiworld.get_entrance("Castle Town Center -> Castle Town Malo Mart")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House Left Door -> Castle Town Center"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town West"} -> {"Castle Town South"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House Left Door -> Castle Town Goron House"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town West"} -> {"Castle Town STAR Game"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House Right Door -> Castle Town Center"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town STAR Game"} -> {"Castle Town West"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House Right Door -> Castle Town Goron House"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town West"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House -> Castle Town Goron House Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town North"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Goron House -> Castle Town Goron House Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town East"}"
-    )
+    exit = multiworld.get_entrance("Castle Town Malo Mart -> Castle Town Center")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town South"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town Goron House Left Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town Goron House Right Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Center"} -> {"Castle Town Malo Mart"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House Left Door"} -> {"Castle Town Center"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House Left Door"} -> {"Castle Town Goron House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House Right Door"} -> {"Castle Town Center"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House Right Door"} -> {"Castle Town Goron House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House"} -> {"Castle Town Goron House Left Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Goron House"} -> {"Castle Town Goron House Right Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Malo Mart"} -> {"Castle Town Center"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town North"} -> {"Castle Town North Behind First Door"}"
+    exit = multiworld.get_entrance(
+        "Castle Town North -> Castle Town North Behind First Door"
     )
     set_rule(
         exit,
         lambda state: (can_complete_MDH(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town North"} -> {"Castle Town Center"}"
-    )
+    exit = multiworld.get_entrance("Castle Town North -> Castle Town Center")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town North Behind First Door"} -> {"Castle Town North"}"
+    exit = multiworld.get_entrance(
+        "Castle Town North Behind First Door -> Castle Town North"
     )
     set_rule(
         exit,
         lambda state: (can_complete_MDH(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town North Behind First Door"} -> {"Castle Town North Inside Barrier"}"
+    exit = multiworld.get_entrance(
+        "Castle Town North Behind First Door -> Castle Town North Inside Barrier"
     )
     set_rule(
         exit,
@@ -4071,512 +3817,451 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town North Inside Barrier"} -> {"Castle Town North Behind First Door"}"
+    exit = multiworld.get_entrance(
+        "Castle Town North Inside Barrier -> Castle Town North Behind First Door"
     )
     set_rule(
         exit,
         lambda state: (can_complete_MDH(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town North Inside Barrier"} -> {"Hyrule Castle Entrance"}"
+    exit = multiworld.get_entrance(
+        "Castle Town North Inside Barrier -> Hyrule Castle Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town East"} -> {"Castle Town Center"}"
+    exit = multiworld.get_entrance("Castle Town East -> Castle Town Center")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town East -> Outside Castle Town East")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Castle Town East -> Castle Town South")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Castle Town East -> Castle Town Doctors Office Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town East"} -> {"Outside Castle Town East"}"
+    exit = multiworld.get_entrance(
+        "Castle Town East -> Castle Town Doctors Office Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town East"} -> {"Castle Town South"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Balcony -> Castle Town East"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town East"} -> {"Castle Town Doctors Office Left Door"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Balcony -> Castle Town Doctors Office Upper"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town East"} -> {"Castle Town Doctors Office Right Door"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Left Door -> Castle Town East"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Balcony"} -> {"Castle Town East"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Left Door -> Castle Town Doctors Office Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Balcony"} -> {"Castle Town Doctors Office Upper"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Right Door -> Castle Town East"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Left Door"} -> {"Castle Town East"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Right Door -> Castle Town Doctors Office Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Left Door"} -> {"Castle Town Doctors Office Entrance"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Entrance -> Castle Town Doctors Office Left Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Right Door"} -> {"Castle Town East"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Entrance -> Castle Town Doctors Office Right Door"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Right Door"} -> {"Castle Town Doctors Office Entrance"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Entrance"} -> {"Castle Town Doctors Office Left Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Entrance"} -> {"Castle Town Doctors Office Right Door"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Entrance"} -> {"Castle Town Doctors Office Lower"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Entrance -> Castle Town Doctors Office Lower"
     )
     set_rule(
         exit,
         lambda state: (state.has("Invoice", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Lower"} -> {"Castle Town Doctors Office Entrance"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Lower -> Castle Town Doctors Office Entrance"
     )
     set_rule(
         exit,
         lambda state: (state.has("Invoice", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Lower"} -> {"Castle Town Doctors Office Upper"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Lower -> Castle Town Doctors Office Upper"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Upper"} -> {"Castle Town Doctors Office Lower"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Upper -> Castle Town Doctors Office Lower"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Doctors Office Upper"} -> {"Castle Town Doctors Office Balcony"}"
+    exit = multiworld.get_entrance(
+        "Castle Town Doctors Office Upper -> Castle Town Doctors Office Balcony"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town West"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town West")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town Center"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town Center")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town East"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town East")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Outside Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Outside Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town Agithas House"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town Agithas House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town Seer House"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town Seer House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town Jovanis House"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town Jovanis House")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town South"} -> {"Castle Town Telmas Bar"}"
-    )
+    exit = multiworld.get_entrance("Castle Town South -> Castle Town Telmas Bar")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Agithas House"} -> {"Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Castle Town Agithas House -> Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Seer House"} -> {"Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Castle Town Seer House -> Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Jovanis House"} -> {"Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Castle Town Jovanis House -> Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Castle Town Telmas Bar"} -> {"Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Castle Town Telmas Bar -> Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Lanayru Field Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Lanayru Field Cave Entrance")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Lanayru Field Behind Boulder"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Lanayru Field Behind Boulder")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Hyrule Field Near Spinner Rails"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Hyrule Field Near Spinner Rails")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"North Eldin Field"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> North Eldin Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Outside Castle Town West"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Outside Castle Town West")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Lanayru Field Chu Grotto"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Lanayru Field Chu Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Lanayru Field Skulltula Grotto"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Lanayru Field Skulltula Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field"} -> {"Lanayru Field Poe Grotto"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field -> Lanayru Field Poe Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field Cave Entrance"} -> {"Lanayru Field"}"
+    exit = multiworld.get_entrance("Lanayru Field Cave Entrance -> Lanayru Field")
+    set_rule(
+        exit,
+        lambda state: (can_smash(state, player)),
+    )
+
+    exit = multiworld.get_entrance(
+        "Lanayru Field Cave Entrance -> Lanayru Ice Puzzle Cave"
+    )
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Lanayru Field Behind Boulder -> Lanayru Field")
+    set_rule(
+        exit,
+        lambda state: (can_smash(state, player)),
+    )
+
+    exit = multiworld.get_entrance(
+        "Lanayru Field Behind Boulder -> Zoras Domain West Ledge"
+    )
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Hyrule Field Near Spinner Rails -> Lanayru Field")
+    set_rule(
+        exit,
+        lambda state: (can_smash(state, player)),
+    )
+
+    exit = multiworld.get_entrance(
+        "Hyrule Field Near Spinner Rails -> Lake Hylia Bridge"
     )
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field Cave Entrance"} -> {"Lanayru Ice Puzzle Cave"}"
+    exit = multiworld.get_entrance(
+        "Lanayru Ice Puzzle Cave -> Lanayru Field Cave Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field Behind Boulder"} -> {"Lanayru Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (can_smash(state, player)),
-    )
-
-    exit = world.get_entrance(
-        f"{"Lanayru Field Behind Boulder"} -> {"Zoras Domain West Ledge"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field Chu Grotto -> Lanayru Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Hyrule Field Near Spinner Rails"} -> {"Lanayru Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (can_smash(state, player)),
-    )
-
-    exit = world.get_entrance(
-        f"{"Hyrule Field Near Spinner Rails"} -> {"Lake Hylia Bridge"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (can_smash(state, player)),
-    )
-
-    exit = world.get_entrance(
-        f"{"Lanayru Ice Puzzle Cave"} -> {"Lanayru Field Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field Skulltula Grotto -> Lanayru Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field Chu Grotto"} -> {"Lanayru Field"}"
-    )
+    exit = multiworld.get_entrance("Lanayru Field Poe Grotto -> Lanayru Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lanayru Field Skulltula Grotto"} -> {"Lanayru Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Lanayru Field Poe Grotto"} -> {"Lanayru Field"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West"} -> {"Outside Castle Town West Grotto Ledge"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town West -> Outside Castle Town West Grotto Ledge"
     )
     set_rule(
         exit,
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West"} -> {"Lanayru Field"}"
+    exit = multiworld.get_entrance("Outside Castle Town West -> Lanayru Field")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Outside Castle Town West -> Castle Town West")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Outside Castle Town West -> Lake Hylia Bridge")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Outside Castle Town West Grotto Ledge -> Outside Castle Town West"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West"} -> {"Castle Town West"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West"} -> {"Lake Hylia Bridge"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West Grotto Ledge"} -> {"Outside Castle Town West"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West Grotto Ledge"} -> {"Outside Castle Town West Helmasaur Grotto"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town West Grotto Ledge -> Outside Castle Town West Helmasaur Grotto"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town West Helmasaur Grotto"} -> {"Outside Castle Town West Grotto Ledge"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town West Helmasaur Grotto -> Outside Castle Town West Grotto Ledge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town East"} -> {"Eldin Field Near Castle Town"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town East -> Eldin Field Near Castle Town"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town East"} -> {"Castle Town East"}"
-    )
+    exit = multiworld.get_entrance("Outside Castle Town East -> Castle Town East")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South"} -> {"Castle Town South"}"
-    )
+    exit = multiworld.get_entrance("Outside Castle Town South -> Castle Town South")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South"} -> {"Faron Field Behind Boulder"}"
+    # NOTE: This is a hotfix to get full region reachablity without making bottles progression
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South Inside Boulder -> Faron Field Behind Boulder"
     )
     set_rule(
         exit,
-        lambda state: (can_get_hot_spring_water(state, player)),
+        # lambda state: (can_get_hot_spring_water(state, player)),
+        lambda stat: (True)
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South"} -> {"Lake Hylia"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South -> Outside Castle Town South Inside Boulder"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
+    exit = multiworld.get_entrance("Outside Castle Town South -> Lake Hylia")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South"} -> {"Outside Castle Town South Tektite Grotto"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South -> Outside Castle Town South Tektite Grotto"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South Inside Boulder"} -> {"Outside Castle Town South"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South Inside Boulder -> Outside Castle Town South"
     )
     set_rule(
         exit,
@@ -4586,16 +4271,16 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Castle Town South Tektite Grotto"} -> {"Outside Castle Town South"}"
+    exit = multiworld.get_entrance(
+        "Outside Castle Town South Tektite Grotto -> Outside Castle Town South"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge"} -> {"Lake Hylia Bridge Grotto Ledge"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Bridge -> Lake Hylia Bridge Grotto Ledge"
     )
     set_rule(
         exit,
@@ -4605,29 +4290,27 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge"} -> {"Hyrule Field Near Spinner Rails"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Bridge -> Hyrule Field Near Spinner Rails"
     )
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge"} -> {"Outside Castle Town West"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Bridge -> Outside Castle Town West")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Lake Hylia Bridge"} -> {"Lake Hylia"}")
+    exit = multiworld.get_entrance("Lake Hylia Bridge -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Lake Hylia Bridge"} -> {"Faron Field"}")
+    exit = multiworld.get_entrance("Lake Hylia Bridge -> Faron Field")
     set_rule(
         exit,
         lambda state: (
@@ -4636,41 +4319,37 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge Grotto Ledge"} -> {"Lake Hylia Bridge"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Bridge Grotto Ledge -> Lake Hylia Bridge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge Grotto Ledge"} -> {"Lake Hylia Bridge Bubble Grotto"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Bridge Grotto Ledge -> Lake Hylia Bridge Bubble Grotto"
     )
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Bridge Bubble Grotto"} -> {"Lake Hylia Bridge Grotto Ledge"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Bridge Bubble Grotto -> Lake Hylia Bridge Grotto Ledge"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"Lake Hylia Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Cave Entrance")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"Lake Hylia Lakebed Temple Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Lakebed Temple Entrance")
     set_rule(
         exit,
         lambda state: (
@@ -4685,51 +4364,43 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(f"{"Lake Hylia"} -> {"Lake Hylia Bridge"}")
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Bridge")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Lake Hylia"} -> {"Gerudo Desert"}")
+    exit = multiworld.get_entrance("Lake Hylia -> Gerudo Desert")
     set_rule(
         exit,
         lambda state: (state.has("Aurus's Memo", player)),
     )
 
-    exit = world.get_entrance(f"{"Lake Hylia"} -> {"Upper Zoras River"}")
+    exit = multiworld.get_entrance("Lake Hylia -> Upper Zoras River")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"Lake Hylia Lanayru Spring"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Lanayru Spring")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"Lake Hylia Shell Blade Grotto"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Shell Blade Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"Lake Hylia Water Toadpoli Grotto"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> Lake Hylia Water Toadpoli Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia"} -> {"City in The Sky Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia -> City in The Sky Entrance")
     set_rule(
         exit,
         lambda state: (
@@ -4741,25 +4412,19 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Cave Entrance"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Cave Entrance -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (can_smash(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Cave Entrance"} -> {"Lake Hylia Long Cave"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Cave Entrance -> Lake Hylia Long Cave")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Lakebed Temple Entrance"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Lakebed Temple Entrance -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (
@@ -4774,73 +4439,57 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Lakebed Temple Entrance"} -> {"Lakebed Temple Entrance"}"
+    exit = multiworld.get_entrance(
+        "Lake Hylia Lakebed Temple Entrance -> Lakebed Temple Entrance"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Lanayru Spring"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Lanayru Spring -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Long Cave"} -> {"Lake Hylia Cave Entrance"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Long Cave -> Lake Hylia Cave Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Shell Blade Grotto"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Shell Blade Grotto -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Lake Hylia Water Toadpoli Grotto"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Lake Hylia Water Toadpoli Grotto -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River"} -> {"Lanayru Field"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River -> Lanayru Field")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River"} -> {"Fishing Hole"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River -> Fishing Hole")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River"} -> {"Zoras Domain"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River -> Zoras Domain")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River"} -> {"Upper Zoras River Izas House"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River -> Upper Zoras River Izas House")
     set_rule(
         exit,
         lambda state: (
@@ -4852,49 +4501,37 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River Izas House"} -> {"Upper Zoras River"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River Izas House -> Upper Zoras River")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Upper Zoras River Izas House"} -> {"Lake Hylia"}"
-    )
+    exit = multiworld.get_entrance("Upper Zoras River Izas House -> Lake Hylia")
     set_rule(
         exit,
         lambda state: (state.has("Progressive Hero's Bow", player, 1)),
     )
 
-    exit = world.get_entrance(
-        f"{"Fishing Hole"} -> {"Upper Zoras River"}"
-    )
+    exit = multiworld.get_entrance("Fishing Hole -> Upper Zoras River")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Fishing Hole"} -> {"Fishing Hole House"}"
-    )
+    exit = multiworld.get_entrance("Fishing Hole -> Fishing Hole House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Fishing Hole House"} -> {"Fishing Hole"}"
-    )
+    exit = multiworld.get_entrance("Fishing Hole House -> Fishing Hole")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain"} -> {"Zoras Domain West Ledge"}"
-    )
+    exit = multiworld.get_entrance("Zoras Domain -> Zoras Domain West Ledge")
     set_rule(
         exit,
         lambda state: (
@@ -4904,279 +4541,213 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain"} -> {"Upper Zoras River"}"
+    exit = multiworld.get_entrance("Zoras Domain -> Upper Zoras River")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Zoras Domain -> Zoras Domain Throne Room")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Zoras Domain -> Snowpeak Climb Lower")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance("Zoras Domain West Ledge -> Zoras Domain")
+    set_rule(
+        exit,
+        lambda state: (True),
+    )
+
+    exit = multiworld.get_entrance(
+        "Zoras Domain West Ledge -> Lanayru Field Behind Boulder"
     )
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain"} -> {"Zoras Domain Throne Room"}"
-    )
+    exit = multiworld.get_entrance("Zoras Domain Throne Room -> Zoras Domain")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain"} -> {"Snowpeak Climb Lower"}"
-    )
+    exit = multiworld.get_entrance("Outside Links House -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain West Ledge"} -> {"Zoras Domain"}"
-    )
+    exit = multiworld.get_entrance("Outside Links House -> Ordon Spring")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain West Ledge"} -> {"Lanayru Field Behind Boulder"}"
-    )
+    exit = multiworld.get_entrance("Outside Links House -> Ordon Links House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Zoras Domain Throne Room"} -> {"Zoras Domain"}"
-    )
+    exit = multiworld.get_entrance("Ordon Links House -> Outside Links House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Links House"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Outside Links House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Links House"} -> {"Ordon Spring"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Ranch Entrance")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Outside Links House"} -> {"Ordon Links House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Ordon Links House"} -> {"Outside Links House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Outside Links House"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Ranch Entrance"}"
-    )
-    set_rule(
-        exit,
-        lambda state: (True),
-    )
-
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Seras Shop"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Seras Shop")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Shield House"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Shield House")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Sword House"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Sword House")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Bos House Left Door"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Bos House Left Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Village"} -> {"Ordon Bos House Right Door"}"
-    )
+    exit = multiworld.get_entrance("Ordon Village -> Ordon Bos House Right Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Seras Shop"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Seras Shop -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Shield House"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Shield House -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Sword House"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Sword House -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House Left Door"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House Left Door -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House Left Door"} -> {"Ordon Bos House"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House Left Door -> Ordon Bos House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House Right Door"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House Right Door -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House Right Door"} -> {"Ordon Bos House"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House Right Door -> Ordon Bos House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House"} -> {"Ordon Bos House Left Door"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House -> Ordon Bos House Left Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bos House"} -> {"Ordon Bos House Right Door"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bos House -> Ordon Bos House Right Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch Entrance"} -> {"Ordon Ranch"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch Entrance -> Ordon Ranch")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch Entrance"} -> {"Ordon Village"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch Entrance -> Ordon Village")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch"} -> {"Ordon Ranch Entrance"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch -> Ordon Ranch Entrance")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch"} -> {"Ordon Ranch Stable"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch -> Ordon Ranch Stable")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch Stable"} -> {"Ordon Ranch"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch Stable -> Ordon Ranch")
     set_rule(
         exit,
         lambda state: (can_change_time(state, player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch Stable"} -> {"Ordon Ranch Grotto"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch Stable -> Ordon Ranch Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Ranch Grotto"} -> {"Ordon Ranch Stable"}"
-    )
+    exit = multiworld.get_entrance("Ordon Ranch Grotto -> Ordon Ranch Stable")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Spring"} -> {"Outside Links House"}"
-    )
+    exit = multiworld.get_entrance("Ordon Spring -> Outside Links House")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(f"{"Ordon Spring"} -> {"Ordon Bridge"}")
+    exit = multiworld.get_entrance("Ordon Spring -> Ordon Bridge")
     set_rule(
         exit,
         lambda state: (
@@ -5189,7 +4760,7 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(f"{"Ordon Bridge"} -> {"Ordon Spring"}")
+    exit = multiworld.get_entrance("Ordon Bridge -> Ordon Spring")
     set_rule(
         exit,
         lambda state: (
@@ -5202,17 +4773,13 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Ordon Bridge"} -> {"South Faron Woods"}"
-    )
+    exit = multiworld.get_entrance("Ordon Bridge -> South Faron Woods")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Lower"} -> {"Snowpeak Climb Upper"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Lower -> Snowpeak Climb Upper")
     set_rule(
         exit,
         lambda state: (
@@ -5227,17 +4794,13 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Lower"} -> {"Zoras Domain"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Lower -> Zoras Domain")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Upper"} -> {"Snowpeak Climb Lower"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Upper -> Snowpeak Climb Lower")
     set_rule(
         exit,
         lambda state: (
@@ -5252,49 +4815,37 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Upper"} -> {"Snowpeak Summit Upper"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Upper -> Snowpeak Summit Upper")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Upper"} -> {"Snowpeak Ice Keese Grotto"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Upper -> Snowpeak Ice Keese Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Climb Upper"} -> {"Snowpeak Freezard Grotto"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Climb Upper -> Snowpeak Freezard Grotto")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Ice Keese Grotto"} -> {"Snowpeak Climb Upper"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Ice Keese Grotto -> Snowpeak Climb Upper")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Freezard Grotto"} -> {"Snowpeak Climb Upper"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Freezard Grotto -> Snowpeak Climb Upper")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Summit Upper"} -> {"Snowpeak Summit Lower"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Summit Upper -> Snowpeak Summit Lower")
     set_rule(
         exit,
         lambda state: (
@@ -5315,25 +4866,19 @@ def set_region_access_rules(world: MultiWorld, player: int):
         ),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Summit Upper"} -> {"Snowpeak Climb Upper"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Summit Upper -> Snowpeak Climb Upper")
     set_rule(
         exit,
         lambda state: (state.has("Shadow Crystal", player)),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Summit Lower"} -> {"Snowpeak Ruins Left Door"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Summit Lower -> Snowpeak Ruins Left Door")
     set_rule(
         exit,
         lambda state: (True),
     )
 
-    exit = world.get_entrance(
-        f"{"Snowpeak Summit Lower"} -> {"Snowpeak Ruins Right Door"}"
-    )
+    exit = multiworld.get_entrance("Snowpeak Summit Lower -> Snowpeak Ruins Right Door")
     set_rule(
         exit,
         lambda state: (True),

@@ -82,14 +82,17 @@ name and port number from the room's host.
 Once you do, follow these steps to connect to the room:
 
 1. Visit https://generator.tprandomizer.com/s/aptest to download the gci file needed to run the randomizer, Feel free to randomize cosmetics and audio as you would like
-2. If you haven't gotten the REL loader and randomizer files, now is a good time to do that.
-3. Open Dolphin and use it to open Twilight Princess.
-4. Start the REL loader save file and select APTest as the seed you want to use.
-5. Start a new save file feel free to leave links name as default for now we change it later.
-6. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the
+2. If you haven't gotten the REL loader, now is a good time to do that from the randomizer website.
+3. (For US Region only) From the zip folder downloaded add the Randomizer.us.gci to the dolphin save data.
+   Your save data folder should have aptest.gci, RELoader, and Randomizer.us.gci.
+4. Open Dolphin and use it to open Twilight Princess.
+5. Start the REL loader save file and select APTest as the seed you want to use.
+   (US Randomizer) The console should say "Archipelego Randomizer" at the top
+6. Start a new save file feel free to leave links name as default for now we change it later.
+7. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the
    text client. If Dolphin is not already open you will be prompted to do so.
-7. Now with dolphin connected run the `/name` command with the player name you put in the YAML file. eg: /name GamingHusky (max 16 characters)
-8. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
+8. Now with dolphin connected run the `/name` command with the player name you put in the YAML file. eg: /name GamingHusky (max 16 characters)
+9. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
    on the website, this will be `archipelago.gg:<port>`, where `<port>` is the port number. If a game is hosted from the
    `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
 
@@ -112,3 +115,5 @@ Once you do, follow these steps to connect to the room:
   `Configuration` > `Advanced`) is **disabled**.
 - If you run with a custom GC boot menu, you'll need to skip it by going to `Options` > `Configuration` > `GameCube`
   and checking `Skip Main Menu`.
+- If you have killed Ganon but the world has not been realesed. Ensure that the host settings allows player releases. If you are not playing the US verison it will not work.
+  Check that the Archipelego Randomizer is loaded by bringing up the console window.

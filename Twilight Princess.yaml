@@ -66,11 +66,6 @@ Twilight Princess:
     "true": 0
 
   # Progression Locations
-  progression_dungeons:
-    # Not Implemented (and may be redundent)
-    # This controls whether dungeon locations are required to beat the game.
-    "false": 0
-    "true": 50
 
   golden_bugs_shuffled:
     # Not Implemented

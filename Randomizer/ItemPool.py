@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from BaseClasses import ItemClassification
+from BaseClasses import ItemClassification as IC, LocationProgressType
+from Fill import FillError
+from ..options import SmallKeySettings
 
-from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory
+from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
 # from ..Options import DungeonItem
 # from .Dungeons import get_dungeon_item_pool_player
@@ -10,7 +12,7 @@ from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory
 if TYPE_CHECKING:
     from .. import TPWorld
 
-VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
+VANILLA_SMALL_KEYS_LOCATIONS = {
     "Forest Temple Small Key": [
         "Forest Temple Big Baba Key",
         "Forest Temple North Deku Like Chest",
@@ -27,7 +29,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Lakebed Temple East Lower Waterwheel Stalactite Chest",
         "Lakebed Temple East Second Floor Southeast Chest",
     ],
-    "Arbiter's Grounds Small Key": [
+    "Arbiters Grounds Small Key": [
         "Arbiters Grounds Entrance Chest",
         "Arbiters Grounds East Lower Turnable Redead Chest",
         "Arbiters Grounds East Upper Turnable Redead Chest",
@@ -45,7 +47,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Temple of Time Armos Antechamber East Chest",
         "Temple of Time Gilloutine Chest",
     ],
-    "City in the Sky Small Key": [
+    "City in The Sky Small Key": [
         "City in The Sky West Wing First Chest",
     ],
     "Palace of Twilight Small Key": [
@@ -62,6 +64,9 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
         "Hyrule Castle Graveyard Owl Statue Chest",
         "Hyrule Castle Southeast Balcony Tower Chest",
     ],
+}
+
+VANILLA_BIG_KEY_LOCATIONS = {
     "Forest Temple Big Key": [
         "Forest Temple Big Key Chest",
     ],
@@ -73,7 +78,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Big Key": [
         "Lakebed Temple Big Key Chest",
     ],
-    "Arbiter's Grounds Big Key": [
+    "Arbiters Grounds Big Key": [
         "Arbiters Grounds Big Key Chest",
     ],
     "Bedroom Key": [
@@ -82,7 +87,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Big Key": [
         "Temple of Time Big Key Chest",
     ],
-    "City in the Sky Big Key": [
+    "City in The Sky Big Key": [
         "City in The Sky Big Key Chest",
     ],
     "Palace of Twilight Big Key": [
@@ -91,6 +96,9 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Hyrule Castle Big Key": [
         "Hyrule Castle Big Key Chest",
     ],
+}
+
+VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
     "Forest Temple Map": [
         "Forest Temple Central North Chest",
     ],
@@ -100,7 +108,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Map": [
         "Lakebed Temple Central Room Chest",
     ],
-    "Arbiter's Grounds Map": [
+    "Arbiters Grounds Map": [
         "Arbiters Grounds Torch Room West Chest",
     ],
     "Snowpeak Ruins Map": [
@@ -109,7 +117,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Map": [
         "Temple of Time First Staircase Armos Chest",
     ],
-    "City in the Sky Map": [
+    "City in The Sky Map": [
         "City in The Sky East First Wing Chest After Fans",
     ],
     "Palace of Twilight Map": [
@@ -127,7 +135,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Lakebed Temple Compass": [
         "Lakebed Temple West Water Supply Chest",
     ],
-    "Arbiter's Grounds Compass": [
+    "Arbiters Grounds Compass": [
         "Arbiters Grounds East Upper Turnable Chest",
     ],
     "Snowpeak Ruins Compass": [
@@ -136,7 +144,7 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
     "Temple of Time Compass": [
         "Temple of Time Moving Wall Beamos Room Chest",
     ],
-    "City in the Sky Compass": [
+    "City in The Sky Compass": [
         "City in The Sky East Wing Lower Level Chest",
     ],
     "Palace of Twilight Compass": [
@@ -149,11 +157,11 @@ VANILLA_DUNGEON_ITEM_LOCATIONS: Dict[str, List[str]] = {
 
 
 # This takes all the items form the world and adds them to the multiworld itempool
-def generate_itempool(world: "TPWorld", location_count: int) -> None:
+def generate_itempool(world: "TPWorld") -> None:
     multiworld = world.multiworld
 
     # Get the core pool of items.
-    pool, precollected_items = get_pool_core(world, location_count)
+    pool, precollected_items = get_pool_core(world)
 
     # Add precollected items to the multiworld's `precollected_items` list.
     for item in precollected_items:
@@ -163,25 +171,112 @@ def generate_itempool(world: "TPWorld", location_count: int) -> None:
     items = item_factory(pool, world)
     multiworld.random.shuffle(items)
 
-    multiworld.itempool += items
+    multiworld.itempool.extend(items)
 
 
 # This gets all the items from the world and
-def get_pool_core(world: "TPWorld", location_count: int) -> Tuple[List[str], List[str]]:
+def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     pool: List[str] = []
     precollected_items: List[str] = []
-    n_pending_junk: int = location_count
+    # n_pending_junk: int = location_count
+
+    # Split items into three different pools: progression, useful, and filler.
+    progression_pool: list[str] = []
+    useful_pool: list[str] = []
+    filler_pool: list[str] = []
+    prefill_pool: list[str] = []
 
     # Add regular items to the item pool.
     for item, data in ITEM_TABLE.items():
-        if data.classification != ItemClassification.filler and item != "Victory":
-            pool.extend([item] * data.quantity)
-            n_pending_junk -= data.quantity
+        if data.code != None and item not in ["Victory", "Ice Trap"]:
 
-    # TODO: Precollected items and filler items
+            # If item is in a dungeon then they will be placed pre_fill so they should not be in the pool
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.in_dungeon
+                )
+            ):
+                prefill_pool.extend([item] * data.quantity)
+                continue
+
+            # If item is started with then precollect it
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.option_startwith
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.option_startwith
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.option_startwith
+                )
+            ):
+                print(item)
+                precollected_items.extend([item] * data.quantity)
+                continue
+
+            adjusted_classification = world.determine_item_classification(item)
+            classification = (
+                data.classification
+                if adjusted_classification is None
+                else adjusted_classification
+            )
+
+            if classification & IC.progression:
+                progression_pool.extend([item] * data.quantity)
+            elif classification & IC.useful:
+                useful_pool.extend([item] * data.quantity)
+            else:
+                filler_pool.extend([item] * data.quantity)
+
+        # Get the number of locations that have not been filled yet
+    placeable_locations = [
+        location
+        for location in world.multiworld.get_locations(world.player)
+        if location.address is not None and location.item is None
+    ]
+
+    num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
+
+    # Check progression pool against locations that can hold progression items
+    if len(progression_pool) > len(
+        [
+            location
+            for location in placeable_locations
+            if location.progress_type != LocationProgressType.EXCLUDED
+        ]
+    ):
+        raise FillError(
+            "There are insufficient locations to place progression items! "
+            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
+        )
+
+    pool.extend(progression_pool)
+    num_items_left_to_place -= len(progression_pool)
+
+    world.multiworld.random.shuffle(useful_pool)
+    world.multiworld.random.shuffle(filler_pool)
+    world.useful_pool = useful_pool
+    world.filler_pool = filler_pool
+    world.prefill_pool = prefill_pool
+
+    assert len(world.useful_pool) > 0
+    assert len(world.filler_pool) > 0
 
     # Place filler items ensure that the pool has the correct number of items.
-    pool.extend([world.get_filler_item_name() for _ in range(n_pending_junk)])
+    pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
 
     return pool, precollected_items
 
@@ -203,7 +298,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -216,7 +311,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -229,7 +324,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -242,7 +337,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -255,7 +350,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -268,7 +363,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -281,7 +376,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -294,7 +389,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -310,7 +405,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -323,7 +418,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -336,7 +431,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -349,7 +444,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -368,7 +463,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -381,7 +476,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -394,7 +489,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -407,7 +502,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -420,7 +515,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -433,7 +528,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -446,7 +541,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -459,7 +554,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -472,7 +567,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -485,7 +580,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -498,7 +593,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -511,7 +606,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -524,7 +619,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -537,7 +632,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )
@@ -550,7 +645,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Portal",
                 quantity=1,
-                classification=ItemClassification.progression,
+                classification=IC.progression,
                 item_id=1,
             ),
         )

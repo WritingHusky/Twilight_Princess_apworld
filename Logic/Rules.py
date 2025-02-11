@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, Callable
 
+from Fill import FillError
 from BaseClasses import CollectionState, MultiWorld
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule
@@ -130,9 +131,16 @@ def set_location_access_rules(world: "TPWorld"):
                 world.invalid_locations.append(location_name)  # Debug
                 return
 
-            if world.options.logic_rules.value == LogicRules.option_glitched:
+            if (
+                world.options.logic_rules.value == LogicRules.option_glitched
+                and glitched_rule
+            ):
                 set_rule(location, glitched_rule)
             else:
+                # if not glitched_rule:
+                #     raise FillError(
+                #         f"Location {location_name} does not have a glitched rule"
+                #     )
                 set_rule(location, rule)
         else:
             raise Exception(f"Location {location_name} not found in location table")
@@ -147,7 +155,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Arbiters Grounds Big Key Chest",
         lambda state: (
             (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -166,7 +174,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -193,7 +201,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Arbiters Grounds East Upper Turnable Chest",
         lambda state: (
             (
-                state.has("Arbiter's Grounds Small Key", player, 2)
+                state.has("Arbiters Grounds Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -206,7 +214,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             has_damaging_item(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 2)
+                state.has("Arbiters Grounds Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -225,7 +233,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalchild(state, player)
             and can_defeat_RedeadKnight(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 3)
+                state.has("Arbiters Grounds Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -239,7 +247,7 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Shadow Crystal", player)
             and can_defeat_RedeadKnight(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 3)
+                state.has("Arbiters Grounds Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -259,7 +267,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -275,7 +283,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -291,7 +299,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -307,7 +315,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -323,7 +331,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_Stalfos(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 5)
+                state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -345,7 +353,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Arbiters Grounds West Chandelier Chest",
         lambda state: (
             (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -360,7 +368,7 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Shadow Crystal", player)
             and can_smash(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -380,7 +388,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             can_break_wooden_door(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
@@ -397,7 +405,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             can_break_wooden_door(state, player)
             and (
-                state.has("Arbiter's Grounds Small Key", player, 4)
+                state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
                     == SmallKeySettings.option_keysy
