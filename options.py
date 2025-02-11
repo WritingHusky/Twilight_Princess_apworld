@@ -607,7 +607,7 @@ class TPOptions(PerGameCommonOptions):
 
 tp_option_groups: list[OptionGroup] = [
     OptionGroup(
-        "Item Pool Settings",
+        "Item Pool / Location Settings",
         [
             GoldenBugsShuffled,
             SkyCharactersShuffled,
