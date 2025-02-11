@@ -825,11 +825,11 @@ class TPWorld(World):
         #     and name in item_name_groups["NPC Items"]
         # ):
         #     adjusted_classification = IC.filler
-        elif (
-            not self.options.shop_items_shuffled
-            and name in item_name_groups["Shop Items"]
-        ):
-            adjusted_classification = IC.filler
+        # elif (
+        #     not self.options.shop_items_shuffled
+        #     and name in item_name_groups["Shop Items"]
+        # ):
+        #     adjusted_classification = IC.filler
         # elif (
         #     not self.options.hidden_skills_shuffled
         #     and name == "Progressive Hidden Skill"

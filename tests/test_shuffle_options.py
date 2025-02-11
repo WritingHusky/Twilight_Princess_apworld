@@ -3,6 +3,7 @@ from enum import Enum
 import itertools
 from traceback import print_exception
 from typing import Any
+from BaseClasses import get_seed
 from Fill import FillError
 from Options import OptionError
 
@@ -130,51 +131,58 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             return
         combinations = generate_all_shuffle_options_dungeon(True)
         combinations.extend(generate_all_shuffle_options_dungeon(False))
-        valid = True
         for combination in combinations:
-            for key, val in combination.items():
-                self.options[key] = val
-            if any([self.options[key] for key in bool_options]):
-                try:
-                    self.setUp()
-                except Exception as e:
-                    self.logger.info(
-                        f"Dungeon: {e=},{print_exception(e)}\n{self.options=}\n"
-                    )
-                    valid = False
-        self.assertTrue(valid, "Dungeon options cause error check logs")
+            valid = True
+            with self.subTest(
+                "Twilight Princess Options", game=self.game, seed=self.multiworld.seed
+            ):
+                for key, val in combination.items():
+                    self.options[key] = val
+                if any([self.options[key] for key in bool_options]):
+                    try:
+                        self.world_setup(get_seed())
+                    except Exception as e:
+                        self.logger.info(
+                            f"Dungeon: {e=},{print_exception(e)}\n{self.options=}\n"
+                        )
+                        valid = False
+            self.assertTrue(valid, "Dungeon options cause error check logs")
 
     def test_all_bool_options(self):
         if not self.run_long_tests:
             return
         combinations = generate_all_shuffle_options_bool(DungeonItem.option_vanilla)
         combinations.extend(generate_all_shuffle_options_bool(DungeonItem.option_keysy))
-        valid = True
         for combination in combinations:
-            for key, val in combination.items():
-                self.options[key] = val
-            if any([self.options[key] for key in bool_options]):
-                try:
-                    self.setUp()
-                except Exception as e:
-                    # Only one of Dungeons and Overworld can be false
-                    # So if one of them is true then parse the error
-                    if (
-                        self.options["overworld_shuffled"]
-                        or self.options["dungeons_shuffled"]
-                    ):
-                        self.logger.info(
-                            f"Bool: {e=},{print_exception(e)}\n{self.options=}\n"
-                        )
-                        valid = False
-                    else:
-                        # When Both overworld and dungeon are false make sure it throws an option error
-                        if not isinstance(e, OptionError):
+            valid = True
+            with self.subTest(
+                "Twilight Princess Options", game=self.game, seed=self.multiworld.seed
+            ):
+                for key, val in combination.items():
+                    self.options[key] = val
+                if any([self.options[key] for key in bool_options]):
+                    try:
+                        self.world_setup(get_seed())
+                    except Exception as e:
+                        # self.logger.info("a")
+                        # Only one of Dungeons and Overworld can be false
+                        # So if one of them is true then parse the error
+                        if (
+                            self.options["overworld_shuffled"]
+                            or self.options["dungeons_shuffled"]
+                        ):
                             self.logger.info(
                                 f"Bool: {e=},{print_exception(e)}\n{self.options=}\n"
                             )
                             valid = False
-        self.assertTrue(valid, "Bool options cause error check logs")
+                        else:
+                            # When Both overworld and dungeon are false make sure it throws an option error
+                            if not isinstance(e, OptionError):
+                                self.logger.info(
+                                    f"Bool: {e=},{print_exception(e)}\n{self.options=}\n"
+                                )
+                                valid = False
+            self.assertTrue(valid, "Bool options cause error check logs")
 
     def test_no_shuffle_options(self):
         self.options["golden_bugs_shuffled"] = False
@@ -226,4 +234,4 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "goron_mines_entrance": GoronMinesEntrance.default,
             "tot_entrance": TotEntrance.default,
         }
-        self.setUp()
+        self.world_setup(get_seed())
