@@ -402,6 +402,22 @@ async def check_locations(ctx: TPContext) -> None:
 
     for location, data in LOCATION_TABLE.items():
 
+        # There might be a better way but this works for now
+        # Also this data is a flag so node handlind is not needed
+        if location == "Hyrule Castle Ganondorf":
+            addr = SAVE_FILE_ADDR + data.offset
+            byte = read_byte(addr)
+            checked = (byte & data.bit) != 0
+            if checked:
+                if not ctx.finished_game:
+                    logger.info("Game finished")
+                # It sends multiple times incase the server does not acknoledge.
+                # Upon completion check locations will stop running
+                await ctx.send_msgs(
+                    [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
+                )
+                ctx.finished_game = True
+
         # If there is not a valid apid dont bother checking that location
         # apids not given when logic only location
         if not isinstance(data.code, int):
@@ -435,16 +451,7 @@ async def check_locations(ctx: TPContext) -> None:
         byte = read_byte(addr)
         checked = (byte & flag) != 0
         if checked:
-            if location == "Hyrule Castle Ganondorf":
-                if not ctx.finished_game:
-                    logger.info("Game finished")
-                    await ctx.send_msgs(
-                        [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
-                    )
-                    ctx.finished_game = True
-            else:
-
-                ctx.locations_checked.add(TPLocation.get_apid(data.code))
+            ctx.locations_checked.add(TPLocation.get_apid(data.code))
 
     # In an attempt to handle stop things from going wrong
     asyncio.sleep(0.1)
