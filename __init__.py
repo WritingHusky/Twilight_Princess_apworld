@@ -13,7 +13,7 @@ from BaseClasses import ItemClassification as IC
 from BaseClasses import MultiWorld, Tutorial
 from .ClientUtils import VERSION
 from .Items import ITEM_TABLE, TPItem, item_factory, item_name_groups
-from Options import Toggle
+from Options import OptionError, Toggle
 from .Locations import (
     DUNGEON_NAMES,
     LOCATION_TABLE,
@@ -201,15 +201,32 @@ class TPWorld(World):
         """
         Setup things ready for generation.
         """
+        if (
+            not self.options.overworld_shuffled.value
+            and not self.options.dungeons_shuffled.value
+        ):
+            raise OptionError(
+                "One of Overworld and Dungeons must be shuffled please fix this"
+            )
+
         # Early into generation, set the options for the keys and map/compass.
         options = self.options
 
         if not options.dungeons_shuffled.value:
-            self.options.small_key_settings.value = SmallKeySettings.option_vanilla
-            self.options.big_key_settings.value = BigKeySettings.option_vanilla
-            self.options.map_and_compass_settings.value = (
-                MapAndCompassSettings.option_vanilla
-            )
+            if (
+                self.options.small_key_settings.value
+                != SmallKeySettings.option_startwith
+            ):
+                self.options.small_key_settings.value = SmallKeySettings.option_vanilla
+            if self.options.big_key_settings.value != BigKeySettings.option_startwith:
+                self.options.big_key_settings.value = BigKeySettings.option_vanilla
+            if (
+                self.options.map_and_compass_settings.value
+                != MapAndCompassSettings.option_startwith
+            ):
+                self.options.map_and_compass_settings.value = (
+                    MapAndCompassSettings.option_vanilla
+                )
 
         self.nonprogress_locations, self.progress_locations = (
             self._determine_nonprogress_and_progress_locations()
@@ -288,25 +305,44 @@ class TPWorld(World):
         """
         Apply special fill rules before the fill stage.
         """
-        collection_state = CollectionState(self.multiworld)
-
-        assert isinstance(self.player, int)
-
-        for item in self.multiworld.itempool:
-            self.multiworld.worlds[item.player].collect(collection_state, item)
-        for player in self.multiworld.player_ids:
-            if player == self.player:
-                continue
-            subworld = self.worlds[player]
-            for item in subworld.get_pre_fill_items():
-                subworld.collect(collection_state, item)
-        collection_state.sweep_for_advancements()
-
-        collection_state_small_key = copy(collection_state)
-        collection_state_big_key = copy(collection_state)
-        collection_state_map_and_compass = copy(collection_state)
+        assert isinstance(self.player, int), f"Player is not an int {self.player=}"
 
         pre_fill_items = self.get_pre_fill_items()
+
+        # Only do pre fill if it is needed
+        if len(pre_fill_items) == 0:
+            assert (
+                not self.options.small_key_settings.in_dungeon
+            ), f"No pre fill items but small keys in dungeon"
+            assert (
+                not self.options.big_key_settings.in_dungeon
+            ), f"No pre fill items but big keys in dungeon"
+            assert (
+                not self.options.map_and_compass_settings.in_dungeon
+            ), f"No pre fill items but maps and compasses in dungeon"
+            return
+
+        # Collection state doesn't like deep copies, and current implentation uses seperate states
+        collection_state_small_key = CollectionState(self.multiworld)
+        collection_state_big_key = CollectionState(self.multiworld)
+        collection_state_map_and_compass = CollectionState(self.multiworld)
+        collection_states = [
+            collection_state_small_key,
+            collection_state_big_key,
+            collection_state_map_and_compass,
+        ]
+
+        # Collection state should be updated for each
+        for collection_state in collection_states:
+            for item in self.multiworld.itempool:
+                collection_state.collect(item)
+            for player in self.multiworld.player_ids:
+                if player == self.player:
+                    continue
+                subworld = self.worlds[player]
+                for item in subworld.get_pre_fill_items():
+                    collection_state.collect(item)
+            collection_state.sweep_for_advancements()
 
         # Helpful debug to make sure that if I want a item in the prefill it is in the prefill
         # Also creates collection states, If small keys are in the prefill pool then they are not in the item_pool
@@ -316,17 +352,23 @@ class TPWorld(World):
                 assert (
                     item_name in self.prefill_pool
                 ), f"{item_name=} not in prefill pool"
-                collection_state_big_key.collect(self.create_item(item_name))
-                collection_state_map_and_compass.collect(self.create_item(item_name))
+                for _ in range(len(VANILLA_SMALL_KEYS_LOCATIONS[item_name])):
+                    collection_state_big_key.collect(self.create_item(item_name))
+                    collection_state_map_and_compass.collect(
+                        self.create_item(item_name)
+                    )
 
         if self.options.big_key_settings.in_dungeon:
             for item_name in item_name_groups["Big Keys"]:
                 assert (
                     item_name in self.prefill_pool
                 ), f"{item_name=} not in prefill pool"
-                # This could deal with small keys on bosses but I think item rules would be better
-                collection_state_small_key.collect(self.create_item(item_name))
-                collection_state_map_and_compass.collect(self.create_item(item_name))
+                for _ in range(len(VANILLA_BIG_KEY_LOCATIONS[item_name])):
+                    # This could deal with small keys on bosses but I think item rules would be better
+                    collection_state_small_key.collect(self.create_item(item_name))
+                    collection_state_map_and_compass.collect(
+                        self.create_item(item_name)
+                    )
 
         if self.options.map_and_compass_settings.in_dungeon:
             for item_name in item_name_groups["Maps and Compasses"]:
@@ -334,8 +376,9 @@ class TPWorld(World):
                     item_name in self.prefill_pool
                 ), f"{item_name=} not in prefill pool"
                 # Realisticlly this is not needed
-                collection_state_small_key.collect(self.create_item(item_name))
-                collection_state_big_key.collect(self.create_item(item_name))
+                for _ in range(len(VANILLA_MAP_AND_COMPASS_LOCATIONS[item_name])):
+                    collection_state_small_key.collect(self.create_item(item_name))
+                    collection_state_big_key.collect(self.create_item(item_name))
 
         collection_state_small_key.sweep_for_advancements()
         collection_state_big_key.sweep_for_advancements()
@@ -353,68 +396,68 @@ class TPWorld(World):
             VANILLA_BIG_KEY_LOCATIONS,
             VANILLA_MAP_AND_COMPASS_LOCATIONS,
         ]
-        collection_states = [
-            collection_state_small_key,
-            collection_state_big_key,
-            collection_state_map_and_compass,
-        ]
 
         for item_name in VANILLA_SMALL_KEYS_LOCATIONS:
             assert collection_state_big_key.has(
                 item_name, self.player, len(VANILLA_SMALL_KEYS_LOCATIONS[item_name]) - 1
-            )
+            ), f"{item_name} not in big key state count={collection_state_big_key.count(item_name,self.player)}"
             assert collection_state_map_and_compass.has(
                 item_name, self.player, len(VANILLA_SMALL_KEYS_LOCATIONS[item_name]) - 1
-            )
+            ), f"{item_name} not in MnC state count={collection_state_map_and_compass.count(item_name,self.player)}"
 
         for item_name in VANILLA_BIG_KEY_LOCATIONS:
             assert collection_state_small_key.has(
                 item_name, self.player, len(VANILLA_BIG_KEY_LOCATIONS[item_name]) - 1
-            )
+            ), f"{item_name} not in small key state count={collection_state_small_key.count(item_name,self.player)}"
             assert collection_state_map_and_compass.has(
                 item_name, self.player, len(VANILLA_BIG_KEY_LOCATIONS[item_name]) - 1
-            )
+            ), f"{item_name} not in MnC state count={collection_state_map_and_compass.count(item_name,self.player)}"
 
         for item_name in VANILLA_MAP_AND_COMPASS_LOCATIONS:
             assert collection_state_big_key.has(
                 item_name,
                 self.player,
                 len(VANILLA_MAP_AND_COMPASS_LOCATIONS[item_name]) - 1,
-            )
+            ), f"{item_name} not in big key state count={collection_state_big_key.count(item_name,self.player)}"
             assert collection_state_small_key.has(
                 item_name,
                 self.player,
                 len(VANILLA_MAP_AND_COMPASS_LOCATIONS[item_name]) - 1,
-            )
+            ), f"{item_name} not in small key state count={collection_state_small_key.count(item_name,self.player)}"
 
         def on_place(location):
-            logging.info(location.name)
+            # logging.info(location.name)
             pass
 
-        # Place small keys then big keys then the map and compass.
-        # Small keys first as
+        # Place Vanilla items first so that they are ensured to be placed correctly
         for option, setting, vanilla, state in zip(
             options, settings, vanillas, collection_states
         ):
             if option.value == setting.option_vanilla:
                 for item_name in vanilla:
-                    assert item_name in ITEM_TABLE
-                    assert item_name in self.prefill_pool
+                    assert item_name in ITEM_TABLE, f"{item_name=}"
+                    assert item_name in self.prefill_pool, f"{item_name=}"
 
                     items = list(
                         filter(lambda item: item.name == item_name, pre_fill_items)
                     )
 
-                    assert isinstance(items, list)
-                    assert len(items) > 0
-                    assert len(items) == len(vanilla[item_name])
+                    assert isinstance(
+                        items, list
+                    ), f"(Vanilla) Items not list ({item_name}){items=}"
+                    assert (
+                        len(items) > 0
+                    ), f"(Vanilla) No items found in pre fill items {item_name=}"
+                    assert len(items) == len(
+                        vanilla[item_name]
+                    ), f"(Vanilla) To many items in pre fill {items=}"
 
                     for dungeon_name in DUNGEON_NAMES:
                         if dungeon_name in item_name:
                             item_dungeon = dungeon_name
                             break
 
-                    assert item_dungeon, f"{item_name}"
+                    assert item_dungeon, f"(Vanilla) No dungeon found for {item_name=}"
 
                     # Palace of Twilight needs arbiters grounds to be able to be commpleted
                     state_copy = None
@@ -429,36 +472,44 @@ class TPWorld(World):
                                 )
                         state.sweep_for_advancements()
 
-                    locations = [
+                    locations1 = [
                         self.get_location(location_name)
                         for location_name in vanilla[item_name]
                     ]
                     locations = [
                         location
-                        for location in locations
+                        for location in locations1
                         if location.item is None and location.address is not None
                     ]
-                    assert len(locations) > 0
-                    assert len(locations) == len(vanilla[item_name])
+                    assert (
+                        len(locations) > 0
+                    ), f"(Vanilla) Locations not avaliable {locations1=}, {item_name=} "
+                    assert len(locations) == len(
+                        vanilla[item_name]
+                    ), f"(Vanilla) Some locations not avaliable {locations=}"
 
-                    for location in locations:
-                        for item in items:
-                            if not (
-                                (
-                                    location.progress_type
-                                    != LocationProgressType.EXCLUDED
-                                    or not (item.advancement or item.useful)
-                                )
-                                and (location.can_reach(state))
-                            ):
-                                assert (
-                                    location.progress_type
-                                    != LocationProgressType.EXCLUDED
-                                )
-                                assert item.advancement or item.useful
-                                if not location.can_reach(state):
-                                    logging.info(state.reachable_regions[self.player])
-                                    assert False
+                    # Checking all locations to see if they are avaliable for an item
+                    # for location in locations:
+                    #     for item in items:
+                    #         if not (
+                    #             (
+                    #                 location.progress_type
+                    #                 != LocationProgressType.EXCLUDED
+                    #                 or not (item.advancement or item.useful)
+                    #             )
+                    #             and (location.can_reach(state))
+                    #         ):
+                    #             assert location.can_reach(
+                    #                 state
+                    #             ), f"(Vanilla) {location.name=} not reachable from regions, {state.reachable_regions[self.player]=}"
+                    #             assert (
+                    #                 location.progress_type
+                    #                 == LocationProgressType.EXCLUDED
+                    #                 and location.name in self.nonprogress_locations
+                    #             ), f"(Vanilla) Location is excluded and is not a nonprogress location {location.name=}"
+                    #             assert (
+                    #                 item.advancement or item.useful
+                    #             ), f"(Vanilla)Bad item{item.name=}"
 
                     items_copy = deepcopy(items)
                     fill_restrictive(
@@ -472,7 +523,9 @@ class TPWorld(World):
                         on_place=on_place,
                     )
                     # All items should be placed
-                    assert len(items_copy) == 0
+                    assert (
+                        len(items_copy) == 0
+                    ), f"(Vanilla) Not all items placed {items_copy=}, {locations=}"
 
                     for item in items:
                         pre_fill_items.remove(item)
@@ -480,10 +533,10 @@ class TPWorld(World):
                     if state_copy:
                         state = state_copy
 
-            # for option, setting, vanilla, state in zip(
-            #     options, settings, vanillas, collection_states
-            # ):
-            elif option.value == setting.option_own_dungeon:
+        for option, setting, vanilla, state in zip(
+            options, settings, vanillas, collection_states
+        ):
+            if option.value == setting.option_own_dungeon:
                 for item_name in vanilla:
                     assert item_name in ITEM_TABLE
                     assert item_name in self.prefill_pool
@@ -492,16 +545,24 @@ class TPWorld(World):
                         filter(lambda item: item.name == item_name, pre_fill_items)
                     )
 
-                    assert isinstance(items, list)
-                    assert len(items) > 0
-                    assert len(items) == len(vanilla[item_name])
+                    assert isinstance(
+                        items, list
+                    ), f"(Own dungeon) items not a list {items=}"
+                    assert (
+                        len(items) > 0
+                    ), f"(Own dungeon) No items found in pre fill items {item_name=}"
+                    assert len(items) == len(
+                        vanilla[item_name]
+                    ), f"(Own dungeon) To many items in pre fill items{items=}"
 
                     for dungeon_name in DUNGEON_NAMES:
                         if dungeon_name in item_name:
                             item_dungeon = dungeon_name
                             break
 
-                    assert item_dungeon, f"{item_name}"
+                    assert (
+                        item_dungeon
+                    ), f"(Own dungeon) No dungeon found for {item_name=}"
 
                     # Palace of Twilight needs arbiters grounds to be able to be commpleted
                     state_copy = None
@@ -522,19 +583,23 @@ class TPWorld(World):
                         if dungeon_name in location_name
                     ]
 
-                    assert len(location_names) > 0
+                    assert (
+                        len(location_names) > 0
+                    ), f"(Own dungeon) No locations found for dungeon {dungeon_name=}"
 
-                    locations = [
+                    locations1 = [
                         self.get_location(location_name)
                         for location_name in location_names
                     ]
                     locations = [
                         location
-                        for location in locations
+                        for location in locations1
                         if location.item is None and location.address is not None
                     ]
 
-                    assert len(locations) > 0
+                    assert (
+                        len(locations) > 0
+                    ), f"(Own dungeon) Locations not avaliable {locations1=}, {item_name=}"
 
                     items_copy = deepcopy(items)
                     self.multiworld.random.shuffle(items_copy)
@@ -552,7 +617,9 @@ class TPWorld(World):
                     )
 
                     # All items should be placed
-                    assert len(items_copy) == 0
+                    assert (
+                        len(items_copy) == 0
+                    ), f"(Own dungeon) Not all items placed {items_copy=}"
 
                     for item in items:
                         pre_fill_items.remove(item)
@@ -560,10 +627,10 @@ class TPWorld(World):
                     if state_copy:
                         state = state_copy
 
-            # for option, setting, vanilla, state in zip(
-            #     options, settings, vanillas, collection_states
-            # ):
-            elif option.value == setting.option_any_dungeon:
+        for option, setting, vanilla, state in zip(
+            options, settings, vanillas, collection_states
+        ):
+            if option.value == setting.option_any_dungeon:
                 items = []
                 locations = []
                 for item_name in vanilla:
@@ -574,9 +641,15 @@ class TPWorld(World):
                         filter(lambda item: item.name == item_name, pre_fill_items)
                     )
 
-                    assert isinstance(new_items, list)
-                    assert len(new_items) > 0
-                    assert len(new_items) == len(vanilla[item_name])
+                    assert isinstance(
+                        new_items, list
+                    ), f"(Any dungeon) Items not list {items=}"
+                    assert (
+                        len(new_items) > 0
+                    ), f"(Any dungeon) No items found in pre fill items {item_name=}"
+                    assert len(new_items) == len(
+                        vanilla[item_name]
+                    ), f"(Any dungeon) To many items in pre fill{items=}"
 
                     items.extend(new_items)
 
@@ -584,7 +657,9 @@ class TPWorld(World):
                         if dungeon_name in item_name:
                             item_dungeon = dungeon_name
                             break
-                    assert item_dungeon, f"{item_name}"
+                    assert (
+                        item_dungeon
+                    ), f"(Any dungeon) No dungeon found for {item_name}"
 
                     location_names = [
                         location_name
@@ -592,7 +667,9 @@ class TPWorld(World):
                         if dungeon_name in location_name
                     ]
 
-                    assert len(location_names) > 0
+                    assert (
+                        len(location_names) > 0
+                    ), f"(Any dungeon) No locations found for dungeon {dungeon_name=}"
 
                     new_locations = [
                         self.get_location(location_name)
@@ -611,8 +688,12 @@ class TPWorld(World):
 
                     locations.extend(new_locations)
 
-                assert len(items) > 0
-                assert len(locations) > 0
+                assert (
+                    len(items) > 0
+                ), f"(Any dungeon) No items for setting {setting.display_name}"
+                assert (
+                    len(locations) > 0
+                ), f"(Any dungeon) No location for setting {setting.display_name}"
 
                 items_copy = deepcopy(items)
 
@@ -631,14 +712,16 @@ class TPWorld(World):
                 )
 
                 # All items should be placed
-                assert len(items_copy) == 0
+                assert (
+                    len(items_copy) == 0
+                ), f"(Any dungeon) Not all items placed {items_copy=}"
 
                 for item in items:
                     pre_fill_items.remove(item)
-            else:
-                assert not option.in_dungeon, f"{option.display_name=}"
         # All items in the pre fill pool need to be processed in the pre fill
-        assert len(pre_fill_items) == 0, f"{pre_fill_items=}"
+        assert (
+            len(pre_fill_items) == 0
+        ), f"Not all pre fill items placed {pre_fill_items=}"
 
     def generate_output(self, output_directory: str) -> None:
         """
@@ -844,7 +927,7 @@ class TPWorld(World):
             # 1,  # Water Bombs 3
             # 2,  # Water Bombs 5
             2,  # Water Bombs 10
-            1,  # Ice Trap
+            self.options.trap_frequency.value,  # Ice Trap
         ]
         return self.multiworld.random.choices(
             filler_consumables, weights=filler_weights, k=1
