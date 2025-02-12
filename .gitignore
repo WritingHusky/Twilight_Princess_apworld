@@ -1,10 +1,12 @@
 /build/target/*
 /Docs/Notes.md
 
+/build/host.yaml
+/build/custom_worlds
+
 # Testing Files
 thing.py 
 scripts.txt
-test.py
 /tests/logs.log
 
 __pycache__
