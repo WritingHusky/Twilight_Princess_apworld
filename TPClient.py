@@ -3,6 +3,7 @@ import time
 import traceback
 from typing import TYPE_CHECKING, Any, Dict, Optional
 
+from MultiServer import mark_raw
 import dolphin_memory_engine
 
 from .ClientUtils import VERSION
@@ -110,6 +111,7 @@ class TPCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, TPContext):
             logger.info(f"Dolphin Status: {self.ctx.dolphin_status}")
 
+    @mark_raw
     def _cmd_name(self, name: str = "") -> None:
         """Change the name of the current save file"""
 
