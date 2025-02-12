@@ -38,7 +38,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Arbiters Grounds Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Lantern", player)
@@ -87,7 +87,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -126,7 +126,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             state.has("Spinner", player)
             and (
                 state.has("Arbiters Grounds Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -204,7 +206,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("City in The Sky Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -248,7 +250,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             and can_defeat_Aeralfos(state, player)
             and (
                 state.has("City in The Sky Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -326,7 +330,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                         state.has("Forest Temple Small Key", player, 2)
                         or (
                             state._tp_small_key_settings(player)
-                            == SmallKeySettings.option_keysy
+                            == SmallKeySettings.option_anywhere
                         )
                     )
                     and can_defeat_Bokoblin(state, player)
@@ -348,7 +352,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Forest Temple Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -370,7 +374,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (
             (
                 state.has("Forest Temple Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
             and state.has("Gale Boomerang", player)
             and (
@@ -428,7 +434,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Goron Mines Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -474,7 +480,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Goron Mines Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -490,7 +496,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Goron Mines Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Iron Boots", player)
@@ -515,7 +521,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Goron Mines Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -530,7 +536,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             and can_defeat_Bulblin(state, player)
             and (
                 state.has("Goron Mines Key Shard", player, 3)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -577,7 +585,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Hyrule Castle Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -735,7 +743,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Hyrule Castle Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -759,7 +767,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Hyrule Castle Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Spinner", player)
@@ -779,7 +787,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             and can_defeat_Lizalfos(state, player)
             and (
                 state.has("Hyrule Castle Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
             and can_defeat_Ganondorf(state, player)
         ),
@@ -819,7 +829,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Lakebed Temple Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -843,7 +853,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_smash(state, player)
@@ -861,14 +871,16 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_launch_bombs(state, player)
             and state.has("Progressive Clawshot", player, 1)
             and (
                 state.has("Lakebed Temple Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -990,7 +1002,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Palace of Twilight Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Progressive Master Sword", player, 4)
@@ -1015,7 +1027,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Palace of Twilight Small Key", player, 6)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1039,7 +1051,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             and state.has("Progressive Master Sword", player, 4)
             and (
                 state.has("Palace of Twilight Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
             and can_defeat_ShadowBeast(state, player)
             and state.has("Progressive Clawshot", player, 1)
@@ -1047,7 +1061,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Palace of Twilight Small Key", player, 7)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1114,7 +1128,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Snowpeak Ruins Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1138,7 +1152,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Snowpeak Ruins Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1189,7 +1203,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                     state.has("Snowpeak Ruins Small Key", player, 4)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and can_defeat_MiniFreezard(state, player)
@@ -1199,7 +1213,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                     state.has("Snowpeak Ruins Small Key", player, 2)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and state.has("Progressive Clawshot", player, 1)
@@ -1304,7 +1318,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Snowpeak Ruins Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1363,7 +1377,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 )
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Ball and Chain", player)
@@ -1386,7 +1400,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and has_bombs(state, player)
@@ -1407,14 +1421,16 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 )
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Ball and Chain", player)
             and has_bombs(state, player)
             and (
                 state.has("Bedroom Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -1442,7 +1458,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("Ordon Goat Cheese", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 
@@ -1453,7 +1471,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("Ordon Pumpkin", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 
@@ -1508,7 +1528,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Temple of Time Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1551,7 +1571,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
             state.has("Progressive Dominion Rod", player, 1)
             and (
                 state.has("Temple of Time Big Key", player)
-                or (state._tp_big_key_settings(player) == BigKeySettings.option_keysy)
+                or (
+                    state._tp_big_key_settings(player) == BigKeySettings.option_anywhere
+                )
             )
         ),
     )
@@ -1585,7 +1607,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Temple of Time Small Key", player, 1)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1608,7 +1630,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                     state.has("Temple of Time Small Key", player, 3)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1693,7 +1715,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("Temple of Time Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1970,7 +1992,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         lambda state: (
             state.has("Shadow Crystal", player)
             or state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 
@@ -2362,7 +2386,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 
@@ -2690,7 +2716,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                 state.has("North Faron Woods Gate Keys", player)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and (state.has("Iron Boots", player) or state.has("Zora Armor", player))
@@ -3077,7 +3103,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 
@@ -3539,7 +3567,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
                     state.has("Gerudo Desert Bublin Camp Key", player)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and can_defeat_KingBulblinDesert(state, player)
@@ -4236,7 +4264,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     set_rule(
         exit,
         # lambda state: (can_get_hot_spring_water(state, player)),
-        lambda stat: (True)
+        lambda stat: (True),
     )
 
     exit = multiworld.get_entrance(
@@ -4315,7 +4343,9 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
 

@@ -20,7 +20,7 @@ class DungeonItem(Choice):
     option_vanilla = 1
     option_own_dungeon = 2
     option_any_dungeon = 3
-    option_keysy = 4
+    option_anywhere = 4
     default = 1
 
     @property
@@ -195,7 +195,7 @@ class SmallKeySettings(DungeonItem):
     - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
     - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
     - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
-    - **Key-Sanity:** Small keys can be found in any progression location, if dungeons are randomized.
+    - **Anywhere:** Small keys can be found in any progression location, if dungeons are randomized.
 
     Note:
     Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
@@ -213,7 +213,7 @@ class BigKeySettings(DungeonItem):
     - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
     - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
     - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
-    - **Key-Sanity:** Big keys can be found in any progression location.
+    - **Anywhere:** Big keys can be found in any progression location.
 
     Note:
     Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
@@ -233,7 +233,7 @@ class MapAndCompassSettings(DungeonItem):
     - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
     - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
     - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
-    - **Key-Sanity:** Dungeon maps and compasses can be found anywhere, without restriction.
+    - **Anywhere:** Dungeon maps and compasses can be found anywhere, without restriction.
 
     Note:
     Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with

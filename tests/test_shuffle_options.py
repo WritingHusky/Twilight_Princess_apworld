@@ -32,7 +32,7 @@ dungeon_values = [
     DungeonItem.option_vanilla,
     DungeonItem.option_own_dungeon,
     DungeonItem.option_any_dungeon,
-    DungeonItem.option_keysy,
+    DungeonItem.option_anywhere,
 ]
 
 
@@ -108,9 +108,9 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
         "overworld_shuffled": True,
         "heart_piece_shuffled": True,
         "dungeons_shuffled": True,
-        "small_key_settings": DungeonItem.option_keysy,
-        "big_key_settings": DungeonItem.option_keysy,
-        "map_and_compass_settings": DungeonItem.option_keysy,
+        "small_key_settings": DungeonItem.option_anywhere,
+        "big_key_settings": DungeonItem.option_anywhere,
+        "map_and_compass_settings": DungeonItem.option_anywhere,
         "skip_prologue": True,
         "faron_twilight_cleared": True,
         "eldin_twilight_cleared": True,
@@ -152,7 +152,9 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
         if not self.run_long_tests:
             return
         combinations = generate_all_shuffle_options_bool(DungeonItem.option_vanilla)
-        combinations.extend(generate_all_shuffle_options_bool(DungeonItem.option_keysy))
+        combinations.extend(
+            generate_all_shuffle_options_bool(DungeonItem.option_anywhere)
+        )
         for combination in combinations:
             valid = True
             with self.subTest(
@@ -212,9 +214,9 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "overworld_shuffled": OverWoldShuffled.default,
             "heart_piece_shuffled": HeartPieceShuffled.default,
             "dungeons_shuffled": DungeonsShuffled.default,
-            "small_key_settings": SmallKeySettings.option_keysy,
-            "big_key_settings": BigKeySettings.option_keysy,
-            "map_and_compass_settings": MapAndCompassSettings.option_keysy,
+            "small_key_settings": SmallKeySettings.option_anywhere,
+            "big_key_settings": BigKeySettings.option_anywhere,
+            "map_and_compass_settings": MapAndCompassSettings.option_anywhere,
             "dungeon_rewards_progression": DungeonRewardsProgression.default,
             "small_keys_on_bosses": SmallKeysOnBosses.default,
             "skip_prologue": SkipPrologue.default,

@@ -30,16 +30,16 @@ class TPLogic(LogicMixin):
     def _tp_shops_shuffled(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.shop_items_shuffled.value
 
-    def _tp_is_small_keysy(self, player: int) -> bool:
+    def _tp_is_small_key_anywhere(self, player: int) -> bool:
         return (
             self.multiworld.worlds[player].options.small_key_settings.value
-            == SmallKeySettings.option_keysy
+            == SmallKeySettings.option_anywhere
         )
 
-    def _tp_is_big_keysy(self, player: int) -> bool:
+    def _tp_is_big_key_anywhere(self, player: int) -> bool:
         return (
             self.multiworld.worlds[player].options.big_key_settings.value
-            == BigKeySettings.option_keysy
+            == BigKeySettings.option_anywhere
         )
 
     def _tp_small_key_settings(self, player: int) -> int:
@@ -158,7 +158,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Progressive Clawshot", player, 1)
@@ -177,7 +177,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -204,7 +204,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -217,7 +217,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 2)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -236,7 +236,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -250,7 +250,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -270,7 +270,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -286,7 +286,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -302,7 +302,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -318,7 +318,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -334,7 +334,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 5)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -356,7 +356,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Shadow Crystal", player)
@@ -371,7 +371,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_defeat_RedeadKnight(state, player)
@@ -391,7 +391,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_defeat_RedeadKnight(state, player)
@@ -408,7 +408,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Arbiters Grounds Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_defeat_RedeadKnight(state, player)
@@ -619,7 +619,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Forest Temple Small Key", player, 4)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -641,7 +641,9 @@ def set_location_access_rules(world: "TPWorld"):
         "Forest Temple Second Monkey Under Bridge Chest",
         lambda state: (
             state.has("Forest Temple Small Key", player, 4)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
     set_rule_if_exists("Forest Temple Totem Pole Chest", lambda state: (True))
@@ -749,7 +751,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Goron Mines Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -909,7 +911,7 @@ def set_location_access_rules(world: "TPWorld"):
                     state.has("Lakebed Temple Small Key", player, 3)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and (
@@ -931,7 +933,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and (
@@ -952,7 +954,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and (
@@ -983,7 +985,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Iron Boots", player)
@@ -1002,7 +1004,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Zora Armor", player)
@@ -1029,7 +1031,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_launch_bombs(state, player)
@@ -1059,7 +1061,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Progressive Clawshot", player, 1)
@@ -1074,7 +1076,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Lakebed Temple Small Key", player, 3)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and (
@@ -1192,7 +1194,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Palace of Twilight Small Key", player, 7)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and can_defeat_ShadowBeast(state, player)
@@ -1210,7 +1212,7 @@ def set_location_access_rules(world: "TPWorld"):
                     state.has("Palace of Twilight Small Key", player, 6)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and can_defeat_ShadowBeast(state, player)
@@ -1233,7 +1235,7 @@ def set_location_access_rules(world: "TPWorld"):
                     state.has("Palace of Twilight Small Key", player, 6)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
                 and can_defeat_ShadowBeast(state, player)
@@ -1267,7 +1269,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1293,7 +1295,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1319,7 +1321,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1345,7 +1347,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1379,7 +1381,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1404,7 +1406,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1429,7 +1431,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1476,7 +1478,7 @@ def set_location_access_rules(world: "TPWorld"):
                     )
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1511,7 +1513,7 @@ def set_location_access_rules(world: "TPWorld"):
                 )
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Ball and Chain", player)
@@ -1563,7 +1565,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Ordon Goat Cheese", player)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
             and state.has("Ball and Chain", player)
@@ -1795,7 +1797,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("North Faron Woods Gate Keys", player)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
             )
         ),
@@ -1813,7 +1815,7 @@ def set_location_access_rules(world: "TPWorld"):
                     state.has("North Faron Woods Gate Keys", player)
                     or (
                         state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_keysy
+                        == SmallKeySettings.option_anywhere
                     )
                 )
             )
@@ -1934,7 +1936,9 @@ def set_location_access_rules(world: "TPWorld"):
         "Rutelas Blessing",
         lambda state: (
             state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_small_key_settings(player) == SmallKeySettings.option_keysy)
+            or (
+                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            )
         ),
     )
     set_rule_if_exists(
@@ -2099,7 +2103,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Gerudo Desert Bublin Camp Key", player)
                 or (
                     state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_keysy
+                    == SmallKeySettings.option_anywhere
                 )
                 or (state._tp_skip_arbiters_entrance(player))
             )
