@@ -208,7 +208,7 @@ class TPContext(CommonContext):
                     not args["slot_data"]["World Version"]
                     or args["slot_data"]["World Version"] != VERSION
                 ):
-                    logger.warn(
+                    logger.warning(
                         f"""Client version does not match version of generated seed. 
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
