@@ -954,7 +954,10 @@ class TPWorld(World):
 
         :return: A dictionary to be sent to the client when it connects to the server.
         """
-        slot_data = {"World Version": VERSION}
+        slot_data = {
+            "World Version": VERSION,
+            "death_link": self.options.death_link.value,
+        }
 
         return slot_data
 
