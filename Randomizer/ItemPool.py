@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Dict, List, Tuple
 
 from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
-from ..options import SmallKeySettings
+from ..options import DungeonItem, SmallKeySettings
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
@@ -212,18 +212,20 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
             if (
                 (
                     item in item_name_groups["Small Keys"]
-                    and world.options.small_key_settings.option_startwith
+                    and world.options.small_key_settings.value
+                    == DungeonItem.option_startwith
                 )
                 or (
                     item in item_name_groups["Big Keys"]
-                    and world.options.big_key_settings.option_startwith
+                    and world.options.big_key_settings.value
+                    == DungeonItem.option_startwith
                 )
                 or (
                     item in item_name_groups["Maps and Compasses"]
-                    and world.options.map_and_compass_settings.option_startwith
+                    and world.options.map_and_compass_settings.value
+                    == DungeonItem.option_startwith
                 )
             ):
-                print(item)
                 precollected_items.extend([item] * data.quantity)
                 continue
 
