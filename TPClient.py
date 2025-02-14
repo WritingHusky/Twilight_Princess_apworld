@@ -38,6 +38,8 @@ CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 # NODES_START_ADDR = 0x804063B0
 # ACTIVE_NODE_ADDR = 0x80406B18
 
+DEBUGING = False
+
 
 def set_address(
     regionCode=None,
@@ -380,6 +382,8 @@ async def give_items(ctx: TPContext) -> None:
         for item, idx in ctx.items_received_2:
             # If the item's index is greater than the player's expected index, give the player the item.
             if expected_idx <= idx:
+                if DEBUGING:
+                    logger.info(f"getting item: {LOOKUP_ID_TO_NAME[item.item]}")
                 # Attempt to give the item and increment the expected index.
                 while not await _give_item(ctx, LOOKUP_ID_TO_NAME[item.item]):
                     await asyncio.sleep(0.1)
