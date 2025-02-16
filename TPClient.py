@@ -604,7 +604,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
 
             dolphin_memory_engine.un_hook()
             logger.info(
-                "Connection to Dolphin failed, attempting again in 5 seconds..."
+                "Connection to Dolphin failed due to  error, attempting again in 5 seconds..."
             )
             logger.error(traceback.format_exc())
             ctx.dolphin_status = CONNECTION_LOST_STATUS
