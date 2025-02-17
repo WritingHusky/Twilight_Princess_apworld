@@ -252,7 +252,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
 }
 
-LOOKUP_ID_TO_NAME: dict[int, Item] = {
+LOOKUP_ID_TO_NAME: dict[int, str] = {
     TPItem.get_apid(data.code): item
     for item, data in ITEM_TABLE.items()
     if data.code is not None

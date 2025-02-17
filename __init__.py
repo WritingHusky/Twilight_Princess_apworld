@@ -169,6 +169,7 @@ class TPWorld(World):
         options = self.options
 
         enabled_flags = TPFlag.Always
+        enabled_flags |= TPFlag.Boss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
         enabled_flags |= add_flag(options.sky_characters_shuffled, TPFlag.Sky_Book)
@@ -954,7 +955,10 @@ class TPWorld(World):
 
         :return: A dictionary to be sent to the client when it connects to the server.
         """
-        slot_data = {"World Version": VERSION}
+        slot_data = {
+            "World Version": VERSION,
+            "death_link": self.options.death_link.value,
+        }
 
         return slot_data
 

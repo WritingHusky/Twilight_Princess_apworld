@@ -13,7 +13,7 @@ With the new settings update, Item pool / Locations settings and Dungeon Items s
 - Item pool / Location settings
 - progression blancing
 - accessibility
-- death link (Questionable)
+- death link
 - local items
 - non local items
 - start inventory
@@ -34,7 +34,7 @@ With custom randomizer gci, defeating ganon will trigger the release of the worl
 
 Node changes mid locations checking now reset checked locations. This should stop suprise locations sending. Further testing is needed to see if this fixes this.
 
-Death link apperntly does not work. So more testing is needed when client work starts.
+Death link should work (need to test further).
 
 Non US Region support (EU, JP) currently under devlopment.
 
@@ -46,7 +46,7 @@ With ther being 475 locations in the game there are bound to be mistakes in the 
 
 ## Generation
 
-When generating the world, all possible locations will be created and given an item. Logic is currently static in glitchless, based off the world data from the base randomizer web generator. (If you find logic weridness please make an issue for it)
+When generating the world, all possible locations will be created and given an item. Logic is currently only glitchless, based off the world data from the base randomizer web generator. (If you find logic weridness please make an issue for it)
 
 ## Dungeons
 
