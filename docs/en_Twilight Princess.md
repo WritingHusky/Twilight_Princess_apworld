@@ -22,7 +22,7 @@ When the player receives an item, it will be added to a queue, where link will g
 
 ## I need help! What do I do?
 
-Refer to the [Base Randomizer Website](https://tprandomizer.com/) first. Then, try the troubleshooting steps in the setup guide. If you are still stuck, please ask in the Twilight Princess thread (under `future-game-design`) in the Archipelago server.
+Refer to the [Base Randomizer Website](https://tprandomizer.com/) first. Then, try the troubleshooting steps in the [setup guide](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md). If you are still stuck, please ask in the Twilight Princess thread (under `future-game-design`) in the Archipelago server.
 
 ## State of the rando
 
