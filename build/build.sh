@@ -156,7 +156,7 @@ function main() {
 
     # Create the release bundle.
     *)
-        local tag="${TAG:-v0.2.0}"
+        local tag="${TAG:-dev}"
         local project="$(realpath ${CWD}/..)"
         local bundle="${bundle_base}-${tag}"
         local destdir="${target_path}/${bundle}"
