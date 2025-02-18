@@ -190,7 +190,7 @@ Twilight Princess:
     vanilla: 50
     own_dungeon: 0
     any_dungeon: 0
-    key_anywhere: 0
+    anywhere: 0
 
   big_key_settings:
     # Controls how big keys are randomized.
@@ -207,7 +207,7 @@ Twilight Princess:
     vanilla: 50
     own_dungeon: 0
     any_dungeon: 0
-    key_anywhere: 0
+    anywhere: 0
 
   map_and_compass_settings:
     # Controls requirements for obtaining maps and compasses.
@@ -226,7 +226,7 @@ Twilight Princess:
     vanilla: 50
     own_dungeon: 0
     any_dungeon: 0
-    key_anywhere: 0
+    anywhere: 0
 
   # Timesavers
   skip_prologue:
