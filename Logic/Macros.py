@@ -1362,17 +1362,19 @@ def can_free_all_monkeys(state: CollectionState, player: int):
         can_break_monkey_cage(state, player)
         and (
             state.has("Lantern", player)
-            or (
-                state._tp_is_small_key_anywhere(player)
-                and (has_bombs(state, player) or state.has("Iron Boots", player))
-            )
+            # Holdover from Keysy
+            # or (
+            #     state._tp_is_small_keysy(player)
+            #     and (has_bombs(state, player) or state.has("Iron Boots", player))
+            # )
         )
         and can_burn_webs(state, player)
         and state.has("Gale Boomerang", player)
         and can_defeat_Bokoblin(state, player)
         and (
             (state.has("Forest Temple Small Key", player, 4))
-            or (state._tp_is_small_key_anywhere(player))
+            # Holdover from Keysy
+            # or (state._tp_is_small_keysy(player))
         )
     )
 
@@ -1880,8 +1882,9 @@ def can_complete_eldin_twilight_glitched(state: CollectionState, player: int):
 
 def can_skip_key_to_deku_toad(state: CollectionState, player: int):
     return (
-        state._tp_is_small_key_anywhere(player)
-        or state.has("Progressive Hidden Skill", player, 3)
+        # Holdover from Keysy
+        # state._tp_is_small_keysy(player)
+        state.has("Progressive Hidden Skill", player, 3)
         or can_do_bs_moon_boots(state, player)
         or can_do_js_moon_boots(state, player)
         or can_do_lja(state, player)

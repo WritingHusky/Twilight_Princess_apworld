@@ -156,10 +156,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Progressive Clawshot", player, 1)
             and state.has("Spinner", player)
@@ -175,10 +176,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -202,10 +204,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Arbiters Grounds Small Key", player, 2)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -215,10 +218,11 @@ def set_location_access_rules(world: "TPWorld"):
             has_damaging_item(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 2)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -234,10 +238,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_RedeadKnight(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -248,10 +253,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_RedeadKnight(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -268,10 +274,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -284,10 +291,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -300,10 +308,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -316,10 +325,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -332,10 +342,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalfos(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 5)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -354,10 +365,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Arbiters Grounds Small Key", player, 4)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Shadow Crystal", player)
         ),
@@ -369,10 +381,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 4)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and can_defeat_RedeadKnight(state, player)
             and can_defeat_Stalchild(state, player)
@@ -389,10 +402,11 @@ def set_location_access_rules(world: "TPWorld"):
             can_break_wooden_door(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 4)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and can_defeat_RedeadKnight(state, player)
             and can_defeat_Stalchild(state, player)
@@ -406,10 +420,11 @@ def set_location_access_rules(world: "TPWorld"):
             can_break_wooden_door(state, player)
             and (
                 state.has("Arbiters Grounds Small Key", player, 4)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and can_defeat_RedeadKnight(state, player)
             and can_defeat_Stalchild(state, player)
@@ -617,10 +632,11 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Gale Boomerang", player)
             and (
                 state.has("Forest Temple Small Key", player, 4)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -641,9 +657,10 @@ def set_location_access_rules(world: "TPWorld"):
         "Forest Temple Second Monkey Under Bridge Chest",
         lambda state: (
             state.has("Forest Temple Small Key", player, 4)
-            or (
-                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
-            )
+            # Holdover from Keysy
+            # or (
+            #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            # )
         ),
     )
     set_rule_if_exists("Forest Temple Totem Pole Chest", lambda state: (True))
@@ -749,10 +766,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Dangoro(state, player)
             and (
                 state.has("Goron Mines Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -909,10 +927,11 @@ def set_location_access_rules(world: "TPWorld"):
             or (
                 (
                     state.has("Lakebed Temple Small Key", player, 3)
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
                 and (
                     can_launch_bombs(state, player)
@@ -931,10 +950,11 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Iron Boots", player)
             and (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and (
                 can_launch_bombs(state, player)
@@ -952,10 +972,11 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Iron Boots", player)
             and (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and (
                 can_launch_bombs(state, player)
@@ -983,10 +1004,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Iron Boots", player)
             and can_launch_bombs(state, player)
@@ -1002,10 +1024,11 @@ def set_location_access_rules(world: "TPWorld"):
             can_defeat_DekuToad(state, player)
             and (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Zora Armor", player)
             and state.has("Iron Boots", player)
@@ -1029,10 +1052,11 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             and (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and can_launch_bombs(state, player)
         ),
@@ -1059,10 +1083,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Progressive Clawshot", player, 1)
             and can_smash(state, player)
@@ -1074,10 +1099,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Lakebed Temple Small Key", player, 3)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and (
                 state.has("Progressive Clawshot", player, 1)
@@ -1192,10 +1218,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_ZantHead(state, player)
             and (
                 state.has("Palace of Twilight Small Key", player, 7)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and can_defeat_ShadowBeast(state, player)
         ),
@@ -1210,10 +1237,11 @@ def set_location_access_rules(world: "TPWorld"):
                 and can_defeat_ZantHead(state, player)
                 and (
                     state.has("Palace of Twilight Small Key", player, 6)
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
                 and can_defeat_ShadowBeast(state, player)
             )
@@ -1233,10 +1261,11 @@ def set_location_access_rules(world: "TPWorld"):
                 and can_defeat_ZantHead(state, player)
                 and (
                     state.has("Palace of Twilight Small Key", player, 6)
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
                 and can_defeat_ShadowBeast(state, player)
             )
@@ -1267,10 +1296,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1293,10 +1323,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1319,10 +1350,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1345,10 +1377,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1379,10 +1412,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
             and can_defeat_ZantHead(state, player)
@@ -1404,10 +1438,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
             and can_defeat_ZantHead(state, player)
@@ -1429,10 +1464,11 @@ def set_location_access_rules(world: "TPWorld"):
                             and state.has("Palace of Twilight Small Key", player, 3)
                         )
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
             and can_defeat_ZantHead(state, player)
@@ -1476,10 +1512,11 @@ def set_location_access_rules(world: "TPWorld"):
                         state.has("Snowpeak Ruins Small Key", player, 2)
                         or state.has("Ordon Goat Cheese", player)
                     )
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1511,10 +1548,11 @@ def set_location_access_rules(world: "TPWorld"):
                     state.has("Snowpeak Ruins Small Key", player, 3)
                     and state.has("Ordon Goat Cheese", player)
                 )
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Ball and Chain", player)
         ),
@@ -1563,10 +1601,11 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 state.has("Ordon Goat Cheese", player)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
             and state.has("Ball and Chain", player)
         ),
@@ -1795,10 +1834,11 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Ashei's Sketch", player)
             and (
                 state.has("North Faron Woods Gate Keys", player)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
             )
         ),
     )
@@ -1813,10 +1853,11 @@ def set_location_access_rules(world: "TPWorld"):
                 )
                 and (
                     state.has("North Faron Woods Gate Keys", player)
-                    or (
-                        state._tp_small_key_settings(player)
-                        == SmallKeySettings.option_anywhere
-                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
                 )
             )
         ),
@@ -1936,9 +1977,10 @@ def set_location_access_rules(world: "TPWorld"):
         "Rutelas Blessing",
         lambda state: (
             state.has("North Faron Woods Gate Keys", player)
-            or (
-                state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
-            )
+            # Holdover from Keysy
+            # or (
+            #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
+            # )
         ),
     )
     set_rule_if_exists(
@@ -2101,10 +2143,11 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Shadow Crystal", player)
             and (
                 state.has("Gerudo Desert Bublin Camp Key", player)
-                or (
-                    state._tp_small_key_settings(player)
-                    == SmallKeySettings.option_anywhere
-                )
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
                 or (state._tp_skip_arbiters_entrance(player))
             )
         ),
