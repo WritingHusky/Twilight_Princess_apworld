@@ -372,7 +372,7 @@ class TPWorld(World):
                         len(VANILLA_BIG_KEY_LOCATIONS[dungeon_name][item_name])
                     ):
                         # This could deal with small keys on bosses but I think item rules would be better
-                        collection_state_small_key.collect(self.create_item(item_name))
+                        # collection_state_small_key.collect(self.create_item(item_name))
                         collection_state_map_and_compass.collect(
                             self.create_item(item_name)
                         )
@@ -422,11 +422,11 @@ class TPWorld(World):
 
         for dungeon_name in VANILLA_BIG_KEY_LOCATIONS:
             for item_name in VANILLA_BIG_KEY_LOCATIONS[dungeon_name]:
-                assert collection_state_small_key.has(
-                    item_name,
-                    self.player,
-                    len(VANILLA_BIG_KEY_LOCATIONS[dungeon_name][item_name]) - 1,
-                ), f"{item_name} not in small key state count={collection_state_small_key.count(item_name,self.player)}"
+                # assert collection_state_small_key.has(
+                #     item_name,
+                #     self.player,
+                #     len(VANILLA_BIG_KEY_LOCATIONS[dungeon_name][item_name]) - 1,
+                # ), f"{item_name} not in small key state count={collection_state_small_key.count(item_name,self.player)}"
                 assert collection_state_map_and_compass.has(
                     item_name,
                     self.player,
@@ -572,18 +572,18 @@ class TPWorld(World):
                     # Sanity check
                     item_name = None
 
-                    # # Palace of Twilight needs arbiters grounds to be able to be commpleted
-                    # state_copy = None
-                    # if item_dungeon == "Palace of Twilight":
-                    #     state_copy = copy(state)
-                    #     if not state.has("Arbiters Grounds Big Key", self.player):
-                    #         state.collect(self.create_item("Arbiters Grounds Big Key"))
-                    #     if not state.has("Arbiters Grounds Small Key", self.player, 5):
-                    #         for _ in range(5):
-                    #             state.collect(
-                    #                 self.create_item("Arbiters Grounds Small Key")
-                    #             )
-                    #     state.sweep_for_advancements()
+                    # Palace of Twilight needs arbiters grounds to be able to be commpleted
+                    state_copy = None
+                    if dungeon_name == "Palace of Twilight":
+                        state_copy = state.copy()
+                        if not state.has("Arbiters Grounds Big Key", self.player):
+                            state.collect(self.create_item("Arbiters Grounds Big Key"))
+                        if not state.has("Arbiters Grounds Small Key", self.player, 5):
+                            for _ in range(5):
+                                state.collect(
+                                    self.create_item("Arbiters Grounds Small Key")
+                                )
+                        state.sweep_for_advancements()
 
                     assert len(locations) >= len(
                         items
@@ -609,8 +609,8 @@ class TPWorld(World):
                         len(items) == 0
                     ), f"(Own dungeon) Not all items placed {items=}"
 
-                    # if state_copy:
-                    #     state = state_copy
+                    if state_copy:
+                        state = state_copy
 
                     for item in items_copy:
                         pre_fill_items.remove(item)
