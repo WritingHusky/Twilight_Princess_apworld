@@ -18,7 +18,6 @@ If you're playing Twilight Princess, you'll also need:
 
 - Install [Dolphin Emulator](https://dolphin-emu.org/download/).\
    **We recommend using the latest release.**
-- The latest version of the [TP Randomizer Build](https://tprandomizer.com/downloads/).
 - A Twilight Princess ISO (North American version), probably named "Legend of Zelda, The - Twilight Princess (USA).iso".
 
 If you intend to play under Linux, you will need to consider the following information.
@@ -113,7 +112,7 @@ Once you do, follow these steps to connect to the room:
   It should automaticly reconnect, so ensure that dolphin is open and running
 - Ensure that you do not have any Dolphin cheats or codes enabled. Some cheats or codes can unexpectedly interfere with
   emulation and make troubleshooting errors difficult.
-- If you get an error message, ensure that `Enable Emulated Memory Size Override` in Dolphin (under `Options` >
+- If Dolphin is not connecting, ensure that `Enable Emulated Memory Size Override` in Dolphin (under `Options` >
   `Configuration` > `Advanced`) is **disabled**.
 - If you run with a custom GC boot menu, you'll need to skip it by going to `Options` > `Configuration` > `GameCube`
   and checking `Skip Main Menu`.
