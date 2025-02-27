@@ -22,7 +22,7 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
         logging.FileHandler("worlds\\twilight_princess_apworld\\tests\\logs.log")
     )
 
-    run_long_tests = False
+    run_long_tests = True
 
     # Make sure that options are rest for every test
     @pytest.fixture(autouse=True)
