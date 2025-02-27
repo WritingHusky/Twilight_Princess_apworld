@@ -131,8 +131,9 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             return
         combinations = generate_all_shuffle_options_dungeon(True)
         combinations.extend(generate_all_shuffle_options_dungeon(False))
+        valid = True
+        pass_count = 0
         for combination in combinations:
-            valid = True
             with self.subTest(
                 "Twilight Princess Options", game=self.game, seed=self.multiworld.seed
             ):
@@ -141,12 +142,14 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
                 if any([self.options[key] for key in bool_options]):
                     try:
                         self.world_setup(get_seed())
+                        # self.assertBeatable(True)
+                        pass_count += 1
                     except Exception as e:
                         self.logger.info(
                             f"Dungeon: {e=},{print_exception(e)}\n{self.options=}\n"
                         )
                         valid = False
-            self.assertTrue(valid, "Dungeon options cause error check logs")
+        self.assertTrue(valid, f"Dungeon options cause error check logs. {pass_count=}")
 
     def test_all_bool_options(self):
         if not self.run_long_tests:
@@ -155,8 +158,9 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
         combinations.extend(
             generate_all_shuffle_options_bool(DungeonItem.option_anywhere)
         )
+        valid = True
+        pass_count = 0
         for combination in combinations:
-            valid = True
             with self.subTest(
                 "Twilight Princess Options", game=self.game, seed=self.multiworld.seed
             ):
@@ -165,6 +169,8 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
                 if any([self.options[key] for key in bool_options]):
                     try:
                         self.world_setup(get_seed())
+                        # self.assertBeatable(True)
+                        pass_count += 1
                     except Exception as e:
                         # self.logger.info("a")
                         # Only one of Dungeons and Overworld can be false
@@ -184,7 +190,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
                                     f"Bool: {e=},{print_exception(e)}\n{self.options=}\n"
                                 )
                                 valid = False
-            self.assertTrue(valid, "Bool options cause error check logs")
+        self.assertTrue(valid, f"Bool options cause error check logs. {pass_count=}")
 
     def test_no_shuffle_options(self):
         self.options["golden_bugs_shuffled"] = False
@@ -237,3 +243,4 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "tot_entrance": TotEntrance.default,
         }
         self.world_setup(get_seed())
+        # self.assertBeatable(True)

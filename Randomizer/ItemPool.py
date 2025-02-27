@@ -13,146 +13,204 @@ if TYPE_CHECKING:
     from .. import TPWorld
 
 VANILLA_SMALL_KEYS_LOCATIONS = {
-    "Forest Temple Small Key": [
-        "Forest Temple Big Baba Key",
-        "Forest Temple North Deku Like Chest",
-        "Forest Temple Totem Pole Chest",
-        "Forest Temple Windless Bridge Chest",
-    ],
-    "Goron Mines Small Key": [
-        "Goron Mines Main Magnet Room Bottom Chest",
-        "Goron Mines Crystal Switch Room Underwater Chest",
-        "Goron Mines Outside Beamos Chest",
-    ],
-    "Lakebed Temple Small Key": [
-        "Lakebed Temple Before Deku Toad Alcove Chest",
-        "Lakebed Temple East Lower Waterwheel Stalactite Chest",
-        "Lakebed Temple East Second Floor Southeast Chest",
-    ],
-    "Arbiters Grounds Small Key": [
-        "Arbiters Grounds Entrance Chest",
-        "Arbiters Grounds East Lower Turnable Redead Chest",
-        "Arbiters Grounds East Upper Turnable Redead Chest",
-        "Arbiters Grounds Ghoul Rat Room Chest",
-        "Arbiters Grounds North Turning Room Chest",
-    ],
-    "Snowpeak Ruins Small Key": [
-        "Snowpeak Ruins East Courtyard Chest",
-        "Snowpeak Ruins West Courtyard Buried Chest",
-        "Snowpeak Ruins Wooden Beam Chandelier Chest",
-        "Snowpeak Ruins Northeast Chandelier Chest",
-    ],
-    "Temple of Time Small Key": [
-        "Temple of Time Lobby Lantern Chest",
-        "Temple of Time Armos Antechamber East Chest",
-        "Temple of Time Gilloutine Chest",
-    ],
-    "City in The Sky Small Key": [
-        "City in The Sky West Wing First Chest",
-    ],
-    "Palace of Twilight Small Key": [
-        "Palace of Twilight West Wing First Room Central Chest",
-        "Palace of Twilight West Wing Second Room Central Chest",
-        "Palace of Twilight East Wing First Room Zant Head Chest",
-        "Palace of Twilight East Wing Second Room Southeast Chest",
-        "Palace of Twilight Central Tower Chest",
-        "Palace of Twilight Central Outdoor Chest",
-        "Palace of Twilight Central First Room Chest",
-    ],
-    "Hyrule Castle Small Key": [
-        "Hyrule Castle King Bulblin Key",
-        "Hyrule Castle Graveyard Owl Statue Chest",
-        "Hyrule Castle Southeast Balcony Tower Chest",
-    ],
+    "Forest Temple": {
+        "Forest Temple Small Key": [
+            "Forest Temple Big Baba Key",
+            "Forest Temple North Deku Like Chest",
+            "Forest Temple Totem Pole Chest",
+            "Forest Temple Windless Bridge Chest",
+        ],
+    },
+    "Goron Mines": {
+        "Goron Mines Small Key": [
+            "Goron Mines Main Magnet Room Bottom Chest",
+            "Goron Mines Crystal Switch Room Underwater Chest",
+            "Goron Mines Outside Beamos Chest",
+        ],
+    },
+    "Lakebed Temple": {
+        "Lakebed Temple Small Key": [
+            "Lakebed Temple Before Deku Toad Alcove Chest",
+            "Lakebed Temple East Lower Waterwheel Stalactite Chest",
+            "Lakebed Temple East Second Floor Southeast Chest",
+        ],
+    },
+    "Arbiters Grounds": {
+        "Arbiters Grounds Small Key": [
+            "Arbiters Grounds Entrance Chest",
+            "Arbiters Grounds East Lower Turnable Redead Chest",
+            "Arbiters Grounds East Upper Turnable Redead Chest",
+            "Arbiters Grounds Ghoul Rat Room Chest",
+            "Arbiters Grounds North Turning Room Chest",
+        ],
+    },
+    "Snowpeak Ruins": {
+        "Snowpeak Ruins Small Key": [
+            "Snowpeak Ruins East Courtyard Chest",
+            "Snowpeak Ruins West Courtyard Buried Chest",
+            "Snowpeak Ruins Wooden Beam Chandelier Chest",
+            "Snowpeak Ruins Northeast Chandelier Chest",
+        ],
+        "Ordon Pumpkin": [
+            "Snowpeak Ruins Ordon Pumpkin Chest",
+        ],
+        "Ordon Goat Cheese": ["Snowpeak Ruins Chest After Darkhammer"],
+    },
+    "Temple of Time": {
+        "Temple of Time Small Key": [
+            "Temple of Time Lobby Lantern Chest",
+            "Temple of Time Armos Antechamber East Chest",
+            "Temple of Time Gilloutine Chest",
+        ],
+    },
+    "City in The Sky": {
+        "City in The Sky Small Key": [
+            "City in The Sky West Wing First Chest",
+        ],
+    },
+    "Palace of Twilight": {
+        "Palace of Twilight Small Key": [
+            "Palace of Twilight West Wing First Room Central Chest",
+            "Palace of Twilight West Wing Second Room Central Chest",
+            "Palace of Twilight East Wing First Room Zant Head Chest",
+            "Palace of Twilight East Wing Second Room Southeast Chest",
+            "Palace of Twilight Central Tower Chest",
+            "Palace of Twilight Central Outdoor Chest",
+            "Palace of Twilight Central First Room Chest",
+        ],
+    },
+    "Hyrule Castle": {
+        "Hyrule Castle Small Key": [
+            "Hyrule Castle King Bulblin Key",
+            "Hyrule Castle Graveyard Owl Statue Chest",
+            "Hyrule Castle Southeast Balcony Tower Chest",
+        ],
+    },
 }
 
 VANILLA_BIG_KEY_LOCATIONS = {
-    "Forest Temple Big Key": [
-        "Forest Temple Big Key Chest",
-    ],
-    "Goron Mines Key Shard": [
-        "Goron Mines Gor Amato Key Shard",
-        "Goron Mines Gor Ebizo Key Shard",
-        "Goron Mines Gor Liggs Key Shard",
-    ],
-    "Lakebed Temple Big Key": [
-        "Lakebed Temple Big Key Chest",
-    ],
-    "Arbiters Grounds Big Key": [
-        "Arbiters Grounds Big Key Chest",
-    ],
-    "Bedroom Key": [
-        "Snowpeak Ruins Chapel Chest",
-    ],
-    "Temple of Time Big Key": [
-        "Temple of Time Big Key Chest",
-    ],
-    "City in The Sky Big Key": [
-        "City in The Sky Big Key Chest",
-    ],
-    "Palace of Twilight Big Key": [
-        "Palace of Twilight Big Key Chest",
-    ],
-    "Hyrule Castle Big Key": [
-        "Hyrule Castle Big Key Chest",
-    ],
+    "Forest Temple": {
+        "Forest Temple Big Key": [
+            "Forest Temple Big Key Chest",
+        ],
+    },
+    "Goron Mines": {
+        "Goron Mines Key Shard": [
+            "Goron Mines Gor Amato Key Shard",
+            "Goron Mines Gor Ebizo Key Shard",
+            "Goron Mines Gor Liggs Key Shard",
+        ],
+    },
+    "Lakebed Temple": {
+        "Lakebed Temple Big Key": [
+            "Lakebed Temple Big Key Chest",
+        ],
+    },
+    "Arbiters Grounds": {
+        "Arbiters Grounds Big Key": [
+            "Arbiters Grounds Big Key Chest",
+        ],
+    },
+    "Snowpeak Ruins": {
+        "Bedroom Key": [
+            "Snowpeak Ruins Chapel Chest",
+        ],
+    },
+    "Temple of Time": {
+        "Temple of Time Big Key": [
+            "Temple of Time Big Key Chest",
+        ],
+    },
+    "City in The Sky": {
+        "City in The Sky Big Key": [
+            "City in The Sky Big Key Chest",
+        ],
+    },
+    "Palace of Twilight": {
+        "Palace of Twilight Big Key": [
+            "Palace of Twilight Big Key Chest",
+        ],
+    },
+    "Hyrule Castle": {
+        "Hyrule Castle Big Key": [
+            "Hyrule Castle Big Key Chest",
+        ],
+    },
 }
 
 VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
-    "Forest Temple Map": [
-        "Forest Temple Central North Chest",
-    ],
-    "Goron Mines Map": [
-        "Goron Mines Gor Amato Chest",
-    ],
-    "Lakebed Temple Map": [
-        "Lakebed Temple Central Room Chest",
-    ],
-    "Arbiters Grounds Map": [
-        "Arbiters Grounds Torch Room West Chest",
-    ],
-    "Snowpeak Ruins Map": [
-        "Snowpeak Ruins Mansion Map",
-    ],
-    "Temple of Time Map": [
-        "Temple of Time First Staircase Armos Chest",
-    ],
-    "City in The Sky Map": [
-        "City in The Sky East First Wing Chest After Fans",
-    ],
-    "Palace of Twilight Map": [
-        "Palace of Twilight East Wing Second Room Southwest Chest",
-    ],
-    "Hyrule Castle Map": [
-        "Hyrule Castle East Wing Boomerang Puzzle Chest",
-    ],
-    "Forest Temple Compass": [
-        "Forest Temple Central Chest Hanging From Web",
-    ],
-    "Goron Mines Compass": [
-        "Goron Mines Beamos Room Chest",
-    ],
-    "Lakebed Temple Compass": [
-        "Lakebed Temple West Water Supply Chest",
-    ],
-    "Arbiters Grounds Compass": [
-        "Arbiters Grounds East Upper Turnable Chest",
-    ],
-    "Snowpeak Ruins Compass": [
-        "Snowpeak Ruins Wooden Beam Northwest Chest",
-    ],
-    "Temple of Time Compass": [
-        "Temple of Time Moving Wall Beamos Room Chest",
-    ],
-    "City in The Sky Compass": [
-        "City in The Sky East Wing Lower Level Chest",
-    ],
-    "Palace of Twilight Compass": [
-        "Palace of Twilight West Wing Second Room Lower South Chest",
-    ],
-    "Hyrule Castle Compass": [
-        "Hyrule Castle Main Hall Northeast Chest",
-    ],
+    "Forest Temple": {
+        "Forest Temple Map": [
+            "Forest Temple Central North Chest",
+        ],
+        "Forest Temple Compass": [
+            "Forest Temple Central Chest Hanging From Web",
+        ],
+    },
+    "Goron Mines": {
+        "Goron Mines Map": [
+            "Goron Mines Gor Amato Chest",
+        ],
+        "Goron Mines Compass": [
+            "Goron Mines Beamos Room Chest",
+        ],
+    },
+    "Lakebed Temple": {
+        "Lakebed Temple Map": [
+            "Lakebed Temple Central Room Chest",
+        ],
+        "Lakebed Temple Compass": [
+            "Lakebed Temple West Water Supply Chest",
+        ],
+    },
+    "Arbiters Grounds": {
+        "Arbiters Grounds Map": [
+            "Arbiters Grounds Torch Room West Chest",
+        ],
+        "Arbiters Grounds Compass": [
+            "Arbiters Grounds East Upper Turnable Chest",
+        ],
+    },
+    "Snowpeak Ruins": {
+        "Snowpeak Ruins Map": [
+            "Snowpeak Ruins Mansion Map",
+        ],
+        "Snowpeak Ruins Compass": [
+            "Snowpeak Ruins Wooden Beam Northwest Chest",
+        ],
+    },
+    "Temple of Time": {
+        "Temple of Time Map": [
+            "Temple of Time First Staircase Armos Chest",
+        ],
+        "Temple of Time Compass": [
+            "Temple of Time Moving Wall Beamos Room Chest",
+        ],
+    },
+    "City in The Sky": {
+        "City in The Sky Map": [
+            "City in The Sky East First Wing Chest After Fans",
+        ],
+        "City in The Sky Compass": [
+            "City in The Sky East Wing Lower Level Chest",
+        ],
+    },
+    "Palace of Twilight": {
+        "Palace of Twilight Map": [
+            "Palace of Twilight East Wing Second Room Southwest Chest",
+        ],
+        "Palace of Twilight Compass": [
+            "Palace of Twilight West Wing Second Room Lower South Chest",
+        ],
+    },
+    "Hyrule Castle": {
+        "Hyrule Castle Map": [
+            "Hyrule Castle East Wing Boomerang Puzzle Chest",
+        ],
+        "Hyrule Castle Compass": [
+            "Hyrule Castle Main Hall Northeast Chest",
+        ],
+    },
 }
 
 
