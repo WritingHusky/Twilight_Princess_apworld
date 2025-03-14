@@ -301,6 +301,9 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
             else:
                 filler_pool.extend([item] * data.quantity)
 
+        else:
+            assert item in ["Victory", "Ice Trap"], f"{item}"
+
         # Get the number of locations that have not been filled yet
     placeable_locations = [
         location
