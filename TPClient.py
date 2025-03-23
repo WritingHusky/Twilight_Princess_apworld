@@ -1,4 +1,5 @@
 import asyncio
+from copy import deepcopy
 import time
 import traceback
 from typing import TYPE_CHECKING, Any, Dict, Optional
@@ -38,7 +39,7 @@ CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 # NODES_START_ADDR = 0x804063B0
 # ACTIVE_NODE_ADDR = 0x80406B18
 
-DEBUGING = False
+DEBUGING = True
 
 
 def set_address(
@@ -111,6 +112,8 @@ class TPCommandProcessor(ClientCommandProcessor):
     def _cmd_dolphin(self) -> None:
         """Display the current Dolphin emulator connection status."""
         if isinstance(self.ctx, TPContext):
+            assert isinstance(self.ctx.dolphin_status, str)
+
             logger.info(f"Dolphin Status: {self.ctx.dolphin_status}")
 
     @mark_raw
@@ -119,6 +122,8 @@ class TPCommandProcessor(ClientCommandProcessor):
 
         if not isinstance(self.ctx, TPContext):
             return
+
+        assert isinstance(name, str)
 
         if self.ctx.dolphin_status != CONNECTION_CONNECTED_STATUS:
             logger.info("Client must be connected to dolphin first")
@@ -134,7 +139,7 @@ class TPCommandProcessor(ClientCommandProcessor):
         # Pad the name with 0x00 characters to make it 16 characters long
         padded_name = name.ljust(16, "\x00")
 
-        logger.info(f"giving name {padded_name}")
+        logger.info(f"Writing name {padded_name}")
         write_string(SLOT_NAME_ADDR, padded_name)
         return
 
@@ -161,7 +166,7 @@ class TPContext(CommonContext):
         self.items_received_2: list[tuple[NetworkItem, int]] = []
         self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
         self.dolphin_status: str = CONNECTION_INITIAL_STATUS
-        self.awaiting_rom: bool = False
+        self.awaiting_dolphin: bool = False
         self.last_received_index: int = -1
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
@@ -181,12 +186,14 @@ class TPContext(CommonContext):
 
         :param password_requested: Whether the server requires a password. Defaults to `False`.
         """
+        assert isinstance(password_requested, bool)
+
         if password_requested and not self.password:
             await super().server_auth(password_requested)
         if not self.auth:
-            if self.awaiting_rom:
+            if self.awaiting_dolphin:
                 return
-            self.awaiting_rom = True
+            self.awaiting_dolphin = True
             logger.info("Awaiting connection to Dolphin to get player information.")
             return
         await self.send_connect()
@@ -201,20 +208,20 @@ class TPContext(CommonContext):
         if cmd == "Connected":
             self.items_received_2 = []
             self.last_received_index = -1
-            if args["slot_data"] is not None and "death_link" in args["slot_data"]:
+            if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
+                assert isinstance(args["slot_data"]["DeathLink"], bool)
                 Utils.async_start(
-                    self.update_death_link(bool(args["slot_data"]["death_link"]))
+                    self.update_death_link(bool(args["slot_data"]["DeathLink"]))
                 )
-            if args["slot_data"] is not None:
-                if (
-                    not args["slot_data"]["World Version"]
-                    or args["slot_data"]["World Version"] != VERSION
-                ):
-                    logger.warning(
-                        f"""Client version does not match version of generated seed. 
+            if args["slot_data"] is not None and (
+                not args["slot_data"]["World Version"]
+                or args["slot_data"]["World Version"] != VERSION
+            ):
+                logger.warning(
+                    f"""Error: Client version does not match version of generated seed. 
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
-                    )
+                )
             # Request the connected slot's dictionary (used as a set) of visited stages.
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
@@ -257,7 +264,10 @@ def read_byte(console_address: int) -> int:
     :param console_address: Address to read from.
     :return: The value read from memory.
     """
-    return dolphin_memory_engine.read_byte(console_address)
+    assert isinstance(console_address, int)
+    result = dolphin_memory_engine.read_byte(console_address)
+    assert isinstance(result, int)
+    return result
 
 
 def read_short(console_address: int) -> int:
@@ -267,9 +277,12 @@ def read_short(console_address: int) -> int:
     :param console_address: Address to read from.
     :return: The value read from memory.
     """
-    return int.from_bytes(
+    assert isinstance(console_address, int)
+    result = int.from_bytes(
         dolphin_memory_engine.read_bytes(console_address, 2), byteorder="big"
     )
+    assert isinstance(result, int)
+    return result
 
 
 def read_string(console_address: int, strlen: int) -> str:
@@ -280,11 +293,15 @@ def read_string(console_address: int, strlen: int) -> str:
     :param strlen: Length of the string to read.
     :return: The string read from memory.
     """
-    return (
+    assert isinstance(console_address, int)
+    assert isinstance(strlen, int)
+    result = (
         dolphin_memory_engine.read_bytes(console_address, strlen)
         .split(b"\0", 1)[0]
         .decode(STRING_ENCODING)
     )
+    assert isinstance(result, str)
+    return result
 
 
 def write_byte(console_address: int, value: int) -> None:
@@ -294,6 +311,9 @@ def write_byte(console_address: int, value: int) -> None:
     :param console_address: Address to write to.
     :param value: Value to write.
     """
+    assert isinstance(console_address, int)
+    assert isinstance(value, int)
+
     dolphin_memory_engine.write_bytes(
         console_address, value.to_bytes(1, byteorder="big")
     )
@@ -306,6 +326,9 @@ def write_short(console_address: int, value: int) -> None:
     :param console_address: Address to write to.
     :param value: Value to write.
     """
+    assert isinstance(console_address, int)
+    assert isinstance(value, int)
+
     dolphin_memory_engine.write_bytes(
         console_address, value.to_bytes(2, byteorder="big")
     )
@@ -318,8 +341,12 @@ def write_string(console_address: int, string: str) -> None:
     :param console_address: Address to write to.
     :param string: String to write.
     """
+    assert isinstance(console_address, int)
+    assert isinstance(string, str)
+
     if len(string) > 16:
         raise ValueError("String length must be 16 characters or less.")
+
     dolphin_memory_engine.write_bytes(
         console_address, string.encode(STRING_ENCODING) + b"\0"
     )
@@ -331,6 +358,9 @@ def _give_death(ctx: TPContext) -> None:
 
     :param ctx: Twilight Princess client context.
     """
+    if DEBUGING:
+        logger.info("Debug: Trying to kill player")
+
     if (
         ctx.slot is not None
         and dolphin_memory_engine.is_hooked()
@@ -338,6 +368,8 @@ def _give_death(ctx: TPContext) -> None:
     ):
         ctx.has_send_death = True
         write_short(CURR_HEALTH_ADDR, 0)
+        if DEBUGING:
+            logger.info("Debug: Health set to 0")
 
 
 async def _give_item(ctx: TPContext, item_name: str) -> None:
@@ -348,20 +380,36 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     :param item_name: Name of the item to give.
     :return: Whether the item was successfully given.
     """
+    assert isinstance(item_name, str)
+
     if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
         return False
 
     if item_name not in ITEM_TABLE:
-        logger.info(f"Cannot give item {item_name}")
+        logger.info(
+            f"Error: Cannot give item {item_name} as it is not in the item table"
+        )
 
-    # Simple victory handling (not actually an item)
-    if item_name == "Victory":
-        return True
+    assert isinstance(ITEM_TABLE[item_name].item_id, int)
 
-    if read_byte(ITEM_WRITE_ADDR) != 0x00:
-        return False
+    # Items are written into a stack, this allows for more then one item to be given at a time.
+    # However items will still be collected one at a time
+    # By nature of stack, items may not be collected in oreder recieved
+    i = 0
+    while True:
+        if i > 7:
+            if DEBUGING:
+                logger.info("Debug: Item Stack full so an item cannot be given")
+            return False
 
-    write_byte(ITEM_WRITE_ADDR, ITEM_TABLE[item_name].item_id)
+        if read_byte(ITEM_WRITE_ADDR) == 0x00:
+            item_stack_addr = ITEM_WRITE_ADDR + i
+            break
+
+        i += 1
+    assert item_stack_addr >= ITEM_WRITE_ADDR and item_stack_addr <= ITEM_WRITE_ADDR + 7
+
+    write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
     return True
 
 
@@ -380,6 +428,8 @@ async def give_items(ctx: TPContext) -> None:
 
         # Loop through items to give.
         for item, idx in ctx.items_received_2:
+            assert item.item in LOOKUP_ID_TO_NAME, f"{item=}"
+
             # If the item's index is greater than the player's expected index, give the player the item.
             if expected_idx <= idx:
                 if DEBUGING:
@@ -404,25 +454,28 @@ async def check_locations(ctx: TPContext) -> None:
     """
     current_node = read_byte(CURR_NODE_ADDR)
 
+    locations_read = set()
+
     # node_start_addr = (current_node * 0x20) + NODES_START_ADDR
 
     for location, data in LOCATION_TABLE.items():
 
         # There might be a better way but this works for now
-        # Also this data is a flag so node handlind is not needed
+        # Also this data is a flag so node handling is not needed
         if location == "Hyrule Castle Ganondorf":
             addr = SAVE_FILE_ADDR + data.offset
             byte = read_byte(addr)
             checked = (byte & data.bit) != 0
             if checked:
                 if not ctx.finished_game:
-                    logger.info("Game finished")
+                    logger.info("Game finishing")
                 # It sends multiple times incase the server does not acknoledge.
                 # Upon completion check locations will stop running
                 await ctx.send_msgs(
                     [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
                 )
                 ctx.finished_game = True
+            continue
 
         # If there is not a valid apid dont bother checking that location
         # apids not given when logic only location
@@ -430,16 +483,17 @@ async def check_locations(ctx: TPContext) -> None:
             continue
 
         # Debug functionality
-        # if not isinstance(data.bit, int) or not isinstance(data.offset, int):
-        #     logger.info(f"location:{location} has weird formating")
-        #     continue
+        if DEBUGING and (
+            not isinstance(data.bit, int) or not isinstance(data.offset, int)
+        ):
+            logger.info(f"Debug: location:{location} has weird formating")
+            continue
 
-        flag = data.bit
-
+        # Depening on locatin type find the memory address for the flag
+        # Checks the active memory for the current node
         match (data.type):
             case TPLocationType.Region:
                 region = data.region.value
-                # Debug functionality
                 assert (
                     isinstance(region, int) and data.offset < 0x20
                 ), f"Location {location=} has bad region {region} {data=}"
@@ -450,26 +504,31 @@ async def check_locations(ctx: TPContext) -> None:
             case TPLocationType.Flag:
                 addr = SAVE_FILE_ADDR + data.offset
             case TPLocationType.Event:
-                # Debug functionality
-                # logger.info(f"{location} has Event type and a code")
+                if DEBUGING:
+                    logger.info(f"Debug: {location}, is an event with an apid")
                 continue
 
         byte = read_byte(addr)
-        checked = (byte & flag) != 0
+        checked = (byte & data.bit) != 0
         if checked:
-            ctx.locations_checked.add(TPLocation.get_apid(data.code))
+            locations_read.add(TPLocation.get_apid(data.code))
 
-    # In an attempt to handle stop things from going wrong
+    # Incase the stage changed during location checking
     asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
-        logger.info("Changed nodes between location checks, everything is fine")
-        ctx.locations_checked = set()
+        if DEBUGING:
+            logger.info("Debug: Stage changed during location checks skiping checks")
         return
 
-    locations_checked = ctx.locations_checked.difference(ctx.checked_locations)
-    if locations_checked:
-        logger.info(f"Sending location checks: {locations_checked}")
-        await ctx.send_msgs([{"cmd": "LocationChecks", "locations": locations_checked}])
+    new_locations_checked = locations_read.difference(ctx.locations_checked)
+    if new_locations_checked:
+        if DEBUGING:
+            logger.info(f"Debug: Sending location checks: {new_locations_checked}")
+        await ctx.send_msgs(
+            [{"cmd": "LocationChecks", "locations": new_locations_checked}]
+        )
+        # This might be needed if the clinet doesn't sync, it might also brick if msg is sent but nothing happens
+        ctx.locations_checked.update(new_locations_checked)
 
 
 async def check_alive() -> bool:
@@ -491,22 +550,27 @@ async def check_death(ctx: TPContext) -> None:
     """
     if ctx.slot is not None and await check_ingame(ctx):
         cur_health = read_short(CURR_HEALTH_ADDR)
-        if cur_health <= 0:
-            if not ctx.has_send_death and time.time() >= ctx.last_death_link + 3:
+        if cur_health == 0:
+            if DEBUGING:
+                logger.info("Debug: Player is dead")
+            if not ctx.has_send_death and time.time() >= ctx.last_death_link + 5:
+                if DEBUGING:
+                    logger.info(
+                        "Debug: Sending Death to other players will not send death until player is alive"
+                    )
                 ctx.has_send_death = True
                 await ctx.send_death(ctx.player_names[ctx.slot] + " ran out of hearts.")
         else:
+            if DEBUGING and ctx.has_send_death:
+                logger.info("Debug: Player is now alive")
             ctx.has_send_death = False
 
 
 async def check_ingame(ctx: TPContext) -> bool:
     """
     Check if the player is currently in-game.
-    Currently If the player switches to hyrule field it waits to see if the node updates to the menu or be on the field
-
-    (This check will occur only per load to the field)
-
-    TODO: (I really hope this doesn't break everything)
+    If the player switches to hyrule field wait 3s to see if the node updates to the menu
+    (This check will occur only once per load to the field, but I will slow the client from working)
 
     :return: `True` if the player is in-game, otherwise `False`.
     """
@@ -557,7 +621,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 else:
                     if not ctx.auth:
                         ctx.auth = read_string(SLOT_NAME_ADDR, 0x40)
-                    if ctx.awaiting_rom:
+                    if ctx.awaiting_dolphin:
                         await ctx.server_auth()
                 await asyncio.sleep(0.1)
             else:
@@ -601,12 +665,12 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                     await asyncio.sleep(5)
                     continue
         except Exception:
-
             dolphin_memory_engine.un_hook()
             logger.info(
-                "Connection to Dolphin failed due to  error, attempting again in 5 seconds..."
+                "Connection to Dolphin failed due to error, attempting again in 5 seconds..."
             )
             logger.error(traceback.format_exc())
+
             ctx.dolphin_status = CONNECTION_LOST_STATUS
             await ctx.disconnect()
             await asyncio.sleep(5)

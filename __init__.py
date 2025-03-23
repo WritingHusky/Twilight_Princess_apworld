@@ -954,7 +954,7 @@ class TPWorld(World):
         """
         slot_data = {
             "World Version": VERSION,
-            "death_link": self.options.death_link.value,
+            "DeathLink": self.options.death_link.value,
         }
 
         return slot_data
