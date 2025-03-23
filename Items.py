@@ -170,10 +170,10 @@ ITEM_TABLE: dict[str, TPItemData] = {
         "Small key", IC.progression, 61, 7, 0x8C
     ),
     "Hyrule Castle Small Key": TPItemData("Small key", IC.progression, 62, 3, 0x8D),
-    "Small Key (North Faron Gate)": TPItemData(
-        "Small key", IC.progression, 63, 1, 0xEE
-    ),
-    "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
+    # "Small Key (North Faron Gate)": TPItemData(
+    #     "Small key", IC.progression, 63, 1, 0xEE
+    # ),
+    # "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
     "Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
