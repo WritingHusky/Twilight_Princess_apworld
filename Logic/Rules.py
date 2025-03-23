@@ -1833,7 +1833,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Ashei's Sketch", player)
             and (
-                state.has("North Faron Woods Gate Keys", player)
+                state.has("Gate Keys", player)
                 # Holdover from Keysy
                 # or (
                 #     state._tp_small_key_settings(player)
@@ -1852,7 +1852,7 @@ def set_location_access_rules(world: "TPWorld"):
                     or state.has("Shadow Crystal", player)
                 )
                 and (
-                    state.has("North Faron Woods Gate Keys", player)
+                    state.has("Gate Keys", player)
                     # Holdover from Keysy
                     # or (
                     #     state._tp_small_key_settings(player)
@@ -1976,7 +1976,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Rutelas Blessing",
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
+            state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere

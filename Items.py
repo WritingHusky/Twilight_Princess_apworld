@@ -174,7 +174,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
         "Small key", IC.progression, 63, 1, 0xEE
     ),
     "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
-    "North Faron Woods Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
+    "Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),

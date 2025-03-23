@@ -2032,7 +2032,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             state.has("Shadow Crystal", player)
-            or state.has("North Faron Woods Gate Keys", player)
+            or state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
@@ -2427,7 +2427,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     set_rule(
         exit,
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
+            state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
@@ -2756,7 +2756,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
         exit,
         lambda state: (
             (
-                state.has("North Faron Woods Gate Keys", player)
+                state.has("Gate Keys", player)
                 # Holdover from Keysy
                 # or (
                 #     state._tp_small_key_settings(player)
@@ -3072,8 +3072,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     set_rule(
         exit,
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
-            or (state._tp_skip_prologue(player))
+            state.has("Gate Keys", player) or (state._tp_skip_prologue(player))
         ),
     )
 
@@ -3146,7 +3145,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     set_rule(
         exit,
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
+            state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
@@ -4388,7 +4387,7 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     set_rule(
         exit,
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
+            state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
