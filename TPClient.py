@@ -209,7 +209,9 @@ class TPContext(CommonContext):
             self.items_received_2 = []
             self.last_received_index = -1
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
-                assert isinstance(args["slot_data"]["DeathLink"], bool)
+                assert isinstance(
+                    args["slot_data"]["DeathLink"], int
+                ), f"{args["slot_data"]["DeathLink"]=}"
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["DeathLink"]))
                 )
