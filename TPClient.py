@@ -215,6 +215,10 @@ class TPContext(CommonContext):
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["DeathLink"]))
                 )
+                if DEBUGING:
+                    logger.info(
+                        f"Debug: Seting deathlink to {bool(args["slot_data"]["DeathLink"])}"
+                    )
             if args["slot_data"] is not None and (
                 not args["slot_data"]["World Version"]
                 or args["slot_data"]["World Version"] != VERSION
@@ -239,12 +243,15 @@ class TPContext(CommonContext):
                 # self.slot.visited_stages = requested_keys_dict
                 pass
 
-    async def on_deathlink(self, data: dict[str, Any]) -> None:
+    def on_deathlink(self, data: dict[str, Any]) -> None:
         """
         Handle a DeathLink event.
 
         :param data: The data associated with the DeathLink event.
         """
+        if DEBUGING:
+            logger.info("Debug: on deathlink trigger")
+
         super().on_deathlink(data)
         _give_death(self)
 
@@ -553,8 +560,6 @@ async def check_death(ctx: TPContext) -> None:
     if ctx.slot is not None and await check_ingame(ctx):
         cur_health = read_short(CURR_HEALTH_ADDR)
         if cur_health == 0:
-            if DEBUGING:
-                logger.info("Debug: Player is dead")
             if not ctx.has_send_death and time.time() >= ctx.last_death_link + 5:
                 if DEBUGING:
                     logger.info(
