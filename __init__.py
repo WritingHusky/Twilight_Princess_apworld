@@ -24,7 +24,9 @@ from .Locations import (
 from .options import (
     BigKeySettings,
     DungeonItem,
+    GoldenBugsShuffled,
     MapAndCompassSettings,
+    PoeShuffled,
     SmallKeySettings,
     tp_option_groups,
     TPOptions,
@@ -39,6 +41,8 @@ from worlds.LauncherComponents import (
 )
 
 from .Randomizer.ItemPool import (
+    VANILLA_GOLDEN_BUG_LOCATIONS,
+    VANILLA_POE_LOCATIONS,
     generate_itempool,
     place_deterministic_items,
     VANILLA_SMALL_KEYS_LOCATIONS,
@@ -314,13 +318,20 @@ class TPWorld(World):
         if len(pre_fill_items) == 0:
             assert (
                 not self.options.small_key_settings.in_dungeon
-            ), f"No pre fill items but small keys in dungeon"
+            ), "No pre fill items but small keys in dungeon"
             assert (
                 not self.options.big_key_settings.in_dungeon
-            ), f"No pre fill items but big keys in dungeon"
+            ), "No pre fill items but big keys in dungeon"
             assert (
                 not self.options.map_and_compass_settings.in_dungeon
-            ), f"No pre fill items but maps and compasses in dungeon"
+            ), "No pre fill items but maps and compasses in dungeon"
+            assert (
+                not self.options.golden_bugs_shuffled.value
+                == GoldenBugsShuffled.option_false
+            ), "No pre fill items but golden bugs not shuffled"
+            assert (
+                not self.options.poe_shuffled.value == PoeShuffled.option_false
+            ), "No pre fill items but poes not shuffled"
             return
 
         collection_state_base = CollectionState(self.multiworld)
@@ -335,6 +346,8 @@ class TPWorld(World):
             for item in subworld.get_pre_fill_items():
                 collection_state_base.collect(item)
         collection_state_base.sweep_for_advancements()
+
+        # region DugeonItem-Setup
 
         collection_state_small_key = collection_state_base.copy()
         collection_state_big_key = collection_state_base.copy()
@@ -445,6 +458,10 @@ class TPWorld(World):
                     self.player,
                     len(VANILLA_MAP_AND_COMPASS_LOCATIONS[dungeon_name][item_name]) - 1,
                 ), f"{item_name} not in small key state count={collection_state_small_key.count(item_name,self.player)}"
+
+        # endregion
+
+        # region DungeonItem-Prefill
 
         dungeon_name = None
         item_name = None
@@ -714,6 +731,41 @@ class TPWorld(World):
             # sanity check
             dungeon_name = None
             item_name = None
+        # endregion
+
+        if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
+            bug_list = [
+                item for item in pre_fill_items if item.name in item_name_groups["Bugs"]
+            ]
+            assert (
+                len(bug_list) == 24
+            ), f"There is only {len(bug_list)} / 24 bugs in the pre fill pool"
+
+            bug_list_str = [item.name for item in bug_list]
+            for bug in item_name_groups["Bugs"]:
+                assert (
+                    bug in bug_list_str
+                ), f"{bug=} is not in pre_fill_items, {pre_fill_items=}"
+
+            for bug in bug_list:
+                assert (
+                    bug.name in VANILLA_GOLDEN_BUG_LOCATIONS
+                ), f"{bug} not in vanilla locations"
+
+                vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
+                self.get_location(vanilla_location_name).place_locked_item(bug)
+
+        if self.options.poes_shuffled.value == PoeShuffled.option_false:
+            poe_list = [item for item in pre_fill_items if item.name is "Poe Soul"]
+            assert (
+                len(poe_list) == 60
+            ), f"There is only {len(poe_list)} / 60 poe souls in the pre fill pool"
+            assert (
+                len(VANILLA_POE_LOCATIONS) == 60
+            ), f"There is only {len(VANILLA_POE_LOCATIONS)} / 60 poe souls locations"
+
+            for poe_soul, location in zip(poe_list, VANILLA_POE_LOCATIONS):
+                self.get_location(location).place_locked_item(poe_soul)
 
         # All items in the pre fill pool need to be processed in the pre fill
         assert (

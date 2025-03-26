@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Dict, List, Tuple
 
 from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
-from ..options import DungeonItem, SmallKeySettings
+from ..options import DungeonItem, GoldenBugsShuffled, PoeShuffled
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
@@ -213,6 +213,96 @@ VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
     },
 }
 
+VANILLA_GOLDEN_BUG_LOCATIONS = {
+    "Female Phasmid": "Bridge of Eldin Female Phasmid",
+    "Male Phasmid": "Bridge of Eldin Male Phasmid",
+    "Female Grasshopper": "Eldin Field Female Grasshopper",
+    "Male Grasshopper": "Eldin Field Male Grasshopper",
+    "Pill Bug": "Kakariko Gorge Female Pill Bug",
+    "Pill Bug": "Kakariko Gorge Male Pill Bug",
+    "Male Ant": "Kakariko Graveyard Male Ant",
+    "Female Ant": "Kakariko Village Female Ant",
+    "Female Beetle": "Faron Field Female Beetle",
+    "Male Beetle": "Faron Field Male Beetle",
+    "Female Snail": "Sacred Grove Female Snail",
+    "Male Snail": "Sacred Grove Male Snail",
+    "Female Dayfly": "Gerudo Desert Female Dayfly",
+    "Male Dayfly": "Gerudo Desert Male Dayfly",
+    "Female Mantis": "Lake Hylia Bridge Female Mantis",
+    "Male Mantis": "Lake Hylia Bridge Male Mantis",
+    "Stag Beetle": "Lanayru Field Female Stag Beetle",
+    "Stag Beetle": "Lanayru Field Male Stag Beetle",
+    "Female Ladybug": "Outside South Castle Town Female Ladybug",
+    "Male Ladybug": "Outside South Castle Town Male Ladybug",
+    "Female Dragonfly": "Upper Zoras River Female Dragonfly",
+    "Female Butterfly": "West Hyrule Field Female Butterfly",
+    "Male Butterfly": "West Hyrule Field Male Butterfly",
+    "Male Dragonfly": "Zoras Domain Male Dragonfly",
+}
+
+VANILLA_POE_LOCATIONS = {
+    "Arbiters Grounds East Turning Room Poe",
+    "Arbiters Grounds Hidden Wall Poe",
+    "Arbiters Grounds Torch Room Poe",
+    "Arbiters Grounds West Poe",
+    "City in The Sky Garden Island Poe",
+    "City in The Sky Poe Above Central Fan",
+    "Snowpeak Ruins Ice Room Poe",
+    "Snowpeak Ruins Lobby Armor Poe",
+    "Snowpeak Ruins Lobby Poe",
+    "Temple of Time Poe Above Scales",
+    "Temple of Time Poe Behind Gate",
+    "Death Mountain Trail Poe",
+    "Eldin Lantern Cave Poe",
+    "Hidden Village Poe",
+    "Kakariko Gorge Poe",
+    "Kakariko Graveyard Grave Poe",
+    "Kakariko Graveyard Open Poe",
+    "Kakariko Village Bomb Shop Poe",
+    "Kakariko Village Watchtower Poe",
+    "Faron Field Poe",
+    "Faron Mist Poe",
+    "Lost Woods Boulder Poe",
+    "Lost Woods Waterfall Poe",
+    "Sacred Grove Master Sword Poe",
+    "Sacred Grove Temple of Time Owl Statue Poe",
+    "Bulblin Camp Poe",
+    "Cave of Ordeals Floor 17 Poe",
+    "Cave of Ordeals Floor 33 Poe",
+    "Cave of Ordeals Floor 44 Poe",
+    "Gerudo Desert East Poe",
+    "Gerudo Desert North Peahat Poe",
+    "Gerudo Desert Poe Above Cave of Ordeals",
+    "Gerudo Desert Rock Grotto First Poe",
+    "Gerudo Desert Rock Grotto Second Poe",
+    "Outside Arbiters Grounds Poe",
+    "Outside Bulblin Camp Poe",
+    "East Castle Town Bridge Poe",
+    "Flight By Fowl Ledge Poe",
+    "Hyrule Field Amphitheater Poe",
+    "Isle of Riches Poe",
+    "Jovani House Poe",
+    "Lake Hylia Alcove Poe",
+    "Lake Hylia Bridge Cliff Poe",
+    "Lake Hylia Dock Poe",
+    "Lake Hylia Tower Poe",
+    "Lake Lantern Cave Final Poe",
+    "Lake Lantern Cave First Poe",
+    "Lake Lantern Cave Second Poe",
+    "Lanayru Field Bridge Poe",
+    "Lanayru Field Poe Grotto Left Poe",
+    "Lanayru Field Poe Grotto Right Poe",
+    "Outside South Castle Town Poe",
+    "Upper Zoras River Poe",
+    "Zoras Domain Mother and Child Isle Poe",
+    "Zoras Domain Waterfall Poe",
+    "Snowpeak Above Freezard Grotto Poe",
+    "Snowpeak Blizzard Poe",
+    "Snowpeak Cave Ice Poe",
+    "Snowpeak Icy Summit Poe",
+    "Snowpeak Poe Among Trees",
+}
+
 
 # This takes all the items form the world and adds them to the multiworld itempool
 def generate_itempool(world: "TPWorld") -> None:
@@ -248,8 +338,8 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     for item, data in ITEM_TABLE.items():
         if data.code != None and item not in ["Victory", "Ice Trap"]:
 
-            # If item is in a dungeon then they will be placed pre_fill so they should not be in the pool
             if (
+                # If item is in a dungeon then they will be placed pre_fill so they should not be in the pool
                 (
                     item in item_name_groups["Small Keys"]
                     and world.options.small_key_settings.in_dungeon
@@ -261,6 +351,17 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 or (
                     item in item_name_groups["Maps and Compasses"]
                     and world.options.map_and_compass_settings.in_dungeon
+                )
+                # When bugs not shuffled, prefill them to vanilla locations
+                or (
+                    item in item_name_groups["Bugs"]
+                    and world.options.golden_bugs_shuffled.value
+                    == GoldenBugsShuffled.option_false
+                )
+                # When poes not shuffled, prefill them to vanilla locations
+                or (
+                    item is "Poe Soul"
+                    and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
             ):
                 prefill_pool.extend([item] * data.quantity)
