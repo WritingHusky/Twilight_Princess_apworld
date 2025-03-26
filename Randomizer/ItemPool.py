@@ -218,8 +218,8 @@ VANILLA_GOLDEN_BUG_LOCATIONS = {
     "Male Phasmid": "Bridge of Eldin Male Phasmid",
     "Female Grasshopper": "Eldin Field Female Grasshopper",
     "Male Grasshopper": "Eldin Field Male Grasshopper",
-    "Pill Bug": "Kakariko Gorge Female Pill Bug",
-    "Pill Bug": "Kakariko Gorge Male Pill Bug",
+    "Female Pill Bug": "Kakariko Gorge Female Pill Bug",
+    "Male Pill Bug": "Kakariko Gorge Male Pill Bug",
     "Male Ant": "Kakariko Graveyard Male Ant",
     "Female Ant": "Kakariko Village Female Ant",
     "Female Beetle": "Faron Field Female Beetle",
@@ -230,8 +230,8 @@ VANILLA_GOLDEN_BUG_LOCATIONS = {
     "Male Dayfly": "Gerudo Desert Male Dayfly",
     "Female Mantis": "Lake Hylia Bridge Female Mantis",
     "Male Mantis": "Lake Hylia Bridge Male Mantis",
-    "Stag Beetle": "Lanayru Field Female Stag Beetle",
-    "Stag Beetle": "Lanayru Field Male Stag Beetle",
+    "Female Stag Beetle": "Lanayru Field Female Stag Beetle",
+    "Male Stag Beetle": "Lanayru Field Male Stag Beetle",
     "Female Ladybug": "Outside South Castle Town Female Ladybug",
     "Male Ladybug": "Outside South Castle Town Male Ladybug",
     "Female Dragonfly": "Upper Zoras River Female Dragonfly",
@@ -360,7 +360,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 )
                 # When poes not shuffled, prefill them to vanilla locations
                 or (
-                    item is "Poe Soul"
+                    item == "Poe Soul"
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
             ):

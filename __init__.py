@@ -294,6 +294,10 @@ class TPWorld(World):
         # This fills the itempool with items according to the location count (any precollected items are pushed to precollected_items)
         generate_itempool(self)
 
+        # Early Items (not working currently)
+        # self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+        # self.multiworld.early_items[self.player]["Progressive Master Sword"] = 1
+
     # No more items, locations, or regions can be created past this point
 
     # set_rules() this is where access rules are set
@@ -754,9 +758,10 @@ class TPWorld(World):
 
                 vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
                 self.get_location(vanilla_location_name).place_locked_item(bug)
+                pre_fill_items.remove(bug)
 
-        if self.options.poes_shuffled.value == PoeShuffled.option_false:
-            poe_list = [item for item in pre_fill_items if item.name is "Poe Soul"]
+        if self.options.poe_shuffled.value == PoeShuffled.option_false:
+            poe_list = [item for item in pre_fill_items if item.name == "Poe Soul"]
             assert (
                 len(poe_list) == 60
             ), f"There is only {len(poe_list)} / 60 poe souls in the pre fill pool"
@@ -766,6 +771,7 @@ class TPWorld(World):
 
             for poe_soul, location in zip(poe_list, VANILLA_POE_LOCATIONS):
                 self.get_location(location).place_locked_item(poe_soul)
+                pre_fill_items.remove(poe_soul)
 
         # All items in the pre fill pool need to be processed in the pre fill
         assert (
