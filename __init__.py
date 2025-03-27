@@ -26,6 +26,7 @@ from .options import (
     DungeonItem,
     GoldenBugsShuffled,
     MapAndCompassSettings,
+    OpenMap,
     PoeShuffled,
     SmallKeySettings,
     tp_option_groups,
@@ -260,6 +261,30 @@ class TPWorld(World):
         # This connects all the regions to each other. (build edges)
         connect_regions(self.multiworld, self.player)
 
+        if self.options.open_map.value == OpenMap.option_true:
+            portal_regions = [
+                "Snowpeak Summit Upper",
+                "Zoras Domain Throne Room",
+                "Upper Zoras River",
+                "Lake Hylia",
+                "Outside Castle Town West",
+                # "Gerudo Desert Cave of Ordeals Plateau",
+                "Sacred Grove Lower",
+                "North Faron Woods",
+                "South Faron Woods",
+                "Lower Kakariko Village",
+                "Eldin Field",
+                "Kakariko Gorge",
+                "Death Mountain Volcano",
+                # "Mirror Chamber Upper",
+                "Ordon Spring",
+            ]
+            menu = self.get_region(self.origin_region_name)
+            for portal_region in portal_regions:
+                menu.connect(self.get_region(portal_region)).access_rule = (
+                    lambda state: state.has("Shadow Crystal", self.player)
+                )
+
         # Debug to catch if all locations are caught TODO: Remove debug
         if len(self.progress_locations) + len(self.nonprogress_locations) != len(
             LOCATION_TABLE.items()
@@ -294,10 +319,6 @@ class TPWorld(World):
         # This fills the itempool with items according to the location count (any precollected items are pushed to precollected_items)
         generate_itempool(self)
 
-        # Early Items (not working currently)
-        # self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
-        # self.multiworld.early_items[self.player]["Progressive Master Sword"] = 1
-
     # No more items, locations, or regions can be created past this point
 
     # set_rules() this is where access rules are set
@@ -308,15 +329,60 @@ class TPWorld(World):
         set_region_access_rules(self, self.player)
         set_location_access_rules(self)
 
+        # limit shadow crystal based on settings
+        # All the information about what is to be pre filled is stored here to condense code
+        options = [
+            self.options.small_key_settings,
+            self.options.big_key_settings,
+            self.options.map_and_compass_settings,
+        ]
+        settings = [SmallKeySettings, BigKeySettings, MapAndCompassSettings]
+        vanillas = [
+            VANILLA_SMALL_KEYS_LOCATIONS,
+            VANILLA_BIG_KEY_LOCATIONS,
+            VANILLA_MAP_AND_COMPASS_LOCATIONS,
+        ]
+
+        def shadow_crystal_rule(item: Item):
+            return item.name == "Shadow Crystal"
+
+        # Add item rule for dungeon items
+        for option, setting, vanilla in zip(options, settings, vanillas):
+            if option.value == setting.option_vanilla:
+                for dungeon in vanilla:
+                    for item in vanilla[dungeon]:
+                        for location in vanilla[dungeon][item]:
+                            self.get_location(location).item_rule = shadow_crystal_rule
+
+        # Add item rules for bug and poe locations
+        if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
+            for location in VANILLA_GOLDEN_BUG_LOCATIONS.values():
+                self.get_location(location).item_rule = shadow_crystal_rule
+        if self.options.poe_shuffled.value == PoeShuffled.option_false:
+            for location in VANILLA_POE_LOCATIONS:
+                self.get_location(location).item_rule = shadow_crystal_rule
+
     # generate_basic() This is where player specific randomization that does not affect logic is done
 
     def pre_fill(self) -> None:
         """
         Apply special fill rules before the fill stage.
         """
+        # Early Items (not working currently)
+        self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+        # self.multiworld.early_items[self.player]["Progressive Master Sword"] = 1
+
         assert isinstance(self.player, int), f"Player is not an int {self.player=}"
 
         pre_fill_items = self.get_pre_fill_items()
+
+        assert len(pre_fill_items) > 0, f"Not even Shadow Crystal in pre fill pool"
+
+        # found_shadow_crystal = False
+        # for item in pre_fill_items:
+        #     if item.name == "Shadow Crystal":
+        #         found_shadow_crystal = True
+        # assert found_shadow_crystal, f"Shadow crystal no in pre fill pool"
 
         # Only do pre fill if it is needed
         if len(pre_fill_items) == 0:
@@ -338,9 +404,78 @@ class TPWorld(World):
             ), "No pre fill items but poes not shuffled"
             return
 
-        collection_state_base = CollectionState(self.multiworld)
-        # Add everything from the item pool to allow for full access
+        if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
+            bug_list = [
+                item for item in pre_fill_items if item.name in item_name_groups["Bugs"]
+            ]
+            assert (
+                len(bug_list) == 24
+            ), f"There is only {len(bug_list)} / 24 bugs in the pre fill pool"
 
+            bug_list_str = [item.name for item in bug_list]
+            for bug in item_name_groups["Bugs"]:
+                assert (
+                    bug in bug_list_str
+                ), f"{bug=} is not in pre_fill_items, {pre_fill_items=}"
+
+            for bug in bug_list:
+                assert (
+                    bug.name in VANILLA_GOLDEN_BUG_LOCATIONS
+                ), f"{bug} not in vanilla locations"
+
+                vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
+                self.get_location(vanilla_location_name).place_locked_item(bug)
+                pre_fill_items.remove(bug)
+
+        if self.options.poe_shuffled.value == PoeShuffled.option_false:
+            poe_list = [item for item in pre_fill_items if item.name == "Poe Soul"]
+            assert (
+                len(poe_list) == 60
+            ), f"There is only {len(poe_list)} / 60 poe souls in the pre fill pool"
+            assert (
+                len(VANILLA_POE_LOCATIONS) == 60
+            ), f"There is only {len(VANILLA_POE_LOCATIONS)} / 60 poe souls locations"
+
+            for poe_soul, location in zip(poe_list, VANILLA_POE_LOCATIONS):
+                self.get_location(location).place_locked_item(poe_soul)
+                pre_fill_items.remove(poe_soul)
+
+        collection_state_base = CollectionState(self.multiworld)
+
+        # # Add shadow crystal to world
+        # shadow_crystal_item_s = [
+        #     item for item in pre_fill_items if item.name == "Shadow Crystal"
+        # ]
+        # assert len(shadow_crystal_item_s) == 1, f"{shadow_crystal_item_s=}"
+
+        collection_state_base.sweep_for_advancements()
+        locations = self.multiworld.get_reachable_locations(
+            collection_state_base, self.player
+        )
+        locations = [
+            location for location in locations if isinstance(location.address, int)
+        ]
+
+        # self.multiworld.random.shuffle(locations)
+        assert len(locations) > 0, f"{locations=}"
+
+        # shadow_crystal_item_copy = deepcopy(shadow_crystal_item_s)
+        # fill_restrictive(
+        #     self.multiworld,
+        #     collection_state_base,
+        #     locations,
+        #     shadow_crystal_item_s,
+        #     single_player_placement=True,
+        #     lock=True,
+        #     allow_excluded=True,
+        #     # allow_partial=True,
+        # )
+        # assert len(shadow_crystal_item_s) == 0, "Shadow crystal not placed"
+        # pre_fill_items.remove(shadow_crystal_item_copy[0])
+
+        locations = None
+
+        # Add everything from the item pool to allow for full access
         for item in self.multiworld.itempool:
             collection_state_base.collect(item)
         for player in self.multiworld.player_ids:
@@ -737,42 +872,6 @@ class TPWorld(World):
             item_name = None
         # endregion
 
-        if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
-            bug_list = [
-                item for item in pre_fill_items if item.name in item_name_groups["Bugs"]
-            ]
-            assert (
-                len(bug_list) == 24
-            ), f"There is only {len(bug_list)} / 24 bugs in the pre fill pool"
-
-            bug_list_str = [item.name for item in bug_list]
-            for bug in item_name_groups["Bugs"]:
-                assert (
-                    bug in bug_list_str
-                ), f"{bug=} is not in pre_fill_items, {pre_fill_items=}"
-
-            for bug in bug_list:
-                assert (
-                    bug.name in VANILLA_GOLDEN_BUG_LOCATIONS
-                ), f"{bug} not in vanilla locations"
-
-                vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
-                self.get_location(vanilla_location_name).place_locked_item(bug)
-                pre_fill_items.remove(bug)
-
-        if self.options.poe_shuffled.value == PoeShuffled.option_false:
-            poe_list = [item for item in pre_fill_items if item.name == "Poe Soul"]
-            assert (
-                len(poe_list) == 60
-            ), f"There is only {len(poe_list)} / 60 poe souls in the pre fill pool"
-            assert (
-                len(VANILLA_POE_LOCATIONS) == 60
-            ), f"There is only {len(VANILLA_POE_LOCATIONS)} / 60 poe souls locations"
-
-            for poe_soul, location in zip(poe_list, VANILLA_POE_LOCATIONS):
-                self.get_location(location).place_locked_item(poe_soul)
-                pre_fill_items.remove(poe_soul)
-
         # All items in the pre fill pool need to be processed in the pre fill
         assert (
             len(pre_fill_items) == 0
@@ -1027,6 +1126,10 @@ class TPWorld(World):
         :param item: Item to decide on if it should be collected into state
         :param remove: indicate if this is meant to remove from state instead of adding.
         """
-        if item.advancement:
+        if (
+            item.advancement
+            or item.name in item_name_groups["Bugs"]
+            or item.name == "Poe Soul"
+        ):
             return item.name
         return None
