@@ -4308,8 +4308,8 @@ def set_region_access_rules(multiworld: MultiWorld, player: int):
     )
     set_rule(
         exit,
-        # lambda state: (can_get_hot_spring_water(state, player)),
-        lambda stat: (True),
+        lambda state: (can_get_hot_spring_water(state, player)),
+        # lambda stat: (True),
     )
 
     exit = multiworld.get_entrance(

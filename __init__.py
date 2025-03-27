@@ -376,7 +376,7 @@ class TPWorld(World):
 
         pre_fill_items = self.get_pre_fill_items()
 
-        assert len(pre_fill_items) > 0, f"Not even Shadow Crystal in pre fill pool"
+        # assert len(pre_fill_items) > 0, f"Not even Shadow Crystal in pre fill pool"
 
         # found_shadow_crystal = False
         # for item in pre_fill_items:
@@ -1129,7 +1129,15 @@ class TPWorld(World):
         if (
             item.advancement
             or item.name in item_name_groups["Bugs"]
-            or item.name == "Poe Soul"
+            or item.name
+            in [
+                "Poe Soul",
+                "Progressive Sky Book",
+                "Progressive Wallet",
+                "Hawkeye",
+                "Slingshot",
+            ]
+            or item.name in item_name_groups["Bottles"]
         ):
             return item.name
         return None
