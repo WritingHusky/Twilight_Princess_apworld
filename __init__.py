@@ -24,6 +24,7 @@ from .Locations import (
 from .options import (
     BigKeySettings,
     DungeonItem,
+    EarlyShadowCrystal,
     GoldenBugsShuffled,
     MapAndCompassSettings,
     OpenMap,
@@ -376,13 +377,12 @@ class TPWorld(World):
 
         pre_fill_items = self.get_pre_fill_items()
 
-        # assert len(pre_fill_items) > 0, f"Not even Shadow Crystal in pre fill pool"
-
-        # found_shadow_crystal = False
-        # for item in pre_fill_items:
-        #     if item.name == "Shadow Crystal":
-        #         found_shadow_crystal = True
-        # assert found_shadow_crystal, f"Shadow crystal no in pre fill pool"
+        if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
+            found_shadow_crystal = False
+            for item in pre_fill_items:
+                if item.name == "Shadow Crystal":
+                    found_shadow_crystal = True
+            assert found_shadow_crystal, f"Shadow crystal no in pre fill pool"
 
         # Only do pre fill if it is needed
         if len(pre_fill_items) == 0:
@@ -442,12 +442,6 @@ class TPWorld(World):
 
         collection_state_base = CollectionState(self.multiworld)
 
-        # # Add shadow crystal to world
-        # shadow_crystal_item_s = [
-        #     item for item in pre_fill_items if item.name == "Shadow Crystal"
-        # ]
-        # assert len(shadow_crystal_item_s) == 1, f"{shadow_crystal_item_s=}"
-
         collection_state_base.sweep_for_advancements()
         locations = self.multiworld.get_reachable_locations(
             collection_state_base, self.player
@@ -456,22 +450,28 @@ class TPWorld(World):
             location for location in locations if isinstance(location.address, int)
         ]
 
-        # self.multiworld.random.shuffle(locations)
         assert len(locations) > 0, f"{locations=}"
+        self.multiworld.random.shuffle(locations)
 
-        # shadow_crystal_item_copy = deepcopy(shadow_crystal_item_s)
-        # fill_restrictive(
-        #     self.multiworld,
-        #     collection_state_base,
-        #     locations,
-        #     shadow_crystal_item_s,
-        #     single_player_placement=True,
-        #     lock=True,
-        #     allow_excluded=True,
-        #     # allow_partial=True,
-        # )
-        # assert len(shadow_crystal_item_s) == 0, "Shadow crystal not placed"
-        # pre_fill_items.remove(shadow_crystal_item_copy[0])
+        if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
+            # Add shadow crystal to world
+            shadow_crystal_item_s = [
+                item for item in pre_fill_items if item.name == "Shadow Crystal"
+            ]
+            assert len(shadow_crystal_item_s) == 1, f"{shadow_crystal_item_s=}"
+            shadow_crystal_item_copy = deepcopy(shadow_crystal_item_s)
+            fill_restrictive(
+                self.multiworld,
+                collection_state_base,
+                locations,
+                shadow_crystal_item_s,
+                single_player_placement=True,
+                lock=True,
+                allow_excluded=True,
+                # allow_partial=True,
+            )
+            assert len(shadow_crystal_item_s) == 0, "Shadow crystal not placed"
+            pre_fill_items.remove(shadow_crystal_item_copy[0])
 
         locations = None
 

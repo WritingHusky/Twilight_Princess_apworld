@@ -20,6 +20,7 @@ bool_options = [
     "overworld_shuffled",
     "heart_piece_shuffled",
     "dungeons_shuffled",
+    "early_shadow_crystal",
 ]
 bool_values = [True, False]
 dungeon_options = [
@@ -241,6 +242,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "skip_city_in_the_sky_entrance": SkipCityInTheSkyEntrance.default,
             "goron_mines_entrance": GoronMinesEntrance.default,
             "tot_entrance": TotEntrance.default,
+            "early_shadow_crystal": EarlyShadowCrystal.default,
         }
         self.world_setup(get_seed())
         # self.assertBeatable(True)

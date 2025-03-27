@@ -22,3 +22,4 @@ Twilight Princess:
   skip_city_in_the_sky_entrance: true
   goron_mines_entrance: open
   tot_entrance: open
+  early_shadow_crystal: true

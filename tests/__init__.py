@@ -74,5 +74,6 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
             # "skip_city_in_the_sky_entrance": True,
             # "goron_mines_entrance": GoronMinesEntrance.option_open,
             # "tot_entrance": TotEntrance.option_open,
+            "early_shadow_crystal": True,
         }
         yield

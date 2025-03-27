@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Dict, List, Tuple
 
 from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
-from ..options import DungeonItem, GoldenBugsShuffled, PoeShuffled
+from ..options import DungeonItem, EarlyShadowCrystal, GoldenBugsShuffled, PoeShuffled
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
@@ -363,7 +363,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     item == "Poe Soul"
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
-                # or (item == "Shadow Crystal")
+                or (
+                    item == "Shadow Crystal"
+                    and world.options.early_shadow_crystal
+                    == EarlyShadowCrystal.option_true
+                )
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue

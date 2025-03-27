@@ -186,6 +186,14 @@ class OverWoldShuffled(Toggle):
     default = True
 
 
+class EarlyShadowCrystal(Toggle):
+    """
+    Controls if the Shadow Crystal is placed into sphere 1 or not"""
+
+    display_name = "Early Shadow Crystal"
+    default = True
+
+
 # Dungeon Items
 class SmallKeySettings(DungeonItem):
     """
@@ -603,6 +611,8 @@ class TPOptions(PerGameCommonOptions):
     skip_city_in_the_sky_entrance: SkipCityInTheSkyEntrance  #
     goron_mines_entrance: GoronMinesEntrance  #
     tot_entrance: TotEntrance  #
+
+    early_shadow_crystal: EarlyShadowCrystal
 
 
 tp_option_groups: list[OptionGroup] = [
