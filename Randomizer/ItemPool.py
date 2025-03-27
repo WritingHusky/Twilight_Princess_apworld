@@ -363,6 +363,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     item == "Poe Soul"
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
+                # or (item == "Shadow Crystal")
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue
