@@ -618,7 +618,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
             ),
         )
     )
-    world.get_location(  # TODO: Maybe change this to a different item?
+    world.get_location(  # TODO Check what base rando does here
         "Ilia Memory Reward"
     ).place_locked_item(item_factory("Horse Call", world))
 

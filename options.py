@@ -188,7 +188,9 @@ class OverWoldShuffled(Toggle):
 
 class EarlyShadowCrystal(Toggle):
     """
-    Controls if the Shadow Crystal is placed into sphere 1 or not"""
+    Controls if the Shadow Crystal is placed into sphere 1 or not
+    Disabling will increace the chance of an error when generating but feel free to change
+    """
 
     display_name = "Early Shadow Crystal"
     default = True
