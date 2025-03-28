@@ -1,5 +1,7 @@
 Twilight Princess:
   Twilight Princess:
+  # early_shadow_crystal: false
+  # open_map: false
   logic_rules: glitchless
   castle_requirements: open
   palace_requirements: open
@@ -11,7 +13,6 @@ Twilight Princess:
   eldin_twilight_cleared: true
   lanayru_twilight_cleared: true
   skip_mdh: true
-  open_map: true
   transform_anywhere: true
   increase_wallet: true
   bonks_do_damage: false
@@ -22,4 +23,3 @@ Twilight Princess:
   skip_city_in_the_sky_entrance: true
   goron_mines_entrance: open
   tot_entrance: open
-  early_shadow_crystal: true
