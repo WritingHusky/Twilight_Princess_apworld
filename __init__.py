@@ -182,7 +182,7 @@ class TPWorld(World):
         Setup things ready for generation.
         """
         if (
-            not self.options.overworld_shuffled.value == OverWoldShuffled.option_false
+            self.options.overworld_shuffled.value == OverWoldShuffled.option_false
             and self.options.dungeons_shuffled.value == DungeonsShuffled.option_false
         ):
             raise OptionError(
