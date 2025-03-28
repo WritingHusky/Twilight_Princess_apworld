@@ -575,7 +575,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 type="Quest",
                 quantity=1,
                 classification=IC.progression,
-                item_id=1,
+                item_id=0x80,
             ),
         )
     )
@@ -588,7 +588,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 type="Quest",
                 quantity=1,
                 classification=IC.progression,
-                item_id=1,
+                item_id=0x81,
             ),
         )
     )
@@ -601,7 +601,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 type="Quest",
                 quantity=1,
                 classification=IC.progression,
-                item_id=1,
+                item_id=0x82,
             ),
         )
     )
@@ -614,7 +614,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 type="Quest",
                 quantity=1,
                 classification=IC.progression,
-                item_id=1,
+                item_id=0x83,
             ),
         )
     )
@@ -622,200 +622,200 @@ def place_deterministic_items(world: "TPWorld") -> None:
         "Ilia Memory Reward"
     ).place_locked_item(item_factory("Horse Call", world))
 
-    # Portal items are used only for logic, so we can place them here.
-    # TODO: Set portal location here as well as the item.?
-    world.get_location("Ordon Spring Portal").place_locked_item(
-        TPItem(
-            "Ordon Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("North Faron Portal").place_locked_item(
-        TPItem(
-            "North Faron Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("South Faron Portal").place_locked_item(
-        TPItem(
-            "South Faron Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Kakariko Gorge Portal").place_locked_item(
-        TPItem(
-            "Kakariko Gorge Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Kakariko Village Portal").place_locked_item(
-        TPItem(
-            "Kakariko Village Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Death Mountain Portal").place_locked_item(
-        TPItem(
-            "Death Mountain Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Castle Town Portal").place_locked_item(
-        TPItem(
-            "Castle Town Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Zoras Domain Portal").place_locked_item(
-        TPItem(
-            "Zoras Domain Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Lake Hylia Portal").place_locked_item(
-        TPItem(
-            "Lake Hylia Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Gerudo Desert Portal").place_locked_item(
-        TPItem(
-            "Gerudo Desert Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Mirror Chamber Portal").place_locked_item(
-        TPItem(
-            "Mirror Chamber Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Snowpeak Portal").place_locked_item(
-        TPItem(
-            "Snowpeak Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Sacred Grove Portal").place_locked_item(
-        TPItem(
-            "Sacred Grove Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Bridge of Eldin Portal").place_locked_item(
-        TPItem(
-            "Bridge of Eldin Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
-    world.get_location("Upper Zoras River Portal").place_locked_item(
-        TPItem(
-            "Upper Zoras River Portal",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Portal",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
-    )
+    # Portals are only worried about for open map setting which is handled in create_regions()
+
+    # world.get_location("Ordon Spring Portal").place_locked_item(
+    #     TPItem(
+    #         "Ordon Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("North Faron Portal").place_locked_item(
+    #     TPItem(
+    #         "North Faron Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("South Faron Portal").place_locked_item(
+    #     TPItem(
+    #         "South Faron Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Kakariko Gorge Portal").place_locked_item(
+    #     TPItem(
+    #         "Kakariko Gorge Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Kakariko Village Portal").place_locked_item(
+    #     TPItem(
+    #         "Kakariko Village Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Death Mountain Portal").place_locked_item(
+    #     TPItem(
+    #         "Death Mountain Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Castle Town Portal").place_locked_item(
+    #     TPItem(
+    #         "Castle Town Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Zoras Domain Portal").place_locked_item(
+    #     TPItem(
+    #         "Zoras Domain Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Lake Hylia Portal").place_locked_item(
+    #     TPItem(
+    #         "Lake Hylia Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Gerudo Desert Portal").place_locked_item(
+    #     TPItem(
+    #         "Gerudo Desert Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Mirror Chamber Portal").place_locked_item(
+    #     TPItem(
+    #         "Mirror Chamber Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Snowpeak Portal").place_locked_item(
+    #     TPItem(
+    #         "Snowpeak Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Sacred Grove Portal").place_locked_item(
+    #     TPItem(
+    #         "Sacred Grove Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Bridge of Eldin Portal").place_locked_item(
+    #     TPItem(
+    #         "Bridge of Eldin Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )
+    # world.get_location("Upper Zoras River Portal").place_locked_item(
+    #     TPItem(
+    #         "Upper Zoras River Portal",
+    #         world.player,
+    #         TPItemData(
+    #             code=None,
+    #             type="Portal",
+    #             quantity=1,
+    #             classification=IC.progression,
+    #             item_id=1,
+    #         ),
+    #     )
+    # )

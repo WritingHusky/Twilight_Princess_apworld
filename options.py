@@ -445,8 +445,8 @@ class TrapFrequency(Choice):
     option_no_traps = 0
     option_few = 1
     option_many = 3
-    option_mayhem = 5
-    option_nightmare = 10
+    option_mayhem = 7
+    option_nightmare = 100
     default = 0
 
 

@@ -4450,9 +4450,6 @@ LOCATION_TABLE = {
     "Snowpeak Ruins Blizzeta": TPLocationData(
         None, TPFlag.Always, TPStages.Snowpeak_Ruins, TPLocationType.Region
     ),
-    "South Faron Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
-    ),
     "Temple of Time Armogohma": TPLocationData(
         None, TPFlag.Always, TPStages.Temple_of_Time, TPLocationType.Region
     ),
@@ -4468,48 +4465,51 @@ LOCATION_TABLE = {
     "Arbiters Grounds Stallord": TPLocationData(
         None, TPFlag.Always, TPStages.Arbiters_Grounds, TPLocationType.Region
     ),
-    "Death Mountain Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Death_Mountain, TPLocationType.Region
-    ),
-    "Castle Town Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Castle_Town, TPLocationType.Region
-    ),
-    "Bridge of Eldin Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
-    ),
-    "Mirror Chamber Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Mirror_Chamber, TPLocationType.Region
-    ),
-    "Sacred Grove Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Sacred_Grove, TPLocationType.Region
-    ),
-    "Snowpeak Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Snowpeak, TPLocationType.Region
-    ),
-    "Upper Zoras River Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
-    ),
-    "Zoras Domain Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
-    ),
-    "Kakariko Village Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Kakariko_Village, TPLocationType.Region
-    ),
-    "Kakariko Gorge Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
-    ),
-    "Gerudo Desert Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Gerudo_Desert, TPLocationType.Region
-    ),
-    "Lake Hylia Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Lake_Hylia, TPLocationType.Region
-    ),
-    "North Faron Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
-    ),
-    "Ordon Spring Portal": TPLocationData(
-        None, TPFlag.Always, TPStages.Ordon_Spring, TPLocationType.Region
-    ),
+    # "South Faron Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
+    # ),
+    # "Death Mountain Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Death_Mountain, TPLocationType.Region
+    # ),
+    # "Castle Town Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Castle_Town, TPLocationType.Region
+    # ),
+    # "Bridge of Eldin Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
+    # ),
+    # "Mirror Chamber Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Mirror_Chamber, TPLocationType.Region
+    # ),
+    # "Sacred Grove Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Sacred_Grove, TPLocationType.Region
+    # ),
+    # "Snowpeak Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Snowpeak, TPLocationType.Region
+    # ),
+    # "Upper Zoras River Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
+    # ),
+    # "Zoras Domain Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
+    # ),
+    # "Kakariko Village Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Kakariko_Village, TPLocationType.Region
+    # ),
+    # "Kakariko Gorge Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
+    # ),
+    # "Gerudo Desert Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Gerudo_Desert, TPLocationType.Region
+    # ),
+    # "Lake Hylia Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Lake_Hylia, TPLocationType.Region
+    # ),
+    # "North Faron Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
+    # ),
+    # "Ordon Spring Portal": TPLocationData(
+    #     None, TPFlag.Always, TPStages.Ordon_Spring, TPLocationType.Region
+    # ),
     "Renados Letter": TPLocationData(
         code=None,
         flags=TPFlag.Always,
@@ -5129,22 +5129,22 @@ LOCATION_TO_REGION: dict[str, str] = {
     "Snowboard Racing Prize": "Snowpeak Summit Upper",
     "Snowpeak Cave Ice Poe": "Snowpeak Summit Upper",
     "Snowpeak Icy Summit Poe": "Snowpeak Summit Lower",
-    # Portal Location
-    "Snowpeak Portal": "Snowpeak Summit Upper",
-    "Zoras Domain Portal": "Zoras Domain Throne Room",
-    "Upper Zoras River Portal": "Upper Zoras River",
-    "Lake Hylia Portal": "Lake Hylia",
-    "Castle Town Portal": "Outside Castle Town West",
-    "Gerudo Desert Portal": "Gerudo Desert Cave of Ordeals Plateau",
-    "Sacred Grove Portal": "Sacred Grove Lower",
-    "North Faron Portal": "North Faron Woods",
-    "South Faron Portal": "South Faron Woods",
-    "Kakariko Village Portal": "Lower Kakariko Village",
-    "Bridge of Eldin Portal": "Eldin Field",
-    "Kakariko Gorge Portal": "Kakariko Gorge",
-    "Death Mountain Portal": "Death Mountain Volcano",
-    "Mirror Chamber Portal": "Mirror Chamber Upper",
-    "Ordon Spring Portal": "Ordon Spring",
+    # # Portal Location
+    # "Snowpeak Portal": "Snowpeak Summit Upper",
+    # "Zoras Domain Portal": "Zoras Domain Throne Room",
+    # "Upper Zoras River Portal": "Upper Zoras River",
+    # "Lake Hylia Portal": "Lake Hylia",
+    # "Castle Town Portal": "Outside Castle Town West",
+    # "Gerudo Desert Portal": "Gerudo Desert Cave of Ordeals Plateau",
+    # "Sacred Grove Portal": "Sacred Grove Lower",
+    # "North Faron Portal": "North Faron Woods",
+    # "South Faron Portal": "South Faron Woods",
+    # "Kakariko Village Portal": "Lower Kakariko Village",
+    # "Bridge of Eldin Portal": "Eldin Field",
+    # "Kakariko Gorge Portal": "Kakariko Gorge",
+    # "Death Mountain Portal": "Death Mountain Volcano",
+    # "Mirror Chamber Portal": "Mirror Chamber Upper",
+    # "Ordon Spring Portal": "Ordon Spring",
     # Boss Defeat Locations:
     "Lakebed Temple Morpheel": "Lakebed Temple Boss Room",
     "Palace of Twilight Zant": "Palace of Twilight Boss Room",
