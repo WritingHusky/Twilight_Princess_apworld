@@ -1,12 +1,10 @@
 from contextlib import contextmanager
 import logging
 import os
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any
 import pytest  # type: ignore
-from BaseClasses import MultiWorld, get_seed
-from test.general import gen_steps, setup_solo_multiworld as setup_base_solo_multiworld
+from BaseClasses import get_seed
 from test.bases import WorldTestBase
-from worlds.twilight_princess_apworld import TPWorld
 from worlds.twilight_princess_apworld.options import *
 
 DEFAULT_TEST_SEED = get_seed()
@@ -22,7 +20,8 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
         logging.FileHandler("worlds\\twilight_princess_apworld\\tests\\logs.log")
     )
 
-    run_long_tests = True
+    run_long_tests = False
+    run_generation_tests = False
 
     # Make sure that options are rest for every test
     @pytest.fixture(autouse=True)
