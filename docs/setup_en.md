@@ -26,6 +26,7 @@ If you intend to play under Linux, you will need to consider the following infor
   release page: `Archipelago_X.X.X_linux-x86_64.tar.gz`.
 - For Dolphin, you can use the flatpak package
   [available on Flathub](https://flathub.org/apps/org.DolphinEmu.dolphin-emu).
+- The Dolphin Memory Engine lib is currently using python 3.12
 
 ## Installation
 
@@ -38,7 +39,7 @@ All users should follow these steps:
 3. Copy the contents of the `lib` folder in the downloaded Twilight Princess APWorld zip file to your Archipelago installation's `lib`
    folder.
 
-If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and the [custom seed file](https://generator.tprandomizer.com/s/aptest) and place both in the save data of dolphin
+If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/ and the [custom seed file](https://generator.tprandomizer.com/s/aptest) and place both in the save data of dolphin, alongside the RandomizerAP.US.gci file from the zip folder
 
 ## Setting Up a YAML
 
@@ -82,13 +83,13 @@ Once you do, follow these steps to connect to the room:
 
 1. Visit https://generator.tprandomizer.com/s/aptest to download the seed file needed to run the randomizer, Feel free to randomize cosmetics and audio as you would like
 2. If you haven't gotten the REL loader, now is a good time to do that from the randomizer website.
-3. From the zip folder downloaded add the RandomizerAP.us.gci to the dolphin save data. (If you are using a non-US version you will have to use the Randomizer file from tprandomizer and gannon will not auto-release)
+3. From the zip folder downloaded add the RandomizerAP.US.gci to the dolphin save data. (If you are using a non-US version you will have to use the Randomizer file from tprandomizer website and gannon will not auto-release your world)
 
-**Your save data folder should have aptest.gci, RELoader, and RandomizerAP.us.gci** (Non AP for Non US versions)
+**Your save data folder should have aptest.gci, RELoader, and RandomizerAP.US.gci** (Non AP for Non US versions)
 
 4. Open Dolphin and use it to open Twilight Princess. (Ensure `Enable Emulated Memory Size Override` is disabled. See troubleshooting for more details)
 5. Start the REL loader save file and select APTest as the seed you want to use.
-   (US Randomizer) The console should say "Archipelego Randomizer" at the top
+   (If US Randomizer) The console should say "Archipelego Randomizer" at the top
 6. Start a new save file feel free to leave links name as default for now we change it later.
 7. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the
    text client. It should automatically connect to Dolphin.
@@ -116,6 +117,8 @@ Once you do, follow these steps to connect to the room:
   `Configuration` > `Advanced`) is **disabled**.
 - If you run with a custom GC boot menu, you'll need to skip it by going to `Options` > `Configuration` > `GameCube`
   and checking `Skip Main Menu`.
+- If Dolphin does load the RELoader save file and has a popup saying something like "Save file cannot be loaded",
+  There may be a normal save file in your dolphin save folder, this will need to be removed in order for the randomizer to load.
 - If you have killed Ganon but the world has not been realesed. Ensure that the host settings allows player releases.
   If you are not playing the US verison it will not work.
   Check that the Archipelego Randomizer is loaded by bringing up the console window.
