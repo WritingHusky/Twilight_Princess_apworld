@@ -1215,25 +1215,25 @@ class TPWorld(World):
             "Trap Frequency": self.options.trap_frequency.get_option_name(
                 self.options.trap_frequency.value
             ),
-            "Damage Magnifiation": self.options.damage_magnification.get_option_name(
+            "Damage Magnification": self.options.damage_magnification.get_option_name(
                 self.options.damage_magnification.value
             ),
-            "Lakebed Enterance Requirements": self.options.skip_lakebed_entrance.get_option_name(
+            "Lakebed Entrance Requirements": self.options.skip_lakebed_entrance.get_option_name(
                 self.options.skip_lakebed_entrance.value
             ),
             "Arbiters Grounds Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
                 self.options.skip_arbiters_grounds_entrance.value
             ),
-            "Snowpeak Enterance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
+            "Snowpeak Entrance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
                 self.options.skip_snowpeak_entrance.value
             ),
-            "City in the Sky Enterance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
+            "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
                 self.options.skip_city_in_the_sky_entrance.value
             ),
-            "Goron Mines Enterance Requirements": self.options.goron_mines_entrance.get_option_name(
+            "Goron Mines Entrance Requirements": self.options.goron_mines_entrance.get_option_name(
                 self.options.goron_mines_entrance.value
             ),
-            "Temple of Time Enterance Requirements": self.options.tot_entrance.get_option_name(
+            "Temple of Time Entrance Requirements": self.options.tot_entrance.get_option_name(
                 self.options.tot_entrance.value
             ),
             "Early Shadow Crystal": self.options.early_shadow_crystal.get_option_name(
