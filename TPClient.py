@@ -416,15 +416,16 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
                 logger.info("Debug: Item Stack full so an item cannot be given")
             return False
 
-        if read_byte(ITEM_WRITE_ADDR) == 0x00:
+        item_stack_addr = ITEM_WRITE_ADDR + i
+        assert isinstance(item_stack_addr, int)
+
+        if read_byte(item_stack_addr) == 0x00:
             item_stack_addr = ITEM_WRITE_ADDR + i
-            break
+            write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
+            return True
 
         i += 1
-    assert item_stack_addr >= ITEM_WRITE_ADDR and item_stack_addr <= ITEM_WRITE_ADDR + 7
-
-    write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
-    return True
+    # assert item_stack_addr >= ITEM_WRITE_ADDR and item_stack_addr <= ITEM_WRITE_ADDR + 7
 
 
 async def give_items(ctx: TPContext) -> None:

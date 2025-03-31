@@ -207,6 +207,15 @@ class TPWorld(World):
                     MapAndCompassSettings.option_vanilla
                 )
 
+        # If Shadow Crystal is a precollected item don't try to put it in Sphere 1
+        if any(
+            [
+                item.name == "Shadow Crystal"
+                for item in self.multiworld.precollected_items[self.player]
+            ]
+        ):
+            self.options.early_shadow_crystal.value = EarlyShadowCrystal.option_false
+
         self.nonprogress_locations, self.progress_locations = (
             self._determine_nonprogress_and_progress_locations()
         )
@@ -1066,7 +1075,7 @@ class TPWorld(World):
             1,  # Bomblings 10
             # 1,  # Water Bombs 3
             # 2,  # Water Bombs 5
-            2,  # Water Bombs 10
+            1,  # Water Bombs 10
             self.options.trap_frequency.value,  # Ice Trap
         ]
         assert len(filler_consumables) == len(
