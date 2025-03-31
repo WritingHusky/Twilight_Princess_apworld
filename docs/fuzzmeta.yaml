@@ -14,13 +14,14 @@ Twilight Princess:
   # tot_entrance: open
   dungeon_rewards_progression: true
   small_keys_on_bosses: false
-  # Hard coding
+
+  # Hard coded settings
   # skip_prologue: true
   # faron_twilight_cleared: true
   # eldin_twilight_cleared: true
   # lanayru_twilight_cleared: true
   # skip_mdh: true
-  # end of hard coding
+
   transform_anywhere: true
   increase_wallet: true
   bonks_do_damage: false
