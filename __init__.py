@@ -343,7 +343,7 @@ class TPWorld(World):
             ]
 
             def shadow_crystal_rule(item: Item):
-                return item.name == "Shadow Crystal"
+                return item.name != "Shadow Crystal"
 
             # Add item rule for dungeon item locations
             for option, setting, vanilla in zip(options, settings, vanillas):
