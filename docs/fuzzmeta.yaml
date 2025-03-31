@@ -6,20 +6,22 @@ Twilight Princess:
   castle_requirements: open
   palace_requirements: open
   faron_woods_logic: open
+  # skip_lakebed_entrance: true
+  # skip_arbiters_grounds_entrance: true
+  # skip_snowpeak_entrance: true
+  # skip_city_in_the_sky_entrance: true
+  # goron_mines_entrance: open
+  # tot_entrance: open
   dungeon_rewards_progression: true
   small_keys_on_bosses: false
-  skip_prologue: true
-  faron_twilight_cleared: true
-  eldin_twilight_cleared: true
-  lanayru_twilight_cleared: true
-  skip_mdh: true
+  # Hard coding
+  # skip_prologue: true
+  # faron_twilight_cleared: true
+  # eldin_twilight_cleared: true
+  # lanayru_twilight_cleared: true
+  # skip_mdh: true
+  # end of hard coding
   transform_anywhere: true
   increase_wallet: true
   bonks_do_damage: false
   damage_magnification: vanilla
-  skip_lakebed_entrance: true
-  skip_arbiters_grounds_entrance: true
-  skip_snowpeak_entrance: true
-  skip_city_in_the_sky_entrance: true
-  goron_mines_entrance: open
-  tot_entrance: open
