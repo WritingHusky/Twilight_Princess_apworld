@@ -4,6 +4,8 @@ from BaseClasses import MultiWorld
 def connect_regions(multiworld: MultiWorld, player: int) -> None:
     """Connect all regions according to the world layout"""
 
+    # TODO Consider creating region table with connections to turn this into a loop rather then mass of repeats
+
     multiworld.get_region("Arbiters Grounds Entrance", player).connect(
         multiworld.get_region("Outside Arbiters Grounds", player),
         "Arbiters Grounds Entrance -> Outside Arbiters Grounds",

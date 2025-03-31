@@ -58,11 +58,11 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
             "map_and_compass_settings": MapAndCompassSettings.option_anywhere,
             # "dungeon_rewards_progression": True,
             # "small_keys_on_bosses": 0,
-            "skip_prologue": True,
-            "faron_twilight_cleared": True,
-            "eldin_twilight_cleared": True,
-            "lanayru_twilight_cleared": True,
-            "skip_mdh": True,
+            # "skip_prologue": True,
+            # "faron_twilight_cleared": True,
+            # "eldin_twilight_cleared": True,
+            # "lanayru_twilight_cleared": True,
+            # "skip_mdh": True,
             "open_map": False,
             "increase_wallet": False,
             "transform_anywhere": False,
@@ -74,5 +74,6 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
             # "skip_city_in_the_sky_entrance": True,
             # "goron_mines_entrance": GoronMinesEntrance.option_open,
             # "tot_entrance": TotEntrance.option_open,
+            "early_shadow_crystal": True,
         }
         yield

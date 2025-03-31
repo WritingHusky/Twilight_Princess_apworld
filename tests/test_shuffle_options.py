@@ -20,6 +20,7 @@ bool_options = [
     "overworld_shuffled",
     "heart_piece_shuffled",
     "dungeons_shuffled",
+    "early_shadow_crystal",
 ]
 bool_values = [True, False]
 dungeon_options = [
@@ -111,11 +112,11 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
         "small_key_settings": DungeonItem.option_anywhere,
         "big_key_settings": DungeonItem.option_anywhere,
         "map_and_compass_settings": DungeonItem.option_anywhere,
-        "skip_prologue": True,
-        "faron_twilight_cleared": True,
-        "eldin_twilight_cleared": True,
-        "lanayru_twilight_cleared": True,
-        "skip_mdh": True,
+        # "skip_prologue": True,
+        # "faron_twilight_cleared": True,
+        # "eldin_twilight_cleared": True,
+        # "lanayru_twilight_cleared": True,
+        # "skip_mdh": True,
         "open_map": False,
         "increase_wallet": False,
         "transform_anywhere": False,
@@ -225,11 +226,11 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "map_and_compass_settings": MapAndCompassSettings.option_anywhere,
             "dungeon_rewards_progression": DungeonRewardsProgression.default,
             "small_keys_on_bosses": SmallKeysOnBosses.default,
-            "skip_prologue": SkipPrologue.default,
-            "faron_twilight_cleared": FaronTwilightCleared.default,
-            "eldin_twilight_cleared": EldinTwilightCleared.default,
-            "lanayru_twilight_cleared": LanayruTwilightCleared.default,
-            "skip_mdh": SkipMdh.default,
+            # "skip_prologue": SkipPrologue.default,
+            # "faron_twilight_cleared": FaronTwilightCleared.default,
+            # "eldin_twilight_cleared": EldinTwilightCleared.default,
+            # "lanayru_twilight_cleared": LanayruTwilightCleared.default,
+            # "skip_mdh": SkipMdh.default,
             "open_map": OpenMap.default,
             "increase_wallet": IncreaseWalletCapacity.default,
             "transform_anywhere": TransformAnywhere.default,
@@ -241,6 +242,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "skip_city_in_the_sky_entrance": SkipCityInTheSkyEntrance.default,
             "goron_mines_entrance": GoronMinesEntrance.default,
             "tot_entrance": TotEntrance.default,
+            "early_shadow_crystal": EarlyShadowCrystal.default,
         }
         self.world_setup(get_seed())
         # self.assertBeatable(True)

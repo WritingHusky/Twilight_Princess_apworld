@@ -8,5 +8,6 @@
 thing.py 
 scripts.txt
 /tests/logs.log
+fuzzParser.py
 
 __pycache__

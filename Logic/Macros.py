@@ -692,7 +692,7 @@ def can_defeat_RedeadKnight(state: CollectionState, player: int):
 
 def can_defeat_ShadowBeast(state: CollectionState, player: int):
     return has_sword(state, player) or (
-        state.has("Shadow Crystal", player) and can_complete_MDH(state, player)
+        state.has("Shadow Crystal", player)  # and can_complete_MDH(state, player)
     )
 
 
@@ -1308,21 +1308,17 @@ def can_cut_hanging_web(state: CollectionState, player: int):
 
 
 def can_knock_down_hc_painting(state: CollectionState, player: int):
-    return (
-        state.has("Progressive Hero's Bow", player)
-        or (
-            state._tp_glitched(player)
-            and (
+    return state.has("Progressive Hero's Bow", player) or (
+        state._tp_glitched(player)
+        and (
+            (
                 has_bombs(state, player)
                 or (
                     has_sword(state, player)
                     and state.has("Progressive Hidden Skill", player, 6)
                 )
             )
-        )
-        or (
-            state._tp_glitched(player)
-            and (
+            or (
                 (has_sword(state, player) and can_do_moon_boots(state, player))
                 or can_do_bs_moon_boots(state, player)
             )
@@ -1440,25 +1436,28 @@ def can_get_arrows(state: CollectionState, player: int):
     )
 
 
-def can_complete_prologue(state: CollectionState, player: int):
-    return (
-        state.can_reach_region("North Faron Woods", player)
-        and can_defeat_Bokoblin(state, player)
-    ) or state._tp_skip_prologue(player)
+# def can_complete_prologue(state: CollectionState, player: int):
+#     assert False, "This is no longer used"
+#     # return (
+#     #     state.can_reach_region("North Faron Woods", player)
+#     #     and can_defeat_Bokoblin(state, player)
+#     # ) or state._tp_skip_prologue(player)
 
 
 def can_complete_goats1(state: CollectionState, player: int):
-    return state.can_reach_region("Ordon Ranch", player) or can_complete_prologue(
-        state, player
-    )
+    return state.can_reach_region("Ordon Ranch", player)
+    # or can_complete_prologue(
+    #     state, player
+    # )
 
 
-def can_complete_MDH(state: CollectionState, player: int):
-    return state._tp_skip_mdh(player) or (
-        can_complete_lakebed_temple(state, player)
-        and state.can_reach_region("Castle Town South", player)
-    )
-    # return (canCompleteLakebedTemple() or (state.world.options.skip_mdh.value == True))
+# def can_complete_MDH(state: CollectionState, player: int):
+#     assert False, "This is no longer used"
+#     # return state._tp_skip_mdh(player) or (
+#     #     can_complete_lakebed_temple(state, player)
+#     #     and state.can_reach_region("Castle Town South", player)
+#     # )
+#     # return (canCompleteLakebedTemple() or (state.world.options.skip_mdh.value == True))
 
 
 # TODO: Figure this out
@@ -1468,102 +1467,104 @@ def can_strike_pedestal(state: CollectionState, player: int):
 
 def can_clear_forest(state: CollectionState, player: int):
     return (
-        (
-            can_complete_forest_temple(state, player)
-            or (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
-        )
-        and can_complete_prologue(state, player)
-        and can_complete_faron_twilight(state, player)
+        can_complete_forest_temple(state, player)
+        or (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
+        # and can_complete_prologue(state, player)
+        # and can_complete_faron_twilight(state, player)
     )
 
 
 def can_complete_faron_twilight(state: CollectionState, player: int):
-    return state._tp_faron_twilight_cleared(player) or (
-        can_complete_prologue(state, player)
-        and state.can_reach_region("South Faron Woods", player)
-        and state.can_reach_region("Faron Woods Coros House Lower", player)
-        and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
-        and state.can_reach_region("North Faron Woods", player)
-        and state.can_reach_region("Ordon Spring", player)
-        and (
-            not state._tp_bonks_do_damage(player)
-            or (
-                state._tp_bonks_do_damage(player)
-                and (
-                    (
-                        state._tp_damage_magnification(player)
-                        is not DamageMagnification.option_ohko
-                    )
-                    or can_use_bottled_fairies(state, player)
-                )
-            )
-        )
-    )
+    assert False, "This is no longer used"
+    # return ( # state._tp_faron_twilight_cleared(player) or
+    #     can_complete_prologue(state, player)
+    #     and state.can_reach_region("South Faron Woods", player)
+    #     and state.can_reach_region("Faron Woods Coros House Lower", player)
+    #     and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
+    #     and state.can_reach_region("North Faron Woods", player)
+    #     and state.can_reach_region("Ordon Spring", player)
+    #     and (
+    #         not state._tp_bonks_do_damage(player)
+    #         or (
+    #             state._tp_bonks_do_damage(player)
+    #             and (
+    #                 (
+    #                     state._tp_damage_magnification(player)
+    #                     is not DamageMagnification.option_ohko
+    #                 )
+    #                 or can_use_bottled_fairies(state, player)
+    #             )
+    #         )
+    #     )
+    # )
 
 
-def can_complete_eldin_twilight(state: CollectionState, player: int):
-    return state._tp_eldin_twilight_cleared(player) or (
-        state.can_reach_region("Faron Field", player)
-        and state.can_reach_region("Lower Kakariko Village", player)
-        and state.can_reach_region("Kakariko Graveyard", player)
-        and state.can_reach_region("Kakariko Malo Mart", player)
-        and state.can_reach_region("Kakariko Barnes Bomb Shop Upper", player)
-        and state.can_reach_region("Kakariko Renados Sanctuary Basement", player)
-        and state.can_reach_region("Kakariko Elde Inn", player)
-        and state.can_reach_region("Kakariko Bug House", player)
-        and state.can_reach_region("Upper Kakariko Village", player)
-        and state.can_reach_region("Kakariko Watchtower", player)
-        and state.can_reach_region("Death Mountain Volcano", player)
-        and (
-            not state._tp_bonks_do_damage(player)
-            or (
-                state._tp_bonks_do_damage(player)
-                and (
-                    (
-                        state._tp_damage_magnification(player)
-                        is not DamageMagnification.option_ohko
-                    )
-                    or can_use_bottled_fairies(state, player)
-                )
-            )
-        )
-    )
+# def can_complete_eldin_twilight(state: CollectionState, player: int):
+#     assert False, "This is no longer used"
+#     return state._tp_eldin_twilight_cleared(player) or (
+#         state.can_reach_region("Faron Field", player)
+#         and state.can_reach_region("Lower Kakariko Village", player)
+#         and state.can_reach_region("Kakariko Graveyard", player)
+#         and state.can_reach_region("Kakariko Malo Mart", player)
+#         and state.can_reach_region("Kakariko Barnes Bomb Shop Upper", player)
+#         and state.can_reach_region("Kakariko Renados Sanctuary Basement", player)
+#         and state.can_reach_region("Kakariko Elde Inn", player)
+#         and state.can_reach_region("Kakariko Bug House", player)
+#         and state.can_reach_region("Upper Kakariko Village", player)
+#         and state.can_reach_region("Kakariko Watchtower", player)
+#         and state.can_reach_region("Death Mountain Volcano", player)
+#         and (
+#             not state._tp_bonks_do_damage(player)
+#             or (
+#                 state._tp_bonks_do_damage(player)
+#                 and (
+#                     (
+#                         state._tp_damage_magnification(player)
+#                         is not DamageMagnification.option_ohko
+#                     )
+#                     or can_use_bottled_fairies(state, player)
+#                 )
+#             )
+#         )
+#     )
 
 
-def can_complete_lanayru_twilight(state: CollectionState, player: int):
-    return state._tp_lanayru_twilight_cleared(player) or (
-        (
-            state.can_reach_region("North Eldin Field", player)
-            or state.has("Shadow Crystal", player)
-        )
-        and state.can_reach_region("Zoras Domain", player)
-        and state.can_reach_region("Zoras Domain Throne Room", player)
-        and state.can_reach_region("Upper Zoras River", player)
-        and state.can_reach_region("Lake Hylia", player)
-        and state.can_reach_region("Lake Hylia Lanayru Spring", player)
-        and state.can_reach_region("Castle Town South", player)
-        and (
-            not state._tp_bonks_do_damage(player)
-            or (
-                state._tp_bonks_do_damage(player)
-                and (
-                    (
-                        state._tp_damage_magnification(player)
-                        is not DamageMagnification.option_ohko
-                    )
-                    or can_use_bottled_fairies(state, player)
-                )
-            )
-        )
-    )
+# def can_complete_lanayru_twilight(state: CollectionState, player: int):
+#     assert False, "This is no longer used"
+#     # return state._tp_lanayru_twilight_cleared(player) or (
+#     #     (
+#     #         state.can_reach_region("North Eldin Field", player)
+#     #         or state.has("Shadow Crystal", player)
+#     #     )
+#     #     and state.can_reach_region("Zoras Domain", player)
+#     #     and state.can_reach_region("Zoras Domain Throne Room", player)
+#     #     and state.can_reach_region("Upper Zoras River", player)
+#     #     and state.can_reach_region("Lake Hylia", player)
+#     #     and state.can_reach_region("Lake Hylia Lanayru Spring", player)
+#     #     and state.can_reach_region("Castle Town South", player)
+#     #     and (
+#     #         not state._tp_bonks_do_damage(player)
+#     #         or (
+#     #             state._tp_bonks_do_damage(player)
+#     #             and (
+#     #                 (
+#     #                     state._tp_damage_magnification(player)
+#     #                     is not DamageMagnification.option_ohko
+#     #                 )
+#     #                 or can_use_bottled_fairies(state, player)
+#     #             )
+#     #         )
+#     #     )
+#     # )
 
 
-def can_complete_all_twilight(state: CollectionState, player: int):
-    return (
-        can_complete_faron_twilight(state, player)
-        and can_complete_eldin_twilight(state, player)
-        and can_complete_lanayru_twilight(state, player)
-    )
+# def can_complete_all_twilight(state: CollectionState, player: int):
+# assert False, "This is no longer used"
+# return (
+#     can_complete_faron_twilight(state, player)
+#     and can_complete_eldin_twilight(state, player)
+#     and can_complete_lanayru_twilight(state, player)
+# )
 
 
 def can_complete_forest_temple(state: CollectionState, player: int):
@@ -1864,13 +1865,12 @@ def can_do_ft_windless_bridge_room(state: CollectionState, player: int):
 
 
 def can_clear_forest_glitched(state: CollectionState, player: int):
-    return can_complete_prologue(state, player) and (
-        (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
-        or (
-            can_complete_forest_temple(state, player)
-            or can_do_lja(state, player)
-            or can_do_map_glitch(state, player)
-        )
+    return (  # can_complete_prologue(state, player) and
+        state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open
+    ) or (
+        can_complete_forest_temple(state, player)
+        or can_do_lja(state, player)
+        or can_do_map_glitch(state, player)
     )
 
 

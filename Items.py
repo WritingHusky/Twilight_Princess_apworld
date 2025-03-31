@@ -140,7 +140,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Magic Armor": TPItemData("Item", IC.useful, 28, 1, 0x30),
     "Zora Armor": TPItemData("Item", IC.progression, 29, 1, 0x31),
     "Shadow Crystal": TPItemData("Item", VERY_USEFUL, 30, 1, 0x32),
-    "Progressive Wallet": TPItemData("Item", IC.progression, 31, 2, 0x36),
+    "Progressive Wallet": TPItemData("Item", IC.useful, 31, 2, 0x36),
     "Hawkeye": TPItemData("Item", IC.useful, 32, 1, 0x3E),
     "Gale Boomerang": TPItemData("Item", VERY_USEFUL, 33, 1, 0x40),
     "Spinner": TPItemData("Item", VERY_USEFUL, 34, 1, 0x41),
@@ -170,11 +170,11 @@ ITEM_TABLE: dict[str, TPItemData] = {
         "Small key", IC.progression, 61, 7, 0x8C
     ),
     "Hyrule Castle Small Key": TPItemData("Small key", IC.progression, 62, 3, 0x8D),
-    "Small Key (North Faron Gate)": TPItemData(
-        "Small key", IC.progression, 63, 1, 0xEE
-    ),
-    "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
-    "North Faron Woods Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
+    # "Small Key (North Faron Gate)": TPItemData(
+    #     "Small key", IC.progression, 63, 1, 0xEE
+    # ),
+    # "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
+    "Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),
@@ -240,7 +240,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     # "Sky Character 3": TPItemData("Item", IC.useful, 134, 1, 0xDD),
     # "Sky Character 4": TPItemData("Item", IC.useful, 135, 1, 0xDE),
     # "Sky Character 5": TPItemData("Item", IC.useful, 136, 1, 0xDF),
-    "Poe Soul": TPItemData("Poe", IC.progression, 124, 60, 0xE0),
+    "Poe Soul": TPItemData("Poe", IC.progression_skip_balancing, 124, 60, 0xE0),
     # "Poe 1 (Fire)": TPItemData("Item", IC.useful, 125, 1, 0xEF),
     # "Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
     # "Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),

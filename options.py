@@ -186,6 +186,15 @@ class OverWoldShuffled(Toggle):
     default = True
 
 
+class EarlyShadowCrystal(Toggle):
+    """
+    When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
+    """
+
+    display_name = "Early Shadow Crystal"
+    default = False
+
+
 # Dungeon Items
 class SmallKeySettings(DungeonItem):
     """
@@ -435,8 +444,8 @@ class TrapFrequency(Choice):
     option_no_traps = 0
     option_few = 1
     option_many = 3
-    option_mayhem = 5
-    option_nightmare = 10
+    option_mayhem = 7
+    option_nightmare = 100
     default = 0
 
 
@@ -543,7 +552,7 @@ class TPOptions(PerGameCommonOptions):
     """
 
     start_inventory_from_pool: StartInventoryPool
-    death_link: DeathLink  # Potentially broken
+    death_link: DeathLink
 
     # Item Pool Settings
     golden_bugs_shuffled: GoldenBugsShuffled
@@ -570,11 +579,11 @@ class TPOptions(PerGameCommonOptions):
     faron_woods_logic: FaronWoodsLogic  #
 
     # Timesavers
-    skip_prologue: SkipPrologue  #
-    faron_twilight_cleared: FaronTwilightCleared  #
-    eldin_twilight_cleared: EldinTwilightCleared  #
-    lanayru_twilight_cleared: LanayruTwilightCleared  #
-    skip_mdh: SkipMdh  #
+    # skip_prologue: SkipPrologue  #
+    # faron_twilight_cleared: FaronTwilightCleared  #
+    # eldin_twilight_cleared: EldinTwilightCleared  #
+    # lanayru_twilight_cleared: LanayruTwilightCleared  #
+    # skip_mdh: SkipMdh  #
     # skip_minor_cutscenes: SkipMinorCutscenes
     # skip_major_cutscenes: SkipMajorCutscenes
     # fast_iron_boots: FastIronBoots
@@ -588,7 +597,6 @@ class TPOptions(PerGameCommonOptions):
 
     # Additional Settings
     transform_anywhere: TransformAnywhere  #
-    # increase_wallet_capacity: IncreaseWalletCapacity
     # shops_display_shuffled: ShopsDisplayShuffled
     bonks_do_damage: BonksDoDamage  #
     trap_frequency: TrapFrequency
@@ -603,6 +611,8 @@ class TPOptions(PerGameCommonOptions):
     skip_city_in_the_sky_entrance: SkipCityInTheSkyEntrance  #
     goron_mines_entrance: GoronMinesEntrance  #
     tot_entrance: TotEntrance  #
+
+    early_shadow_crystal: EarlyShadowCrystal
 
 
 tp_option_groups: list[OptionGroup] = [

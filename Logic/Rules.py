@@ -48,20 +48,20 @@ class TPLogic(LogicMixin):
     def _tp_big_key_settings(self, player: int) -> int:
         return self.multiworld.worlds[player].options.big_key_settings.value
 
-    def _tp_skip_prologue(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.skip_prologue.value
+    # def _tp_skip_prologue(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.skip_prologue.value
 
-    def _tp_skip_mdh(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.skip_mdh.value
+    # def _tp_skip_mdh(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.skip_mdh.value
 
-    def _tp_faron_twilight_cleared(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.faron_twilight_cleared.value
+    # def _tp_faron_twilight_cleared(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.faron_twilight_cleared.value
 
-    def _tp_eldin_twilight_cleared(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.eldin_twilight_cleared.value
+    # def _tp_eldin_twilight_cleared(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.eldin_twilight_cleared.value
 
-    def _tp_lanayru_twilight_cleared(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.lanayru_twilight_cleared.value
+    # def _tp_lanayru_twilight_cleared(self, player: int) -> bool:
+    #     return self.multiworld.worlds[player].options.lanayru_twilight_cleared.value
 
     def _tp_skip_arbiters_entrance(self, player: int) -> bool:
         return self.multiworld.worlds[
@@ -1833,7 +1833,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Ashei's Sketch", player)
             and (
-                state.has("North Faron Woods Gate Keys", player)
+                state.has("Gate Keys", player)
                 # Holdover from Keysy
                 # or (
                 #     state._tp_small_key_settings(player)
@@ -1848,11 +1848,12 @@ def set_location_access_rules(world: "TPWorld"):
             can_smash(state, player)
             or (
                 (
-                    (state._tp_lanayru_twilight_cleared(player))
-                    or state.has("Shadow Crystal", player)
+                    # (state._tp_lanayru_twilight_cleared(player))
+                    # or
+                    state.has("Shadow Crystal", player)
                 )
                 and (
-                    state.has("North Faron Woods Gate Keys", player)
+                    state.has("Gate Keys", player)
                     # Holdover from Keysy
                     # or (
                     #     state._tp_small_key_settings(player)
@@ -1898,8 +1899,8 @@ def set_location_access_rules(world: "TPWorld"):
         "Kakariko Gorge Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_MDH(state, player)
-            and can_complete_all_twilight(state, player)
+            # and can_complete_MDH(state, player)
+            # and can_complete_all_twilight(state, player)
         ),
     )
     set_rule_if_exists(
@@ -1976,7 +1977,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Rutelas Blessing",
         lambda state: (
-            state.has("North Faron Woods Gate Keys", player)
+            state.has("Gate Keys", player)
             # Holdover from Keysy
             # or (
             #     state._tp_small_key_settings(player) == SmallKeySettings.option_anywhere
@@ -2000,7 +2001,7 @@ def set_location_access_rules(world: "TPWorld"):
         ),
     )
     set_rule_if_exists(
-        "Coro Bottle", lambda state: (can_complete_prologue(state, player))
+        "Coro Bottle", lambda state: True  # (can_complete_prologue(state, player))
     )
     set_rule_if_exists(
         "Faron Field Bridge Chest",
@@ -2021,8 +2022,8 @@ def set_location_access_rules(world: "TPWorld"):
         "Faron Field Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_MDH(state, player)
-            and can_complete_all_twilight(state, player)
+            # and can_complete_MDH(state, player)
+            # and can_complete_all_twilight(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2040,25 +2041,27 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Faron Mist North Chest",
         lambda state: (
-            state.has("Lantern", player) and can_complete_prologue(state, player)
+            state.has("Lantern", player)  # and can_complete_prologue(state, player)
         ),
     )
     set_rule_if_exists(
         "Faron Mist Poe",
         lambda state: (
-            state.has("Shadow Crystal", player) and can_complete_prologue(state, player)
+            state.has(
+                "Shadow Crystal", player
+            )  # and can_complete_prologue(state, player)
         ),
     )
     set_rule_if_exists(
         "Faron Mist South Chest",
         lambda state: (
-            state.has("Lantern", player) and can_complete_prologue(state, player)
+            state.has("Lantern", player)  # and can_complete_prologue(state, player)
         ),
     )
     set_rule_if_exists(
         "Faron Mist Stump Chest",
         lambda state: (
-            state.has("Lantern", player) and can_complete_prologue(state, player)
+            state.has("Lantern", player)  # and can_complete_prologue(state, player)
         ),
     )
     set_rule_if_exists("Faron Woods Golden Wolf", lambda state: (True))
@@ -2524,9 +2527,9 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lake Hylia Bridge Cliff Poe",
         lambda state: (
-            can_complete_MDH(state, player)
-            and state.has("Shadow Crystal", player)
-            and can_complete_all_twilight(state, player)
+            # can_complete_MDH(state, player) and
+            state.has("Shadow Crystal", player)
+            # and can_complete_all_twilight(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2673,8 +2676,8 @@ def set_location_access_rules(world: "TPWorld"):
         "Lanayru Field Bridge Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_MDH(state, player)
-            and can_complete_all_twilight(state, player)
+            # and can_complete_MDH(state, player)
+            # and can_complete_all_twilight(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2751,7 +2754,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and state.can_reach_region("Hidden Village", player)
-            and can_complete_MDH(state, player)
+            # and can_complete_MDH(state, player)
         ),
     )
     set_rule_if_exists("Outside Lanayru Spring Left Statue Chest", lambda state: (True))
@@ -2881,7 +2884,8 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Herding Goats Reward",
         lambda state: (
-            can_complete_prologue(state, player) and can_change_time(state, player)
+            # can_complete_prologue(state, player) and
+            can_change_time(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2904,14 +2908,15 @@ def set_location_access_rules(world: "TPWorld"):
         "Ordon Shield",
         lambda state: (
             (
-                (
-                    (not state._tp_faron_twilight_cleared(player))
-                    and can_complete_prologue(state, player)
-                )
-                or (
-                    (state._tp_faron_twilight_cleared(player))
-                    and state.has("Shadow Crystal", player)
-                )
+                # (
+                #     (not state._tp_faron_twilight_cleared(player))
+                #     and can_complete_prologue(state, player)
+                # )
+                # or (
+                #     (state._tp_faron_twilight_cleared(player))
+                #    and
+                state.has("Shadow Crystal", player)
+                # )
             )
             and (
                 (not state._tp_bonks_do_damage(player))
@@ -2938,8 +2943,9 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Ordon Sword",
         lambda state: (
-            can_complete_prologue(state, player)
-            or (state._tp_faron_twilight_cleared(player))
+            True
+            # can_complete_prologue(state, player)
+            # or (state._tp_faron_twilight_cleared(player))
         ),
     )
     set_rule_if_exists("Sera Shop Slingshot", lambda state: (True))
