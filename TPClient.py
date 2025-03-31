@@ -116,6 +116,11 @@ class TPCommandProcessor(ClientCommandProcessor):
 
             logger.info(f"Dolphin Status: {self.ctx.dolphin_status}")
 
+    def _cmd_debug(self) -> None:
+        """Toggles Debug messages from showing"""
+        global DEBUGGING
+        DEBUGGING = not DEBUGGING
+
     @mark_raw
     def _cmd_name(self, name: str = "") -> None:
         """Change the name of the current save file"""
@@ -142,11 +147,6 @@ class TPCommandProcessor(ClientCommandProcessor):
         logger.info(f"Writing name {padded_name}")
         write_string(SLOT_NAME_ADDR, padded_name)
         return
-
-    def _cmd_debug(self) -> None:
-        """Toggles Debug messages from showing"""
-        global DEBUGGING
-        DEBUGGING = not DEBUGGING
 
 
 class TPContext(CommonContext):
