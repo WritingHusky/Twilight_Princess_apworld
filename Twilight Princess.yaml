@@ -65,6 +65,11 @@ Twilight Princess:
     'false': 50
     'true': 0
 
+  early_shadow_crystal:
+    # When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
+    'false': 50
+    'true': 0
+
   # Item Pool / Location Settings
   golden_bugs_shuffled:
     # Controls whether golden bug locations can contain progression items.
@@ -229,36 +234,6 @@ Twilight Princess:
     'true': 0
 
   # Timesavers
-  skip_prologue:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the prologue is skipped.
-    'false': 0
-    'true': 50
-
-  faron_twilight_cleared:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether Faron Twilight is cleared.
-    'false': 0
-    'true': 50
-
-  eldin_twilight_cleared:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether Eldin Twilight is cleared.
-    'false': 0
-    'true': 50
-
-  lanayru_twilight_cleared:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether Lanayru Twilight is cleared.
-    'false': 0
-    'true': 50
-
-  skip_mdh:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Midna's Darkest Hour is skipped.
-    'false': 0
-    'true': 50
-
   open_map:
     # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     # Controls whether the map is open.
