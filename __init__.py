@@ -1024,7 +1024,7 @@ class TPWorld(World):
             # "Green Rupee",
             # "Blue Rupee",
             # "Yellow Rupee",
-            "Red Rupee",
+            # "Red Rupee",
             "Purple Rupee",
             "Orange Rupee",
             "Silver Rupee",
@@ -1048,9 +1048,9 @@ class TPWorld(World):
             # 1,  # Green Rupee
             # 2,  # Blue Rupee
             # 3,  # Yellow Rupee
-            1,  # Red Rupee
-            3,  # Purple Rupee
-            2,  # Orange Rupee
+            # 1,  # Red Rupee
+            2,  # Purple Rupee
+            3,  # Orange Rupee
             2,  # Silver Rupee
             # 1,  # Arrows 10
             # 2,  # Arrows 20
@@ -1124,6 +1124,9 @@ class TPWorld(World):
                 "Progressive Wallet",
                 "Hawkeye",
                 "Slingshot",
+                "Ordon Shield",
+                "Hylian Shield",
+                "Magic Armor",
             ]
             or item.name in item_name_groups["Bottles"]
         ):
