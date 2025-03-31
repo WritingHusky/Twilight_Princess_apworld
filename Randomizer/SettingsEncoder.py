@@ -6,6 +6,8 @@ char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 # Based off of:
 # https://github.com/lunarsoap5/Randomizer-Web-Generator-1/blob/9a5f38e972669209f3d21596b0a9744f1319412f/Generator/Logic/SeedGenResults.cs#L130
 
+FILLER_ITEM_CODE = 0x8F
+
 
 def get_item_placements(multiworld: MultiWorld, player: int) -> str:
     assert isinstance(multiworld, MultiWorld)
@@ -16,10 +18,24 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
     for location in multiworld.get_locations(player):
         assert isinstance(location, TPLocation)
         assert isinstance(location.item, Item)
-        if location.item.game == multiworld.worlds[player].game:
-            location_number_to_item_code[
-                convert_location_to_check_num(location.name)
-            ] = location.item.code
+
+        # Ignore event locations
+        if not isinstance(location.address, int):
+            continue
+
+        # If item is local
+        if location.item.player == player:
+            location_number_to_item_code[location.address] = location.item.code
+        else:
+            location_number_to_item_code[location.address] = FILLER_ITEM_CODE
+
+    assert len(location_number_to_item_code) == len(
+        [
+            location
+            for location in multiworld.get_locations(player)
+            if isinstance(location.address, int)
+        ]
+    ), f"{len(location_number_to_item_code)},{len(multiworld.get_locations(player))}"
 
     return encode_item_placements(location_number_to_item_code)
 
