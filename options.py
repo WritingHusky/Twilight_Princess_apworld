@@ -580,11 +580,11 @@ class TPOptions(PerGameCommonOptions):
     faron_woods_logic: FaronWoodsLogic  #
 
     # Timesavers
-    skip_prologue: SkipPrologue  #
-    faron_twilight_cleared: FaronTwilightCleared  #
-    eldin_twilight_cleared: EldinTwilightCleared  #
-    lanayru_twilight_cleared: LanayruTwilightCleared  #
-    skip_mdh: SkipMdh  #
+    # skip_prologue: SkipPrologue  #
+    # faron_twilight_cleared: FaronTwilightCleared  #
+    # eldin_twilight_cleared: EldinTwilightCleared  #
+    # lanayru_twilight_cleared: LanayruTwilightCleared  #
+    # skip_mdh: SkipMdh  #
     # skip_minor_cutscenes: SkipMinorCutscenes
     # skip_major_cutscenes: SkipMajorCutscenes
     # fast_iron_boots: FastIronBoots

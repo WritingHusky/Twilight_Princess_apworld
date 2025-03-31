@@ -2926,7 +2926,8 @@ def set_region_access_rules(world: World, player: int):
     set_rule(
         exit,
         lambda state: (
-            state.has("Gate Keys", player) or (state._tp_skip_prologue(player))
+            state.has("Gate Keys", player)
+            # or (state._tp_skip_prologue(player))
         ),
     )
 
@@ -3661,10 +3662,7 @@ def set_region_access_rules(world: World, player: int):
     exit = world.get_entrance(
         "Castle Town North -> Castle Town North Behind First Door"
     )
-    set_rule(
-        exit,
-        lambda state: (can_complete_MDH(state, player)),
-    )
+    set_rule(exit, lambda state: True)  # (can_complete_MDH(state, player)),
 
     exit = world.get_entrance("Castle Town North -> Castle Town Center")
     set_rule(
@@ -3675,10 +3673,7 @@ def set_region_access_rules(world: World, player: int):
     exit = world.get_entrance(
         "Castle Town North Behind First Door -> Castle Town North"
     )
-    set_rule(
-        exit,
-        lambda state: (can_complete_MDH(state, player)),
-    )
+    set_rule(exit, lambda state: True)  # (can_complete_MDH(state, player)),
 
     exit = world.get_entrance(
         "Castle Town North Behind First Door -> Castle Town North Inside Barrier"
@@ -3721,10 +3716,7 @@ def set_region_access_rules(world: World, player: int):
     exit = world.get_entrance(
         "Castle Town North Inside Barrier -> Castle Town North Behind First Door"
     )
-    set_rule(
-        exit,
-        lambda state: (can_complete_MDH(state, player)),
-    )
+    set_rule(exit, lambda state: True)  # (can_complete_MDH(state, player)),
 
     exit = world.get_entrance(
         "Castle Town North Inside Barrier -> Hyrule Castle Entrance"
@@ -4637,12 +4629,13 @@ def set_region_access_rules(world: World, player: int):
     set_rule(
         exit,
         lambda state: (
-            (
-                state.can_reach_region("Outside Links House", player)
-                and has_sword(state, player)
-                and state.has("Slingshot", player)
-            )
-            or (state._tp_skip_prologue(player))
+            True
+            # (
+            #     state.can_reach_region("Outside Links House", player)
+            #     and has_sword(state, player)
+            #     and state.has("Slingshot", player)
+            # )
+            # or (state._tp_skip_prologue(player))
         ),
     )
 
@@ -4655,7 +4648,7 @@ def set_region_access_rules(world: World, player: int):
                 and has_sword(state, player)
                 and state.has("Slingshot", player)
             )
-            or (state._tp_skip_prologue(player))
+            # or (state._tp_skip_prologue(player))
         ),
     )
 
