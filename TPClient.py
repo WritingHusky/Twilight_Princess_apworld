@@ -39,7 +39,7 @@ CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 # NODES_START_ADDR = 0x804063B0
 # ACTIVE_NODE_ADDR = 0x80406B18
 
-DEBUGING = True
+DEBUGGING = True
 
 
 def set_address(
@@ -143,6 +143,11 @@ class TPCommandProcessor(ClientCommandProcessor):
         write_string(SLOT_NAME_ADDR, padded_name)
         return
 
+    def _cmd_debug(self) -> None:
+        """Toggles Debug messages from showing"""
+        global DEBUGGING
+        DEBUGGING = not DEBUGGING
+
 
 class TPContext(CommonContext):
     """
@@ -215,7 +220,7 @@ class TPContext(CommonContext):
                 Utils.async_start(
                     self.update_death_link(bool(args["slot_data"]["DeathLink"]))
                 )
-                if DEBUGING:
+                if DEBUGGING:
                     logger.info(
                         f"Debug: Seting deathlink to {bool(args["slot_data"]["DeathLink"])}"
                     )
@@ -249,7 +254,7 @@ class TPContext(CommonContext):
 
         :param data: The data associated with the DeathLink event.
         """
-        if DEBUGING:
+        if DEBUGGING:
             logger.info("Debug: on deathlink trigger")
 
         super().on_deathlink(data)
@@ -367,7 +372,7 @@ def _give_death(ctx: TPContext) -> None:
 
     :param ctx: Twilight Princess client context.
     """
-    if DEBUGING:
+    if DEBUGGING:
         logger.info("Debug: Trying to kill player")
 
     if (
@@ -377,7 +382,7 @@ def _give_death(ctx: TPContext) -> None:
     ):
         ctx.has_send_death = True
         write_short(CURR_HEALTH_ADDR, 0)
-        if DEBUGING:
+        if DEBUGGING:
             logger.info("Debug: Health set to 0")
 
 
@@ -407,7 +412,7 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
     i = 0
     while True:
         if i > 7:
-            if DEBUGING:
+            if DEBUGGING:
                 logger.info("Debug: Item Stack full so an item cannot be given")
             return False
 
@@ -441,8 +446,8 @@ async def give_items(ctx: TPContext) -> None:
 
             # If the item's index is greater than the player's expected index, give the player the item.
             if expected_idx <= idx:
-                if DEBUGING:
-                    logger.info(f"getting item: {LOOKUP_ID_TO_NAME[item.item]}")
+                if DEBUGGING:
+                    logger.info(f"Debug: getting item: {LOOKUP_ID_TO_NAME[item.item]}")
                 # Attempt to give the item and increment the expected index.
                 while not await _give_item(ctx, LOOKUP_ID_TO_NAME[item.item]):
                     await asyncio.sleep(0.1)
@@ -492,7 +497,7 @@ async def check_locations(ctx: TPContext) -> None:
             continue
 
         # Debug functionality
-        if DEBUGING and (
+        if DEBUGGING and (
             not isinstance(data.bit, int) or not isinstance(data.offset, int)
         ):
             logger.info(f"Debug: location:{location} has weird formating")
@@ -513,7 +518,7 @@ async def check_locations(ctx: TPContext) -> None:
             case TPLocationType.Flag:
                 addr = SAVE_FILE_ADDR + data.offset
             case TPLocationType.Event:
-                if DEBUGING:
+                if DEBUGGING:
                     logger.info(f"Debug: {location}, is an event with an apid")
                 continue
 
@@ -525,13 +530,13 @@ async def check_locations(ctx: TPContext) -> None:
     # Incase the stage changed during location checking
     asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
-        if DEBUGING:
+        if DEBUGGING:
             logger.info("Debug: Stage changed during location checks skiping checks")
         return
 
     new_locations_checked = locations_read.difference(ctx.locations_checked)
     if new_locations_checked:
-        if DEBUGING:
+        if DEBUGGING:
             logger.info(f"Debug: Sending location checks: {new_locations_checked}")
         await ctx.send_msgs(
             [{"cmd": "LocationChecks", "locations": new_locations_checked}]
@@ -561,14 +566,14 @@ async def check_death(ctx: TPContext) -> None:
         cur_health = read_short(CURR_HEALTH_ADDR)
         if cur_health == 0:
             if not ctx.has_send_death and time.time() >= ctx.last_death_link + 5:
-                if DEBUGING:
+                if DEBUGGING:
                     logger.info(
                         "Debug: Sending Death to other players will not send death until player is alive"
                     )
                 ctx.has_send_death = True
                 await ctx.send_death(ctx.player_names[ctx.slot] + " ran out of hearts.")
         else:
-            if DEBUGING and ctx.has_send_death:
+            if DEBUGGING and ctx.has_send_death:
                 logger.info("Debug: Player is now alive")
             ctx.has_send_death = False
 
