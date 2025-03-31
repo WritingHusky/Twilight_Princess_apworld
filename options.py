@@ -188,12 +188,11 @@ class OverWoldShuffled(Toggle):
 
 class EarlyShadowCrystal(Toggle):
     """
-    Controls if the Shadow Crystal is placed into sphere 1 or not
-    Disabling will increace the chance of an error when generating but feel free to change
+    When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
     """
 
     display_name = "Early Shadow Crystal"
-    default = True
+    default = False
 
 
 # Dungeon Items
@@ -553,7 +552,7 @@ class TPOptions(PerGameCommonOptions):
     """
 
     start_inventory_from_pool: StartInventoryPool
-    death_link: DeathLink  # Potentially broken
+    death_link: DeathLink
 
     # Item Pool Settings
     golden_bugs_shuffled: GoldenBugsShuffled
@@ -598,7 +597,6 @@ class TPOptions(PerGameCommonOptions):
 
     # Additional Settings
     transform_anywhere: TransformAnywhere  #
-    # increase_wallet_capacity: IncreaseWalletCapacity
     # shops_display_shuffled: ShopsDisplayShuffled
     bonks_do_damage: BonksDoDamage  #
     trap_frequency: TrapFrequency
