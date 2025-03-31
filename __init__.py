@@ -902,6 +902,7 @@ class TPWorld(World):
         output_data["InvalidLocations"] = self.invalid_locations
         output_data["UsefulPool"] = self.useful_pool
         output_data["FillerPool"] = self.filler_pool
+        output_data["Settings"] = self.get_settings_map()
 
         #
         # # Output the mapping of entrances to exits.
@@ -1099,6 +1100,7 @@ class TPWorld(World):
         slot_data = {
             "World Version": VERSION,
             "DeathLink": self.options.death_link.value,
+            "Settings": self.get_settings_map(),
         }
 
         return slot_data
@@ -1132,3 +1134,110 @@ class TPWorld(World):
         ):
             return item.name
         return None
+
+    def get_settings_map(self):
+        return {
+            "Golden Bugs Shuffled": self.options.golden_bugs_shuffled.get_option_name(
+                self.options.golden_bugs_shuffled.value
+            ),
+            "Sky Chracters Shuffled": self.options.sky_characters_shuffled.get_option_name(
+                self.options.sky_characters_shuffled.value
+            ),
+            "NPC Items Shuffled": self.options.npc_items_shuffled.get_option_name(
+                self.options.npc_items_shuffled.value
+            ),
+            "Shop Items Shuffled": self.options.shop_items_shuffled.get_option_name(
+                self.options.shop_items_shuffled.value
+            ),
+            "Hidden Skills Shuffled": self.options.hidden_skills_shuffled.get_option_name(
+                self.options.hidden_skills_shuffled.value
+            ),
+            "Poes Shuffled": self.options.poe_shuffled.get_option_name(
+                self.options.poe_shuffled.value
+            ),
+            "Heart Pieces Shuffled": self.options.heart_piece_shuffled.get_option_name(
+                self.options.heart_piece_shuffled.value
+            ),
+            "Overworld Shuffled": self.options.overworld_shuffled.get_option_name(
+                self.options.overworld_shuffled.value
+            ),
+            "Dungeons Shuffled": self.options.dungeons_shuffled.get_option_name(
+                self.options.dungeons_shuffled.value
+            ),
+            "Small Key Settings": self.options.small_key_settings.get_option_name(
+                self.options.small_key_settings.value
+            ),
+            "Big Key Settings": self.options.big_key_settings.get_option_name(
+                self.options.big_key_settings.value
+            ),
+            "Map and Compass Settings": self.options.map_and_compass_settings.get_option_name(
+                self.options.map_and_compass_settings.value
+            ),
+            "Dungeon Rewards Progression": self.options.dungeon_rewards_progression.get_option_name(
+                self.options.dungeon_rewards_progression.value
+            ),
+            "Small keys on Bosses": self.options.small_keys_on_bosses.get_option_name(
+                self.options.small_keys_on_bosses.value
+            ),
+            "Logic Settings": self.options.logic_rules.get_option_name(
+                self.options.logic_rules.value
+            ),
+            "Castle Requirements": self.options.castle_requirements.get_option_name(
+                self.options.castle_requirements.value
+            ),
+            "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
+                self.options.palace_requirements.value
+            ),
+            "Faron Woods Logic": self.options.faron_woods_logic.get_option_name(
+                self.options.faron_woods_logic.value
+            ),
+            "Open Map": self.options.open_map.get_option_name(
+                self.options.open_map.value
+            ),
+            "Increase Wallet": self.options.increase_wallet.get_option_name(
+                self.options.increase_wallet.value
+            ),
+            "Transform Anywhere": self.options.transform_anywhere.get_option_name(
+                self.options.transform_anywhere.value
+            ),
+            "Bonks do Damage": self.options.bonks_do_damage.get_option_name(
+                self.options.bonks_do_damage.value
+            ),
+            "Trap Frequency": self.options.trap_frequency.get_option_name(
+                self.options.trap_frequency.value
+            ),
+            "Damage Magnifiation": self.options.damage_magnification.get_option_name(
+                self.options.damage_magnification.value
+            ),
+            "Lakebed Enterance Requirements": self.options.skip_lakebed_entrance.get_option_name(
+                self.options.skip_lakebed_entrance.value
+            ),
+            "Arbiters Grounds Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
+                self.options.skip_arbiters_grounds_entrance.value
+            ),
+            "Snowpeak Enterance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
+                self.options.skip_snowpeak_entrance.value
+            ),
+            "City in the Sky Enterance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
+                self.options.skip_city_in_the_sky_entrance.value
+            ),
+            "Goron Mines Enterance Requirements": self.options.goron_mines_entrance.get_option_name(
+                self.options.goron_mines_entrance.value
+            ),
+            "Temple of Time Enterance Requirements": self.options.tot_entrance.get_option_name(
+                self.options.tot_entrance.value
+            ),
+            "Early Shadow Crystal": self.options.early_shadow_crystal.get_option_name(
+                self.options.early_shadow_crystal.value
+            ),
+            "Skip Prologue": "Yes",
+            "Faron Twilight Cleared": "Yes",
+            "Eldin Twilight Cleared": "Yes",
+            "Lanayru Twilight Cleared": "Yes",
+            "Skip MDH": "Yes",
+            # "Skip Minor Cutscenes": "Yes",
+            # "Skip Major Cutscenes": "Yes",
+            # "Fast Iron Boots": "Yes",
+            # "Quick Transform": "Yes",
+            "Open Door of Time": "Yes",
+        }
