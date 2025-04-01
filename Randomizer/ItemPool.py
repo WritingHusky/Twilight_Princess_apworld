@@ -240,7 +240,7 @@ VANILLA_GOLDEN_BUG_LOCATIONS = {
     "Male Dragonfly": "Zoras Domain Male Dragonfly",
 }
 
-VANILLA_POE_LOCATIONS = {
+VANILLA_POE_LOCATIONS = [
     "Arbiters Grounds East Turning Room Poe",
     "Arbiters Grounds Hidden Wall Poe",
     "Arbiters Grounds Torch Room Poe",
@@ -301,7 +301,7 @@ VANILLA_POE_LOCATIONS = {
     "Snowpeak Cave Ice Poe",
     "Snowpeak Icy Summit Poe",
     "Snowpeak Poe Among Trees",
-}
+]
 
 
 # This takes all the items form the world and adds them to the multiworld itempool

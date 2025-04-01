@@ -383,6 +383,7 @@ class TPWorld(World):
                 if item.name == "Shadow Crystal":
                     found_shadow_crystal = True
             assert found_shadow_crystal, f"Shadow crystal no in pre fill pool"
+            del item
 
         # Only do pre fill if it is needed
         if len(pre_fill_items) == 0:
@@ -421,6 +422,7 @@ class TPWorld(World):
                 assert (
                     bug in bug_list_str
                 ), f"{bug=} is not in pre_fill_items, {pre_fill_items=}"
+            del bug
 
             for bug in bug_list:
                 assert (
@@ -430,6 +432,7 @@ class TPWorld(World):
                 vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
                 self.get_location(vanilla_location_name).place_locked_item(bug)
                 pre_fill_items.remove(bug)
+            del bug
 
         # Shuffle Poes into vanilla spots if not shuffled
         if self.options.poe_shuffled.value == PoeShuffled.option_false:
@@ -441,9 +444,12 @@ class TPWorld(World):
                 len(VANILLA_POE_LOCATIONS) == 60
             ), f"There is only {len(VANILLA_POE_LOCATIONS)} / 60 poe souls locations"
 
-            for poe_soul, location in zip(poe_list, VANILLA_POE_LOCATIONS):
+            for i, poe_soul in enumerate(poe_list):
+                location = VANILLA_POE_LOCATIONS[i]
                 self.get_location(location).place_locked_item(poe_soul)
                 pre_fill_items.remove(poe_soul)
+            assert location == "Snowpeak Poe Among Trees", f"{location=}"
+            del location, poe_list, poe_soul
 
         collection_state_base = CollectionState(self.multiworld)
 
