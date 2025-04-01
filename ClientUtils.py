@@ -26,7 +26,7 @@ Settings_Format = {
     "Trap Frequency": "No Traps/Few/Many/Mayhem/Nightmare",
     "Damage Magnification": "Vanilla/Double/Triple/Quadruple/Ohko",
     "Lakebed Entrance Requirements": "Yes/No",
-    "Arbiters Grounds Requirements": "Yes/No",
+    "Arbiters Grounds Entrance Requirements": "Yes/No",
     "Snowpeak Entrance Requirements": "Yes/No",
     "City in the Sky Entrance Requirements": "Yes/No",
     "Goron Mines Entrance Requirements": "Open/No Wrestling/Closed",

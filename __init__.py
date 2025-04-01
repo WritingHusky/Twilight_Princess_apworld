@@ -28,6 +28,7 @@ from worlds.LauncherComponents import (
     launch_subprocess,
 )
 
+from .Randomizer.SettingsEncoder import get_item_placements
 from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
@@ -875,43 +876,53 @@ class TPWorld(World):
 
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
-            "Version": VERSION,
-            "Seed": multiworld.seed_name,
-            "Slot": player,
-            "Name": self.player_name,
-            "Options": {},
+            "version": "1",
+            "input": {
+                "settings": self.get_settings_map(),
+                "seed": f"seed from multiworld ={multiworld.seed_name}",
+                "output": {
+                    "seedhash": "none",
+                    "name": "lorem ipsum",
+                    "itemPlacement": get_item_placements(self.multiworld, self.player),
+                    "reqDungeons": "-",
+                },
+            },
+            # "Seed": multiworld.seed_name,
+            # "Slot": player,
+            # "Name": self.player_name,
+            # "Options": {},
             # "Required Bosses": self.boss_reqs.required_boss_item_locations,
-            "Locations": {},
-            "Entrances": {},
+            # "Locations": {},
+            # "Entrances": {},
         }
 
-        # Output relevant options to file.
-        for field in fields(self.options):
-            output_data["Options"][field.name] = getattr(self.options, field.name).value
+        # # Output relevant options to file.
+        # for field in fields(self.options):
+        #     output_data["Options"][field.name] = getattr(self.options, field.name).value
 
-        # Output which item has been placed at each location.
-        locations = multiworld.get_locations(player)
-        for location in locations:
-            if location.name:
-                if location.item:
-                    item_info = {
-                        "player": location.item.player,
-                        "name": location.item.name,
-                        "game": location.item.game,
-                        "classification": location.item.classification.name,
-                    }
-                else:
-                    item_info = {
-                        "name": "Nothing",
-                        "game": "Twilight Princess",
-                        "classification": "filler",
-                    }
-                output_data["Locations"][location.name] = item_info
+        # # Output which item has been placed at each location.
+        # locations = multiworld.get_locations(player)
+        # for location in locations:
+        #     if location.name:
+        #         if location.item:
+        #             item_info = {
+        #                 "player": location.item.player,
+        #                 "name": location.item.name,
+        #                 "game": location.item.game,
+        #                 "classification": location.item.classification.name,
+        #             }
+        #         else:
+        #             item_info = {
+        #                 "name": "Nothing",
+        #                 "game": "Twilight Princess",
+        #                 "classification": "filler",
+        #             }
+        #         output_data["Locations"][location.name] = item_info
 
-        output_data["InvalidLocations"] = self.invalid_locations
-        output_data["UsefulPool"] = self.useful_pool
-        output_data["FillerPool"] = self.filler_pool
-        output_data["Settings"] = self.get_settings_map()
+        # output_data["InvalidLocations"] = self.invalid_locations
+        # output_data["UsefulPool"] = self.useful_pool
+        # output_data["FillerPool"] = self.filler_pool
+        # output_data["Settings"] = self.get_settings_map()
 
         #
         # # Output the mapping of entrances to exits.
@@ -1221,7 +1232,7 @@ class TPWorld(World):
             "Lakebed Entrance Requirements": self.options.skip_lakebed_entrance.get_option_name(
                 self.options.skip_lakebed_entrance.value
             ),
-            "Arbiters Grounds Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
+            "Arbiters Grounds Entrance Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
                 self.options.skip_arbiters_grounds_entrance.value
             ),
             "Snowpeak Entrance Requirements": self.options.skip_snowpeak_entrance.get_option_name(

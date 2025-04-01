@@ -17,32 +17,35 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
 
     for location in multiworld.get_locations(player):
         assert isinstance(location, TPLocation)
-        assert isinstance(location.item, Item)
+        assert isinstance(location.item, Item), f"{location.name}, {location.item}"
 
         # Ignore event locations
-        if not isinstance(location.address, int):
+        if not isinstance(location.code, int):
             continue
 
-        # If item is local
+        # If item is local then encode it as
         if location.item.player == player:
-            location_number_to_item_code[location.address] = location.item.code
+            location_number_to_item_code[location.code] = location.item.code
         else:
-            location_number_to_item_code[location.address] = FILLER_ITEM_CODE
+            location_number_to_item_code[location.code] = FILLER_ITEM_CODE
 
+    # All locations that ap tracks are given a number and an item (ignore Story locations, Logic Event locations)
     assert len(location_number_to_item_code) == len(
         [
             location
             for location in multiworld.get_locations(player)
+            # Filer
             if isinstance(location.address, int)
         ]
     ), f"{len(location_number_to_item_code)},{len(multiworld.get_locations(player))}"
 
-    return encode_item_placements(location_number_to_item_code)
+    result = encode_item_placements(location_number_to_item_code)
+    assert isinstance(result, str)
 
 
 def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
-    def encode_num_as_bits(num, num_bits):
+    def encode_num_as_bits(num: int, num_bits: int):
         """Encodes a number as a bit string of a specified length."""
         return bin(num)[2:].zfill(num_bits)
 
@@ -55,8 +58,10 @@ def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
     result += "1"
 
-    smallest = next(iter(check_num_id_to_item_id))  # Get the first key
-    largest = next(reversed(check_num_id_to_item_id))  # Get the last key
+    smallest = next(iter(check_num_id_to_item_id))  # Get the first key (0)
+    assert smallest == 0
+    largest = next(reversed(check_num_id_to_item_id))  # Get the last key (474)
+    assert largest == 474
 
     result += encode_num_as_bits(smallest, 9)
     result += encode_num_as_bits(largest, 9)
