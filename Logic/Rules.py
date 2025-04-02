@@ -121,29 +121,18 @@ def set_location_access_rules(world: "TPWorld"):
         glitched_rule: Callable[[CollectionState], bool] = None,
     ) -> None:
         # Only worry about logic if the location can be a progress item (and location_name not in world.nonprogress_locations) do not worry bout yet
-        if location_name in LOCATION_TABLE:
-            try:
-                location = world.get_location(location_name)
-            except KeyError:
-                # If we do not create a location (in region creation) it will not be in the world but we will still try to add the rule
-                # This means we only add the logic to remove the location at region creation
-                # Example: Bublin Camp Key
-                world.invalid_locations.append(location_name)  # Debug
-                return
+        assert location_name in LOCATION_TABLE, f"{location=}"
+        location = world.get_location(location_name)
 
-            if (
-                world.options.logic_rules.value == LogicRules.option_glitched
-                and glitched_rule
-            ):
-                set_rule(location, glitched_rule)
-            else:
-                # if not glitched_rule:
-                #     raise FillError(
-                #         f"Location {location_name} does not have a glitched rule"
-                #     )
-                set_rule(location, rule)
+        if (
+            world.options.logic_rules.value
+            == LogicRules.option_glitched
+            # and glitched_rule
+        ):
+            assert glitched_rule, f"{location=} has no glitched rule"
+            set_rule(location, glitched_rule)
         else:
-            raise Exception(f"Location {location_name} not found in location table")
+            set_rule(location, rule)
 
     player = world.player
 
