@@ -56,8 +56,8 @@ def has_damaging_item(state: CollectionState, player: int):
     )
 
 
-def has_sword(state: CollectionState, player: int):
-    return state.has("Progressive Master Sword", player)
+def has_sword(state: CollectionState, player: int, count=1):
+    return state.has("Progressive Master Sword", player, count)
 
 
 def can_defeat_Aeralfos(state: CollectionState, player: int):
@@ -1186,7 +1186,7 @@ def can_defeat_Armogohma(state: CollectionState, player: int):
 def can_defeat_Argorok(state: CollectionState, player: int):
     return (
         state.has("Progressive Clawshot", player, 2)
-        and state.has("Progressive Master Sword", player, 2)
+        and has_sword(state, player, 2)
         and (
             state.has("Iron Boots", player)
             or (state._tp_glitched(player) and state.has("Magic Armor", player))
@@ -1195,7 +1195,7 @@ def can_defeat_Argorok(state: CollectionState, player: int):
 
 
 def can_defeat_Zant(state: CollectionState, player: int):
-    return (state.has("Progressive Master Sword", player, 3)) and (
+    return (has_sword(state, player, 3)) and (
         state.has("Gale Boomerang", player)
         and (state.has("Progressive Clawshot", player))
         and state.has("Ball and Chain", player)
@@ -1213,7 +1213,7 @@ def can_defeat_Zant(state: CollectionState, player: int):
 def can_defeat_Ganondorf(state: CollectionState, player: int):
     return (
         state.has("Shadow Crystal", player)
-        and (state.has("Progressive Master Sword", player, 3))
+        and (has_sword(state, player, 3))
         and (state.has("Progressive Hidden Skill", player))
     )
 
@@ -1462,7 +1462,7 @@ def can_complete_goats1(state: CollectionState, player: int):
 
 # TODO: Figure this out
 def can_strike_pedestal(state: CollectionState, player: int):
-    return state.has("Progressive Master Sword", player, 3)
+    return has_sword(state, player, 3)
 
 
 def can_clear_forest(state: CollectionState, player: int):
@@ -1706,9 +1706,7 @@ def can_get_bug_with_lantern(state: CollectionState, player: int):
 
 
 def has_sword_or_BS(state: CollectionState, player: int):
-    return state.has("Progressive Master Sword", player) or state.has(
-        "Progressive Hidden Skill", player, 3
-    )
+    return has_sword(state, player) or state.has("Progressive Hidden Skill", player, 3)
 
 
 def has_bottle(state: CollectionState, player: int):
@@ -1812,7 +1810,7 @@ def can_do_eb_moon_boots(state: CollectionState, player: int):
     return (
         can_do_moon_boots(state, player)
         and state.has("Progressive Hidden Skill", player)
-        and state.has("Progressive Master Sword", player, 2)
+        and has_sword(state, player, 2)
     )
 
 
