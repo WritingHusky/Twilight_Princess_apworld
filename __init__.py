@@ -1202,9 +1202,6 @@ class TPWorld(World):
             "Dungeon Rewards Progression": self.options.dungeon_rewards_progression.get_option_name(
                 self.options.dungeon_rewards_progression.value
             ),
-            "Small keys on Bosses": self.options.small_keys_on_bosses.get_option_name(
-                self.options.small_keys_on_bosses.value
-            ),
             "Logic Settings": self.options.logic_rules.get_option_name(
                 self.options.logic_rules.value
             ),
@@ -1265,5 +1262,6 @@ class TPWorld(World):
             # "Skip Major Cutscenes": "Yes",
             # "Fast Iron Boots": "Yes",
             # "Quick Transform": "Yes",
+            "Small keys on Bosses": "No",
             "Open Door of Time": "Yes",
         }

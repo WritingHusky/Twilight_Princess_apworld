@@ -225,7 +225,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "big_key_settings": BigKeySettings.option_anywhere,
             "map_and_compass_settings": MapAndCompassSettings.option_anywhere,
             "dungeon_rewards_progression": DungeonRewardsProgression.default,
-            "small_keys_on_bosses": SmallKeysOnBosses.default,
+            # "small_keys_on_bosses": SmallKeysOnBosses.default,
             # "skip_prologue": SkipPrologue.default,
             # "faron_twilight_cleared": FaronTwilightCleared.default,
             # "eldin_twilight_cleared": EldinTwilightCleared.default,
