@@ -5,7 +5,7 @@ import traceback
 from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine
+import dolphin_memory_engine  # type: ignore
 
 from .ClientUtils import VERSION
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
@@ -720,7 +720,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
             await asyncio.sleep(3)
             await ctx.dolphin_sync_task
 
-    import colorama
+    import colorama  # type: ignore
 
     colorama.init()
     asyncio.run(_main(connect, password))
