@@ -2466,8 +2466,8 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
-        offset=0xD,
-        bit=0x8,
+        offset=0xC,
+        bit=0x20,
     ),
     "Kakariko Village Malo Mart Hylian Shield": TPLocationData(
         code=257,
