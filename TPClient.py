@@ -7,9 +7,15 @@ from typing import TYPE_CHECKING, Any, Dict, Optional
 from MultiServer import mark_raw
 import dolphin_memory_engine  # type: ignore
 
-from .ClientUtils import VERSION
+from .ClientUtils import (
+    NODE_TO_STRING,
+    VERSION,
+    base_server_data_connection,
+    server_data,
+    server_copy,
+)
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
-from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
+from .Locations import LOCATION_TABLE, NodeID, TPLocation, TPLocationType
 import Utils
 from CommonClient import (
     ClientCommandProcessor,
@@ -159,6 +165,7 @@ class TPContext(CommonContext):
     command_processor = TPCommandProcessor
     game: str = "Twilight Princess"
     items_handling: int = 0b111
+    server_data_built: bool
 
     def __init__(self, server_address: Optional[str], password: Optional[str]) -> None:
         """
@@ -175,6 +182,7 @@ class TPContext(CommonContext):
         self.last_received_index: int = -1
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
+        self.server_data_copy = server_copy
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -233,7 +241,7 @@ class TPContext(CommonContext):
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
-            # Request the connected slot's dictionary (used as a set) of visited stages.
+                self.server_data_built = False
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
@@ -241,12 +249,6 @@ class TPContext(CommonContext):
                     self.items_received_2.append((item, self.last_received_index))
                     self.last_received_index += 1
             self.items_received_2.sort(key=lambda v: v[1])
-        elif cmd == "Retrieved":
-            requested_keys_dict = args["keys"]
-            # Read the connected slot's dictionary (used as a set) of visited stages.
-            if self.slot is not None:
-                # self.slot.visited_stages = requested_keys_dict
-                pass
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -420,7 +422,11 @@ async def _give_item(ctx: TPContext, item_name: str) -> None:
         assert isinstance(item_stack_addr, int)
 
         if read_byte(item_stack_addr) == 0x00:
-            item_stack_addr = ITEM_WRITE_ADDR + i
+            # Slow the writes to allow TP time for it to process new item and give an old item
+            await asyncio.sleep(0.5)
+            # Just incase something happens
+            if read_byte(item_stack_addr) != 0x00:
+                return False
             write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
             return True
 
@@ -528,6 +534,80 @@ async def check_locations(ctx: TPContext) -> None:
         if checked:
             locations_read.add(TPLocation.get_apid(data.code))
 
+    # Build out messages to set data into the server (build before location check for mid check changes)
+    messages = []
+    results = []
+    for server_copy_key, server_copy_value in ctx.server_data_copy.items():
+        assert server_copy_key in [data["key"] for data in server_data]
+        data = [data for data in server_data if data["key"] == server_copy_key][0]
+        assert data, f"{server_copy_key=}"
+
+        if data["Region"] == "Flag":
+            assert isinstance(server_copy_value, bool)
+            addr = SAVE_FILE_ADDR + data["Offset"]
+            byte = read_byte(addr)
+            checked = (byte & data.bit) != 0
+            if checked != server_copy_value:
+                # The value has changed so update the sever
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": checked}],
+                    }
+                )
+                results.append({server_copy_key: checked})
+
+        elif data["Region"] == "Region":
+            assert isinstance(server_copy_value, bool)
+            region = data["Node"]
+            assert (
+                isinstance(region, int) and data.offset < 0x20
+            ), f"Location {location=} has bad region {region} {data=}"
+            if region == current_node:
+                addr = ACTIVE_NODE_ADDR + data.offset
+            else:
+                addr = (region * 32) + NODES_START_ADDR + data.offset
+            byte = read_byte(addr)
+            checked = (byte & data.bit) != 0
+            if checked != server_copy_value:
+                # The value has changed so update the sever
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": checked}],
+                    }
+                )
+                results.append({server_copy_key: checked})
+        elif data["Region"] == "Node Number":
+            assert isinstance(server_copy_value, str)
+            node = NODE_TO_STRING[server_copy_value]
+            if node != ctx.current_node:
+                new_node_str = [
+                    node
+                    for node, num in NODE_TO_STRING.items()
+                    if num == ctx.current_node
+                ][0]
+                assert isinstance(new_node_str, str), f"{new_node_str=}"
+                assert new_node_str, f"{new_node_str=}"
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": new_node_str}],
+                    }
+                )
+                results.append({server_copy_key: new_node_str})
+        else:
+            assert False, f"{data=}"
+
     # Incase the stage changed during location checking
     asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
@@ -544,6 +624,9 @@ async def check_locations(ctx: TPContext) -> None:
         )
         # This might be needed if the clinet doesn't sync, it might also brick if msg is sent but nothing happens
         ctx.locations_checked.update(new_locations_checked)
+
+    # Send out server data messages
+    ctx.send_msgs(messages)
 
 
 async def check_alive() -> bool:
@@ -629,6 +712,10 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
+                    # Handle this here as on connect cannot deal with async calls and this is before location checks
+                    if not ctx.server_data_built:
+                        await ctx.send_msgs(base_server_data_connection)
+                        ctx.server_data_built = True
                     await give_items(ctx)
                     await check_locations(ctx)
                 else:

@@ -687,9 +687,11 @@ def place_deterministic_items(world: "TPWorld") -> None:
             ),
         )
     )
-    world.get_location(  # TODO Check what base rando does here
+    world.get_location(  # Base Rando forces this. Horse call is also in the itempool that gets shuffled
         "Ilia Memory Reward"
-    ).place_locked_item(item_factory("Horse Call", world))
+    ).place_locked_item(
+        item_factory("Horse Call", world)
+    )
 
     # Portals are only worried about for open map setting which is handled in create_regions()
 
