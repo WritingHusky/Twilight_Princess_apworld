@@ -56,7 +56,7 @@ class CastleRequirements(Choice):
     - Fused Shadows: Requires all Fused Shadows
     - Mirror Shards: Requires all Mirror Shards
     - All Dungeons: Requires completing all dungeons
-    - Vanilla: Vanilla requirements
+    - Vanilla: Beat Palace of Twilight
     """
 
     display_name = "Castle Requirements"
@@ -76,7 +76,7 @@ class PalaceRequirements(Choice):
     - Open: No requirements
     - Fused Shadows: Requires all Fused Shadows
     - Mirror Shards: Requires all Mirror Shards
-    - Vanilla: Vanilla requirements
+    - Vanilla: Beat City in the Sky
     """
 
     display_name = "Palace Requirements"
