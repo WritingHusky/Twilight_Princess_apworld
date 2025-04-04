@@ -3,18 +3,26 @@ from copy import deepcopy
 from dataclasses import fields
 import json
 import os
-from typing import Any, ClassVar, Optional
+from typing import Any, Callable, ClassVar, Optional
 
 from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType
 from BaseClasses import ItemClassification as IC
 from BaseClasses import Tutorial
 from .ClientUtils import VERSION
-from .Items import ITEM_TABLE, TPItem, item_factory, item_name_groups
+from .Items import (
+    ITEM_TABLE,
+    BossItems,
+    TPItem,
+    TPItemData,
+    item_factory,
+    item_name_groups,
+)
 from Options import OptionError, Toggle
 from .Locations import (
     LOCATION_TABLE,
     LOCATION_TO_REGION,
+    NodeID,
     TPFlag,
     TPLocation,
 )
@@ -33,6 +41,7 @@ from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
     generate_itempool,
+    get_boss_defeat_items,
     place_deterministic_items,
     VANILLA_SMALL_KEYS_LOCATIONS,
     VANILLA_BIG_KEY_LOCATIONS,
@@ -124,6 +133,8 @@ class TPWorld(World):
 
     player: int
 
+    progression_pool: list[str]
+
     def __init__(self, *args, **kwargs):
         super(TPWorld, self).__init__(*args, **kwargs)
 
@@ -189,6 +200,8 @@ class TPWorld(World):
             raise OptionError(
                 "One of Overworld and Dungeons must be shuffled please fix this"
             )
+
+        self.boss_defeat_items = get_boss_defeat_items(self)
 
         # Early into generation, set the options for the keys and map/compass.
         if self.options.dungeons_shuffled.value == DungeonsShuffled.option_false:
@@ -483,14 +496,15 @@ class TPWorld(World):
             locations = None
 
         # Add everything from the item pool to allow for full access
-        for item in self.multiworld.itempool:
-            collection_state_base.collect(item)
-        for player in self.multiworld.player_ids:
-            if player == self.player:
-                continue
-            subworld = self.multiworld.worlds[player]
-            for item in subworld.get_pre_fill_items():
-                collection_state_base.collect(item)
+        for item in self.progression_pool:
+            collection_state_base.collect(self.create_item(item))
+        # No need to consider other players items
+        # for player in self.multiworld.player_ids:
+        #     if player == self.player:
+        #         continue
+        #     subworld = self.multiworld.worlds[player]
+        #     for item in subworld.get_pre_fill_items():
+        #         collection_state_base.collect(item)
         collection_state_base.sweep_for_advancements()
 
         # region DugeonItem-Setup
@@ -748,6 +762,28 @@ class TPWorld(World):
                                 state.collect(
                                     self.create_item("Arbiters Grounds Small Key")
                                 )
+
+                        if (
+                            self.options.palace_requirements
+                            == PalaceRequirements.option_vanilla
+                        ):
+                            state.collect(self.boss_defeat_items["Argorok"])
+                        state.sweep_for_advancements()
+
+                    elif dungeon_name == "Hyrule Castle":
+                        state_copy = state.copy()
+
+                        if (
+                            self.options.castle_requirements
+                            == CastleRequirements.option_all_dungeons
+                        ):
+                            for name, item in self.boss_defeat_items.items():
+                                state.collect(item)
+                        elif (
+                            self.options.castle_requirements
+                            == CastleRequirements.option_vanilla
+                        ):
+                            state.collect(self.boss_defeat_items["Zant"])
                         state.sweep_for_advancements()
 
                     assert len(locations) >= len(
@@ -792,7 +828,25 @@ class TPWorld(World):
             if option.value == setting.option_any_dungeon:
                 items = []
                 locations = []
+                skip_hyrule_castle = False
+                skip_palace_of_twilight = False
                 for dungeon_name in vanilla:
+
+                    if dungeon_name == "Hyrule Castle":
+                        if self.options.castle_requirements.value in [
+                            CastleRequirements.option_vanilla,
+                            CastleRequirements.option_all_dungeons,
+                        ]:
+                            skip_hyrule_castle = True
+                            continue
+
+                    if dungeon_name == "Palace of Twilight":
+                        if (
+                            self.options.palace_requirements.value
+                            == PalaceRequirements.option_vanilla
+                        ):
+                            skip_palace_of_twilight = True
+                            continue
 
                     locations_base = [
                         self.get_location(location)
@@ -860,6 +914,121 @@ class TPWorld(World):
                 for item in items_copy:
                     pre_fill_items.remove(item)
                     state.collect(item)
+
+                # Now deal with POT and HC items
+                # Which will be own_dungeon
+                skipped_dungeons = []
+                if skip_hyrule_castle:
+                    skipped_dungeons.append("Hyrule Castle")
+                if skip_palace_of_twilight:
+                    skipped_dungeons.append("Palace of Twilight")
+                for dungeon_name in skipped_dungeons:
+
+                    locations_base = [
+                        self.get_location(location)
+                        for location, data in LOCATION_TABLE.items()
+                        if data.stage_id.value == dungeon_name
+                    ]
+                    locations = [
+                        location
+                        for location in locations_base
+                        if location.item is None and location.address is not None
+                    ]
+                    assert (
+                        len(locations) > 0
+                    ), f"(Any-Own Dungeon) no locations for {dungeon_name=}"
+
+                    # !!
+                    items: list[Item] = []
+
+                    for item_name in vanilla[dungeon_name]:
+                        assert item_name in ITEM_TABLE
+                        assert item_name in self.prefill_pool
+
+                        new_items = list(
+                            filter(lambda item: item.name == item_name, pre_fill_items)
+                        )
+
+                        assert isinstance(
+                            new_items, list
+                        ), f"(Any-Own dungeon) items not a list {new_items=}"
+                        assert (
+                            len(new_items) > 0
+                        ), f"(Any-Own dungeon) No items found in pre fill items {item_name=}"
+                        assert len(new_items) == len(
+                            vanilla[dungeon_name][item_name]
+                        ), f"(Any-Own dungeon) Items does not match number needed {items=}"
+
+                        items.extend(new_items)
+
+                    # Sanity check
+                    item_name = None
+
+                    # Palace of Twilight needs arbiters grounds to be able to be commpleted
+                    state_copy = None
+                    if dungeon_name == "Palace of Twilight":
+                        state_copy = state.copy()
+                        if not state.has("Arbiters Grounds Big Key", self.player):
+                            state.collect(self.create_item("Arbiters Grounds Big Key"))
+                        if not state.has("Arbiters Grounds Small Key", self.player, 5):
+                            for _ in range(5):
+                                state.collect(
+                                    self.create_item("Arbiters Grounds Small Key")
+                                )
+
+                        if (
+                            self.options.palace_requirements
+                            == PalaceRequirements.option_vanilla
+                        ):
+                            state.collect(self.boss_defeat_items["Argorok"])
+                        state.sweep_for_advancements()
+
+                    elif dungeon_name == "Hyrule Castle":
+                        state_copy = state.copy()
+
+                        if (
+                            self.options.castle_requirements
+                            == CastleRequirements.option_all_dungeons
+                        ):
+                            for name, item in self.boss_defeat_items.items():
+                                state.collect(item)
+                        elif (
+                            self.options.castle_requirements
+                            == CastleRequirements.option_vanilla
+                        ):
+                            state.collect(self.boss_defeat_items["Zant"])
+
+                    assert len(locations) >= len(
+                        items
+                    ), f"(Any-Own Dungeon) There are not enough locations for items with {setting.display_name=} in {dungeon_name=} acording to final counts {locations=}, {items=}"
+
+                    items_copy = deepcopy(items)
+                    self.multiworld.random.shuffle(items_copy)
+                    self.multiworld.random.shuffle(locations)
+
+                    fill_restrictive(
+                        self.multiworld,
+                        state,
+                        locations,
+                        items,
+                        single_player_placement=True,
+                        lock=True,
+                        allow_excluded=True,
+                        on_place=on_place,
+                    )
+
+                    # All items should be placed
+                    assert (
+                        len(items) == 0
+                    ), f"(Any-Own dungeon) Not all items placed {items=}"
+
+                    # Restore state if in palace of twilight
+                    if state_copy:
+                        state = state_copy
+
+                    for item in items_copy:
+                        pre_fill_items.remove(item)
+                        state.collect(item)
 
             # sanity check
             dungeon_name = None
@@ -1157,6 +1326,8 @@ class TPWorld(World):
                 "Magic Armor",
             ]
             or item.name in item_name_groups["Bottles"]
+            or item.name in BossItems
+            or item.type == "Quest"
         ):
             return item.name
         return None
