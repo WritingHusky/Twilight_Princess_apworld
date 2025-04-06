@@ -43,7 +43,6 @@ Settings_Format = {
 server_copy: dict[str, bool | str] = {
     "Death Mountain Stone": False,
     "Zora River Stone": False,
-    "Zora Stone": False,
     "Sacred Grove Stone": False,
     "Lake Hylia Stone": False,
     "Snowpeak Stone": False,
@@ -93,6 +92,7 @@ NODE_TO_STRING = {
     "Cave of Ordeals": 0x19,
     "Lake Hylia Cave": 0x1A,
     "Grotto": 0x1B,
+    "Menu": 0xFF,
 }
 
 

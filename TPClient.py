@@ -165,7 +165,6 @@ class TPContext(CommonContext):
     command_processor = TPCommandProcessor
     game: str = "Twilight Princess"
     items_handling: int = 0b111
-    server_data_built: bool
 
     def __init__(self, server_address: Optional[str], password: Optional[str]) -> None:
         """
@@ -183,6 +182,7 @@ class TPContext(CommonContext):
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
         self.server_data_copy = server_copy
+        self.server_data_built: bool = False
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -241,7 +241,7 @@ class TPContext(CommonContext):
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
-                self.server_data_built = False
+            self.server_data_built = False
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
@@ -560,16 +560,20 @@ async def check_locations(ctx: TPContext) -> None:
     messages: list[dict[str, any]] = []
     results: list[dict[str, any]] = []
     for server_copy_key, server_copy_value in ctx.server_data_copy.items():
-        assert server_copy_key in [data["key"] for data in server_data]
+        assert server_copy_key in [
+            data["key"] for data in server_data
+        ], f"{server_copy_key=}"
         data = [data for data in server_data if data["key"] == server_copy_key][0]
         assert data, f"{server_copy_key=}"
 
         if data["Region"] == "Flag":
-            assert isinstance(server_copy_value, bool)
+            assert isinstance(server_copy_value, bool), f"{server_copy_key=}"
             addr = SAVE_FILE_ADDR + data["Offset"]
             byte = read_byte(addr)
-            checked = (byte & data.bit) != 0
+            checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
+                if DEBUGGING:
+                    logger.info(f"{server_copy_key} Ready to be set to {checked}")
                 # The value has changed so update the sever
                 messages.append(
                     {
@@ -583,19 +587,21 @@ async def check_locations(ctx: TPContext) -> None:
                 results.append({server_copy_key: checked})
 
         elif data["Region"] == "Region":
-            assert isinstance(server_copy_value, bool)
+            assert isinstance(server_copy_value, bool), f"{server_copy_key=}"
             region = data["Node"]
             assert (
-                isinstance(region, int) and data.offset < 0x20
+                isinstance(region, int) and data["Offset"] < 0x20
             ), f"Location {location=} has bad region {region} {data=}"
             if region == current_node:
-                addr = ACTIVE_NODE_ADDR + data.offset
+                addr = ACTIVE_NODE_ADDR + data["Offset"]
             else:
-                addr = (region * 32) + NODES_START_ADDR + data.offset
+                addr = (region * 32) + NODES_START_ADDR + data["Offset"]
             byte = read_byte(addr)
-            checked = (byte & data.bit) != 0
+            checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
                 # The value has changed so update the sever
+                if DEBUGGING:
+                    logger.info(f"{server_copy_key} Ready to be set to {checked}")
                 messages.append(
                     {
                         "cmd": "Set",
@@ -607,7 +613,7 @@ async def check_locations(ctx: TPContext) -> None:
                 )
                 results.append({server_copy_key: checked})
         elif data["Region"] == "Node Number":
-            assert isinstance(server_copy_value, str)
+            assert isinstance(server_copy_value, str), f"{server_copy_key=}"
             node = NODE_TO_STRING[server_copy_value]
             if node != ctx.current_node:
                 new_node_str = [
@@ -617,6 +623,8 @@ async def check_locations(ctx: TPContext) -> None:
                 ][0]
                 assert isinstance(new_node_str, str), f"{new_node_str=}"
                 assert new_node_str, f"{new_node_str=}"
+                if DEBUGGING:
+                    logger.info(f"{server_copy_key} Ready to be set to {new_node_str}")
                 messages.append(
                     {
                         "cmd": "Set",
@@ -648,7 +656,19 @@ async def check_locations(ctx: TPContext) -> None:
         ctx.locations_checked.update(new_locations_checked)
 
     # Send out server data messages
-    ctx.send_msgs(messages)
+    assert len(messages) == len(results), f"{len(messages)=} {len(results)=}"
+    for message, result in zip(messages, results):
+        assert message["key"] in result, f"{message["key"]=}, {result=}"
+        if DEBUGGING:
+            logger.info(
+                f"sending message for {message["key"]}: {result[message["key"]]}"
+            )
+        ctx.server_data_copy[message["key"]] = result[message["key"]]
+        await ctx.send_msgs(
+            [
+                message,
+            ]
+        )
 
 
 async def check_alive() -> bool:
