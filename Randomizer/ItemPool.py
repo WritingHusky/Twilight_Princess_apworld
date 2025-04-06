@@ -469,9 +469,9 @@ def get_boss_defeat_items(world: "TPWorld"):
                 quantity=1,
                 classification=(
                     IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
                 ),
                 item_id=1,
             ),
@@ -485,9 +485,9 @@ def get_boss_defeat_items(world: "TPWorld"):
                 quantity=1,
                 classification=(
                     IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
                 ),
                 item_id=1,
             ),
@@ -536,9 +536,9 @@ def get_boss_defeat_items(world: "TPWorld"):
                 quantity=1,
                 classification=(
                     IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
                 ),
                 item_id=1,
             ),
@@ -552,9 +552,9 @@ def get_boss_defeat_items(world: "TPWorld"):
                 quantity=1,
                 classification=(
                     IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
                 ),
                 item_id=1,
             ),
@@ -643,7 +643,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=IC.useful,
+                classification=IC.progression,
                 item_id=0x80,
             ),
         )
@@ -656,7 +656,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=IC.useful,
+                classification=IC.progression,
                 item_id=0x81,
             ),
         )
@@ -669,20 +669,20 @@ def place_deterministic_items(world: "TPWorld") -> None:
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=IC.useful,
+                classification=IC.progression,
                 item_id=0x82,
             ),
         )
     )
-    world.get_location("Ilia Charm").place_locked_item(
+    world.get_location("Ilias Charm").place_locked_item(
         TPItem(
-            "Ilia's Charm",
+            "Ilias Charm",
             world.player,
             TPItemData(
                 code=None,
                 type="Quest",
                 quantity=1,
-                classification=IC.useful,
+                classification=IC.progression,
                 item_id=0x83,
             ),
         )
