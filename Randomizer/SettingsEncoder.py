@@ -42,6 +42,8 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
     result = encode_item_placements(location_number_to_item_code)
     assert isinstance(result, str)
 
+    return result
+
 
 def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
