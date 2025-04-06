@@ -1,5 +1,5 @@
 from BaseClasses import Item, MultiWorld
-from worlds.twilight_princess_apworld.Locations import LOCATION_TABLE, TPLocation
+from ..Locations import LOCATION_TABLE, TPLocation
 
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
@@ -156,7 +156,7 @@ check_list = [
     "Ordon Spring Golden Wolf",
     "Hyrule Castle Main Hall Northeast Chest",
     "Gerudo Desert Northeast Chest Behind Gates",
-    "Ilia Charm",
+    "Ilias Charm",
     "Agitha Male Ladybug Reward",
     "Hyrule Castle Treasure Room Seventh Small Chest",
     "Lake Hylia Tower Poe",
