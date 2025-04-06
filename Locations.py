@@ -29,6 +29,7 @@ class NodeID(IntEnum):
     Cave_of_Ordeals = 0x19
     Lake_Hylia_Cave = 0x1A
     Grotto = 0x1B
+    Menu = 0xFF
 
 
 class TPStages(Enum):

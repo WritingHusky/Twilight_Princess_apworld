@@ -14,7 +14,6 @@ Settings_Format = {
     "Big Key Settings": "Start With/Vanilla/Own Dungeon/Any Dungeon/Anywhere",
     "Map and Compass Settings": "Start With/Vanilla/Own Dungeon/Any Dungeon/Anywhere",
     "Dungeon Rewards Progression": "Yes/No",
-    "Small keys on Bosses": "Yes/No",
     "Logic Settings": "Glitchless/Glitched/No Logic",
     "Castle Requirements": "Open/Fused Shadows/Mirror Shards/All Dungeons/Vanilla",
     "Palace of Twilight Requirements": "Open/Fused Shadows/Mirror Shards/Vanilla",
@@ -38,6 +37,7 @@ Settings_Format = {
     "Lanayru Twilight Cleared": "Yes",
     "Skip MDH": "Yes",
     "Open Door of Time": "Yes",
+    "Small keys on Bosses": "No",  # Can be removed if not needed by anyone
 }
 
 server_copy: dict[str, bool | str] = {
@@ -57,7 +57,7 @@ server_copy: dict[str, bool | str] = {
     "Wooden Statue": False,
     "Ilias Charm": False,
     "Memory Reward": False,
-    "Current Region": "Menu",
+    "Current Region": "Menu",  # See NODE_TO_STRING for full breakdown
     "Diababa Defeated": False,
     "Fyrus Defeated": False,
     "Morpheel Defeated": False,
