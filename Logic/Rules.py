@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING, Callable
 
-from Fill import FillError
 from BaseClasses import CollectionState, MultiWorld
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule
 from ..options import (
     BigKeySettings,
+    DamageMagnification,
     LogicRules,
     SmallKeySettings,
     TotEntrance,
