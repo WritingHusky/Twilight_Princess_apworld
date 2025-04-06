@@ -388,50 +388,43 @@ def _give_death(ctx: TPContext) -> None:
             logger.info("Debug: Health set to 0")
 
 
-async def _give_item(ctx: TPContext, item_name: str) -> None:
+async def _give_item(ctx: TPContext, items: list[str]) -> bool:
     """
-    Give an item to the player in-game.
+    Give a batch of items to the player in-game.
+    items must contain at max 8 items as that is the size of the queue
 
     :param ctx: Twilight Princess client context.
-    :param item_name: Name of the item to give.
+    :param items: Name of the items to give.
     :return: Whether the item was successfully given.
     """
-    assert isinstance(item_name, str)
 
-    if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
+    assert isinstance(items, list), f"{items=}"
+    assert len(items) > 0, f"{items=}"
+    assert (
+        len(items) <= 8
+    ), f"{len(items)}"  # Could put to 7 to allow for extra buffer incase
+
+    if not await check_ingame(ctx):
         return False
+    for item_name in items:
+        assert isinstance(ITEM_TABLE[item_name].item_id, int)
 
-    if item_name not in ITEM_TABLE:
-        logger.info(
-            f"Error: Cannot give item {item_name} as it is not in the item table"
-        )
-
-    assert isinstance(ITEM_TABLE[item_name].item_id, int)
-
-    # Items are written into a stack, this allows for more then one item to be given at a time.
-    # However items will still be collected one at a time
-    # By nature of stack, items may not be collected in oreder recieved
-    i = 0
-    while True:
-        if i > 7:
-            if DEBUGGING:
-                logger.info("Debug: Item Stack full so an item cannot be given")
+    # Only add items to the queue if it is empty
+    for i in range(0, 8):
+        item_stack_addr = ITEM_WRITE_ADDR + i
+        if read_byte(item_stack_addr) != 0x00:
             return False
 
+    # Now its empty
+    # Add items starting at 0x8F0 so that it is given first
+    for i in range(0, len(items)):
         item_stack_addr = ITEM_WRITE_ADDR + i
-        assert isinstance(item_stack_addr, int)
+        # Just incase something happens
+        assert read_byte(item_stack_addr) == 0x00
 
-        if read_byte(item_stack_addr) == 0x00:
-            # Slow the writes to allow TP time for it to process new item and give an old item
-            await asyncio.sleep(0.5)
-            # Just incase something happens
-            if read_byte(item_stack_addr) != 0x00:
-                return False
-            write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
-            return True
-
-        i += 1
-    # assert item_stack_addr >= ITEM_WRITE_ADDR and item_stack_addr <= ITEM_WRITE_ADDR + 7
+        write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
+    # Now the queue is full and all items are added
+    return True
 
 
 async def give_items(ctx: TPContext) -> None:
@@ -447,20 +440,49 @@ async def give_items(ctx: TPContext) -> None:
         # Read the expected index of the player, which is the index of the latest item they've received.
         expected_idx = read_short(EXPECTED_INDEX_ADDR)
 
-        # Loop through items to give.
-        for item, idx in ctx.items_received_2:
+        total_items = len(ctx.items_received_2)
+        current_item_count = expected_idx  # First index starts at zero as does counting
+        items_difference = total_items - current_item_count
+        assert (
+            items_difference >= 0
+        ), f"{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+
+        if DEBUGGING and items_difference != 0:
+            logger.info(
+                f"Debug: Giving {items_difference} item(s) 'item count:{current_item_count} -> {total_items}'"
+            )
+
+        # There are no items to give so stop
+        if items_difference == 0:
+            return
+
+        # Create a copy of the items that are to be given
+        items_copy = ctx.items_received_2[expected_idx:]
+        last_item_index = ctx.items_received_2[-1][1]
+        assert (
+            len(items_copy) == items_difference
+        ), f"{len(items_copy)} = {items_difference}"
+        assert (
+            ctx.items_received_2[expected_idx][1] == items_copy[0][1]
+        ), f"IF you are seeing this something has gone very bad {ctx.items_received_2[expected_idx][1]=} != {items_copy[0][1]=}"
+
+        item_give_queue: list[str] = []
+
+        for item, idx in items_copy:
             assert item.item in LOOKUP_ID_TO_NAME, f"{item=}"
+            assert idx == expected_idx  # Double check items are given in order
 
-            # If the item's index is greater than the player's expected index, give the player the item.
-            if expected_idx <= idx:
-                if DEBUGGING:
-                    logger.info(f"Debug: getting item: {LOOKUP_ID_TO_NAME[item.item]}")
-                # Attempt to give the item and increment the expected index.
-                while not await _give_item(ctx, LOOKUP_ID_TO_NAME[item.item]):
-                    await asyncio.sleep(0.1)
+            item_give_queue.append(LOOKUP_ID_TO_NAME[item.item])
+            expected_idx += 1
 
-                # Increment the expected index.
+            # Build the queue if we have a full set of items or we have reached the last item
+            if len(item_give_queue) == 8 or idx == last_item_index:
+                while not await _give_item(ctx, item_give_queue):
+                    await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, idx + 1)
+                item_give_queue = []
+
+        assert expected_idx - 1 == last_item_index  # Check the last item was given
 
 
 async def check_locations(ctx: TPContext) -> None:
@@ -535,8 +557,8 @@ async def check_locations(ctx: TPContext) -> None:
             locations_read.add(TPLocation.get_apid(data.code))
 
     # Build out messages to set data into the server (build before location check for mid check changes)
-    messages = []
-    results = []
+    messages: list[dict[str, any]] = []
+    results: list[dict[str, any]] = []
     for server_copy_key, server_copy_value in ctx.server_data_copy.items():
         assert server_copy_key in [data["key"] for data in server_data]
         data = [data for data in server_data if data["key"] == server_copy_key][0]
