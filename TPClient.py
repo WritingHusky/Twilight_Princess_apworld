@@ -422,6 +422,9 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
         # Just incase something happens
         assert read_byte(item_stack_addr) == 0x00
 
+        if DEBUGGING:
+            logger.info(f"Debug: Giving {items[i]} into queue")
+
         write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
     # Now the queue is full and all items are added
     return True
@@ -447,10 +450,10 @@ async def give_items(ctx: TPContext) -> None:
             items_difference >= 0
         ), f"{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
 
-        if DEBUGGING and items_difference != 0:
-            logger.info(
-                f"Debug: Giving {items_difference} item(s) 'item count:{current_item_count} -> {total_items}'"
-            )
+        # if DEBUGGING and items_difference != 0:
+        #     logger.info(
+        #         f"Debug: Giving {items_difference} item(s) 'item count:{current_item_count} -> {total_items}'"
+        #     )
 
         # There are no items to give so stop
         if items_difference == 0:
@@ -572,8 +575,10 @@ async def check_locations(ctx: TPContext) -> None:
             byte = read_byte(addr)
             checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
-                if DEBUGGING:
-                    logger.info(f"{server_copy_key} Ready to be set to {checked}")
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
+                #     )
                 # The value has changed so update the sever
                 messages.append(
                     {
@@ -600,8 +605,10 @@ async def check_locations(ctx: TPContext) -> None:
             checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
                 # The value has changed so update the sever
-                if DEBUGGING:
-                    logger.info(f"{server_copy_key} Ready to be set to {checked}")
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
+                #     )
                 messages.append(
                     {
                         "cmd": "Set",
@@ -623,8 +630,10 @@ async def check_locations(ctx: TPContext) -> None:
                 ][0]
                 assert isinstance(new_node_str, str), f"{new_node_str=}"
                 assert new_node_str, f"{new_node_str=}"
-                if DEBUGGING:
-                    logger.info(f"{server_copy_key} Ready to be set to {new_node_str}")
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {new_node_str}"
+                #     )
                 messages.append(
                     {
                         "cmd": "Set",
@@ -659,10 +668,10 @@ async def check_locations(ctx: TPContext) -> None:
     assert len(messages) == len(results), f"{len(messages)=} {len(results)=}"
     for message, result in zip(messages, results):
         assert message["key"] in result, f"{message["key"]=}, {result=}"
-        if DEBUGGING:
-            logger.info(
-                f"sending message for {message["key"]}: {result[message["key"]]}"
-            )
+        # if DEBUGGING:
+        #     logger.info(
+        #         f"Debug: Sending message for {message["key"]}: {result[message["key"]]}"
+        #     )
         ctx.server_data_copy[message["key"]] = result[message["key"]]
         await ctx.send_msgs(
             [
