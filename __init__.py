@@ -1308,24 +1308,14 @@ class TPWorld(World):
         :param remove: indicate if this is meant to remove from state instead of adding.
         """
         # Adding non progession items that are useful for logic (Non progression IC but used in logic (Trying to cut down on item count))
-        if (
-            item.advancement
-            or item.name in item_name_groups["Bugs"]
-            or item.name
-            in [
-                "Poe Soul",
-                "Progressive Sky Book",
-                "Progressive Wallet",
-                "Hawkeye",
-                "Slingshot",
-                "Ordon Shield",
-                "Hylian Shield",
-                "Magic Armor",
-            ]
-            or item.name in item_name_groups["Bottles"]
-            or item.name in BossItems
-            or item.type == "Quest"
-        ):
+        if item.advancement or item.name in [
+            "Progressive Wallet",
+            "Hawkeye",
+            "Slingshot",
+            "Ordon Shield",
+            "Hylian Shield",
+            "Magic Armor",
+        ]:
             return item.name
         return None
 
