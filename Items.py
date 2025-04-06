@@ -269,7 +269,7 @@ item_name_groups = {
     #     "Renado's Letter",
     #     "Invoice",
     #     "Wooden Statue",
-    #     "Ilia's Charm",
+    #     "Ilias Charm",
     # },
     "Rupees": {
         "Green Rupee",

@@ -4519,7 +4519,7 @@ LOCATION_TABLE = {
         offset=0x7FF,
         bit=0x80,
     ),
-    "Ilia Charm": TPLocationData(
+    "Ilias Charm": TPLocationData(
         code=None,
         flags=TPFlag.Always,
         stage_id=TPStages.Hidden_Village,
@@ -4789,7 +4789,7 @@ LOCATION_TO_REGION: dict[str, str] = {
     # "" : "Death Mountain Sumo Hall Elevator",
     # "" : "Death Mountain Sumo Hall Goron Mines Tunnel",
     "Cats Hide and Seek Minigame": "Hidden Village",
-    "Ilia Charm": "Hidden Village",
+    "Ilias Charm": "Hidden Village",
     "Hidden Village Poe": "Hidden Village",
     "Skybook From Impaz": "Hidden Village Impaz House",
     "Kakariko Gorge Owl Statue Chest": "Kakariko Gorge",

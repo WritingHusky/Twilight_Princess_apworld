@@ -1732,7 +1732,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Progressive Hero's Bow", player, 1)
             and state.can_reach_region("Kakariko Renados Sanctuary", player)
-            and state.has("Ilia's Charm", player)
+            and state.has("Ilias Charm", player)
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
@@ -1857,18 +1857,18 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Progressive Hero's Bow", player, 1)
             and state.can_reach_region("Kakariko Renados Sanctuary", player)
-            and state.has("Ilia's Charm", player)
+            and state.has("Ilias Charm", player)
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
     )
     set_rule_if_exists(
-        "Ilia Charm",
+        "Ilias Charm",
         lambda state: (state.has("Progressive Hero's Bow", player, 1)),
     )
     set_rule_if_exists(
         "Ilia Memory Reward",
-        lambda state: (state.has("Ilia's Charm", player)),
+        lambda state: (state.has("Ilias Charm", player)),
     )
     set_rule_if_exists(
         "Kakariko Gorge Double Clawshot Chest",
