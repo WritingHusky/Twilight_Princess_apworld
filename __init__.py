@@ -1,9 +1,8 @@
 from collections.abc import Mapping
 from copy import deepcopy
-from dataclasses import fields
 import json
 import os
-from typing import Any, Callable, ClassVar, Optional
+from typing import Any, ClassVar, Optional
 
 from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType
@@ -14,7 +13,6 @@ from .Items import (
     ITEM_TABLE,
     BossItems,
     TPItem,
-    TPItemData,
     item_factory,
     item_name_groups,
 )
@@ -22,7 +20,6 @@ from Options import OptionError, Toggle
 from .Locations import (
     LOCATION_TABLE,
     LOCATION_TO_REGION,
-    NodeID,
     TPFlag,
     TPLocation,
 )
@@ -1433,6 +1430,6 @@ class TPWorld(World):
             # "Skip Major Cutscenes": "Yes",
             # "Fast Iron Boots": "Yes",
             # "Quick Transform": "Yes",
-            "Small keys on Bosses": "No",
+            # "Small keys on Bosses": "No",
             "Open Door of Time": "Yes",
         }

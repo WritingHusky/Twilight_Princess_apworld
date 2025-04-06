@@ -1,8 +1,7 @@
 import asyncio
-from copy import deepcopy
 import time
 import traceback
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
 import dolphin_memory_engine  # type: ignore
@@ -15,7 +14,7 @@ from .ClientUtils import (
     server_copy,
 )
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
-from .Locations import LOCATION_TABLE, NodeID, TPLocation, TPLocationType
+from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
 from CommonClient import (
     ClientCommandProcessor,

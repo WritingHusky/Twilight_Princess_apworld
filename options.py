@@ -3,11 +3,8 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     DeathLink,
-    DefaultOnToggle,
     OptionGroup,
-    OptionSet,
     PerGameCommonOptions,
-    Range,
     StartInventoryPool,
     Toggle,
 )

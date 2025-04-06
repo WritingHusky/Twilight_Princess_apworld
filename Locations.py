@@ -1,4 +1,4 @@
-from typing import NamedTuple, Optional, Tuple
+from typing import NamedTuple, Optional
 from enum import Enum, IntEnum, auto, Flag
 from BaseClasses import Location, Region
 

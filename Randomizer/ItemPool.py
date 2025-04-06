@@ -13,9 +13,6 @@ from ..options import (
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
 
-# from ..Options import DungeonItem
-# from .Dungeons import get_dungeon_item_pool_player
-
 if TYPE_CHECKING:
     from .. import TPWorld
 

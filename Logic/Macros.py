@@ -1,7 +1,7 @@
 from BaseClasses import CollectionState
 from ..Items import GoldenBugs, TPItem
 from ..RoomFunctions import RoomFunctions
-from ..options import DamageMagnification, FaronWoodsLogic
+from ..options import FaronWoodsLogic
 
 
 def can_use(state: CollectionState, player: int, item: str):
