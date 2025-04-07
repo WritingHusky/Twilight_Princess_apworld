@@ -1,6 +1,12 @@
+from typing import TYPE_CHECKING
 from BaseClasses import Item, MultiWorld
+from worlds.AutoWorld import World
+from worlds.twilight_princess_apworld.Items import TPItem
 from ..Locations import TPLocation
+from ..options import *
 
+if TYPE_CHECKING:
+    from worlds.twilight_princess_apworld import TPWorld
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
 # Based off of:
@@ -45,11 +51,12 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
     return result
 
 
-def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
+def encode_num_as_bits(num: int, num_bits: int):
+    """Encodes a number as a bit string of a specified length."""
+    return bin(num)[2:].zfill(num_bits)
 
-    def encode_num_as_bits(num: int, num_bits: int):
-        """Encodes a number as a bit string of a specified length."""
-        return bin(num)[2:].zfill(num_bits)
+
+def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
     # version = 0
     result = encode_as_vlq16(0)
@@ -121,3 +128,89 @@ def encode_as_6_bit_string(bit_string: str):
         result += char_map[index]
 
     return result
+
+
+def get_setting_string(multiworld: MultiWorld, player: int):
+    assert isinstance(multiworld, World)
+
+    # Skip prolougue, Twilights and MDH are hardcoded currently.
+    # In the future I may want to add them so it's better to have them in the setting string to start
+
+    settings_map: list[int | tuple[int, int]] = [
+        (multiworld.options.castle_requirements.value, 3),
+        (multiworld.options.palace_requirements.value, 2),
+        (multiworld.options.faron_woods_logic.value, 1),
+        (multiworld.options.small_key_settings.value, 3),
+        (multiworld.options.big_key_settings.value, 3),
+        (multiworld.options.map_and_compass_settings.value, 3),
+        True,  # Skip prologue
+        True,  # Faron Twilight Cleared
+        True,  # Eldin Twilight Cleared
+        True,  # Lanayru Twilight Cleared
+        True,  # Skip MDH
+        bool(multiworld.options.skip_minor_cutscenes.value),
+        bool(multiworld.options.fast_iron_boots.value),
+        bool(multiworld.options.quick_transform.value),
+        bool(multiworld.options.transform_anywhere.value),
+        bool(multiworld.options.increase_wallet.value),
+        bool(multiworld.options.modify_shop_models.value),
+        (multiworld.options.goron_mines_entrance.value, 2),
+        bool(multiworld.options.skip_lakebed_entrance.value),
+        bool(multiworld.options.skip_arbiters_grounds_entrance.value),
+        bool(multiworld.options.skip_snowpeak_entrance.value),
+        (multiworld.options.tot_entrance.value, 2),
+        bool(multiworld.options.skip_city_in_the_sky_entrance.value),
+        bool(multiworld.options.instant_message_text.value),
+        bool(multiworld.options.open_map.value),
+        bool(multiworld.options.increase_spinner_speed.value),
+        bool(multiworld.options.open_door_of_time.value),
+        (multiworld.options.damage_magnification.value, 3),
+        bool(multiworld.options.bonks_do_damage.value),
+        bool(multiworld.options.skip_major_cutscenes.value),
+        (multiworld.options.starting_tod.value, 3),
+    ]
+
+    bit_string = ""
+
+    for setting_value in settings_map:
+        if isinstance(setting_value, bool):
+            bitString += "1" if setting_value else "0"
+        elif isinstance(setting_value, tuple):
+            assert len(setting_value) == 2, f"{setting_value}"
+            assert isinstance(setting_value[0], int), f"{setting_value}"
+            assert isinstance(setting_value[1], int), f"{setting_value}"
+            bit_string += encode_num_as_bits(setting_value[0], setting_value[1])
+        else:
+            assert False, f"{setting_value}"
+
+    # Create the starting inventory
+    item_bit_string = ""
+    for item in multiworld.precollected_items[player]:
+        assert isinstance(item, TPItem), f"{item=}"
+        assert isinstance(item.item_id, int), f"{item=}"
+        item_bit_string += encode_num_as_bits(item.item_id, 9)
+
+    item_bit_string += "111111111"
+
+    bit_string += item_bit_string
+
+    extra_bits = len(bit_string) % 6
+    bits_as_chars = encode_as_6_bit_string(bit_string)
+    version = 5
+    ver = hex(version)[2:]
+
+    num_length_chars = 0
+    for i in range(1, 6):
+        max_num = 1 << (i * 6)
+        if len(bits_as_chars) <= max_num:
+            num_length_chars = i
+            break
+
+    length_chars = encode_as_6_bit_string(
+        encode_num_as_bits((extra_bits << 3) + num_length_chars, 6)
+    )
+    len_chars = encode_as_6_bit_string(
+        encode_num_as_bits(len(bits_as_chars), num_length_chars * 6)
+    )
+
+    return ver + "s" + length_chars + len_chars + bits_as_chars

@@ -33,7 +33,7 @@ from worlds.LauncherComponents import (
     launch_subprocess,
 )
 
-from .Randomizer.SettingsEncoder import get_item_placements
+from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
@@ -1062,70 +1062,30 @@ class TPWorld(World):
 
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
-            "version": "1",
-            "input": {
+            "SettingsString": get_setting_string(self.multiworld, self.player),
+            "ItemPlacement": get_item_placements(self.multiworld, self.player),
+            "Debug": {
                 "settings": self.get_settings_map(),
-                "seed": f"seed from multiworld ={multiworld.seed_name}",
-                "output": {
-                    "seedhash": "none",
-                    "name": "lorem ipsum",
-                    "itemPlacement": get_item_placements(self.multiworld, self.player),
-                    "reqDungeons": "-",
-                },
+                "ItemPlacements": {},
             },
-            # "Seed": multiworld.seed_name,
-            # "Slot": player,
-            # "Name": self.player_name,
-            # "Options": {},
-            # "Required Bosses": self.boss_reqs.required_boss_item_locations,
-            # "Locations": {},
-            # "Entrances": {},
         }
 
-        # # Output relevant options to file.
-        # for field in fields(self.options):
-        #     output_data["Options"][field.name] = getattr(self.options, field.name).value
-
-        # # Output which item has been placed at each location.
-        # locations = multiworld.get_locations(player)
-        # for location in locations:
-        #     if location.name:
-        #         if location.item:
-        #             item_info = {
-        #                 "player": location.item.player,
-        #                 "name": location.item.name,
-        #                 "game": location.item.game,
-        #                 "classification": location.item.classification.name,
-        #             }
-        #         else:
-        #             item_info = {
-        #                 "name": "Nothing",
-        #                 "game": "Twilight Princess",
-        #                 "classification": "filler",
-        #             }
-        #         output_data["Locations"][location.name] = item_info
-
-        # output_data["InvalidLocations"] = self.invalid_locations
-        # output_data["UsefulPool"] = self.useful_pool
-        # output_data["FillerPool"] = self.filler_pool
-        # output_data["Settings"] = self.get_settings_map()
-
-        #
-        # # Output the mapping of entrances to exits.
-        # all_entrance_names = [en.entrance_name for en in ALL_ENTRANCES]
-        # entrances = multiworld.get_entrances(player)
-        # for entrance in entrances:
-        #     assert entrance.parent_region is not None
-        #     if entrance.parent_region.name in all_entrance_names:
-        #         assert entrance.connected_region is not None
-        #         output_data["Entrances"][entrance.parent_region.name] = entrance.connected_region.name
+        # Fill out the itemPlacements to match off of to debug
+        locations = multiworld.get_locations(player)
+        for location in locations:
+            if location.item.player == self.player:
+                assert isinstance(location.item, TPItem)
+                if isinstance(location.item.item_id, int):
+                    output_data["Debug"]["ItemPlacements"][
+                        location.name  # I hate that this isn't type hinting
+                    ] == location.item.item_id
 
         def custom_serializer(obj):
             if hasattr(obj, "__dict__"):
                 return obj.__dict__
             return str(obj)
 
-        # Output the plando details to file.
+        # Output the details to file.
         file_path = os.path.join(
             output_directory, f"{multiworld.get_out_file_name_base(player)}.aptp"
         )
