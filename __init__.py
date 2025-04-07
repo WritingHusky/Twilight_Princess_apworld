@@ -495,6 +495,11 @@ class TPWorld(World):
         # Add everything from the item pool to allow for full access
         for item in self.progression_pool:
             collection_state_base.collect(self.create_item(item))
+
+        # If faron woods is closed open it so that dungeons can be accessed
+        if self.options.faron_woods_logic == FaronWoodsLogic.option_closed:
+            collection_state_base.collect(self.boss_defeat_items["Diababa"])
+
         # No need to consider other players items
         # for player in self.multiworld.player_ids:
         #     if player == self.player:
@@ -827,6 +832,7 @@ class TPWorld(World):
                 locations = []
                 skip_hyrule_castle = False
                 skip_palace_of_twilight = False
+                skip_forest_temple = False
                 for dungeon_name in vanilla:
 
                     if dungeon_name == "Hyrule Castle":
@@ -836,13 +842,19 @@ class TPWorld(World):
                         ]:
                             skip_hyrule_castle = True
                             continue
-
-                    if dungeon_name == "Palace of Twilight":
+                    elif dungeon_name == "Palace of Twilight":
                         if (
                             self.options.palace_requirements.value
                             == PalaceRequirements.option_vanilla
                         ):
                             skip_palace_of_twilight = True
+                            continue
+                    elif dungeon_name == "Forest Temple":
+                        if (
+                            self.options.faron_woods_logic
+                            == FaronWoodsLogic.option_closed
+                        ):
+                            skip_forest_temple = True
                             continue
 
                     locations_base = [
@@ -919,6 +931,8 @@ class TPWorld(World):
                     skipped_dungeons.append("Hyrule Castle")
                 if skip_palace_of_twilight:
                     skipped_dungeons.append("Palace of Twilight")
+                if skip_forest_temple:
+                    skipped_dungeons.append("Forest Temple")
                 for dungeon_name in skipped_dungeons:
 
                     locations_base = [
