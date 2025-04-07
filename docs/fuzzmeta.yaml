@@ -3,7 +3,7 @@ Twilight Princess:
 
   # TPRando Settings
   # open_map: false
-  faron_woods_logic: open
+  faron_woods_logic: open # Need to craft generation to be consistent
   # castle_requirements: open
   # palace_requirements: open
   # skip_lakebed_entrance: true
@@ -12,14 +12,14 @@ Twilight Princess:
   # skip_city_in_the_sky_entrance: true
   # goron_mines_entrance: open
   # tot_entrance: open
-  dungeon_rewards_progression: true
+  dungeon_rewards_progression: true # Unused currently
   # transform_anywhere: true
   # increase_wallet: true
   # damage_magnification: vanilla
-  bonks_do_damage: false
+  # bonks_do_damage: false
 
   # AP world settings
-  logic_rules: glitchless
+  logic_rules: glitchless # Only option that is implented in logic
   # early_shadow_crystal: false
   # small_key_settings: own_dungeon
   # big_key_settings: own_dungeon
