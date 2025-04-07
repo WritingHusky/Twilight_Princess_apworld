@@ -138,7 +138,7 @@ Twilight Princess:
     # - Fused Shadows: Requires all Fused Shadows
     # - Mirror Shards: Requires all Mirror Shards
     # - All Dungeons: Requires completing all dungeons
-    # - Vanilla: Vanilla requirements
+    # - Vanilla: Beat Palace of Twilight
     open: 50
     fused_shadows: 0
     mirror_shards: 0
@@ -152,7 +152,7 @@ Twilight Princess:
     # - Open: No requirements
     # - Fused Shadows: Requires all Fused Shadows
     # - Mirror Shards: Requires all Mirror Shards
-    # - Vanilla: Vanilla requirements
+    # - Vanilla: Beat City in the Sky
     open: 50
     fused_shadows: 0
     mirror_shards: 0
@@ -226,12 +226,6 @@ Twilight Princess:
     # Controls whether dungeon rewards are "forced" to have progression items.
     'false': 0
     'true': 50
-
-  small_keys_on_bosses:
-    # NOT IMPLEMENTED YET
-    # Controls whether small keys can be on bosses.
-    'false': 50
-    'true': 0
 
   # Timesavers
   open_map:

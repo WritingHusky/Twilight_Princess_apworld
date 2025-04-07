@@ -4,7 +4,7 @@ Here is a file that lays out the basics for the current state of the randomizer 
 
 ## Settings
 
-All settings that are not labeld not implemented will work
+All settings that are not labeled not implemented will work
 
 ## Client
 
@@ -24,7 +24,7 @@ Non US Region support (EU, JP) currently under devlopment.
 
 The location settings will label locations as excluded which will means that they will prevent progession and usefull items from being placed at that location.
 
-With ther being 475 locations in the game there are bound to be mistakes in the data. If you notice a location not triggering please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
+With there being 475 locations in the game there are bound to be mistakes in the data. If you notice a location not triggering please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
 
 ## Generation
 

@@ -1,12 +1,53 @@
-from worlds.twilight_princess_apworld.Locations import LOCATION_TABLE
-
+from BaseClasses import Item, MultiWorld
+from ..Locations import TPLocation
 
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
+# Based off of:
+# https://github.com/lunarsoap5/Randomizer-Web-Generator-1/blob/9a5f38e972669209f3d21596b0a9744f1319412f/Generator/Logic/SeedGenResults.cs#L130
 
-def encode_item_placements(check_num_id_to_item_id: list[int, str]):
+FILLER_ITEM_CODE = 0x8F
 
-    def encode_num_as_bits(num, num_bits):
+
+def get_item_placements(multiworld: MultiWorld, player: int) -> str:
+    assert isinstance(multiworld, MultiWorld)
+    assert isinstance(player, int)
+
+    location_number_to_item_code: dict[int, int] = {}
+
+    for location in multiworld.get_locations(player):
+        assert isinstance(location, TPLocation)
+        assert isinstance(location.item, Item), f"{location.name}, {location.item}"
+
+        # Ignore event locations
+        if not isinstance(location.code, int):
+            continue
+
+        # If item is local then encode it as
+        if location.item.player == player:
+            location_number_to_item_code[location.code] = location.item.code
+        else:
+            location_number_to_item_code[location.code] = FILLER_ITEM_CODE
+
+    # All locations that ap tracks are given a number and an item (ignore Story locations, Logic Event locations)
+    assert len(location_number_to_item_code) == len(
+        [
+            location
+            for location in multiworld.get_locations(player)
+            # Filer
+            if isinstance(location.address, int)
+        ]
+    ), f"{len(location_number_to_item_code)},{len(multiworld.get_locations(player))}"
+
+    result = encode_item_placements(location_number_to_item_code)
+    assert isinstance(result, str)
+
+    return result
+
+
+def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
+
+    def encode_num_as_bits(num: int, num_bits: int):
         """Encodes a number as a bit string of a specified length."""
         return bin(num)[2:].zfill(num_bits)
 
@@ -19,8 +60,10 @@ def encode_item_placements(check_num_id_to_item_id: list[int, str]):
 
     result += "1"
 
-    smallest = next(iter(check_num_id_to_item_id))  # Get the first key
-    largest = next(reversed(check_num_id_to_item_id))  # Get the last key
+    smallest = next(iter(check_num_id_to_item_id))  # Get the first key (0)
+    assert smallest == 0
+    largest = next(reversed(check_num_id_to_item_id))  # Get the last key (474)
+    assert largest == 474
 
     result += encode_num_as_bits(smallest, 9)
     result += encode_num_as_bits(largest, 9)
@@ -78,9 +121,3 @@ def encode_as_6_bit_string(bit_string: str):
         result += char_map[index]
 
     return result
-
-
-def convert_location_to_check_num(location: str) -> int:
-    assert isinstance(location, str)
-    assert location in LOCATION_TABLE
-    pass

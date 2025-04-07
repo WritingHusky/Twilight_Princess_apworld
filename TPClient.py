@@ -1,13 +1,18 @@
 import asyncio
-from copy import deepcopy
 import time
 import traceback
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine
+import dolphin_memory_engine  # type: ignore
 
-from .ClientUtils import VERSION
+from .ClientUtils import (
+    NODE_TO_STRING,
+    VERSION,
+    base_server_data_connection,
+    server_data,
+    server_copy,
+)
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
@@ -175,6 +180,8 @@ class TPContext(CommonContext):
         self.last_received_index: int = -1
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
+        self.server_data_copy = server_copy
+        self.server_data_built: bool = False
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -233,7 +240,7 @@ class TPContext(CommonContext):
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
-            # Request the connected slot's dictionary (used as a set) of visited stages.
+            self.server_data_built = False
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
@@ -241,12 +248,6 @@ class TPContext(CommonContext):
                     self.items_received_2.append((item, self.last_received_index))
                     self.last_received_index += 1
             self.items_received_2.sort(key=lambda v: v[1])
-        elif cmd == "Retrieved":
-            requested_keys_dict = args["keys"]
-            # Read the connected slot's dictionary (used as a set) of visited stages.
-            if self.slot is not None:
-                # self.slot.visited_stages = requested_keys_dict
-                pass
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -386,46 +387,46 @@ def _give_death(ctx: TPContext) -> None:
             logger.info("Debug: Health set to 0")
 
 
-async def _give_item(ctx: TPContext, item_name: str) -> None:
+async def _give_item(ctx: TPContext, items: list[str]) -> bool:
     """
-    Give an item to the player in-game.
+    Give a batch of items to the player in-game.
+    items must contain at max 8 items as that is the size of the queue
 
     :param ctx: Twilight Princess client context.
-    :param item_name: Name of the item to give.
+    :param items: Name of the items to give.
     :return: Whether the item was successfully given.
     """
-    assert isinstance(item_name, str)
 
-    if not await check_ingame(ctx) or read_byte(CURR_NODE_ADDR) == 0xFF:
+    assert isinstance(items, list), f"{items=}"
+    assert len(items) > 0, f"{items=}"
+    assert (
+        len(items) <= 8
+    ), f"{len(items)}"  # Could put to 7 to allow for extra buffer incase
+
+    if not await check_ingame(ctx):
         return False
+    for item_name in items:
+        assert isinstance(ITEM_TABLE[item_name].item_id, int)
 
-    if item_name not in ITEM_TABLE:
-        logger.info(
-            f"Error: Cannot give item {item_name} as it is not in the item table"
-        )
-
-    assert isinstance(ITEM_TABLE[item_name].item_id, int)
-
-    # Items are written into a stack, this allows for more then one item to be given at a time.
-    # However items will still be collected one at a time
-    # By nature of stack, items may not be collected in oreder recieved
-    i = 0
-    while True:
-        if i > 7:
-            if DEBUGGING:
-                logger.info("Debug: Item Stack full so an item cannot be given")
+    # Only add items to the queue if it is empty
+    for i in range(0, 8):
+        item_stack_addr = ITEM_WRITE_ADDR + i
+        if read_byte(item_stack_addr) != 0x00:
             return False
 
+    # Now its empty
+    # Add items starting at 0x8F0 so that it is given first
+    for i in range(0, len(items)):
         item_stack_addr = ITEM_WRITE_ADDR + i
-        assert isinstance(item_stack_addr, int)
+        # Just incase something happens
+        assert read_byte(item_stack_addr) == 0x00
 
-        if read_byte(item_stack_addr) == 0x00:
-            item_stack_addr = ITEM_WRITE_ADDR + i
-            write_byte(item_stack_addr, ITEM_TABLE[item_name].item_id)
-            return True
+        if DEBUGGING:
+            logger.info(f"Debug: Giving {items[i]} into queue")
 
-        i += 1
-    # assert item_stack_addr >= ITEM_WRITE_ADDR and item_stack_addr <= ITEM_WRITE_ADDR + 7
+        write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
+    # Now the queue is full and all items are added
+    return True
 
 
 async def give_items(ctx: TPContext) -> None:
@@ -441,20 +442,49 @@ async def give_items(ctx: TPContext) -> None:
         # Read the expected index of the player, which is the index of the latest item they've received.
         expected_idx = read_short(EXPECTED_INDEX_ADDR)
 
-        # Loop through items to give.
-        for item, idx in ctx.items_received_2:
+        total_items = len(ctx.items_received_2)
+        current_item_count = expected_idx  # First index starts at zero as does counting
+        items_difference = total_items - current_item_count
+        assert (
+            items_difference >= 0
+        ), f"{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+
+        # if DEBUGGING and items_difference != 0:
+        #     logger.info(
+        #         f"Debug: Giving {items_difference} item(s) 'item count:{current_item_count} -> {total_items}'"
+        #     )
+
+        # There are no items to give so stop
+        if items_difference == 0:
+            return
+
+        # Create a copy of the items that are to be given
+        items_copy = ctx.items_received_2[expected_idx:]
+        last_item_index = ctx.items_received_2[-1][1]
+        assert (
+            len(items_copy) == items_difference
+        ), f"{len(items_copy)} = {items_difference}"
+        assert (
+            ctx.items_received_2[expected_idx][1] == items_copy[0][1]
+        ), f"IF you are seeing this something has gone very bad {ctx.items_received_2[expected_idx][1]=} != {items_copy[0][1]=}"
+
+        item_give_queue: list[str] = []
+
+        for item, idx in items_copy:
             assert item.item in LOOKUP_ID_TO_NAME, f"{item=}"
+            assert idx == expected_idx  # Double check items are given in order
 
-            # If the item's index is greater than the player's expected index, give the player the item.
-            if expected_idx <= idx:
-                if DEBUGGING:
-                    logger.info(f"Debug: getting item: {LOOKUP_ID_TO_NAME[item.item]}")
-                # Attempt to give the item and increment the expected index.
-                while not await _give_item(ctx, LOOKUP_ID_TO_NAME[item.item]):
-                    await asyncio.sleep(0.1)
+            item_give_queue.append(LOOKUP_ID_TO_NAME[item.item])
+            expected_idx += 1
 
-                # Increment the expected index.
+            # Build the queue if we have a full set of items or we have reached the last item
+            if len(item_give_queue) == 8 or idx == last_item_index:
+                while not await _give_item(ctx, item_give_queue):
+                    await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, idx + 1)
+                item_give_queue = []
+
+        assert expected_idx - 1 == last_item_index  # Check the last item was given
 
 
 async def check_locations(ctx: TPContext) -> None:
@@ -528,6 +558,94 @@ async def check_locations(ctx: TPContext) -> None:
         if checked:
             locations_read.add(TPLocation.get_apid(data.code))
 
+    # Build out messages to set data into the server (build before location check for mid check changes)
+    messages: list[dict[str, any]] = []
+    results: list[dict[str, any]] = []
+    for server_copy_key, server_copy_value in ctx.server_data_copy.items():
+        assert server_copy_key in [
+            data["key"] for data in server_data
+        ], f"{server_copy_key=}"
+        data = [data for data in server_data if data["key"] == server_copy_key][0]
+        assert data, f"{server_copy_key=}"
+
+        if data["Region"] == "Flag":
+            assert isinstance(server_copy_value, bool), f"{server_copy_key=}"
+            addr = SAVE_FILE_ADDR + data["Offset"]
+            byte = read_byte(addr)
+            checked = (byte & data["Flag"]) != 0
+            if checked != server_copy_value:
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
+                #     )
+                # The value has changed so update the sever
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": checked}],
+                    }
+                )
+                results.append({server_copy_key: checked})
+
+        elif data["Region"] == "Region":
+            assert isinstance(server_copy_value, bool), f"{server_copy_key=}"
+            region = data["Node"]
+            assert (
+                isinstance(region, int) and data["Offset"] < 0x20
+            ), f"Location {location=} has bad region {region} {data=}"
+            if region == current_node:
+                addr = ACTIVE_NODE_ADDR + data["Offset"]
+            else:
+                addr = (region * 32) + NODES_START_ADDR + data["Offset"]
+            byte = read_byte(addr)
+            checked = (byte & data["Flag"]) != 0
+            if checked != server_copy_value:
+                # The value has changed so update the sever
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
+                #     )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": checked}],
+                    }
+                )
+                results.append({server_copy_key: checked})
+        elif data["Region"] == "Node Number":
+            assert isinstance(server_copy_value, str), f"{server_copy_key=}"
+            node = NODE_TO_STRING[server_copy_value]
+            if node != ctx.current_node:
+                new_node_str = [
+                    node
+                    for node, num in NODE_TO_STRING.items()
+                    if num == ctx.current_node
+                ][0]
+                assert isinstance(new_node_str, str), f"{new_node_str=}"
+                assert new_node_str, f"{new_node_str=}"
+                # if DEBUGGING:
+                #     logger.info(
+                #         f"Debug: {server_copy_key} Ready to be set to {new_node_str}"
+                #     )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": new_node_str}],
+                    }
+                )
+                results.append({server_copy_key: new_node_str})
+        else:
+            assert False, f"{data=}"
+
     # Incase the stage changed during location checking
     asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
@@ -544,6 +662,21 @@ async def check_locations(ctx: TPContext) -> None:
         )
         # This might be needed if the clinet doesn't sync, it might also brick if msg is sent but nothing happens
         ctx.locations_checked.update(new_locations_checked)
+
+    # Send out server data messages
+    assert len(messages) == len(results), f"{len(messages)=} {len(results)=}"
+    for message, result in zip(messages, results):
+        assert message["key"] in result, f"{message["key"]=}, {result=}"
+        # if DEBUGGING:
+        #     logger.info(
+        #         f"Debug: Sending message for {message["key"]}: {result[message["key"]]}"
+        #     )
+        ctx.server_data_copy[message["key"]] = result[message["key"]]
+        await ctx.send_msgs(
+            [
+                message,
+            ]
+        )
 
 
 async def check_alive() -> bool:
@@ -629,6 +762,10 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
+                    # Handle this here as on connect cannot deal with async calls and this is before location checks
+                    if not ctx.server_data_built:
+                        await ctx.send_msgs(base_server_data_connection)
+                        ctx.server_data_built = True
                     await give_items(ctx)
                     await check_locations(ctx)
                 else:
@@ -720,7 +857,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
             await asyncio.sleep(3)
             await ctx.dolphin_sync_task
 
-    import colorama
+    import colorama  # type: ignore
 
     colorama.init()
     asyncio.run(_main(connect, password))

@@ -2,12 +2,16 @@ from typing import TYPE_CHECKING, Dict, List, Tuple
 
 from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
-from ..options import DungeonItem, EarlyShadowCrystal, GoldenBugsShuffled, PoeShuffled
+from ..options import (
+    CastleRequirements,
+    DungeonItem,
+    EarlyShadowCrystal,
+    GoldenBugsShuffled,
+    PalaceRequirements,
+    PoeShuffled,
+)
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
-
-# from ..Options import DungeonItem
-# from .Dungeons import get_dungeon_item_pool_player
 
 if TYPE_CHECKING:
     from .. import TPWorld
@@ -240,7 +244,7 @@ VANILLA_GOLDEN_BUG_LOCATIONS = {
     "Male Dragonfly": "Zoras Domain Male Dragonfly",
 }
 
-VANILLA_POE_LOCATIONS = {
+VANILLA_POE_LOCATIONS = [
     "Arbiters Grounds East Turning Room Poe",
     "Arbiters Grounds Hidden Wall Poe",
     "Arbiters Grounds Torch Room Poe",
@@ -301,7 +305,7 @@ VANILLA_POE_LOCATIONS = {
     "Snowpeak Cave Ice Poe",
     "Snowpeak Icy Summit Poe",
     "Snowpeak Poe Among Trees",
-}
+]
 
 
 # This takes all the items form the world and adds them to the multiworld itempool
@@ -432,6 +436,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
             f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
         )
 
+    world.progression_pool = progression_pool
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
 
@@ -450,6 +455,147 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     return pool, precollected_items
 
 
+def get_boss_defeat_items(world: "TPWorld"):
+    return {
+        "Diababa": TPItem(
+            "Diababa Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Fyrus": TPItem(
+            "Fyrus Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Morpheel": TPItem(
+            "Morpheel Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    == CastleRequirements.option_all_dungeons
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Stallord": TPItem(
+            "Stallord Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    in [
+                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_vanilla,
+                    ]
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Blizzeta": TPItem(
+            "Blizzeta Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Armogohma": TPItem(
+            "Armogohma Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Argorok": TPItem(
+            "Argorok Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    == CastleRequirements.option_all_dungeons
+                    or world.options.palace_requirements
+                    == PalaceRequirements.option_vanilla
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Zant": TPItem(
+            "Zant Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    in [
+                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_vanilla,
+                    ]
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+    }
+
+
 def place_deterministic_items(world: "TPWorld") -> None:
     """This function places items that are: Not shuffled, only part of logic, or are used for the spoiler log."""
 
@@ -460,108 +606,28 @@ def place_deterministic_items(world: "TPWorld") -> None:
 
     # Place a Boss Defeated item on the boss rooms
     world.get_location("Forest Temple Diababa").place_locked_item(
-        TPItem(
-            "Diababa Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Diababa"]
     )
     world.get_location("Goron Mines Fyrus").place_locked_item(
-        TPItem(
-            "Fyrus Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Fyrus"]
     )
     world.get_location("Lakebed Temple Morpheel").place_locked_item(
-        TPItem(
-            "Morpheel Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Morpheel"]
     )
     world.get_location("Arbiters Grounds Stallord").place_locked_item(
-        TPItem(
-            "Stallord Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Stallord"]
     )
     world.get_location("Snowpeak Ruins Blizzeta").place_locked_item(
-        TPItem(
-            "Blizzeta Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Blizzeta"]
     )
     world.get_location("Temple of Time Armogohma").place_locked_item(
-        TPItem(
-            "Armogohma Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Armogohma"]
     )
     world.get_location("City in The Sky Argorok").place_locked_item(
-        TPItem(
-            "Argorok Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Argorok"]
     )
     world.get_location("Palace of Twilight Zant").place_locked_item(
-        TPItem(
-            "Zant Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=IC.progression,
-                item_id=1,
-            ),
-        )
+        world.boss_defeat_items["Zant"]
     )
 
     # Manually place items that cannot be randomized yet.
@@ -605,9 +671,9 @@ def place_deterministic_items(world: "TPWorld") -> None:
             ),
         )
     )
-    world.get_location("Ilia Charm").place_locked_item(
+    world.get_location("Ilias Charm").place_locked_item(
         TPItem(
-            "Ilia's Charm",
+            "Ilias Charm",
             world.player,
             TPItemData(
                 code=None,
@@ -618,9 +684,11 @@ def place_deterministic_items(world: "TPWorld") -> None:
             ),
         )
     )
-    world.get_location(  # TODO Check what base rando does here
+    world.get_location(  # Base Rando forces this. Horse call is also in the itempool that gets shuffled
         "Ilia Memory Reward"
-    ).place_locked_item(item_factory("Horse Call", world))
+    ).place_locked_item(
+        item_factory("Horse Call", world)
+    )
 
     # Portals are only worried about for open map setting which is handled in create_regions()
 

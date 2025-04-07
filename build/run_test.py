@@ -8,6 +8,7 @@ def main():
         "test\\general",
         "test\\multiworld",
         # "test",
+        "-s",
     ]
 
     pytest_args = test_directories

@@ -1,4 +1,4 @@
-from typing import NamedTuple, Optional, Tuple
+from typing import NamedTuple, Optional
 from enum import Enum, IntEnum, auto, Flag
 from BaseClasses import Location, Region
 
@@ -29,6 +29,7 @@ class NodeID(IntEnum):
     Cave_of_Ordeals = 0x19
     Lake_Hylia_Cave = 0x1A
     Grotto = 0x1B
+    Menu = 0xFF
 
 
 class TPStages(Enum):
@@ -2466,8 +2467,8 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
-        offset=0xD,
-        bit=0x8,
+        offset=0xC,
+        bit=0x20,
     ),
     "Kakariko Village Malo Mart Hylian Shield": TPLocationData(
         code=257,
@@ -4519,7 +4520,7 @@ LOCATION_TABLE = {
         offset=0x7FF,
         bit=0x80,
     ),
-    "Ilia Charm": TPLocationData(
+    "Ilias Charm": TPLocationData(
         code=None,
         flags=TPFlag.Always,
         stage_id=TPStages.Hidden_Village,
@@ -4789,7 +4790,7 @@ LOCATION_TO_REGION: dict[str, str] = {
     # "" : "Death Mountain Sumo Hall Elevator",
     # "" : "Death Mountain Sumo Hall Goron Mines Tunnel",
     "Cats Hide and Seek Minigame": "Hidden Village",
-    "Ilia Charm": "Hidden Village",
+    "Ilias Charm": "Hidden Village",
     "Hidden Village Poe": "Hidden Village",
     "Skybook From Impaz": "Hidden Village Impaz House",
     "Kakariko Gorge Owl Statue Chest": "Kakariko Gorge",

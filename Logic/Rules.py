@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING, Callable
 
-from Fill import FillError
 from BaseClasses import CollectionState, MultiWorld
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule
 from ..options import (
     BigKeySettings,
+    DamageMagnification,
     LogicRules,
     SmallKeySettings,
     TotEntrance,
@@ -121,29 +121,18 @@ def set_location_access_rules(world: "TPWorld"):
         glitched_rule: Callable[[CollectionState], bool] = None,
     ) -> None:
         # Only worry about logic if the location can be a progress item (and location_name not in world.nonprogress_locations) do not worry bout yet
-        if location_name in LOCATION_TABLE:
-            try:
-                location = world.get_location(location_name)
-            except KeyError:
-                # If we do not create a location (in region creation) it will not be in the world but we will still try to add the rule
-                # This means we only add the logic to remove the location at region creation
-                # Example: Bublin Camp Key
-                world.invalid_locations.append(location_name)  # Debug
-                return
+        assert location_name in LOCATION_TABLE, f"{location=}"
+        location = world.get_location(location_name)
 
-            if (
-                world.options.logic_rules.value == LogicRules.option_glitched
-                and glitched_rule
-            ):
-                set_rule(location, glitched_rule)
-            else:
-                # if not glitched_rule:
-                #     raise FillError(
-                #         f"Location {location_name} does not have a glitched rule"
-                #     )
-                set_rule(location, rule)
+        if (
+            world.options.logic_rules.value
+            == LogicRules.option_glitched
+            # and glitched_rule
+        ):
+            assert glitched_rule, f"{location=} has no glitched rule"
+            set_rule(location, glitched_rule)
         else:
-            raise Exception(f"Location {location_name} not found in location table")
+            set_rule(location, rule)
 
     player = world.player
 
@@ -1743,7 +1732,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Progressive Hero's Bow", player, 1)
             and state.can_reach_region("Kakariko Renados Sanctuary", player)
-            and state.has("Ilia's Charm", player)
+            and state.has("Ilias Charm", player)
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
@@ -1868,18 +1857,18 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Progressive Hero's Bow", player, 1)
             and state.can_reach_region("Kakariko Renados Sanctuary", player)
-            and state.has("Ilia's Charm", player)
+            and state.has("Ilias Charm", player)
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
     )
     set_rule_if_exists(
-        "Ilia Charm",
+        "Ilias Charm",
         lambda state: (state.has("Progressive Hero's Bow", player, 1)),
     )
     set_rule_if_exists(
         "Ilia Memory Reward",
-        lambda state: (state.has("Ilia's Charm", player)),
+        lambda state: (state.has("Ilias Charm", player)),
     )
     set_rule_if_exists(
         "Kakariko Gorge Double Clawshot Chest",

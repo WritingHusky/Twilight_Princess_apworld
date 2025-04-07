@@ -3,11 +3,8 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     DeathLink,
-    DefaultOnToggle,
     OptionGroup,
-    OptionSet,
     PerGameCommonOptions,
-    Range,
     StartInventoryPool,
     Toggle,
 )
@@ -56,7 +53,11 @@ class CastleRequirements(Choice):
     - Fused Shadows: Requires all Fused Shadows
     - Mirror Shards: Requires all Mirror Shards
     - All Dungeons: Requires completing all dungeons
-    - Vanilla: Vanilla requirements
+    - Vanilla: Beat Palace of Twilight
+
+    Note:
+    Choosing All Dungeons or Vanilla will force dungeons items to be in Hyrule Castle if Any Dungeon is chosen for them
+        This also removes Hyrule castle from list of dungeons for other of that dungeon item to be in
     """
 
     display_name = "Castle Requirements"
@@ -76,7 +77,11 @@ class PalaceRequirements(Choice):
     - Open: No requirements
     - Fused Shadows: Requires all Fused Shadows
     - Mirror Shards: Requires all Mirror Shards
-    - Vanilla: Vanilla requirements
+    - Vanilla: Beat City in the Sky
+
+    Note:
+    Choosing Vanilla will force dungeons items to be in Palace of Twilight if Any Dungeon is chosen for them
+        This also removes Palace of Twilight from list of dungeons for other of that dungeon item to be in
     """
 
     display_name = "Palace Requirements"
@@ -94,6 +99,10 @@ class FaronWoodsLogic(Choice):
 
     - Open: No special requirements
     - Closed: Requires normal progression
+
+    Note:
+    Choosing Closed will force dungeons items to be in Forest Temple if Any Dungeon is chosen for them
+        This also removes Forest Temple from list of dungeons for other of that dungeon item to be in
     """
 
     display_name = "Faron Woods Logic"
@@ -570,7 +579,7 @@ class TPOptions(PerGameCommonOptions):
     big_key_settings: BigKeySettings
     map_and_compass_settings: MapAndCompassSettings
     dungeon_rewards_progression: DungeonRewardsProgression  # Not yet useful
-    small_keys_on_bosses: SmallKeysOnBosses  # Not yet useful
+    # small_keys_on_bosses: SmallKeysOnBosses  # Not yet useful
 
     # Logic Settings
     logic_rules: LogicRules  #
