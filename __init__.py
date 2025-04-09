@@ -1078,7 +1078,7 @@ class TPWorld(World):
                 if isinstance(location.item.item_id, int):
                     output_data["Debug"]["ItemPlacements"][
                         location.name  # I hate that this isn't type hinting
-                    ] == location.item.item_id
+                    ] = location.item.item_id
 
         def custom_serializer(obj):
             if hasattr(obj, "__dict__"):

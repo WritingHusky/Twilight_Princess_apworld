@@ -131,50 +131,50 @@ def encode_as_6_bit_string(bit_string: str):
 
 
 def get_setting_string(multiworld: MultiWorld, player: int):
-    assert isinstance(multiworld, World)
+    assert isinstance(multiworld, MultiWorld)
 
     # Skip prolougue, Twilights and MDH are hardcoded currently.
     # In the future I may want to add them so it's better to have them in the setting string to start
 
     settings_map: list[int | tuple[int, int]] = [
-        (multiworld.options.castle_requirements.value, 3),
-        (multiworld.options.palace_requirements.value, 2),
-        (multiworld.options.faron_woods_logic.value, 1),
-        (multiworld.options.small_key_settings.value, 3),
-        (multiworld.options.big_key_settings.value, 3),
-        (multiworld.options.map_and_compass_settings.value, 3),
+        (multiworld.worlds[player].options.castle_requirements.value, 3),
+        (multiworld.worlds[player].options.palace_requirements.value, 2),
+        (multiworld.worlds[player].options.faron_woods_logic.value, 1),
+        (multiworld.worlds[player].options.small_key_settings.value, 3),
+        (multiworld.worlds[player].options.big_key_settings.value, 3),
+        (multiworld.worlds[player].options.map_and_compass_settings.value, 3),
         True,  # Skip prologue
         True,  # Faron Twilight Cleared
         True,  # Eldin Twilight Cleared
         True,  # Lanayru Twilight Cleared
         True,  # Skip MDH
-        bool(multiworld.options.skip_minor_cutscenes.value),
-        bool(multiworld.options.fast_iron_boots.value),
-        bool(multiworld.options.quick_transform.value),
-        bool(multiworld.options.transform_anywhere.value),
-        bool(multiworld.options.increase_wallet.value),
-        bool(multiworld.options.modify_shop_models.value),
-        (multiworld.options.goron_mines_entrance.value, 2),
-        bool(multiworld.options.skip_lakebed_entrance.value),
-        bool(multiworld.options.skip_arbiters_grounds_entrance.value),
-        bool(multiworld.options.skip_snowpeak_entrance.value),
-        (multiworld.options.tot_entrance.value, 2),
-        bool(multiworld.options.skip_city_in_the_sky_entrance.value),
-        bool(multiworld.options.instant_message_text.value),
-        bool(multiworld.options.open_map.value),
-        bool(multiworld.options.increase_spinner_speed.value),
-        bool(multiworld.options.open_door_of_time.value),
-        (multiworld.options.damage_magnification.value, 3),
-        bool(multiworld.options.bonks_do_damage.value),
-        bool(multiworld.options.skip_major_cutscenes.value),
-        (multiworld.options.starting_tod.value, 3),
+        bool(multiworld.worlds[player].options.skip_minor_cutscenes.value),
+        bool(multiworld.worlds[player].options.fast_iron_boots.value),
+        bool(multiworld.worlds[player].options.quick_transform.value),
+        bool(multiworld.worlds[player].options.transform_anywhere.value),
+        bool(multiworld.worlds[player].options.increase_wallet.value),
+        bool(multiworld.worlds[player].options.modify_shop_models.value),
+        (multiworld.worlds[player].options.goron_mines_entrance.value, 2),
+        bool(multiworld.worlds[player].options.skip_lakebed_entrance.value),
+        bool(multiworld.worlds[player].options.skip_arbiters_grounds_entrance.value),
+        bool(multiworld.worlds[player].options.skip_snowpeak_entrance.value),
+        (multiworld.worlds[player].options.tot_entrance.value, 2),
+        bool(multiworld.worlds[player].options.skip_city_in_the_sky_entrance.value),
+        bool(multiworld.worlds[player].options.instant_message_text.value),
+        bool(multiworld.worlds[player].options.open_map.value),
+        bool(multiworld.worlds[player].options.increase_spinner_speed.value),
+        bool(multiworld.worlds[player].options.open_door_of_time.value),
+        (multiworld.worlds[player].options.damage_magnification.value, 3),
+        bool(multiworld.worlds[player].options.bonks_do_damage.value),
+        bool(multiworld.worlds[player].options.skip_major_cutscenes.value),
+        (multiworld.worlds[player].options.starting_tod.value, 3),
     ]
 
     bit_string = ""
 
     for setting_value in settings_map:
         if isinstance(setting_value, bool):
-            bitString += "1" if setting_value else "0"
+            bit_string += "1" if setting_value else "0"
         elif isinstance(setting_value, tuple):
             assert len(setting_value) == 2, f"{setting_value}"
             assert isinstance(setting_value[0], int), f"{setting_value}"
