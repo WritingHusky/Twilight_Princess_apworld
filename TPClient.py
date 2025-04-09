@@ -647,7 +647,7 @@ async def check_locations(ctx: TPContext) -> None:
             assert False, f"{data=}"
 
     # Incase the stage changed during location checking
-    asyncio.sleep(0.1)
+    await asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
         if DEBUGGING:
             logger.info("Debug: Stage changed during location checks skiping checks")
