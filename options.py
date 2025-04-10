@@ -423,9 +423,9 @@ class GoronMinesEntrance(Choice):
     """
 
     display_name = "Goron Mines Entrance"
-    option_open = 0
+    option_open = 2
     option_no_wrestling = 1
-    option_closed = 2
+    option_closed = 0
     default = 0
 
 

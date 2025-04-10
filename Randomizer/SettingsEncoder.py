@@ -14,11 +14,14 @@ char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 FILLER_ITEM_CODE = 0x8F
 
 
-def get_item_placements(multiworld: MultiWorld, player: int) -> str:
+def get_item_placements(
+    multiworld: MultiWorld, player: int
+) -> tuple[str, list[tuple[str, int]]]:
     assert isinstance(multiworld, MultiWorld)
     assert isinstance(player, int)
 
     location_number_to_item_code: dict[int, int] = {}
+    loaction_to_item = []
 
     for location in multiworld.get_locations(player):
         assert isinstance(location, TPLocation)
@@ -30,8 +33,11 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
 
         # If item is local then encode it as
         if location.item.player == player:
-            location_number_to_item_code[location.code] = location.item.code
+            assert isinstance(location.item, TPItem)
+            loaction_to_item.append([location.name, location.item.item_id])
+            location_number_to_item_code[location.code] = location.item.item_id
         else:
+            loaction_to_item.append([location.name, FILLER_ITEM_CODE])
             location_number_to_item_code[location.code] = FILLER_ITEM_CODE
 
     # All locations that ap tracks are given a number and an item (ignore Story locations, Logic Event locations)
@@ -47,7 +53,7 @@ def get_item_placements(multiworld: MultiWorld, player: int) -> str:
     result = encode_item_placements(location_number_to_item_code)
     assert isinstance(result, str)
 
-    return result
+    return [result, loaction_to_item]
 
 
 def encode_num_as_bits(num: int, num_bits: int):

@@ -1060,10 +1060,12 @@ class TPWorld(World):
         multiworld = self.multiworld
         player = self.player
 
+        item_str, debug_str = get_item_placements(self.multiworld, self.player)
+
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
             "SettingsString": get_setting_string(self.multiworld, self.player),
-            "ItemPlacement": get_item_placements(self.multiworld, self.player),
+            "ItemPlacement": item_str,
             "Debug": {
                 "settings": self.get_settings_map(),
                 "ItemPlacements": {},
@@ -1071,14 +1073,19 @@ class TPWorld(World):
         }
 
         # Fill out the itemPlacements to match off of to debug
-        locations = multiworld.get_locations(player)
-        for location in locations:
-            if location.item.player == self.player:
-                assert isinstance(location.item, TPItem)
-                if isinstance(location.item.item_id, int):
-                    output_data["Debug"]["ItemPlacements"][
-                        location.name  # I hate that this isn't type hinting
-                    ] = location.item.item_id
+        for location, item in debug_str:
+            output_data["Debug"]["ItemPlacements"][
+                location
+            ] = f"{item} ({[new_item for new_item, data in ITEM_TABLE.items() if data.item_id == item][0]})"
+
+        # for location in locations:
+        #     assert isinstance(location, TPLocation)
+        #     if location.item.player == self.player and isinstance(location.code, int):
+        #         assert isinstance(location.item, TPItem)
+        #         if isinstance(location.item.item_id, int):
+        #             output_data["Debug"]["ItemPlacements"][
+        #                 location.name  # I hate that this isn't type hinting
+        #             ] = location.item.item_id
 
         def custom_serializer(obj):
             if hasattr(obj, "__dict__"):
