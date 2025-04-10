@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 from BaseClasses import Item, MultiWorld
-from worlds.AutoWorld import World
-from worlds.twilight_princess_apworld.Items import TPItem
+from ..Items import TPItem
 from ..Locations import TPLocation
 from ..options import *
 
@@ -137,6 +136,7 @@ def get_setting_string(multiworld: MultiWorld, player: int):
     # In the future I may want to add them so it's better to have them in the setting string to start
 
     settings_map: list[int | tuple[int, int]] = [
+        # (multiworld.worlds[player].options.logic_rules.value, 2), # Just in ccase
         (multiworld.worlds[player].options.castle_requirements.value, 3),
         (multiworld.worlds[player].options.palace_requirements.value, 2),
         (multiworld.worlds[player].options.faron_woods_logic.value, 1),
@@ -186,7 +186,9 @@ def get_setting_string(multiworld: MultiWorld, player: int):
     # Create the starting inventory
     item_bit_string = ""
     for item in multiworld.precollected_items[player]:
-        assert isinstance(item, TPItem), f"{item=}"
+        assert isinstance(
+            item, TPItem
+        ), f"{item=}, TP Player has precollected a non TP Item?"
         assert isinstance(item.item_id, int), f"{item=}"
         item_bit_string += encode_num_as_bits(item.item_id, 9)
 
