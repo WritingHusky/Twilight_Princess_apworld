@@ -1,4 +1,4 @@
-VERSION = "v0.2.4"
+VERSION = "v0.2.5"
 
 Settings_Format = {
     "Golden Bugs Shuffled": "Yes/No",
