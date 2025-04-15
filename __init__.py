@@ -253,7 +253,7 @@ class TPWorld(World):
             portal_regions = [
                 "Snowpeak Summit Upper",
                 "Zoras Domain Throne Room",
-                "Upper Zoras River",
+                # "Upper Zoras River",
                 "Lake Hylia",
                 "Outside Castle Town West",
                 # "Gerudo Desert Cave of Ordeals Plateau",

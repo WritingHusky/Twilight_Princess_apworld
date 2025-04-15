@@ -182,6 +182,7 @@ class TPContext(CommonContext):
         self.server_data_copy: dict[str, str | bool] = {}
         self.server_data = server_data
         self.server_data_built: bool = False
+        self.server_data_sent: bool = False
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -241,6 +242,7 @@ class TPContext(CommonContext):
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
             self.server_data_built = False
+            self.server_data = server_data
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
@@ -560,23 +562,20 @@ async def check_locations(ctx: TPContext) -> None:
 
     # Build the server data to use a player and team keyed value
     if not ctx.server_data_built:
-        ctx.server_data_copy = {}
-        for i, data in enumerate(ctx.server_data):
-            assert not data["key"].contains("TP_"), f"{data=}"
-            new_key = f"TP_{ctx.slot}_{ctx.team}_{data["key"]}"
+        new_server_data_copy = {}
+        for i, data in enumerate(server_data):
+            assert "TP_" not in data["key"], f"{data=}"
+            new_key = f"TP_{ctx.team}_{ctx.slot}_{data["key"]}"
             ctx.server_data[i]["key"] = new_key
-            ctx.server_data_copy[new_key] = (
-                False if not new_key.contains("Region") else "Menu"
-            )
+            new_server_data_copy[new_key] = False if "Region" not in new_key else "Menu"
         ctx.server_data_built = True
+        ctx.server_data_copy = new_server_data_copy
 
     # Build out messages to set data into the server (build before location check for mid check changes)
     messages: list[dict[str, any]] = []
     results: list[dict[str, any]] = []
+    assert len(ctx.server_data_copy) > 0, f"{ctx.server_data_copy=}"
     for server_copy_key, server_copy_value in ctx.server_data_copy.items():
-        assert server_copy_key in [
-            data["key"] for data in ctx.server_data_copy
-        ], f"{server_copy_key=}"
         data = [data for data in ctx.server_data if data["key"] == server_copy_key][0]
         assert data, f"{server_copy_key=}"
 
@@ -586,10 +585,10 @@ async def check_locations(ctx: TPContext) -> None:
             byte = read_byte(addr)
             checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
-                # if DEBUGGING:
-                #     logger.info(
-                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
-                #     )
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {checked}"
+                    )
                 # The value has changed so update the sever
                 messages.append(
                     {
@@ -616,10 +615,10 @@ async def check_locations(ctx: TPContext) -> None:
             checked = (byte & data["Flag"]) != 0
             if checked != server_copy_value:
                 # The value has changed so update the sever
-                # if DEBUGGING:
-                #     logger.info(
-                #         f"Debug: {server_copy_key} Ready to be set to {checked}"
-                #     )
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {checked}"
+                    )
                 messages.append(
                     {
                         "cmd": "Set",
@@ -641,10 +640,10 @@ async def check_locations(ctx: TPContext) -> None:
                 ][0]
                 assert isinstance(new_node_str, str), f"{new_node_str=}"
                 assert new_node_str, f"{new_node_str=}"
-                # if DEBUGGING:
-                #     logger.info(
-                #         f"Debug: {server_copy_key} Ready to be set to {new_node_str}"
-                #     )
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {new_node_str}"
+                    )
                 messages.append(
                     {
                         "cmd": "Set",
@@ -678,11 +677,13 @@ async def check_locations(ctx: TPContext) -> None:
     # Send out server data messages
     assert len(messages) == len(results), f"{len(messages)=} {len(results)=}"
     for message, result in zip(messages, results):
-        # assert message["key"] in result, f"{message["key"]=}, {result=}" # No longer valid as key is individualized
-        # if DEBUGGING:
-        #     logger.info(
-        #         f"Debug: Sending message for {message["key"]}: {result[message["key"]]}"
-        #     )
+        assert (
+            message["key"] in result
+        ), f"{message["key"]=}, {result=}"  # No longer valid as key is individualized
+        if DEBUGGING:
+            logger.info(
+                f"Debug: Sending message for {message["key"]}: {result[message["key"]]}"
+            )
         ctx.server_data_copy[message["key"]] = result[message["key"]]
         await ctx.send_msgs(
             [
@@ -775,11 +776,11 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
                     # Handle this here as on connect cannot deal with async calls and this is before location checks
-                    if not ctx.server_data_built:
+                    if not ctx.server_data_sent:
                         await ctx.send_msgs(
                             base_server_data_connection(ctx.team, ctx.slot)
                         )
-                        ctx.server_data_built = True
+                        ctx.server_data_sent = True
                     await give_items(ctx)
                     await check_locations(ctx)
                 else:
