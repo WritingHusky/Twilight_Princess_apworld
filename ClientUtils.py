@@ -40,33 +40,6 @@ Settings_Format = {
     "Small keys on Bosses": "No",  # Can be removed if not needed by anyone
 }
 
-server_copy: dict[str, bool | str] = {
-    "Death Mountain Stone": False,
-    "Zora River Stone": False,
-    "Sacred Grove Stone": False,
-    "Lake Hylia Stone": False,
-    "Snowpeak Stone": False,
-    "Hidden Village Stone": False,
-    "Youth Scent": False,
-    "Ilias Scent": False,
-    "Medicine Scent": False,
-    "ReekFish Scent": False,
-    "Poe Scent": False,
-    "Renados letter": False,
-    "Telmas Invoice": False,
-    "Wooden Statue": False,
-    "Ilias Charm": False,
-    "Memory Reward": False,
-    "Current Region": "Menu",  # See NODE_TO_STRING for full breakdown
-    "Diababa Defeated": False,
-    "Fyrus Defeated": False,
-    "Morpheel Defeated": False,
-    "Stallord Defeated": False,
-    "Blizzeta Defeated": False,
-    "Armogohma Defeated": False,
-    "Argorok Defeated": False,
-    "Zant Defeated": False,
-}
 
 NODE_TO_STRING = {
     "Ordon": 0x0,

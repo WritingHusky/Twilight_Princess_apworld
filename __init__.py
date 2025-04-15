@@ -1073,10 +1073,17 @@ class TPWorld(World):
         }
 
         # Fill out the itemPlacements to match off of to debug
-        for location, item in debug_str:
+        for location_name, item in debug_str:
+            item_list = [
+                new_item
+                for new_item, data in ITEM_TABLE.items()
+                if data.item_id == item
+            ]
+            if len(item_list) == 0:
+                item_list = ["Non TP", "Test"]
             output_data["Debug"]["ItemPlacements"][
-                location
-            ] = f"{item} ({[new_item for new_item, data in ITEM_TABLE.items() if data.item_id == item][0]})"
+                location_name
+            ] = f"{item} ({item_list[0]})"
 
         # for location in locations:
         #     assert isinstance(location, TPLocation)

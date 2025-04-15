@@ -11,7 +11,6 @@ from .ClientUtils import (
     VERSION,
     base_server_data_connection,
     server_data,
-    server_copy,
 )
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
@@ -180,7 +179,8 @@ class TPContext(CommonContext):
         self.last_received_index: int = -1
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
-        self.server_data_copy = server_copy
+        self.server_data_copy: dict[str, str | bool] = {}
+        self.server_data = server_data
         self.server_data_built: bool = False
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
@@ -558,14 +558,26 @@ async def check_locations(ctx: TPContext) -> None:
         if checked:
             locations_read.add(TPLocation.get_apid(data.code))
 
+    # Build the server data to use a player and team keyed value
+    if not ctx.server_data_built:
+        ctx.server_data_copy = {}
+        for i, data in enumerate(ctx.server_data):
+            assert not data["key"].contains("TP_"), f"{data=}"
+            new_key = f"TP_{ctx.slot}_{ctx.team}_{data["key"]}"
+            ctx.server_data[i]["key"] = new_key
+            ctx.server_data_copy[new_key] = (
+                False if not new_key.contains("Region") else "Menu"
+            )
+        ctx.server_data_built = True
+
     # Build out messages to set data into the server (build before location check for mid check changes)
     messages: list[dict[str, any]] = []
     results: list[dict[str, any]] = []
     for server_copy_key, server_copy_value in ctx.server_data_copy.items():
         assert server_copy_key in [
-            data["key"] for data in server_data
+            data["key"] for data in ctx.server_data_copy
         ], f"{server_copy_key=}"
-        data = [data for data in server_data if data["key"] == server_copy_key][0]
+        data = [data for data in ctx.server_data if data["key"] == server_copy_key][0]
         assert data, f"{server_copy_key=}"
 
         if data["Region"] == "Flag":
@@ -582,7 +594,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
+                        "key": data["key"],
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": checked}],
@@ -611,7 +623,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
+                        "key": data["key"],
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": checked}],
@@ -636,7 +648,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
+                        "key": data["key"],
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": new_node_str}],
