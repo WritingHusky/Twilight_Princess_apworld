@@ -1,4 +1,4 @@
-VERSION = "v0.2.4"
+VERSION = "v0.2.5"
 
 Settings_Format = {
     "Golden Bugs Shuffled": "Yes/No",
@@ -330,13 +330,15 @@ server_data = [
     },
 ]
 
-base_server_data_connection = [
-    {
-        "cmd": "Set",
-        "key": data["key"],
-        "default": data["default"],
-        "want_reply": False,
-        "operations": [],
-    }
-    for data in server_data
-]
+
+def base_server_data_connection(team: int, slot: int):
+    return [
+        {
+            "cmd": "Set",
+            "key": f"TP_{team}_{slot}_{data["key"]}",
+            "default": data["default"],
+            "want_reply": False,
+            "operations": [],
+        }
+        for data in server_data
+    ]

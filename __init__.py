@@ -33,7 +33,7 @@ from worlds.LauncherComponents import (
     launch_subprocess,
 )
 
-from .Randomizer.SettingsEncoder import get_item_placements
+from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
@@ -1060,72 +1060,39 @@ class TPWorld(World):
         multiworld = self.multiworld
         player = self.player
 
+        item_str, debug_str = get_item_placements(self.multiworld, self.player)
+
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
-            "version": "1",
-            "input": {
+            "SettingsString": get_setting_string(self.multiworld, self.player),
+            "ItemPlacement": item_str,
+            "Debug": {
                 "settings": self.get_settings_map(),
-                "seed": f"seed from multiworld ={multiworld.seed_name}",
-                "output": {
-                    "seedhash": "none",
-                    "name": "lorem ipsum",
-                    "itemPlacement": get_item_placements(self.multiworld, self.player),
-                    "reqDungeons": "-",
-                },
+                "ItemPlacements": {},
             },
-            # "Seed": multiworld.seed_name,
-            # "Slot": player,
-            # "Name": self.player_name,
-            # "Options": {},
-            # "Required Bosses": self.boss_reqs.required_boss_item_locations,
-            # "Locations": {},
-            # "Entrances": {},
         }
 
-        # # Output relevant options to file.
-        # for field in fields(self.options):
-        #     output_data["Options"][field.name] = getattr(self.options, field.name).value
+        # Fill out the itemPlacements to match off of to debug
+        for location, item in debug_str:
+            output_data["Debug"]["ItemPlacements"][
+                location
+            ] = f"{item} ({[new_item for new_item, data in ITEM_TABLE.items() if data.item_id == item][0]})"
 
-        # # Output which item has been placed at each location.
-        # locations = multiworld.get_locations(player)
         # for location in locations:
-        #     if location.name:
-        #         if location.item:
-        #             item_info = {
-        #                 "player": location.item.player,
-        #                 "name": location.item.name,
-        #                 "game": location.item.game,
-        #                 "classification": location.item.classification.name,
-        #             }
-        #         else:
-        #             item_info = {
-        #                 "name": "Nothing",
-        #                 "game": "Twilight Princess",
-        #                 "classification": "filler",
-        #             }
-        #         output_data["Locations"][location.name] = item_info
-
-        # output_data["InvalidLocations"] = self.invalid_locations
-        # output_data["UsefulPool"] = self.useful_pool
-        # output_data["FillerPool"] = self.filler_pool
-        # output_data["Settings"] = self.get_settings_map()
-
-        #
-        # # Output the mapping of entrances to exits.
-        # all_entrance_names = [en.entrance_name for en in ALL_ENTRANCES]
-        # entrances = multiworld.get_entrances(player)
-        # for entrance in entrances:
-        #     assert entrance.parent_region is not None
-        #     if entrance.parent_region.name in all_entrance_names:
-        #         assert entrance.connected_region is not None
-        #         output_data["Entrances"][entrance.parent_region.name] = entrance.connected_region.name
+        #     assert isinstance(location, TPLocation)
+        #     if location.item.player == self.player and isinstance(location.code, int):
+        #         assert isinstance(location.item, TPItem)
+        #         if isinstance(location.item.item_id, int):
+        #             output_data["Debug"]["ItemPlacements"][
+        #                 location.name  # I hate that this isn't type hinting
+        #             ] = location.item.item_id
 
         def custom_serializer(obj):
             if hasattr(obj, "__dict__"):
                 return obj.__dict__
             return str(obj)
 
-        # Output the plando details to file.
+        # Output the details to file.
         file_path = os.path.join(
             output_directory, f"{multiworld.get_out_file_name_base(player)}.aptp"
         )
@@ -1335,6 +1302,92 @@ class TPWorld(World):
 
     def get_settings_map(self):
         return {
+            "Castle Requirements": self.options.castle_requirements.get_option_name(
+                self.options.castle_requirements.value
+            ),
+            "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
+                self.options.palace_requirements.value
+            ),
+            "Faron Woods Logic": self.options.faron_woods_logic.get_option_name(
+                self.options.faron_woods_logic.value
+            ),
+            "Small Key Settings": self.options.small_key_settings.get_option_name(
+                self.options.small_key_settings.value
+            ),
+            "Big Key Settings": self.options.big_key_settings.get_option_name(
+                self.options.big_key_settings.value
+            ),
+            "Map and Compass Settings": self.options.map_and_compass_settings.get_option_name(
+                self.options.map_and_compass_settings.value
+            ),
+            "Skip Prologue": "Yes",
+            "Faron Twilight Cleared": "Yes",
+            "Eldin Twilight Cleared": "Yes",
+            "Lanayru Twilight Cleared": "Yes",
+            "Skip MDH": "Yes",
+            "Skip Minor Cutscenes": self.options.skip_minor_cutscenes.get_option_name(
+                self.options.skip_minor_cutscenes.value
+            ),
+            "Fast Iron Boots": self.options.fast_iron_boots.get_option_name(
+                self.options.fast_iron_boots.value
+            ),
+            "Quick Transform": self.options.quick_transform.get_option_name(
+                self.options.quick_transform.value
+            ),
+            "Transform Anywhere": self.options.transform_anywhere.get_option_name(
+                self.options.transform_anywhere.value
+            ),
+            "Increase Wallet": self.options.increase_wallet.get_option_name(
+                self.options.increase_wallet.value
+            ),
+            "Modify Shop Models": self.options.modify_shop_models.get_option_name(
+                self.options.modify_shop_models.value
+            ),
+            "Goron Mines Entrance Requirements": self.options.goron_mines_entrance.get_option_name(
+                self.options.goron_mines_entrance.value
+            ),
+            "Lakebed Entrance Requirements": self.options.skip_lakebed_entrance.get_option_name(
+                self.options.skip_lakebed_entrance.value
+            ),
+            "Arbiters Grounds Entrance Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
+                self.options.skip_arbiters_grounds_entrance.value
+            ),
+            "Snowpeak Entrance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
+                self.options.skip_snowpeak_entrance.value
+            ),
+            "Temple of Time Entrance Requirements": self.options.tot_entrance.get_option_name(
+                self.options.tot_entrance.value
+            ),
+            "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
+                self.options.skip_city_in_the_sky_entrance.value
+            ),
+            "Instant Message Text": self.options.instant_message_text.get_option_name(
+                self.options.instant_message_text.value
+            ),
+            "Open Map": self.options.open_map.get_option_name(
+                self.options.open_map.value
+            ),
+            "Increase Spinner Speed": self.options.increase_spinner_speed.get_option_name(
+                self.options.increase_spinner_speed.value
+            ),
+            "Open Door of Time": self.options.open_door_of_time.get_option_name(
+                self.options.open_door_of_time.value
+            ),
+            "Damage Magnification": self.options.damage_magnification.get_option_name(
+                self.options.damage_magnification.value
+            ),
+            "Bonks do Damage": self.options.bonks_do_damage.get_option_name(
+                self.options.bonks_do_damage.value
+            ),
+            "Skip Major Cutscenes": self.options.skip_major_cutscenes.get_option_name(
+                self.options.skip_major_cutscenes.value
+            ),
+            "Starting ToD": self.options.starting_tod.get_option_name(
+                self.options.starting_tod.value
+            ),
+            "Logic Settings": self.options.logic_rules.get_option_name(
+                self.options.logic_rules.value
+            ),
             "Golden Bugs Shuffled": self.options.golden_bugs_shuffled.get_option_name(
                 self.options.golden_bugs_shuffled.value
             ),
@@ -1362,78 +1415,13 @@ class TPWorld(World):
             "Dungeons Shuffled": self.options.dungeons_shuffled.get_option_name(
                 self.options.dungeons_shuffled.value
             ),
-            "Small Key Settings": self.options.small_key_settings.get_option_name(
-                self.options.small_key_settings.value
-            ),
-            "Big Key Settings": self.options.big_key_settings.get_option_name(
-                self.options.big_key_settings.value
-            ),
-            "Map and Compass Settings": self.options.map_and_compass_settings.get_option_name(
-                self.options.map_and_compass_settings.value
-            ),
             "Dungeon Rewards Progression": self.options.dungeon_rewards_progression.get_option_name(
                 self.options.dungeon_rewards_progression.value
-            ),
-            "Logic Settings": self.options.logic_rules.get_option_name(
-                self.options.logic_rules.value
-            ),
-            "Castle Requirements": self.options.castle_requirements.get_option_name(
-                self.options.castle_requirements.value
-            ),
-            "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
-                self.options.palace_requirements.value
-            ),
-            "Faron Woods Logic": self.options.faron_woods_logic.get_option_name(
-                self.options.faron_woods_logic.value
-            ),
-            "Open Map": self.options.open_map.get_option_name(
-                self.options.open_map.value
-            ),
-            "Increase Wallet": self.options.increase_wallet.get_option_name(
-                self.options.increase_wallet.value
-            ),
-            "Transform Anywhere": self.options.transform_anywhere.get_option_name(
-                self.options.transform_anywhere.value
-            ),
-            "Bonks do Damage": self.options.bonks_do_damage.get_option_name(
-                self.options.bonks_do_damage.value
             ),
             "Trap Frequency": self.options.trap_frequency.get_option_name(
                 self.options.trap_frequency.value
             ),
-            "Damage Magnification": self.options.damage_magnification.get_option_name(
-                self.options.damage_magnification.value
-            ),
-            "Lakebed Entrance Requirements": self.options.skip_lakebed_entrance.get_option_name(
-                self.options.skip_lakebed_entrance.value
-            ),
-            "Arbiters Grounds Entrance Requirements": self.options.skip_arbiters_grounds_entrance.get_option_name(
-                self.options.skip_arbiters_grounds_entrance.value
-            ),
-            "Snowpeak Entrance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
-                self.options.skip_snowpeak_entrance.value
-            ),
-            "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
-                self.options.skip_city_in_the_sky_entrance.value
-            ),
-            "Goron Mines Entrance Requirements": self.options.goron_mines_entrance.get_option_name(
-                self.options.goron_mines_entrance.value
-            ),
-            "Temple of Time Entrance Requirements": self.options.tot_entrance.get_option_name(
-                self.options.tot_entrance.value
-            ),
             "Early Shadow Crystal": self.options.early_shadow_crystal.get_option_name(
                 self.options.early_shadow_crystal.value
             ),
-            "Skip Prologue": "Yes",
-            "Faron Twilight Cleared": "Yes",
-            "Eldin Twilight Cleared": "Yes",
-            "Lanayru Twilight Cleared": "Yes",
-            "Skip MDH": "Yes",
-            # "Skip Minor Cutscenes": "Yes",
-            # "Skip Major Cutscenes": "Yes",
-            # "Fast Iron Boots": "Yes",
-            # "Quick Transform": "Yes",
-            # "Small keys on Bosses": "No",
-            "Open Door of Time": "Yes",
         }

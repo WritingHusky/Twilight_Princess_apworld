@@ -582,7 +582,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": data["key"],
+                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": checked}],
@@ -611,7 +611,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": data["key"],
+                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": checked}],
@@ -636,7 +636,7 @@ async def check_locations(ctx: TPContext) -> None:
                 messages.append(
                     {
                         "cmd": "Set",
-                        "key": data["key"],
+                        "key": f"TP_{ctx.team}_{ctx.slot}_{data["key"]}",
                         "default": data["default"],
                         "want_reply": False,
                         "operations": [{"operation": "replace", "value": new_node_str}],
@@ -647,7 +647,7 @@ async def check_locations(ctx: TPContext) -> None:
             assert False, f"{data=}"
 
     # Incase the stage changed during location checking
-    asyncio.sleep(0.1)
+    await asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
         if DEBUGGING:
             logger.info("Debug: Stage changed during location checks skiping checks")
@@ -666,7 +666,7 @@ async def check_locations(ctx: TPContext) -> None:
     # Send out server data messages
     assert len(messages) == len(results), f"{len(messages)=} {len(results)=}"
     for message, result in zip(messages, results):
-        assert message["key"] in result, f"{message["key"]=}, {result=}"
+        # assert message["key"] in result, f"{message["key"]=}, {result=}" # No longer valid as key is individualized
         # if DEBUGGING:
         #     logger.info(
         #         f"Debug: Sending message for {message["key"]}: {result[message["key"]]}"
@@ -764,7 +764,9 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                         await check_death(ctx)
                     # Handle this here as on connect cannot deal with async calls and this is before location checks
                     if not ctx.server_data_built:
-                        await ctx.send_msgs(base_server_data_connection)
+                        await ctx.send_msgs(
+                            base_server_data_connection(ctx.team, ctx.slot)
+                        )
                         ctx.server_data_built = True
                     await give_items(ctx)
                     await check_locations(ctx)

@@ -178,7 +178,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),
-    "Aurus's Memo": TPItemData("Item", IC.progression, 67, 1, 0x90),
+    "Auru's Memo": TPItemData("Item", IC.progression, 67, 1, 0x90),
     "Ashei's Sketch": TPItemData("Item", IC.progression, 68, 1, 0x91),
     "Forest Temple Big Key": TPItemData("Big Key", IC.progression, 69, 1, 0x92),
     "Lakebed Temple Big Key": TPItemData("Big Key", IC.progression, 70, 1, 0x93),
@@ -425,7 +425,7 @@ ItemWheelItems = [
     "Milk (half) (Sera Bottle)",
     "Lantern Oil (Coro Bottle)",
     "Great Fairy Tears (Jovani)",
-    "Aurus's Memo",
+    "Auru's Memo",
     "Renado's Letter",  # Covers letter, invoice, statue, charm. It doesn't matter which item you
     # have in the chain, as long as you have the slot available.
     "Horse Call",

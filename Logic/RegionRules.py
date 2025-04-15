@@ -4253,7 +4253,7 @@ def set_region_access_rules(world: World, player: int):
     exit = world.get_entrance("Lake Hylia -> Gerudo Desert")
     set_rule(
         exit,
-        lambda state: (state.has("Aurus's Memo", player)),
+        lambda state: (state.has("Auru's Memo", player)),
     )
 
     exit = world.get_entrance("Lake Hylia -> Upper Zoras River")
