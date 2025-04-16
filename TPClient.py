@@ -1,4 +1,5 @@
 import asyncio
+from copy import deepcopy
 import time
 import traceback
 from typing import TYPE_CHECKING, Any, Optional
@@ -180,7 +181,7 @@ class TPContext(CommonContext):
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
         self.server_data_copy: dict[str, str | bool] = {}
-        self.server_data = server_data
+        self.server_data = deepcopy(server_data)
         self.server_data_built: bool = False
         self.server_data_sent: bool = False
 
@@ -242,7 +243,7 @@ class TPContext(CommonContext):
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
             self.server_data_built = False
-            self.server_data = server_data
+            self.server_data = deepcopy(server_data)
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
