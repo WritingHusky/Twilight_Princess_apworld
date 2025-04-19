@@ -426,7 +426,7 @@ class GoronMinesEntrance(Choice):
     option_closed = 0
     option_no_wrestling = 1
     option_open = 2
-    default = 0
+    default = 2
 
 
 class SkipLakebedEntrance(Toggle):
