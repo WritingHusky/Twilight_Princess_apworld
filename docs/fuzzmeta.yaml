@@ -19,7 +19,7 @@ Twilight Princess:
   # bonks_do_damage: false
 
   # AP world settings
-  logic_rules: glitchless # Only option that is implented in logic
+  # logic_rules: glitched
   # early_shadow_crystal: false
   # small_key_settings: own_dungeon
   # big_key_settings: own_dungeon

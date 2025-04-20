@@ -1763,7 +1763,7 @@ def can_do_js_lja(state: CollectionState, player: int):
 
 def can_do_map_glitch(state: CollectionState, player: int):
     return state.has("Shadow Crystal", player) and state.can_reach_region(
-        "Kakariko Gorge"
+        "Kakariko Gorge", player
     )
 
 

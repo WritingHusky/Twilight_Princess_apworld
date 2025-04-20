@@ -107,6 +107,11 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
     )
 
     multiworld.get_region("City in The Sky Lobby", player).connect(
+        multiworld.get_region("City in The Sky Central Tower Second Floor", player),
+        "City in The Sky Lobby -> City in The Sky Central Tower Second Floor",
+    )
+
+    multiworld.get_region("City in The Sky Lobby", player).connect(
         multiworld.get_region("City in The Sky North Wing", player),
         "City in The Sky Lobby -> City in The Sky North Wing",
     )
@@ -556,6 +561,29 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
         "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins West Courtyard",
     )
 
+    multiworld.get_region("Snowpeak Ruins Caged Freezard Room", player).connect(
+        multiworld.get_region("Snowpeak Ruins Chapel", player),
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Chapel",
+    )
+    multiworld.get_region("Snowpeak Ruins Caged Freezard Room", player).connect(
+        multiworld.get_region("Snowpeak Ruins Boss Room", player),
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Boss Room",
+    )
+    multiworld.get_region("Snowpeak Ruins Caged Freezard Room", player).connect(
+        multiworld.get_region("Snowpeak Ruins Caged Freezard Room Lower", player),
+        "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Caged Freezard Room Lower",
+    )
+
+    multiworld.get_region("Snowpeak Ruins Caged Freezard Room Lower", player).connect(
+        multiworld.get_region("Snowpeak Ruins Caged Freezard Room", player),
+        "Snowpeak Ruins Caged Freezard Room Lower -> Snowpeak Ruins Caged Freezard Room",
+    )
+
+    multiworld.get_region("Snowpeak Ruins Caged Freezard Room Lower", player).connect(
+        multiworld.get_region("Snowpeak Ruins Entrance", player),
+        "Snowpeak Ruins Caged Freezard Room Lower -> Snowpeak Ruins Entrance",
+    )
+
     multiworld.get_region("Snowpeak Ruins Chapel", player).connect(
         multiworld.get_region("Snowpeak Ruins West Courtyard", player),
         "Snowpeak Ruins Chapel -> Snowpeak Ruins West Courtyard",
@@ -598,11 +626,24 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
         "Snowpeak Ruins Entrance -> Snowpeak Ruins Yeto and Yeta",
     )
 
+    multiworld.get_region("Snowpeak Ruins Entrance", player).connect(
+        multiworld.get_region("Snowpeak Ruins Caged Freezard Room Lower", player),
+        "Snowpeak Ruins Entrance -> Snowpeak Ruins Caged Freezard Room Lower",
+    )
+
     multiworld.get_region(
         "Snowpeak Ruins Northeast Chilfos Room First Floor", player
     ).connect(
         multiworld.get_region("Snowpeak Ruins East Courtyard", player),
         "Snowpeak Ruins Northeast Chilfos Room First Floor -> Snowpeak Ruins East Courtyard",
+    )
+    multiworld.get_region(
+        "Snowpeak Ruins Northeast Chilfos Room First Floor", player
+    ).connect(
+        multiworld.get_region(
+            "Snowpeak Ruins Northeast Chilfos Room Second Floor", player
+        ),
+        "Snowpeak Ruins Northeast Chilfos Room First Floor -> Snowpeak Ruins Northeast Chilfos Room Second Floor",
     )
 
     multiworld.get_region(
@@ -633,6 +674,12 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
     ).connect(
         multiworld.get_region("Snowpeak Ruins Entrance", player),
         "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins Entrance",
+    )
+    multiworld.get_region(
+        "Snowpeak Ruins Second Floor Mini Freezard Room", player
+    ).connect(
+        multiworld.get_region("Snowpeak Ruins Yeto and Yeta", player),
+        "Snowpeak Ruins Second Floor Mini Freezard Room -> Snowpeak Ruins Yeto and Yeta",
     )
 
     multiworld.get_region(
@@ -1000,6 +1047,11 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
     multiworld.get_region("Eldin Field", player).connect(
         multiworld.get_region("Eldin Field Lava Cave Ledge", player),
         "Eldin Field -> Eldin Field Lava Cave Ledge",
+    )
+
+    multiworld.get_region("Eldin Field", player).connect(
+        multiworld.get_region("Eldin Field From Lava Cave Lower", player),
+        "Eldin Field -> Eldin Field From Lava Cave Lower",
     )
 
     multiworld.get_region("Eldin Field", player).connect(
