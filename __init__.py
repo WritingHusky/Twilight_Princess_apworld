@@ -158,6 +158,7 @@ class TPWorld(World):
 
         enabled_flags = TPFlag.Always
         enabled_flags |= TPFlag.Boss
+        enabled_flags |= TPFlag.MiniBoss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
         enabled_flags |= add_flag(options.sky_characters_shuffled, TPFlag.Sky_Book)
@@ -318,6 +319,18 @@ class TPWorld(World):
                 location.progress_type = LocationProgressType.EXCLUDED
             region.locations.append(location)
 
+        if (
+            self.options.dungeon_rewards_progression.value
+            == DungeonRewardsProgression.option_true
+        ):
+            for location, data in LOCATION_TABLE.items():
+                if ((TPFlag.Boss & data.flags) == TPFlag.Boss) or (
+                    # (TPFlag.MiniBoss & data.flags) == TPFlag.MiniBoss # Might want to make miniboss aswell
+                ):
+                    self.get_location(location).progress_type = (
+                        LocationProgressType.PRIORITY
+                    )  # This happens after location building so it will override dungeons shuffled
+
     def create_items(self) -> None:
         """
         Create the items for the Twilight Princess world.
@@ -353,17 +366,17 @@ class TPWorld(World):
                 VANILLA_MAP_AND_COMPASS_LOCATIONS,
             ]
 
-            def shadow_crystal_rule(item: Item):
-                return item.name != "Shadow Crystal"
-
             # Add item rule for dungeon item locations
             for option, setting, vanilla in zip(options, settings, vanillas):
                 if option.value == setting.option_vanilla:
                     for dungeon in vanilla:
                         for item in vanilla[dungeon]:
                             for location in vanilla[dungeon][item]:
+                                old_rule = self.get_location(location).item_rule
                                 self.get_location(location).item_rule = (
-                                    shadow_crystal_rule
+                                    lambda item, _oldrule=old_rule: (
+                                        item.name != "Shadow Crystal" and _oldrule(item)
+                                    )
                                 )
 
             # Add item rules for bug and poe locations
@@ -372,10 +385,35 @@ class TPWorld(World):
                 == GoldenBugsShuffled.option_false
             ):
                 for location in VANILLA_GOLDEN_BUG_LOCATIONS.values():
-                    self.get_location(location).item_rule = shadow_crystal_rule
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            item.name != "Shadow Crystal" and _oldrule(item)
+                        )
+                    )
             if self.options.poe_shuffled.value == PoeShuffled.option_false:
                 for location in VANILLA_POE_LOCATIONS:
-                    self.get_location(location).item_rule = shadow_crystal_rule
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            item.name != "Shadow Crystal" and _oldrule(item)
+                        )
+                    )
+
+            # Add item rules for small keys on bosses
+            if (
+                self.options.small_keys_on_bosses.value
+                == SmallKeysOnBosses.option_false
+            ):
+                for location, data in LOCATION_TABLE.items():
+                    if (TPFlag.Boss & data.flags) == TPFlag.Boss:
+                        old_rule = self.get_location(location).item_rule
+                        self.get_location(location).item_rule = (
+                            lambda item, _oldrule=old_rule: (
+                                (item.name not in item_name_groups["Small Keys"])
+                                and _oldrule(item)
+                            )
+                        )
 
     def pre_fill(self) -> None:
         """

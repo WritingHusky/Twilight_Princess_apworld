@@ -219,14 +219,15 @@ class DungeonRewardsProgression(Toggle):
     default = True
 
 
-# class SmallKeysOnBosses(Toggle):
-#     """
-#     NOT IMPLEMENTED YET
-#     Controls whether small keys can be on bosses.
-#     """
+class SmallKeysOnBosses(Toggle):
+    """
+    NOT IMPLEMENTED YET
+    Controls whether small keys can be on bosses.
+    """
 
-#     display_name = "Small Keys on Bosses"
-#     default = False
+    display_name = "Small Keys on Bosses"
+    default = False
+
 
 # endregion
 # region Access Settings
@@ -600,7 +601,7 @@ class TPOptions(PerGameCommonOptions):
     big_key_settings: BigKeySettings
     map_and_compass_settings: MapAndCompassSettings
     dungeon_rewards_progression: DungeonRewardsProgression  # Not yet useful
-    # small_keys_on_bosses: SmallKeysOnBosses  # Not yet useful
+    small_keys_on_bosses: SmallKeysOnBosses
 
     # Logic Settings
     logic_rules: LogicRules
