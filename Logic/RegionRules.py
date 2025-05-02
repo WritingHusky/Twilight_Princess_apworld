@@ -4411,7 +4411,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Lake Hylia -> City in The Sky Entrance"),
         lambda state: (
             (
-                state.has("Progressive Sky Book", player, 1)
+                state.has("Progressive Sky Book", player, 7)
                 or (state._tp_skip_city_in_the_sky_entrance(player))
             )
             and state.has("Progressive Clawshot", player, 1)

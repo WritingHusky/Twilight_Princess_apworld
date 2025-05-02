@@ -37,6 +37,7 @@ from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
+    VANILLA_SKY_CHARACTER_LOCATIONS,
     generate_itempool,
     get_boss_defeat_items,
     place_deterministic_items,
@@ -292,16 +293,16 @@ class TPWorld(World):
         # Note: Location.region refers to where the data is stored (which is labled as regions)
 
         # Place locations in their locations
-        for location, data in LOCATION_TABLE.items():
+        for location_name, data in LOCATION_TABLE.items():
             assert (
-                location in self.progress_locations
-                or location in self.nonprogress_locations
-            ), f"{location=} is not in non/progress_locations"
+                location_name in self.progress_locations
+                or location_name in self.nonprogress_locations
+            ), f"{location_name=} is not in non/progress_locations"
             assert (
-                location in LOCATION_TO_REGION
-            ), f"{location=} is not in location to region table"
+                location_name in LOCATION_TO_REGION
+            ), f"{location_name=} is not in location to region table"
 
-            region_name = LOCATION_TO_REGION[location]
+            region_name = LOCATION_TO_REGION[location_name]
 
             assert (
                 region_name in self.multiworld.regions.region_cache[self.player]
@@ -310,12 +311,16 @@ class TPWorld(World):
             region = self.multiworld.get_region(region_name, self.player)
             location = TPLocation(
                 self.player,
-                location,
+                location_name,
                 region,
                 data,
             )
 
             region.locations.append(location)
+            if location in self.nonprogress_locations:
+                self.get_location(location_name).progress_type = (
+                    LocationProgressType.EXCLUDED
+                )
 
         if (
             self.options.dungeon_rewards_progression.value
@@ -496,6 +501,35 @@ class TPWorld(World):
                 pre_fill_items.remove(poe_soul)
             assert location == "Snowpeak Poe Among Trees", f"{location=}"
             del location, poe_list, poe_soul
+
+        # Shuffle Sky characters into vanilla spots if not shuffled
+        if (
+            self.options.sky_characters_shuffled.value
+            == SkyCharactersShuffled.option_false
+        ):
+            character_list = [
+                item for item in pre_fill_items if item.name == "Progressive Sky Book"
+            ]
+            assert (
+                len(character_list) == 7
+            ), f"There is only {len(character_list)} / 7 sky characters in the pre fill pool"
+            assert (
+                len(VANILLA_SKY_CHARACTER_LOCATIONS) == 6
+            ), f"There is only {len(VANILLA_SKY_CHARACTER_LOCATIONS)} / 7 sky character locations"
+
+            for i, character in enumerate(character_list):
+                # There are only 6 locations for the characters. Idk where the 7th is so just giving the first
+                if i == 6:
+                    self.push_precollected(character)
+                    pre_fill_items.remove(character)
+                    continue
+                location = VANILLA_SKY_CHARACTER_LOCATIONS[i]
+                self.get_location(location).place_locked_item(character)
+                pre_fill_items.remove(character)
+            assert (
+                location == "Lake Hylia Bridge Owl Statue Sky Character"
+            ), f"{location=}"
+            del location, character_list, character
 
         collection_state_base = CollectionState(self.multiworld)
 
