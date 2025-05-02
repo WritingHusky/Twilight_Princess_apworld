@@ -315,8 +315,6 @@ class TPWorld(World):
                 data,
             )
 
-            if location in self.nonprogress_locations:
-                location.progress_type = LocationProgressType.EXCLUDED
             region.locations.append(location)
 
         if (
