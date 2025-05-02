@@ -13,12 +13,13 @@ from Options import (
 # Logic Settings
 class LogicRules(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     Controls what types of tricks the logic can expect you to perform.
 
     - Glitchless: Only intended mechanics are required
     - Glitched: Some glitches may be required
     - No Logic: No logical requirements are enforced
+
+    NO LOGIC CAN EASILY BE UNBEATABLE. USE WITH CAUTION
     """
 
     display_name = "Logic Rules"
@@ -45,7 +46,8 @@ class TrapFrequency(Choice):
 
 class GoldenBugsShuffled(Toggle):
     """
-    Controls whether golden bug locations can contain progression items.
+    If enabled, golden bugs will be shuffled into the itempool.
+    If disabled, bugs will be vanilla and agitha will not be progression
     """
 
     display_name = "Golden Bugs"
@@ -54,7 +56,8 @@ class GoldenBugsShuffled(Toggle):
 
 class SkyCharactersShuffled(Toggle):
     """
-    Controls whether sky characters locations can contain progression items.
+    If enabled, sky characters will be shuffled into the itempool.
+    If disabled, sky characters will be vanilla.
     """
 
     display_name = "Sky Characters"
@@ -63,7 +66,7 @@ class SkyCharactersShuffled(Toggle):
 
 class NpcItemsShuffled(Toggle):
     """
-    Controls whether Gifts from NPCs can contain progression items.
+    If enabled, Gifts from NPCs can be progression items.
     """
 
     display_name = "Gifts from NPCs"
@@ -72,7 +75,7 @@ class NpcItemsShuffled(Toggle):
 
 class ShopItemsShuffled(Toggle):
     """
-    Controls whether Shop locations can contain progression items.
+    If enabled, Shop Items can be progression items.
     """
 
     display_name = "Shop Items"
@@ -81,7 +84,8 @@ class ShopItemsShuffled(Toggle):
 
 class HiddenSkillsShuffled(Toggle):
     """
-    Controls whether hidden skill locations can contain progression items.
+    If enabled, golden wolfs can be progression items.
+    *Hidden skills will always be shuffled into item pool.
     """
 
     display_name = "Hidden Skills"
@@ -90,7 +94,8 @@ class HiddenSkillsShuffled(Toggle):
 
 class PoeShuffled(Toggle):
     """
-    Controls whether Poes can contain progression items.
+    If enabled, Poes will be shuffled into the itempool.
+    If disabled, Poes will be vanilla.
     """
 
     display_name = "Poe Shuffled"
@@ -99,7 +104,7 @@ class PoeShuffled(Toggle):
 
 class HeartPieceShuffled(Toggle):
     """
-    Controls whether Heart Piece locations can contain progression items.
+    If enabled, Heart Piece locations can contain progression items.
     """
 
     display_name = "Heart Pieces"
@@ -108,7 +113,7 @@ class HeartPieceShuffled(Toggle):
 
 class DungeonsShuffled(Toggle):
     """
-    Controls whether dungeons locations can contain progression items.
+    If enabled, Dungeons locations can contain progression items.
     Cannot be disabled if Overworld shuffle is disabled
     """
 
@@ -118,7 +123,7 @@ class DungeonsShuffled(Toggle):
 
 class OverWoldShuffled(Toggle):
     """
-    Controls whether Overworld locations can contain progression items.
+    If enabled, Overworld locations can contain progression items.
     Cannot be disabled if Dungeon shuffle is disabled
     """
 
@@ -191,8 +196,6 @@ class BigKeySettings(DungeonItem):
 
 class MapAndCompassSettings(DungeonItem):
     """
-    Controls requirements for obtaining maps and compasses.
-
     Controls how dungeon maps and compasses are randomized.
 
     - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
@@ -211,8 +214,8 @@ class MapAndCompassSettings(DungeonItem):
 
 class DungeonRewardsProgression(Toggle):
     """
-    NOT IMPLEMENTED YET
-    Controls whether dungeon rewards are "forced" to have progression items.
+    Controls whether dungeon reward and heart containers are forced to have progression items.
+
     """
 
     display_name = "Dungeon Rewards are prgression"
@@ -221,8 +224,7 @@ class DungeonRewardsProgression(Toggle):
 
 class SmallKeysOnBosses(Toggle):
     """
-    NOT IMPLEMENTED YET
-    Controls whether small keys can be on bosses.
+    If disabled, Small keys cannot be placed on boss rewards
     """
 
     display_name = "Small Keys on Bosses"
@@ -235,7 +237,7 @@ class SmallKeysOnBosses(Toggle):
 
 class CastleRequirements(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing Hyrule Castle.
 
     - Open: No requirements
@@ -260,7 +262,7 @@ class CastleRequirements(Choice):
 
 class PalaceRequirements(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing Palace of Twilight.
 
     - Open: No requirements
@@ -283,11 +285,11 @@ class PalaceRequirements(Choice):
 
 class FaronWoodsLogic(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls logic for accessing Faron Woods.
 
     - Open: No special requirements
-    - Closed: Requires normal progression
+    - Closed: Requires forest temple to be beaten before leaving faron woods
 
     Note:
     Choosing Closed will force dungeons items to be in Forest Temple if Any Dungeon is chosen for them
@@ -306,7 +308,7 @@ class FaronWoodsLogic(Choice):
 # Timesavers
 # class SkipPrologue(Toggle):
 #     """
-#     CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
 #     Controls whether the prologue is skipped.
 #     """
 
@@ -316,7 +318,7 @@ class FaronWoodsLogic(Choice):
 
 # class FaronTwilightCleared(Toggle):
 #     """
-#     CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
 #     Controls whether Faron Twilight is cleared.
 #     """
 
@@ -326,7 +328,7 @@ class FaronWoodsLogic(Choice):
 
 # class EldinTwilightCleared(Toggle):
 #     """
-#     CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
 #     Controls whether Eldin Twilight is cleared.
 #     """
 
@@ -336,7 +338,7 @@ class FaronWoodsLogic(Choice):
 
 # class LanayruTwilightCleared(Toggle):
 #     """
-#     CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
 #     Controls whether Lanayru Twilight is cleared.
 #     """
 
@@ -346,7 +348,7 @@ class FaronWoodsLogic(Choice):
 
 # class SkipMdh(Toggle):
 #     """
-#     CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
 #     Controls whether the Midna's Darkest Hour is skipped.
 #     """
 
@@ -359,8 +361,8 @@ class FaronWoodsLogic(Choice):
 
 class SkipMinorCutscenes(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the minor cutscenes are skipped.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, minor cutscenes are skipped.
     """
 
     display_name = "Skip Minor Cutscenes"
@@ -369,8 +371,8 @@ class SkipMinorCutscenes(Toggle):
 
 class FastIronBoots(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the Iron Boots are fast.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, movement is not slowed when wearing Iron Boots.
     """
 
     display_name = "Fast Iron Boots"
@@ -379,8 +381,8 @@ class FastIronBoots(Toggle):
 
 class QuickTransform(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the transform is quick.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, you can quickly transform by pressing R + Y.
     """
 
     display_name = "Quick Transform"
@@ -389,8 +391,8 @@ class QuickTransform(Toggle):
 
 class TransformAnywhere(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the player can transform anywhere.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, the player can transform anywhere.
     """
 
     display_name = "Transform Anywhere"
@@ -399,8 +401,8 @@ class TransformAnywhere(Toggle):
 
 class IncreaseWalletCapacity(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the wallet capacity is increased.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, the wallet capacity is increased.
     """
 
     display_name = "Increase Wallet Capacity"
@@ -409,8 +411,8 @@ class IncreaseWalletCapacity(Toggle):
 
 class ModifyShopModels(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Enabling will swap shop models with the items that are placed there.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, swap shop models with the items that are placed there.
     """
 
     display_name = "Modify Shop Models"
@@ -419,8 +421,12 @@ class ModifyShopModels(Toggle):
 
 class GoronMinesEntrance(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing the Goron Mines.
+
+    - **Closed:** Player must wrestle Gor Coron to enter the mines.
+    - **No Wrestling:** Player does not have to wrestle Gor Coron.
+    - **Open:** Same as No Wrestling but you can use the elevator immediately.
     """
 
     display_name = "Goron Mines Entrance"
@@ -432,8 +438,8 @@ class GoronMinesEntrance(Choice):
 
 class SkipLakebedEntrance(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the Lakebed does not require water bombs.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, the Lakebed does not require water bombs.
     """
 
     display_name = "Lakebed Does not require water bombs"
@@ -442,8 +448,8 @@ class SkipLakebedEntrance(Toggle):
 
 class SkipArbitersGroundsEntrance(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the Arbiters Grounds does not require defeating King Bublin.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, entering Arbiters Grounds does not require defeating King Bublin.
     """
 
     display_name = "Arbiters Grounds Does not require Bublin Camp"
@@ -452,8 +458,8 @@ class SkipArbitersGroundsEntrance(Toggle):
 
 class SkipSnowpeakEntrance(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the Snowpeak Entrance is skipped.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, Snowpeak does not require Reekfish Scent.
     """
 
     display_name = "Snowpeak Does not require Reekfish Scent"
@@ -462,8 +468,12 @@ class SkipSnowpeakEntrance(Toggle):
 
 class TotEntrance(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing the Temple of Time.
+
+    - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
+    - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
+    - **Open:** Open Grove but player does not need Master Sword to access Past.
     """
 
     display_name = "Temple of Time Entrance"
@@ -475,8 +485,8 @@ class TotEntrance(Choice):
 
 class SkipCityInTheSkyEntrance(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the City in The Sky does not require filled Skybook.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, City in The Sky does not require filled Skybook.
     """
 
     display_name = "City in The Sky Does not require filled Skybook"
@@ -485,8 +495,8 @@ class SkipCityInTheSkyEntrance(Toggle):
 
 class InstantMessageText(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the message text is instant.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, message text is instant.
     """
 
     display_name = "Instant Message Text"
@@ -495,9 +505,8 @@ class InstantMessageText(Toggle):
 
 class OpenMap(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the map is open.
-    Note: Logic for this not added yet. So logic assumes you cannot warp.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, Map areas are unlocked and portals unlocked.
     """
 
     display_name = "Open Map"
@@ -506,8 +515,9 @@ class OpenMap(Toggle):
 
 class IncreaseSpinnerSpeed(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the spinner speed is increased.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, spinner speed is increased.
+    *Spinner speed not taken into account in logic.
     """
 
     display_name = "Increase Spinner Speed"
@@ -516,8 +526,8 @@ class IncreaseSpinnerSpeed(Toggle):
 
 class OpenDoorOfTime(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the Door of Time is open.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, the Door of Time is open.
     """
 
     display_name = "Open Door of Time"
@@ -526,7 +536,7 @@ class OpenDoorOfTime(Toggle):
 
 class DamageMagnification(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Multiplies the damage the player takes.
     """
 
@@ -541,8 +551,8 @@ class DamageMagnification(Choice):
 
 class BonksDoDamage(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether bonks do damage.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, bonks do damage.
     """
 
     display_name = "Bonks Do Damage"
@@ -551,8 +561,8 @@ class BonksDoDamage(Toggle):
 
 class SkipMajorCutscenes(Toggle):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    Controls whether the major cutscenes are skipped.
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    If enabled, major cutscenes are skipped.
     """
 
     display_name = "Skip Major Cutscenes"
@@ -561,7 +571,7 @@ class SkipMajorCutscenes(Toggle):
 
 class StartingToD(Choice):
     """
-    CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls the starting time of day.
     """
 
