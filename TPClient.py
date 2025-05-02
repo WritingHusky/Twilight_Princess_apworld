@@ -409,7 +409,10 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
     if not await check_ingame(ctx):
         return False
     for item_name in items:
-        assert isinstance(ITEM_TABLE[item_name].item_id, int)
+        assert item_name in ITEM_TABLE, f"{item_name=} not in item table "
+        assert isinstance(
+            ITEM_TABLE[item_name].item_id, int
+        ), f"{item_name=} has no item_id"
 
     # Only add items to the queue if it is empty
     for i in range(0, 8):
@@ -426,6 +429,12 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
 
         if DEBUGGING:
             logger.info(f"Debug: Giving {items[i]} into queue")
+
+        if items[i] == "Victory":
+            assert (
+                ctx.finished_game
+            ), "Player got victory but the game is not complete in client"
+            continue
 
         write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
     # Now the queue is full and all items are added
@@ -523,6 +532,7 @@ async def check_locations(ctx: TPContext) -> None:
                     [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
                 )
                 ctx.finished_game = True
+                locations_read.add(TPLocation.get_apid(data.code))
             continue
 
         # If there is not a valid apid dont bother checking that location
