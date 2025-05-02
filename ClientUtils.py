@@ -211,8 +211,8 @@ server_data = [
         "want_reply": False,
         "operations": [],
         "Region": "Flag",
-        "Offset": 0xDF,
-        "Flag": 0x10,
+        "Offset": 0x813,
+        "Flag": 0x20,
     },
     {
         "key": "Current Region",
