@@ -457,9 +457,19 @@ async def give_items(ctx: TPContext) -> None:
         total_items = len(ctx.items_received_2)
         current_item_count = expected_idx  # First index starts at zero as does counting
         items_difference = total_items - current_item_count
-        assert (
-            items_difference >= 0
-        ), f"{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+
+        if items_difference < 0:
+            if DEBUGGING:
+                logger.info(
+                    f"Debug: Negative item difference hopefully will sync{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+                )
+            sync_msg = [{"cmd": "Sync"}]
+            if ctx.locations_checked:
+                sync_msg.append(
+                    {"cmd": "LocationChecks", "locations": list(ctx.locations_checked)}
+                )
+            await ctx.send_msgs(sync_msg)
+            return
 
         # if DEBUGGING and items_difference != 0:
         #     logger.info(
