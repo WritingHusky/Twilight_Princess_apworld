@@ -17,8 +17,6 @@ class LogicRules(Choice):
 
     - Glitchless: Only intended mechanics are required
     - Glitched: Some glitches may be required
-
-    NO LOGIC CAN EASILY BE UNBEATABLE. USE WITH CAUTION
     """
 
     # - No Logic: No logical requirements are enforced

@@ -26,7 +26,7 @@ No, those hints are based off of the contents of the locations which are all Gre
 
 ## I need help! What do I do?
 
-Refer to the troubleshooting steps in the [setup guide](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md) or the [Base Randomizer Website](https://tprandomizer.com/) first. Then, if you are still stuck, please ask in the Twilight Princess thread (under `future-game-design`) in the Archipelago server.
+Refer to the troubleshooting steps in the [setup guide](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md) or the [Base Randomizer Website](https://tprandomizer.com/) first. Then, if you are still stuck, please ask in the Twilight Princess channel (in the `custom` section) in the Archipelago server.
 
 ## State of the rando
 

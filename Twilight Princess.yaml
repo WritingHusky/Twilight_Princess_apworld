@@ -32,7 +32,7 @@ description: Default Twilight Princess Template
 
 game: Twilight Princess
 requires:
-  version: 0.5.1 # Version of Archipelago required for this yaml to work as expected.
+  version: 0.6.1 # Version of Archipelago required for this yaml to work as expected.
 
 Twilight Princess:
   # Game Options
@@ -65,74 +65,80 @@ Twilight Princess:
     "false": 50
     "true": 0
 
+  small_keys_on_bosses:
+    # If disabled, Small keys cannot be placed on boss rewards
+    "false": 50
+    "true": 0
+
   modify_shop_models:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Enabling will swap shop models with the items that are placed there.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, swap shop models with the items that are placed there.
     "false": 50
     "true": 0
 
   # Item Pool / Location Settings
   golden_bugs_shuffled:
-    # Controls whether golden bug locations can contain progression items.
+    # If enabled, golden bugs will be shuffled into the itempool.
+    # If disabled, bugs will be vanilla and agitha will not be progression
     "false": 0
     "true": 50
 
   sky_characters_shuffled:
-    # Controls whether sky characters locations can contain progression items.
+    # If enabled, sky characters will be shuffled into the itempool.
+    # If disabled, sky characters will be vanilla.
     "false": 0
     "true": 50
 
   npc_items_shuffled:
-    # Controls whether Gifts from NPCs can contain progression items.
+    # If enabled, Gifts from NPCs can be progression items.
     "false": 0
     "true": 50
 
   shop_items_shuffled:
-    # Controls whether Shop locations can contain progression items.
+    # If enabled, Shop Items can be progression items.
     "false": 0
     "true": 50
 
   hidden_skills_shuffled:
-    # Controls whether hidden skill locations can contain progression items.
+    # If enabled, golden wolfs can be progression items.
+    # *Hidden skills will always be shuffled into item pool.
     "false": 0
     "true": 50
 
   poe_shuffled:
-    # Controls whether Poes can contain progression items.
+    # If enabled, Poes will be shuffled into the itempool.
+    # If disabled, Poes will be vanilla.
     "false": 0
     "true": 50
 
   heart_piece_shuffled:
-    # Controls whether Heart Piece locations can contain progression items.
+    # If enabled, Heart Piece locations can contain progression items.
     "false": 0
     "true": 50
 
   overworld_shuffled:
-    # Controls whether Overworld locations can contain progression items.
+    # If enabled, Overworld locations can contain progression items.
     # Cannot be disabled if Dungeon shuffle is disabled
     "false": 0
     "true": 50
 
   dungeons_shuffled:
-    # Controls whether dungeons locations can contain progression items.
+    # If enabled, Dungeons locations can contain progression items.
     # Cannot be disabled if Overworld shuffle is disabled
     "false": 0
     "true": 50
 
   # Logic Settings
   logic_rules:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
     # Controls what types of tricks the logic can expect you to perform.
     #
     # - Glitchless: Only intended mechanics are required
     # - Glitched: Some glitches may be required
-    # - No Logic: No logical requirements are enforced
     glitchless: 50
     glitched: 0
-    no_logic: 0
 
   castle_requirements:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls requirements for accessing Hyrule Castle.
     #
     # - Open: No requirements
@@ -151,7 +157,7 @@ Twilight Princess:
     vanilla: 0
 
   palace_requirements:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls requirements for accessing Palace of Twilight.
     #
     # - Open: No requirements
@@ -168,11 +174,11 @@ Twilight Princess:
     vanilla: 0
 
   faron_woods_logic:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls logic for accessing Faron Woods.
     #
     # - Open: No special requirements
-    # - Closed: Requires normal progression
+    # - Closed: Requires forest temple to be beaten before leaving faron woods
     #
     # Note:
     # Choosing Closed will force dungeons items to be in Forest Temple if Any Dungeon is chosen for them
@@ -216,8 +222,6 @@ Twilight Princess:
     startwith: 0
 
   map_and_compass_settings:
-    # Controls requirements for obtaining maps and compasses.
-    #
     # Controls how dungeon maps and compasses are randomized.
     #
     # - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
@@ -235,58 +239,57 @@ Twilight Princess:
     startwith: 0
 
   dungeon_rewards_progression:
-    # NOT IMPLEMENTED YET
-    # Controls whether dungeon rewards are "forced" to have progression items.
+    # Controls whether dungeon reward and heart containers are forced to have progression items.
     "false": 0
     "true": 50
 
   # Timesavers
   skip_minor_cutscenes:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the minor cutscenes are skipped.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, minor cutscenes are skipped.
     "false": 0
     "true": 50
 
   skip_major_cutscenes:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the major cutscenes are skipped.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, major cutscenes are skipped.
     "false": 0
     "true": 50
 
   fast_iron_boots:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Iron Boots are fast.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, movement is not slowed when wearing Iron Boots.
     "false": 0
     "true": 50
 
   quick_transform:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the transform is quick.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, you can quickly transform by pressing R + Y.
     "false": 0
     "true": 50
 
   instant_message_text:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the message text is instant.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, message text is instant.
     "false": 0
     "true": 50
 
   open_map:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the map is open.
-    # Note: Logic for this not added yet. So logic assumes you cannot warp.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, Map areas are unlocked and portals unlocked.
     "false": 0
     "true": 50
 
   increase_spinner_speed:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the spinner speed is increased.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, spinner speed is increased.
+    # *Spinner speed not taken into account in logic.
     "false": 0
     "true": 50
 
   open_door_of_time:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Door of Time is open.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, the Door of Time is open.
     "false": 0
     "true": 50
 
@@ -296,21 +299,21 @@ Twilight Princess:
     "true": 0
 
   # Additional Settings
-  increase_wallet:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the wallet capacity is increased.
+  transform_anywhere:
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, the player can transform anywhere.
     "false": 0
     "true": 50
 
-  transform_anywhere:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the player can transform anywhere.
+  increase_wallet:
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, the wallet capacity is increased.
     "false": 0
     "true": 50
 
   bonks_do_damage:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether bonks do damage.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, bonks do damage.
     "false": 50
     "true": 0
 
@@ -323,7 +326,7 @@ Twilight Princess:
     nightmare: 0
 
   damage_magnification:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Multiplies the damage the player takes.
     vanilla: 50
     double: 0
@@ -332,7 +335,7 @@ Twilight Princess:
     ohko: 0
 
   starting_tod:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls the starting time of day.
     morning: 50
     noon: 0
@@ -341,39 +344,47 @@ Twilight Princess:
 
   # Dungeon Entrance Settings
   skip_lakebed_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Lakebed does not require water bombs.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, the Lakebed does not require water bombs.
     "false": 0
     "true": 50
 
   skip_arbiters_grounds_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Arbiters Grounds does not require defeating King Bublin.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, entering Arbiters Grounds does not require defeating King Bublin.
     "false": 0
     "true": 50
 
   skip_snowpeak_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the Snowpeak Entrance is skipped.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, Snowpeak does not require Reekfish Scent.
     "false": 0
     "true": 50
 
   skip_city_in_the_sky_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
-    # Controls whether the City in The Sky does not require filled Skybook.
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
+    # If enabled, City in The Sky does not require filled Skybook.
     "false": 0
     "true": 50
 
   goron_mines_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls requirements for accessing the Goron Mines.
-    closed: 50
+    #
+    # - **Closed:** Player must wrestle Gor Coron to enter the mines.
+    # - **No Wrestling:** Player does not have to wrestle Gor Coron.
+    # - **Open:** Same as No Wrestling but you can use the elevator immediately.
+    closed: 0
     no_wrestling: 0
-    open: 0
+    open: 50
 
   tot_entrance:
-    # CHANGING FROM DEFAULT NOT IMPLEMENTED YET
+    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     # Controls requirements for accessing the Temple of Time.
+    #
+    # - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
+    # - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
+    # - **Open:** Open Grove but player does not need Master Sword to access Past.
     closed: 0
     open_grove: 0
     open: 50
@@ -389,6 +400,12 @@ Twilight Princess:
 
   start_inventory:
     # Start with these items.
+    {}
+
+  start_inventory_from_pool:
+    # Start with these items and don't place them in the world.
+    #
+    # The game decides what the replacement items will be.
     {}
 
   start_hints:
@@ -410,9 +427,3 @@ Twilight Princess:
   item_links:
     # Share part of your item pool with other players.
     []
-
-  start_inventory_from_pool:
-    # Start with these items and don't place them in the world.
-    #
-    # The game decides what the replacement items will be.
-    {}
