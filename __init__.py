@@ -1365,15 +1365,7 @@ class TPWorld(World):
         :param item: Item to decide on if it should be collected into state
         :param remove: indicate if this is meant to remove from state instead of adding.
         """
-        # Adding non progession items that are useful for logic (Non progression IC but used in logic (Trying to cut down on item count))
-        if item.advancement or item.name in [
-            "Progressive Wallet",
-            "Hawkeye",
-            "Slingshot",
-            "Ordon Shield",
-            "Hylian Shield",
-            "Magic Armor",
-        ]:
+        if item.advancement:
             return item.name
         return None
 
