@@ -237,13 +237,16 @@ class TPContext(CommonContext):
                 not args["slot_data"]["World Version"]
                 or args["slot_data"]["World Version"] != VERSION
             ):
-                logger.warning(
+                logger.info(
                     f"""Error: Client version does not match version of generated seed. 
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
+            else:
+                logger.info(f"""Connected Using Seed & client version:{VERSION}""")
             self.server_data_built = False
             self.server_data = deepcopy(server_data)
+
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
