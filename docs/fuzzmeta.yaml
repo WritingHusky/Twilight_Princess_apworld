@@ -3,7 +3,7 @@ Twilight Princess:
 
   # TPRando Settings
   # open_map: false
-  faron_woods_logic: open # Need to craft generation to be consistent
+  # faron_woods_logic: closed # Need to craft generation to be consistent
   # castle_requirements: open
   # palace_requirements: open
   # skip_lakebed_entrance: true

@@ -1,5 +1,6 @@
 /build/target/*
 /Docs/Notes.md
+/Docs/simple_setup.md
 
 /build/host.yaml
 /build/custom_worlds
