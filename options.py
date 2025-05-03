@@ -17,15 +17,16 @@ class LogicRules(Choice):
 
     - Glitchless: Only intended mechanics are required
     - Glitched: Some glitches may be required
-    - No Logic: No logical requirements are enforced
 
     NO LOGIC CAN EASILY BE UNBEATABLE. USE WITH CAUTION
     """
 
+    # - No Logic: No logical requirements are enforced
+
     display_name = "Logic Rules"
     option_glitchless = 0
     option_glitched = 1
-    option_no_logic = 2
+    # option_no_logic = 2
     default = 0
 
 

@@ -25,8 +25,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ):
             # assert glitched_rule, f"{location=} has no glitched rule"
             set_rule(exit, glitched_rule)
-        elif world.options.logic_rules.value == LogicRules.option_no_logic:
-            set_rule(exit, lambda state: (True))
+        # elif world.options.logic_rules.value == LogicRules.option_no_logic:
+        #     set_rule(exit, lambda state: (True))
         else:
             set_rule(exit, rule)
 
@@ -1264,7 +1264,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         # This is only to apease the unit tests, this region cannot be exited by glitchless.
         # lambda state: (False),
-        lambda state: (True), 
+        lambda state: (True),
         lambda state: (can_smash(state, player)),
     )
     set_rule_if_exits(

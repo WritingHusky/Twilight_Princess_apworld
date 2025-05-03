@@ -130,8 +130,8 @@ def set_location_access_rules(world: "TPWorld"):
         ):
             # assert glitched_rule, f"{location=} has no glitched rule"
             set_rule(location, glitched_rule)
-        elif world.options.logic_rules.value == LogicRules.option_no_logic:
-            set_rule(exit, lambda state: (True))
+        # elif world.options.logic_rules.value == LogicRules.option_no_logic:
+        #     set_rule(exit, lambda state: (True))
         else:
             set_rule(location, rule)
 
