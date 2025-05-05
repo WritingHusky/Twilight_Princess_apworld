@@ -37,6 +37,7 @@ from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
+    VANILLA_SKY_CHARACTER_LOCATIONS,
     generate_itempool,
     get_boss_defeat_items,
     place_deterministic_items,
@@ -158,6 +159,7 @@ class TPWorld(World):
 
         enabled_flags = TPFlag.Always
         enabled_flags |= TPFlag.Boss
+        enabled_flags |= TPFlag.MiniBoss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
         enabled_flags |= add_flag(options.sky_characters_shuffled, TPFlag.Sky_Book)
@@ -218,6 +220,18 @@ class TPWorld(World):
                     MapAndCompassSettings.option_vanilla
                 )
 
+        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
+            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
+            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
+            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
+            self.options.hidden_skills_shuffled.value = (
+                HiddenSkillsShuffled.option_false
+            )
+            self.options.sky_characters_shuffled.value = (
+                SkyCharactersShuffled.option_false
+            )
+            self.options.poe_shuffled.value = PoeShuffled.option_false
+
         # If Shadow Crystal is a precollected item don't try to put it in Sphere 1
         if any(
             [
@@ -253,7 +267,7 @@ class TPWorld(World):
             portal_regions = [
                 "Snowpeak Summit Upper",
                 "Zoras Domain Throne Room",
-                "Upper Zoras River",
+                # "Upper Zoras River",
                 "Lake Hylia",
                 "Outside Castle Town West",
                 # "Gerudo Desert Cave of Ordeals Plateau",
@@ -291,16 +305,16 @@ class TPWorld(World):
         # Note: Location.region refers to where the data is stored (which is labled as regions)
 
         # Place locations in their locations
-        for location, data in LOCATION_TABLE.items():
+        for location_name, data in LOCATION_TABLE.items():
             assert (
-                location in self.progress_locations
-                or location in self.nonprogress_locations
-            ), f"{location=} is not in non/progress_locations"
+                location_name in self.progress_locations
+                or location_name in self.nonprogress_locations
+            ), f"{location_name=} is not in non/progress_locations"
             assert (
-                location in LOCATION_TO_REGION
-            ), f"{location=} is not in location to region table"
+                location_name in LOCATION_TO_REGION
+            ), f"{location_name=} is not in location to region table"
 
-            region_name = LOCATION_TO_REGION[location]
+            region_name = LOCATION_TO_REGION[location_name]
 
             assert (
                 region_name in self.multiworld.regions.region_cache[self.player]
@@ -309,14 +323,31 @@ class TPWorld(World):
             region = self.multiworld.get_region(region_name, self.player)
             location = TPLocation(
                 self.player,
-                location,
+                location_name,
                 region,
                 data,
             )
 
-            if location in self.nonprogress_locations:
-                location.progress_type = LocationProgressType.EXCLUDED
             region.locations.append(location)
+            if location_name in self.nonprogress_locations:
+                self.get_location(location_name).progress_type = (
+                    LocationProgressType.EXCLUDED
+                )
+
+        if (
+            self.options.dungeon_rewards_progression.value
+            == DungeonRewardsProgression.option_true
+        ):
+            for location, data in LOCATION_TABLE.items():
+                if (
+                    (TPFlag.Boss & data.flags)
+                    == TPFlag.Boss
+                    # ) or (
+                    # (TPFlag.MiniBoss & data.flags) == TPFlag.MiniBoss # Might want to make miniboss aswell
+                ):
+                    self.get_location(location).progress_type = (
+                        LocationProgressType.PRIORITY
+                    )  # This happens after location building so it will override dungeons shuffled
 
     def create_items(self) -> None:
         """
@@ -353,17 +384,17 @@ class TPWorld(World):
                 VANILLA_MAP_AND_COMPASS_LOCATIONS,
             ]
 
-            def shadow_crystal_rule(item: Item):
-                return item.name != "Shadow Crystal"
-
             # Add item rule for dungeon item locations
             for option, setting, vanilla in zip(options, settings, vanillas):
                 if option.value == setting.option_vanilla:
                     for dungeon in vanilla:
                         for item in vanilla[dungeon]:
                             for location in vanilla[dungeon][item]:
+                                old_rule = self.get_location(location).item_rule
                                 self.get_location(location).item_rule = (
-                                    shadow_crystal_rule
+                                    lambda item, _oldrule=old_rule: (
+                                        item.name != "Shadow Crystal" and _oldrule(item)
+                                    )
                                 )
 
             # Add item rules for bug and poe locations
@@ -372,10 +403,35 @@ class TPWorld(World):
                 == GoldenBugsShuffled.option_false
             ):
                 for location in VANILLA_GOLDEN_BUG_LOCATIONS.values():
-                    self.get_location(location).item_rule = shadow_crystal_rule
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            item.name != "Shadow Crystal" and _oldrule(item)
+                        )
+                    )
             if self.options.poe_shuffled.value == PoeShuffled.option_false:
                 for location in VANILLA_POE_LOCATIONS:
-                    self.get_location(location).item_rule = shadow_crystal_rule
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            item.name != "Shadow Crystal" and _oldrule(item)
+                        )
+                    )
+
+            # Add item rules for small keys on bosses
+            if (
+                self.options.small_keys_on_bosses.value
+                == SmallKeysOnBosses.option_false
+            ):
+                for location, data in LOCATION_TABLE.items():
+                    if (TPFlag.Boss & data.flags) == TPFlag.Boss:
+                        old_rule = self.get_location(location).item_rule
+                        self.get_location(location).item_rule = (
+                            lambda item, _oldrule=old_rule: (
+                                (item.name not in item_name_groups["Small Keys"])
+                                and _oldrule(item)
+                            )
+                        )
 
     def pre_fill(self) -> None:
         """
@@ -460,6 +516,35 @@ class TPWorld(World):
                 pre_fill_items.remove(poe_soul)
             assert location == "Snowpeak Poe Among Trees", f"{location=}"
             del location, poe_list, poe_soul
+
+        # Shuffle Sky characters into vanilla spots if not shuffled
+        if (
+            self.options.sky_characters_shuffled.value
+            == SkyCharactersShuffled.option_false
+        ):
+            character_list = [
+                item for item in pre_fill_items if item.name == "Progressive Sky Book"
+            ]
+            assert (
+                len(character_list) == 7
+            ), f"There is only {len(character_list)} / 7 sky characters in the pre fill pool"
+            assert (
+                len(VANILLA_SKY_CHARACTER_LOCATIONS) == 6
+            ), f"There is only {len(VANILLA_SKY_CHARACTER_LOCATIONS)} / 7 sky character locations"
+
+            for i, character in enumerate(character_list):
+                # There are only 6 locations for the characters. Idk where the 7th is so just giving the first
+                if i == 6:
+                    self.push_precollected(character)
+                    pre_fill_items.remove(character)
+                    continue
+                location = VANILLA_SKY_CHARACTER_LOCATIONS[i]
+                self.get_location(location).place_locked_item(character)
+                pre_fill_items.remove(character)
+            assert (
+                location == "Lake Hylia Bridge Owl Statue Sky Character"
+            ), f"{location=}"
+            del location, character_list, character
 
         collection_state_base = CollectionState(self.multiworld)
 
@@ -1051,6 +1136,61 @@ class TPWorld(World):
             len(pre_fill_items) == 0
         ), f"Not all pre fill items placed {pre_fill_items=}"
 
+    # def post_fill(self):
+    #     # To lazy to make them a test so testing here instead
+
+    #     if not self.options.overworld_shuffled.value:
+    #         for location_name, data in LOCATION_TABLE.items():
+    #             location = self.get_location(location_name)
+    #             assert isinstance(location.item, Item)
+    #             if (data.flags & TPFlag.Overworld) == TPFlag.Overworld:
+    #                 if (
+    #                     not (
+    #                         location.item.name == "Poe Soul"
+    #                         and self.options.poe_shuffled
+    #                     )
+    #                     or not (
+    #                         location.item.name in item_name_groups["Bugs"]
+    #                         and self.options.golden_bugs_shuffled
+    #                     )
+    #                     or not (
+    #                         location.item.name == "Progressive Sky Book"
+    #                         and self.options.sky_characters_shuffled
+    #                     )
+    #                 ):
+    #                     assert (
+    #                         location.progress_type == LocationProgressType.EXCLUDED
+    #                     ), f"{location_name=}"
+    #                     assert (
+    #                         not location.item.advancement
+    #                     ), f"{location_name=}, {location.item=}"
+
+    #     if not self.options.dungeons_shuffled.value:
+    #         for location_name, data in LOCATION_TABLE.items():
+    #             location = self.get_location(location_name)
+    #             assert isinstance(location.item, Item)
+    #             if (data.flags & TPFlag.Dungeon == TPFlag.Dungeon) and not (
+    #                 (data.flags & TPFlag.Boss == TPFlag.Boss)
+    #                 and self.options.dungeon_rewards_progression
+    #             ):
+    #                 if not (
+    #                     location.item.name in item_name_groups["Small Keys"]
+    #                     and self.options.small_key_settings.value
+    #                     == DungeonItem.option_vanilla
+    #                 ) or not (
+    #                     location.item.name in item_name_groups["Big Keys"]
+    #                     and self.options.big_key_settings.value
+    #                     == DungeonItem.option_vanilla
+    #                 ):
+    #                     assert (
+    #                         location.progress_type == LocationProgressType.EXCLUDED
+    #                     ), f"{location_name=}"
+    #                     assert (
+    #                         not location.item.advancement
+    #                     ), f"{location_name=}, {location.item=}"
+
+    #     return super().post_fill()
+
     def generate_output(self, output_directory: str) -> None:
         """
         Create the output APTP file that is used to randomize the GCI.
@@ -1295,15 +1435,7 @@ class TPWorld(World):
         :param item: Item to decide on if it should be collected into state
         :param remove: indicate if this is meant to remove from state instead of adding.
         """
-        # Adding non progession items that are useful for logic (Non progression IC but used in logic (Trying to cut down on item count))
-        if item.advancement or item.name in [
-            "Progressive Wallet",
-            "Hawkeye",
-            "Slingshot",
-            "Ordon Shield",
-            "Hylian Shield",
-            "Magic Armor",
-        ]:
+        if item.advancement:
             return item.name
         return None
 

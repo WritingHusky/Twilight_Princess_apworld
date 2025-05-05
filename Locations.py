@@ -111,6 +111,7 @@ class TPFlag(Flag):
     Heart = auto()
     Sky_Book = auto()
     Npc = auto()
+    MiniBoss = auto()
     Unknown = auto()
 
 
@@ -168,7 +169,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Death Sword Chest": TPLocationData(
         code=1,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -384,7 +385,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Aeralfos Chest": TPLocationData(
         code=25,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -726,7 +727,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Gale Boomerang": TPLocationData(
         code=63,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -843,7 +844,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Dangoro Chest": TPLocationData(
         code=76,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -1320,7 +1321,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Deku Toad Chest": TPLocationData(
         code=129,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1671,7 +1672,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Ball and Chain": TPLocationData(
         code=168,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1941,7 +1942,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Darknut Chest": TPLocationData(
         code=198,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,

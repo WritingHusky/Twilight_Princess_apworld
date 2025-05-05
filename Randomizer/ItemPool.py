@@ -9,6 +9,7 @@ from ..options import (
     GoldenBugsShuffled,
     PalaceRequirements,
     PoeShuffled,
+    SkyCharactersShuffled,
 )
 
 from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
@@ -307,6 +308,15 @@ VANILLA_POE_LOCATIONS = [
     "Snowpeak Poe Among Trees",
 ]
 
+VANILLA_SKY_CHARACTER_LOCATIONS = [
+    "Kakariko Gorge Owl Statue Sky Character",
+    "Bridge of Eldin Owl Statue Sky Character",
+    "Faron Woods Owl Statue Sky Character",
+    "Gerudo Desert Owl Statue Sky Character",
+    "Hyrule Field Amphitheater Owl Statue Sky Character",
+    "Lake Hylia Bridge Owl Statue Sky Character",
+]
+
 
 # This takes all the items form the world and adds them to the multiworld itempool
 def generate_itempool(world: "TPWorld") -> None:
@@ -372,6 +382,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.early_shadow_crystal
                     == EarlyShadowCrystal.option_true
                 )
+                or (
+                    item == "Progressive Sky Book"
+                    and world.options.sky_characters_shuffled.value
+                    == SkyCharactersShuffled.option_false
+                )
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue
@@ -380,6 +395,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
             if (
                 (
                     item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.value
+                    == DungeonItem.option_startwith
+                )
+                or (
+                    item in ["Gate Keys", "Gerudo Desert Bublin Camp Key"]
                     and world.options.small_key_settings.value
                     == DungeonItem.option_startwith
                 )
@@ -439,6 +459,13 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     world.progression_pool = progression_pool
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
+
+    # For Sky characters vanilla, 1 item placed into precollected so increase filler count
+    if (
+        world.options.sky_characters_shuffled.value
+        == SkyCharactersShuffled.option_false
+    ):
+        num_items_left_to_place += 1
 
     world.multiworld.random.shuffle(useful_pool)
     world.multiworld.random.shuffle(filler_pool)

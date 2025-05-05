@@ -98,7 +98,7 @@ def generate_all_shuffle_options_dungeon(bool_value: bool) -> list[dict[str, Any
 
 
 class TestShuffleOptions(TwilightPrincessWorldTestBase):
-    run_default_tests = False
+    run_default_tests = True
     options = {
         "golden_bugs_shuffled": True,
         "sky_characters_shuffled": True,

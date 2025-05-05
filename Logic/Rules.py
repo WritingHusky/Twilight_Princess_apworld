@@ -125,12 +125,13 @@ def set_location_access_rules(world: "TPWorld"):
         location = world.get_location(location_name)
 
         if (
-            world.options.logic_rules.value
-            == LogicRules.option_glitched
-            # and glitched_rule
+            world.options.logic_rules.value == LogicRules.option_glitched
+            and glitched_rule
         ):
-            assert glitched_rule, f"{location=} has no glitched rule"
+            # assert glitched_rule, f"{location=} has no glitched rule"
             set_rule(location, glitched_rule)
+        # elif world.options.logic_rules.value == LogicRules.option_no_logic:
+        #     set_rule(exit, lambda state: (True))
         else:
             set_rule(location, rule)
 
@@ -155,6 +156,25 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Spinner", player)
             and can_smash(state, player)
         ),
+        lambda state: (
+            (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
+            )
+            and state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_smash(state, player)
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds Death Sword Chest",
@@ -170,6 +190,26 @@ def set_location_access_rules(world: "TPWorld"):
                 #     state._tp_small_key_settings(player)
                 #     == SmallKeySettings.option_anywhere
                 # )
+            )
+        ),
+        lambda state: (
+            can_defeat_DeathSword(state, player)
+            and state.has("Progressive Clawshot", player, 1)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
             )
         ),
     )
@@ -270,6 +310,26 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds Spinner Room Lower Central Small Chest",
@@ -285,6 +345,26 @@ def set_location_access_rules(world: "TPWorld"):
                 #     state._tp_small_key_settings(player)
                 #     == SmallKeySettings.option_anywhere
                 # )
+            )
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
             )
         ),
     )
@@ -304,6 +384,26 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds Spinner Room Second Small Chest",
@@ -321,6 +421,26 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds Spinner Room Stalfos Alcove Chest",
@@ -336,6 +456,26 @@ def set_location_access_rules(world: "TPWorld"):
                 #     state._tp_small_key_settings(player)
                 #     == SmallKeySettings.option_anywhere
                 # )
+            )
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and state.has("Spinner", player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Stalfos(state, player)
+            and (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 5)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                or (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    and state.has("Shadow Crystal", player)
+                )
             )
         ),
     )
@@ -362,6 +502,20 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and state.has("Shadow Crystal", player)
         ),
+        lambda state: (
+            (
+                (
+                    state.has("Arbiters Grounds Small Key", player, 4)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                and state.has("Shadow Crystal", player)
+            )
+            or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds West Poe",
@@ -380,6 +534,27 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Stalchild(state, player)
             and can_defeat_Bubble(state, player)
             and can_defeat_GhoulRat(state, player)
+        ),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and can_smash(state, player)
+            and (
+                (
+                    (
+                        state.has("Arbiters Grounds Small Key", player, 4)
+                        # Holdover from Keysy
+                        # or (
+                        #     state._tp_small_key_settings(player)
+                        #     == SmallKeySettings.option_anywhere
+                        # )
+                    )
+                    and can_defeat_RedeadKnight(state, player)
+                    and can_defeat_Stalchild(state, player)
+                    and can_defeat_Bubble(state, player)
+                    and can_defeat_GhoulRat(state, player)
+                )
+                or can_do_lja(state, player)
+            )
         ),
     )
     set_rule_if_exists(
@@ -402,6 +577,26 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_GhoulRat(state, player)
         ),
+        lambda state: (
+            can_break_wooden_door(state, player)
+            and (
+                (
+                    (
+                        state.has("Arbiters Grounds Small Key", player, 4)
+                        # Holdover from Keysy
+                        # or (
+                        #     state._tp_small_key_settings(player)
+                        #     == SmallKeySettings.option_anywhere
+                        # )
+                    )
+                    and can_defeat_RedeadKnight(state, player)
+                    and can_defeat_Stalchild(state, player)
+                    and can_defeat_Bubble(state, player)
+                    and can_defeat_GhoulRat(state, player)
+                )
+                or can_do_lja(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Arbiters Grounds West Stalfos West Chest",
@@ -420,6 +615,26 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Bubble(state, player)
             and can_defeat_GhoulRat(state, player)
         ),
+        lambda state: (
+            can_break_wooden_door(state, player)
+            and (
+                (
+                    (
+                        state.has("Arbiters Grounds Small Key", player, 4)
+                        # Holdover from Keysy
+                        # or (
+                        #     state._tp_small_key_settings(player)
+                        #     == SmallKeySettings.option_anywhere
+                        # )
+                    )
+                    and can_defeat_RedeadKnight(state, player)
+                    and can_defeat_Stalchild(state, player)
+                    and can_defeat_Bubble(state, player)
+                    and can_defeat_GhoulRat(state, player)
+                )
+                or can_do_lja(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "City in The Sky Aeralfos Chest",
@@ -429,6 +644,12 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Iron Boots", player)
             and can_defeat_Dinalfos(state, player)
             and can_defeat_TileWorm(state, player)
+        ),
+        lambda state: (
+            can_defeat_Aeralfos(state, player)
+            and state.has("Progressive Clawshot", player, 1)
+            and state.has("Iron Boots", player)
+            and can_defeat_Dinalfos(state, player)
         ),
     )
     set_rule_if_exists(
@@ -469,6 +690,15 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Clawshot", player, 1)
             and state.has("Iron Boots", player)
         ),
+        lambda state: (
+            (
+                can_defeat_Dinalfos(state, player)
+                and can_defeat_Walltula(state, player)
+                and can_defeat_Kargarok(state, player)
+                and state.has("Shadow Crystal", player)
+            )
+            or state.has("Progressive Clawshot", player, 1)
+        ),
     )
     set_rule_if_exists(
         "City in The Sky Central Outside Ledge Chest",
@@ -477,6 +707,15 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Walltula(state, player)
             and can_defeat_Kargarok(state, player)
             and state.has("Shadow Crystal", player)
+        ),
+        lambda state: (
+            (
+                can_defeat_Dinalfos(state, player)
+                and can_defeat_Walltula(state, player)
+                and can_defeat_Kargarok(state, player)
+                and state.has("Shadow Crystal", player)
+            )
+            or state.has("Progressive Clawshot", player, 1)
         ),
     )
     set_rule_if_exists(
@@ -487,10 +726,22 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Kargarok(state, player)
             and state.has("Shadow Crystal", player)
         ),
+        lambda state: (
+            (
+                (
+                    can_defeat_Dinalfos(state, player)
+                    and can_defeat_Walltula(state, player)
+                    and can_defeat_Kargarok(state, player)
+                )
+                or state.has("Progressive Clawshot", player, 1)
+            )
+            and state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists(
         "City in The Sky Chest Behind North Fan",
         lambda state: (state.has("Progressive Clawshot", player, 2)),
+        lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
     set_rule_if_exists(
         "City in The Sky Chest Below Big Key Chest",
@@ -503,10 +754,16 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "City in The Sky East First Wing Chest After Fans",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1) or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "City in The Sky East Tile Worm Small Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1) or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "City in The Sky East Wing After Dinalfos Alcove Chest",
@@ -514,6 +771,16 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             and can_defeat_TileWorm(state, player)
             and can_defeat_Dinalfos(state, player)
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and (
+                (
+                    can_defeat_TileWorm(state, player)
+                    and can_defeat_Dinalfos(state, player)
+                )
+                or state.has("Iron Boots", player)
+            )
         ),
     )
     set_rule_if_exists(
@@ -523,6 +790,16 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_TileWorm(state, player)
             and can_defeat_Dinalfos(state, player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and (
+                (
+                    can_defeat_TileWorm(state, player)
+                    and can_defeat_Dinalfos(state, player)
+                )
+                or state.has("Iron Boots", player)
+            )
+        ),
     )
     set_rule_if_exists(
         "City in The Sky East Wing Lower Level Chest",
@@ -531,6 +808,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Dinalfos(state, player)
             and can_defeat_TileWorm(state, player)
         ),
+        lambda state: (state.has("Progressive Clawshot", player, 2)),
     )
     set_rule_if_exists(
         "City in The Sky Garden Island Poe",
@@ -587,6 +865,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             can_defeat_BigBaba(state, player) and can_defeat_Walltula(state, player)
         ),
+        lambda state: (can_defeat_BigBaba(state, player)),
     )
     set_rule_if_exists(
         "Forest Temple Big Key Chest",
@@ -595,14 +874,28 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Forest Temple Central Chest Behind Stairs",
         lambda state: (state.has("Gale Boomerang", player)),
+        lambda state: (
+            state.has("Gale Boomerang", player)
+            and (can_defeat_Bombling(state, player) or can_smash(state, player))
+        ),
     )
     set_rule_if_exists(
         "Forest Temple Central Chest Hanging From Web",
         lambda state: (can_cut_hanging_web(state, player)),
+        lambda state: (
+            can_cut_hanging_web(state, player) or can_do_js_moon_boots(state, player)
+        ),
     )
     set_rule_if_exists(
         "Forest Temple Central North Chest",
         lambda state: (state.has("Lantern", player)),
+        lambda state: (
+            state.has("Lantern", player)
+            or (
+                can_do_lja(state, player)
+                and state.can_reach_region("Forest Temple West Wing", player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Forest Temple Diababa Heart Container",
@@ -628,6 +921,22 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
         ),
+        lambda state: (
+            (
+                has_bombs(state, player)
+                or can_do_bs_moon_boots(state, player)
+                or can_do_js_moon_boots(state, player)
+                or state.has("Gale Boomerang", player)
+            )
+            and (
+                state.has("Forest Temple Small Key", player, 4)
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
+            )
+        ),
     )
     set_rule_if_exists("Forest Temple East Water Cave Chest", lambda state: (True))
     set_rule_if_exists(
@@ -637,10 +946,19 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Forest Temple Gale Boomerang",
         lambda state: (can_defeat_Ook(state, player)),
+        lambda state: (can_defeat_Ook(state, player) or has_bombs(state, player)),
     )
     set_rule_if_exists(
         "Forest Temple North Deku Like Chest",
         lambda state: (state.has("Gale Boomerang", player)),
+        lambda state: (
+            state.has("Gale Boomerang", player)
+            or (
+                has_bombs(state, player)
+                and has_sword(state, player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+        ),
     )
     set_rule_if_exists(
         "Forest Temple Second Monkey Under Bridge Chest",
@@ -652,17 +970,28 @@ def set_location_access_rules(world: "TPWorld"):
             # )
         ),
     )
-    set_rule_if_exists("Forest Temple Totem Pole Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Forest Temple Totem Pole Chest",
+        lambda state: (True),
+        lambda state: (can_defeat_Bombling(state, player) or can_smash(state, player)),
+    )
     set_rule_if_exists(
         "Forest Temple West Deku Like Chest",
         lambda state: (can_defeat_Walltula(state, player)),
+        lambda state: (True),
     )
     set_rule_if_exists(
         "Forest Temple West Tile Worm Chest Behind Stairs",
         lambda state: (state.has("Gale Boomerang", player)),
+        lambda state: (
+            state.has("Gale Boomerang", player)
+            and (can_defeat_Bombling(state, player) or can_smash(state, player))
+        ),
     )
     set_rule_if_exists(
-        "Forest Temple West Tile Worm Room Vines Chest", lambda state: (True)
+        "Forest Temple West Tile Worm Room Vines Chest",
+        lambda state: (True),
+        lambda state: (can_defeat_Bombling(state, player) or can_smash(state, player)),
     )
     set_rule_if_exists("Forest Temple Windless Bridge Chest", lambda state: (True))
     set_rule_if_exists(
@@ -676,10 +1005,16 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Dangoro(state, player)
             and state.has("Progressive Hero's Bow", player, 1)
         ),
+        lambda state: (
+            state.has("Iron Boots", player)
+            and can_defeat_Dangoro(state, player)
+            and can_defeat_Beamos(state, player)
+        ),
     )
     set_rule_if_exists(
         "Goron Mines Chest Before Dangoro",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (state.has("Iron Boots", player) or can_do_lja(state, player)),
     )
     set_rule_if_exists(
         "Goron Mines Crystal Switch Room Small Chest",
@@ -688,6 +1023,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Goron Mines Crystal Switch Room Underwater Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists(
         "Goron Mines Dangoro Chest",
@@ -704,6 +1040,9 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             can_press_mines_switch(state, player)
             and can_break_wooden_door(state, player)
+        ),
+        lambda state: (
+            can_do_bs_moon_boots(state, player) or can_break_wooden_door(state, player)
         ),
     )
     set_rule_if_exists(
@@ -731,6 +1070,11 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Dangoro(state, player)
             and state.has("Progressive Hero's Bow", player, 1)
         ),
+        lambda state: (
+            state.has("Iron Boots", player)
+            and can_defeat_Dangoro(state, player)
+            and can_defeat_Beamos(state, player)
+        ),
     )
     set_rule_if_exists(
         "Goron Mines Gor Liggs Key Shard",
@@ -738,6 +1082,11 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Iron Boots", player)
             and can_defeat_Dangoro(state, player)
             and state.has("Progressive Hero's Bow", player, 1)
+        ),
+        lambda state: (
+            state.has("Iron Boots", player)
+            and can_defeat_Dangoro(state, player)
+            and can_defeat_Beamos(state, player)
         ),
     )
     set_rule_if_exists(
@@ -762,6 +1111,11 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
         ),
+        lambda state: (
+            state.can_reach_region("Goron Mines Upper East Wing", player)
+            and can_defeat_Dangoro(state, player)
+            and can_defeat_Beamos(state, player)
+        ),
     )
     set_rule_if_exists("Goron Mines Outside Beamos Chest", lambda state: (True))
     set_rule_if_exists(
@@ -773,6 +1127,7 @@ def set_location_access_rules(world: "TPWorld"):
                 or state.has("Slingshot", player)
             )
         ),
+        lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
     set_rule_if_exists(
         "Goron Mines Outside Underwater Chest",
@@ -780,6 +1135,7 @@ def set_location_access_rules(world: "TPWorld"):
             (has_sword(state, player) or can_use_water_bombs(state, player))
             and state.has("Iron Boots", player)
         ),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists("Hyrule Castle Big Key Chest", lambda state: (True))
     set_rule_if_exists(
@@ -826,6 +1182,13 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_Lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 2)
         ),
+        lambda state: (
+            can_defeat_Darknut(state, player)
+            and state.has("Gale Boomerang", player)
+            and can_defeat_Bokoblin(state, player)
+            and can_defeat_Lizalfos(state, player)
+            and state.has("Progressive Clawshot", player)
+        ),
     )
     set_rule_if_exists(
         "Hyrule Castle Main Hall Northeast Chest",
@@ -833,6 +1196,11 @@ def set_location_access_rules(world: "TPWorld"):
             can_defeat_Bokoblin(state, player)
             and can_defeat_Lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 1)
+        ),
+        lambda state: (
+            can_defeat_Bokoblin(state, player)
+            and can_defeat_Lizalfos(state, player)
+            and state.has("Progressive Clawshot", player)
         ),
     )
     set_rule_if_exists(
@@ -845,6 +1213,17 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Lantern", player)
             and state.has("Progressive Clawshot", player, 2)
         ),
+        lambda state: (
+            (
+                can_knock_down_hc_painting(state, player)
+                and can_defeat_Lizalfos(state, player)
+                and can_defeat_Darknut(state, player)
+                and state.has("Gale Boomerang", player)
+                and state.has("Lantern", player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+            or state.has("Progressive Clawshot", player, 2)
+        ),
     )
     set_rule_if_exists(
         "Hyrule Castle Main Hall Southwest Chest",
@@ -855,6 +1234,17 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Gale Boomerang", player)
             and state.has("Lantern", player)
             and state.has("Progressive Clawshot", player, 2)
+        ),
+        lambda state: (
+            (
+                can_knock_down_hc_painting(state, player)
+                and can_defeat_Lizalfos(state, player)
+                and can_defeat_Darknut(state, player)
+                and state.has("Gale Boomerang", player)
+                and state.has("Lantern", player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+            or state.has("Progressive Clawshot", player, 2)
         ),
     )
     set_rule_if_exists(
@@ -893,10 +1283,12 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Hyrule Castle West Courtyard Central Small Chest",
         lambda state: (can_defeat_Bokoblin(state, player)),
+        lambda state: (True),
     )
     set_rule_if_exists(
         "Hyrule Castle West Courtyard North Small Chest",
         lambda state: (can_defeat_Bokoblin(state, player)),
+        lambda state: (True),
     )
     set_rule_if_exists(
         "Lakebed Temple Before Deku Toad Alcove Chest",
@@ -931,6 +1323,23 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
         ),
+        lambda state: (
+            can_do_lja(state, player)
+            or (
+                (
+                    state.has("Lakebed Temple Small Key", player, 2)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                and (
+                    can_launch_bombs(state, player)
+                    or state.has("Progressive Clawshot", player, 1)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Before Deku Toad Underwater Left Chest",
@@ -952,6 +1361,26 @@ def set_location_access_rules(world: "TPWorld"):
                     and can_smash(state, player)
                 )
             )
+        ),
+        lambda state: (
+            (
+                (
+                    can_do_lja(state, player)
+                    and (
+                        can_skip_key_to_deku_toad(state, player)
+                        or state.has("Lakebed Temple Small Key", player, 1)
+                    )
+                )
+            )
+            or (
+                (
+                    can_skip_key_to_deku_toad(state, player)
+                    or state.has("Lakebed Temple Small Key", player, 3)
+                )
+                and state.has("Progressive Clawshot", player, 1)
+                and can_launch_bombs(state, player)
+            )
+            and has_heavy_mod(state, player)
         ),
     )
     set_rule_if_exists(
@@ -975,6 +1404,26 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
         ),
+        lambda state: (
+            (
+                (
+                    can_do_lja(state, player)
+                    and (
+                        can_skip_key_to_deku_toad(state, player)
+                        or state.has("Lakebed Temple Small Key", player, 1)
+                    )
+                )
+            )
+            or (
+                (
+                    can_skip_key_to_deku_toad(state, player)
+                    or state.has("Lakebed Temple Small Key", player, 3)
+                )
+                and state.has("Progressive Clawshot", player, 1)
+                and can_launch_bombs(state, player)
+            )
+            and has_heavy_mod(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Big Key Chest",
@@ -984,6 +1433,11 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Zora Armor", player)
             and can_launch_bombs(state, player)
             and state.has("Iron Boots", player)
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and (state.has("Zora Armor", player) or can_do_lja(state, player))
+            and can_launch_bombs(state, player)
         ),
     )
     set_rule_if_exists("Lakebed Temple Central Room Chest", lambda state: (True))
@@ -1001,6 +1455,26 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and state.has("Iron Boots", player)
             and can_launch_bombs(state, player)
+        ),
+        lambda state: (
+            (
+                (
+                    (
+                        state.has("Lakebed Temple Small Key", player, 3)
+                        # Holdover from Keysy
+                        # or (
+                        #     state._tp_small_key_settings(player)
+                        #     == SmallKeySettings.option_anywhere
+                        # )
+                    )
+                    and can_launch_bombs(state, player)
+                )
+                or (
+                    state.has("Progressive Clawshot", player)
+                    and has_sword(state, player)
+                )
+            )
+            and state.has("Iron Boots", player)
         ),
     )
     set_rule_if_exists(
@@ -1030,6 +1504,30 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
         ),
+        lambda state: (
+            can_defeat_DekuToad(state, player)
+            and (
+                (
+                    (
+                        can_do_lja(state, player)
+                        and (
+                            can_skip_key_to_deku_toad(state, player)
+                            or state.has("Lakebed Temple Small Key", player, 1)
+                        )
+                    )
+                )
+                or (
+                    (
+                        can_skip_key_to_deku_toad(state, player)
+                        or state.has("Lakebed Temple Small Key", player, 3)
+                    )
+                    and state.has("Progressive Clawshot", player, 1)
+                    and can_launch_bombs(state, player)
+                )
+            )
+            and has_heavy_mod(state, player)
+            and (can_use_water_bombs(state, player) or state.has("Zora Armor", player))
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Dungeon Reward",
@@ -1049,10 +1547,35 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and can_launch_bombs(state, player)
         ),
+        lambda state: (
+            can_do_lja(state, player)
+            or (
+                state.has("Progressive Clawshot", player, 1)
+                and has_bombs(state, player)
+            )
+            or (
+                state.can_reach_region("Lakebed Temple East Wing Second Floor", player)
+                and (
+                    state.has("Progressive Clawshot", player, 1)
+                    or can_launch_bombs(state, player)
+                )
+                and (
+                    (
+                        state.has("Shadow Crystal", player)
+                        or (has_bombs(state, player) and has_sword(state, player))
+                    )
+                )
+            )
+            or (
+                state.can_reach_region("Lakebed Temple West Wing", player)
+                and can_launch_bombs(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple East Lower Waterwheel Stalactite Chest",
         lambda state: (can_launch_bombs(state, player)),
+        lambda state: (can_launch_bombs(state, player) or can_do_lja(state, player)),
     )
     set_rule_if_exists(
         "Lakebed Temple East Second Floor Southeast Chest",
@@ -1082,6 +1605,18 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and state.has("Iron Boots", player)
         ),
+        lambda state: (
+            (
+                state.has("Lakebed Temple Small Key", player, 3)
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
+            )
+            and state.has("Progressive Clawshot", player, 1)
+            and can_smash(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple East Water Supply Small Chest",
@@ -1101,14 +1636,37 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and state.has("Iron Boots", player)
         ),
+        lambda state: (
+            (
+                state.has("Lakebed Temple Small Key", player, 3)
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
+            )
+            and (
+                can_launch_bombs(state, player)
+                or (
+                    state.has("Progressive Clawshot", player)
+                    and can_smash(state, player)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Lobby Left Chest",
         lambda state: (state.has("Zora Armor", player)),
+        lambda state: (
+            state.has("Zora Armor", player) or can_do_air_refill(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Lobby Rear Chest",
         lambda state: (state.has("Zora Armor", player)),
+        lambda state: (
+            state.has("Zora Armor", player) or can_do_air_refill(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple Morpheel Heart Container",
@@ -1117,6 +1675,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lakebed Temple Stalactite Room Chest",
         lambda state: (can_launch_bombs(state, player)),
+        lambda state: (can_launch_bombs(state, player) or can_do_lja(state, player)),
     )
     set_rule_if_exists(
         "Lakebed Temple Underwater Maze Small Chest",
@@ -1125,10 +1684,18 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Clawshot", player, 1)
             and can_launch_bombs(state, player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and (state.has("Zora Armor", player) or can_do_lja(state, player))
+            and can_launch_bombs(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple West Lower Small Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1) or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple West Second Floor Central Small Chest",
@@ -1163,6 +1730,10 @@ def set_location_access_rules(world: "TPWorld"):
             and can_launch_bombs(state, player)
             and state.has("Iron Boots", player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and can_launch_bombs(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lakebed Temple West Water Supply Small Chest",
@@ -1170,6 +1741,10 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             and can_launch_bombs(state, player)
             and state.has("Iron Boots", player)
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            and can_launch_bombs(state, player)
         ),
     )
     set_rule_if_exists(
@@ -1509,6 +2084,20 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
         ),
+        lambda state: (
+            state.has("Ball and Chain", player)
+            or (
+                has_bombs(state, player)
+                and (
+                    state.has("Snowpeak Ruins Small Key", player, 2)
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Snowpeak Ruins Dungeon Reward",
@@ -1544,6 +2133,23 @@ def set_location_access_rules(world: "TPWorld"):
                 # )
             )
             and state.has("Ball and Chain", player)
+        ),
+        lambda state: (
+            (
+                (
+                    (
+                        state.has("Snowpeak Ruins Small Key", player, 3)
+                        and state.has("Ordon Goat Cheese", player)
+                    )
+                    # Holdover from Keysy
+                    # or (
+                    #     state._tp_small_key_settings(player)
+                    #     == SmallKeySettings.option_anywhere
+                    # )
+                )
+                and state.has("Ball and Chain", player)
+            )
+            or (state.has("Shadow Crystal", player) and can_do_lja(state, player))
         ),
     )
     set_rule_if_exists(
@@ -1598,6 +2204,17 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and state.has("Ball and Chain", player)
         ),
+        lambda state: (
+            (
+                state.has("Ordon Goat Cheese", player)
+                # Holdover from Keysy
+                # or (
+                #     state._tp_small_key_settings(player)
+                #     == SmallKeySettings.option_anywhere
+                # )
+            )
+            and (state.has("Ball and Chain", player) or can_do_lja(state, player))
+        ),
     )
     set_rule_if_exists(
         "Snowpeak Ruins Wooden Beam Northwest Chest",
@@ -1617,6 +2234,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Temple of Time Armos Antechamber Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 1)),
+        lambda state: (True),
     )
     set_rule_if_exists(
         "Temple of Time Big Key Chest",
@@ -1675,6 +2293,14 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Dominion Rod", player, 1)
             and state.has("Progressive Hero's Bow", player, 1)
         ),
+        lambda state: (
+            can_defeat_Dinalfos(state, player)
+            and (
+                state.has("Progressive Dominion Rod", player, 1)
+                or (state.has("Spinner", player) and has_bombs(state, player))
+            )
+            and state.has("Progressive Hero's Bow", player, 1)
+        ),
     )
     set_rule_if_exists(
         "Temple of Time Poe Above Scales",
@@ -1689,6 +2315,14 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and state.has("Progressive Dominion Rod", player, 1)
+        ),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                state.has("Progressive Dominion Rod", player, 1)
+                or state.has("Ball and Chain", player)
+                or can_do_hs_moon_boots(state, player)
+            )
         ),
     )
     set_rule_if_exists(
@@ -1722,6 +2356,11 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Bridge of Eldin Owl Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 2)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            or can_do_lja(state, player)
+            or state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists(
         "Bridge of Eldin Owl Statue Sky Character",
@@ -1733,6 +2372,13 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Hero's Bow", player, 1)
             and state.can_reach_region("Kakariko Renados Sanctuary", player)
             and state.has("Ilias Charm", player)
+            and state.has("Shadow Crystal", player)
+            and state.has("Progressive Clawshot", player, 1)
+        ),
+        lambda state: (
+            state.has("Ilias Charm", player)
+            and state.has("Progressive Dominion Rod", player, 1)
+            and can_do_hidden_village_glitched(state, player)
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
@@ -1752,6 +2398,14 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
         ),
+        lambda state: (
+            (
+                can_complete_goron_mines(state, player)
+                # and (not state._tp_barren_dungeons(player))
+            )
+            or state.has("Progressive Clawshot", player, 1)
+            or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "Death Mountain Trail Poe",
@@ -1761,7 +2415,13 @@ def set_location_access_rules(world: "TPWorld"):
         ),
     )
     set_rule_if_exists(
-        "Eldin Field Bomb Rock Chest", lambda state: (can_smash(state, player))
+        "Eldin Field Bomb Rock Chest",
+        lambda state: (can_smash(state, player)),
+        lambda state: (
+            can_smash(state, player)
+            or can_do_map_glitch(state, player)
+            or (can_do_eb_moon_boots(state, player) and can_do_lja(state, player))
+        ),
     )
     set_rule_if_exists(
         "Eldin Field Bomskit Grotto Lantern Chest",
@@ -1807,15 +2467,30 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Eldin Spring Underwater Chest",
         lambda state: (can_smash(state, player) and state.has("Iron Boots", player)),
+        lambda state: (
+            has_heavy_mod(state, player)
+            and (can_smash(state, player) or can_do_map_glitch(state, player))
+        ),
     )
     set_rule_if_exists(
         "Eldin Stockcave Lantern Chest",
         lambda state: (state.has("Lantern", player)),
+        lambda state: (
+            (state.has("Progressive Clawshot", player, 1) or can_do_lja(state, player))
+            and state.has("Lantern", player)
+        ),
     )
-    set_rule_if_exists("Eldin Stockcave Lowest Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Eldin Stockcave Lowest Chest",
+        lambda state: (True),
+        lambda state: (
+            (state.has("Progressive Clawshot", player, 1) or can_do_lja(state, player))
+        ),
+    )
     set_rule_if_exists(
         "Eldin Stockcave Upper Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
     set_rule_if_exists(
         "Gift From Ralis",
@@ -1837,9 +2512,9 @@ def set_location_access_rules(world: "TPWorld"):
             can_smash(state, player)
             or (
                 (
+                    True
                     # (state._tp_lanayru_twilight_cleared(player))
-                    # or
-                    state.has("Shadow Crystal", player)
+                    # or state.has("Shadow Crystal", player)
                 )
                 and (
                     state.has("Gate Keys", player)
@@ -1861,10 +2536,17 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 1)
         ),
+        lambda state: (
+            state.has("Ilias Charm", player)
+            and state.has("Progressive Dominion Rod", player, 1)
+            and can_do_hidden_village_glitched(state, player)
+            and state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists(
         "Ilias Charm",
         lambda state: (state.has("Progressive Hero's Bow", player, 1)),
+        lambda state: (can_do_hidden_village_glitched(state, player)),
     )
     set_rule_if_exists(
         "Ilia Memory Reward",
@@ -1873,12 +2555,23 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Kakariko Gorge Double Clawshot Chest",
         lambda state: (state.has("Progressive Clawshot", player, 2)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 2)
+            or can_do_lja(state, player)
+            or state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists("Kakariko Gorge Female Pill Bug", lambda state: (True))
     set_rule_if_exists("Kakariko Gorge Male Pill Bug", lambda state: (True))
     set_rule_if_exists(
         "Kakariko Gorge Owl Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 2)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            or can_do_lja(state, player)
+            or can_do_storage(state, player)
+            or can_do_eb_moon_boots(state, player)
+        ),
     )
     set_rule_if_exists(
         "Kakariko Gorge Owl Statue Sky Character",
@@ -1909,8 +2602,11 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Kakariko Graveyard Grave Poe",
         lambda state: (
-            state.has("Shadow Crystal", player) and can_change_time(state, player)
+            state.has("Shadow Crystal", player)
+            and can_change_time(state, player)
+            # redunant as with shadow crystal you can change time
         ),
+        lambda state: (state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists(
         "Kakariko Graveyard Lantern Chest",
@@ -1920,8 +2616,11 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Kakariko Graveyard Open Poe",
         lambda state: (
-            state.has("Shadow Crystal", player) and can_change_time(state, player)
+            state.has("Shadow Crystal", player)
+            and can_change_time(state, player)
+            # redunant as with shadow crystal you can change time
         ),
+        lambda state: (state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists("Kakariko Inn Chest", lambda state: (True))
     set_rule_if_exists(
@@ -1929,12 +2628,25 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             has_bombs(state, player) and state.has("Gale Boomerang", player)
         ),
+        lambda state: (
+            can_do_map_glitch(state, player)
+            or (
+                can_launch_bombs(state, player)
+                and (
+                    state.has("Gale Boomerang", player)
+                    or state.has("Progressive Clawshot", player, 1)
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Kakariko Village Bomb Shop Poe",
         lambda state: (
-            state.has("Shadow Crystal", player) and can_change_time(state, player)
+            state.has("Shadow Crystal", player)
+            and can_change_time(state, player)
+            # redunant as with shadow crystal you can change time
         ),
+        lambda state: (state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists("Kakariko Village Female Ant", lambda state: (True))
     set_rule_if_exists(
@@ -1944,6 +2656,12 @@ def set_location_access_rules(world: "TPWorld"):
             and state.can_reach_region("Kakariko Top of Watchtower", player)
             and state.has("Progressive Hero's Bow", player, 1)
         ),
+        lambda state: (
+            (
+                can_complete_goron_mines(state, player)
+                and state.has("Progressive Hero's Bow", player, 1)
+            )
+        ),
     )
     set_rule_if_exists("Kakariko Village Malo Mart Hylian Shield", lambda state: (True))
     set_rule_if_exists("Kakariko Village Malo Mart Red Potion", lambda state: (True))
@@ -1951,12 +2669,16 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Kakariko Village Watchtower Poe",
         lambda state: (
-            state.has("Shadow Crystal", player) and can_change_time(state, player)
+            state.has("Shadow Crystal", player)
+            and can_change_time(state, player)
+            # redunant as with shadow crystal you can change time
         ),
+        lambda state: (state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists(
         "Kakariko Watchtower Alcove Chest",
         lambda state: (can_smash(state, player)),
+        lambda state: (can_smash(state, player) or state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists("Kakariko Watchtower Chest", lambda state: (True))
     set_rule_if_exists(
@@ -1980,6 +2702,10 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Hero's Bow", player, 1)
             and state.has("Progressive Dominion Rod", player, 1)
         ),
+        lambda state: (
+            can_do_hidden_village_glitched(state, player)
+            and state.has("Progressive Dominion Rod", player, 1)
+        ),
     )
     set_rule_if_exists(
         "Talo Sharpshooting",
@@ -1988,6 +2714,10 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Hero's Bow", player, 1)
             and can_change_time(state, player)
         ),
+        lambda state: (
+            can_complete_goron_mines(state, player)
+            and state.has("Progressive Hero's Bow", player, 1)
+        ),
     )
     set_rule_if_exists(
         "Coro Bottle", lambda state: True  # (can_complete_prologue(state, player))
@@ -1995,6 +2725,10 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Faron Field Bridge Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or can_do_storage(state, player)
+        ),
     )
     set_rule_if_exists("Faron Field Corner Grotto Left Chest", lambda state: (True))
     set_rule_if_exists("Faron Field Corner Grotto Rear Chest", lambda state: (True))
@@ -2004,6 +2738,12 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Gale Boomerang", player)
             or state.has("Progressive Clawshot", player, 1)
+        ),
+        lambda state: (
+            state.has("Gale Boomerang", player)
+            or state.has("Progressive Clawshot", player, 1)
+            or can_do_map_glitch(state, player)
+            or can_do_eb_moon_boots(state, player)
         ),
     )
     set_rule_if_exists("Faron Field Male Beetle", lambda state: (True))
@@ -2021,6 +2761,11 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Gale Boomerang", player)
             or state.has("Progressive Clawshot", player, 1)
         ),
+        lambda state: (
+            state.has("Gale Boomerang", player)
+            or state.has("Progressive Clawshot", player, 1)
+            or state.has("Ball and Chain", player)
+        ),
     )
     set_rule_if_exists(
         "Faron Mist Cave Lantern Chest",
@@ -2032,6 +2777,9 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Lantern", player)  # and can_complete_prologue(state, player)
         ),
+        lambda state: (
+            state.has("Lantern", player) or can_do_map_glitch(state, player)
+        ),
     )
     set_rule_if_exists(
         "Faron Mist Poe",
@@ -2040,11 +2788,15 @@ def set_location_access_rules(world: "TPWorld"):
                 "Shadow Crystal", player
             )  # and can_complete_prologue(state, player)
         ),
+        lambda state: (state.has("Shadow Crystal", player)),
     )
     set_rule_if_exists(
         "Faron Mist South Chest",
         lambda state: (
             state.has("Lantern", player)  # and can_complete_prologue(state, player)
+        ),
+        lambda state: (
+            state.has("Lantern", player) or can_do_map_glitch(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2052,14 +2804,36 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Lantern", player)  # and can_complete_prologue(state, player)
         ),
+        lambda state: (
+            state.has("Lantern", player) or can_do_map_glitch(state, player)
+        ),
     )
     set_rule_if_exists("Faron Woods Golden Wolf", lambda state: (True))
-    set_rule_if_exists("Faron Woods Owl Statue Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Faron Woods Owl Statue Chest",
+        lambda state: (True),
+        lambda state: (
+            can_do_map_glitch(state, player)
+            or (
+                can_smash(state, player)
+                and state.has("Progressive Dominion Rod", player, 2)
+                and state.has("Shadow Crystal", player)
+                and can_clear_forest(state, player)
+            )
+        ),
+    )
     set_rule_if_exists(
         "Faron Woods Owl Statue Sky Character",
         lambda state: (
             can_clear_forest(state, player)
             and state.has("Progressive Dominion Rod", player, 2)
+        ),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            and (
+                can_do_map_glitch(state, player)
+                or (can_smash(state, player) and can_clear_forest(state, player))
+            )
         ),
     )
     set_rule_if_exists(
@@ -2089,6 +2863,17 @@ def set_location_access_rules(world: "TPWorld"):
             can_defeat_BabaSerpent(state, player)
             and can_knock_down_HangingBaba(state, player)
         ),
+        lambda state: (
+            can_defeat_BabaSerpent(state, player)
+            and (
+                can_knock_down_HangingBaba(state, player)
+                or has_sword(state, player)
+                or state.has("Shadow Crystal", player)
+                or state.has("Slingshot", player)
+                or state.has("Ball and Chain", player)
+                or has_bombs(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Sacred Grove Female Snail",
@@ -2111,12 +2896,17 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Sacred Grove Past Owl Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 1)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 1)
+            or state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists("Sacred Grove Pedestal Master Sword", lambda state: (True))
     set_rule_if_exists("Sacred Grove Pedestal Shadow Crystal", lambda state: (True))
     set_rule_if_exists(
         "Sacred Grove Spinner Chest",
         lambda state: (state.has("Spinner", player)),
+        lambda state: (state.has("Spinner", player) or can_do_lja(state, player)),
     )
     set_rule_if_exists(
         "Sacred Grove Temple of Time Owl Statue Poe",
@@ -2143,6 +2933,23 @@ def set_location_access_rules(world: "TPWorld"):
                 or (state._tp_skip_arbiters_entrance(player))
             )
         ),
+        lambda state: (
+            (
+                state.has("Shadow Crystal", player)
+                and (
+                    state.has("Gerudo Desert Bublin Camp Key", player)
+                    or (
+                        (can_do_map_glitch(state, player) and has_sword(state, player))
+                        # Holdover from Keysy
+                        # or (
+                        #     state._tp_small_key_settings(player)
+                        #     == SmallKeySettings.option_anywhere
+                        # )
+                    )
+                )
+            )
+            or (state._tp_skip_arbiters_entrance(player))
+        ),
     )
     set_rule_if_exists(
         "Bulblin Camp Roasted Boar",
@@ -2156,6 +2963,23 @@ def set_location_access_rules(world: "TPWorld"):
         "Cave of Ordeals Floor 17 Poe",
         lambda state: (
             state.has("Spinner", player)
+            and state.has("Shadow Crystal", player)
+            and can_defeat_Helmasaur(state, player)
+            and can_defeat_Rat(state, player)
+            and can_defeat_Chu(state, player)
+            and can_defeat_ChuWorm(state, player)
+            and can_defeat_Bubble(state, player)
+            and can_defeat_Keese(state, player)
+            and can_defeat_Stalhound(state, player)
+        ),
+        lambda state: (
+            (
+                state.has("Spinner", player)
+                or (
+                    (state.has("Progressive Clawshot", player, 1))
+                    and can_do_lja(state, player)
+                )
+            )
             and state.has("Shadow Crystal", player)
             and can_defeat_Helmasaur(state, player)
             and can_defeat_Rat(state, player)
@@ -2183,6 +3007,24 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and state.has("Progressive Clawshot", player, 2)
+            and can_defeat_Armos(state, player)
+            and can_defeat_BabaSerpent(state, player)
+            and can_defeat_Lizalfos(state, player)
+            and can_defeat_Dinalfos(state, player)
+            and (
+                state.has("Progressive Hero's Bow", player, 1)
+                or state.has("Ball and Chain", player)
+            )
+        ),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                state.has("Progressive Clawshot", player, 2)
+                or (
+                    state.has("Progressive Clawshot", player, 1)
+                    and can_do_lja(state, player)
+                )
+            )
             and can_defeat_Armos(state, player)
             and can_defeat_BabaSerpent(state, player)
             and can_defeat_Lizalfos(state, player)
@@ -2241,10 +3083,15 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Gerudo Desert North Peahat Poe",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and state.has("Progressive Clawshot", player, 1)
+        ),
     )
     set_rule_if_exists(
         "Gerudo Desert North Small Chest Before Bulblin Camp",
         lambda state: (True),
+        lambda state: (can_defeat_Bulblin(state, player)),
     )
     set_rule_if_exists(
         "Gerudo Desert Northeast Chest Behind Gates",
@@ -2257,6 +3104,10 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Gerudo Desert Owl Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 2)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "Gerudo Desert Owl Statue Sky Character",
@@ -2269,6 +3120,11 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Gerudo Desert Poe Above Cave of Ordeals",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and state.has("Progressive Clawshot", player, 1)
+            and can_defeat_ShadowBeast(state, player)
+        ),
     )
     set_rule_if_exists(
         "Gerudo Desert Rock Grotto First Poe",
@@ -2297,6 +3153,11 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Gerudo Desert West Canyon Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or can_do_lja(state, player)
+            or (state.has("Shadow Crystal", player) and has_bombs(state, player))
+        ),
     )
     set_rule_if_exists(
         "Outside Arbiters Grounds Lantern Chest",
@@ -2417,9 +3278,20 @@ def set_location_access_rules(world: "TPWorld"):
                 or state.has("Progressive Wallet", player, 1)
             )
         ),
+        lambda state: (
+            (state._tp_increase_wallet(player))
+            or state.has("Progressive Wallet", player, 1)
+            # or ((false) and has_bug(state, player)) # NPC not shuffled and has bugs
+        ),
     )
     set_rule_if_exists("Charlo Donation Blessing", lambda state: (True))
-    set_rule_if_exists("Doctors Office Balcony Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Doctors Office Balcony Chest",
+        lambda state: (True),
+        lambda state: (
+            state.has("Invoice", player) and state.has("Shadow Crystal", player)
+        ),
+    )
     set_rule_if_exists(
         "East Castle Town Bridge Poe",
         lambda state: (state.has("Shadow Crystal", player)),
@@ -2434,6 +3306,7 @@ def set_location_access_rules(world: "TPWorld"):
             state.can_reach_region("Fishing Hole House", player)
             or state.has("Progressive Clawshot", player, 1)
         ),
+        lambda state: (True),
     )
     set_rule_if_exists("Flight By Fowl Fifth Platform Chest", lambda state: (True))
     set_rule_if_exists("Flight By Fowl Fourth Platform Chest", lambda state: (True))
@@ -2447,6 +3320,12 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Hyrule Field Amphitheater Owl Statue Chest",
         lambda state: (state.has("Progressive Dominion Rod", player, 2)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            or can_do_lja(state, player)
+            or can_do_map_glitch(state, player)
+            or can_do_eb_moon_boots(state, player)
+        ),
     )
     set_rule_if_exists(
         "Hyrule Field Amphitheater Owl Statue Sky Character",
@@ -2473,6 +3352,17 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and state.has("Progressive Hero's Bow", player, 1)
         ),
+        lambda state: (
+            state.has("Progressive Hero's Bow", player, 1)
+            and state.can_reach_region("Zoras Domain", player)
+            and (
+                has_sword(state, player)
+                or (
+                    can_defeat_ShadowBeast(state, player)
+                    and (state._tp_transform_anywhere(player))
+                )
+            )
+        ),
     )
     set_rule_if_exists(
         "Iza Raging Rapids Minigame",
@@ -2486,6 +3376,17 @@ def set_location_access_rules(world: "TPWorld"):
                 )
             )
             and state.has("Progressive Hero's Bow", player, 1)
+        ),
+        lambda state: (
+            state.has("Progressive Hero's Bow", player, 1)
+            and state.can_reach_region("Zoras Domain", player)
+            and (
+                has_sword(state, player)
+                or (
+                    can_defeat_ShadowBeast(state, player)
+                    and (state._tp_transform_anywhere(player))
+                )
+            )
         ),
     )
     set_rule_if_exists(
@@ -2512,12 +3413,30 @@ def set_location_access_rules(world: "TPWorld"):
             and can_defeat_IceBubble(state, player)
         ),
     )
-    set_rule_if_exists("Lake Hylia Bridge Cliff Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Lake Hylia Bridge Cliff Chest",
+        lambda state: (True),
+        lambda state: (
+            (
+                can_launch_bombs(state, player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+        ),
+    )
     set_rule_if_exists(
         "Lake Hylia Bridge Cliff Poe",
         lambda state: (
             # can_complete_MDH(state, player) and
             state.has("Shadow Crystal", player)
+            # and can_complete_all_twilight(state, player)
+        ),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                can_launch_bombs(state, player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+            # and can_complete_MDH(state, player)
             # and can_complete_all_twilight(state, player)
         ),
     )
@@ -2527,12 +3446,22 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             or state.has("Gale Boomerang", player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or state.has("Gale Boomerang", player)
+            or can_get_bug_with_lantern(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lake Hylia Bridge Male Mantis",
         lambda state: (
             state.has("Progressive Clawshot", player, 1)
             or state.has("Gale Boomerang", player)
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or state.has("Gale Boomerang", player)
+            or can_get_bug_with_lantern(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2541,12 +3470,26 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Dominion Rod", player, 2)
             and state.has("Progressive Clawshot", player, 1)
         ),
+        lambda state: (
+            can_do_map_glitch(state, player)
+            or (
+                state.has("Progressive Clawshot", player, 1)
+                and state.has("Progressive Dominion Rod", player, 2)
+            )
+        ),
     )
     set_rule_if_exists(
         "Lake Hylia Bridge Owl Statue Sky Character",
         lambda state: (
             state.has("Progressive Dominion Rod", player, 2)
             and state.has("Progressive Clawshot", player, 1)
+        ),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+            and (
+                state.has("Progressive Clawshot", player, 1)
+                or can_do_map_glitch(state, player)
+            )
         ),
     )
     set_rule_if_exists(
@@ -2568,6 +3511,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lake Hylia Underwater Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists(
         "Lake Hylia Water Toadpoli Grotto Chest",
@@ -2576,10 +3520,12 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lake Lantern Cave Eighth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Eleventh Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave End Lantern Chest",
@@ -2588,6 +3534,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lake Lantern Cave Fifth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Final Poe",
@@ -2596,10 +3543,14 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and state.has("Lantern", player)
         ),
+        lambda state: (
+            state.has("Shadow Crystal", player) and can_smash(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lake Lantern Cave First Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave First Poe",
@@ -2608,22 +3559,29 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and state.has("Lantern", player)
         ),
+        lambda state: (
+            state.has("Shadow Crystal", player) and can_smash(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Fourteenth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Fourth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Ninth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Second Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Second Poe",
@@ -2632,10 +3590,14 @@ def set_location_access_rules(world: "TPWorld"):
             and can_smash(state, player)
             and state.has("Lantern", player)
         ),
+        lambda state: (
+            state.has("Shadow Crystal", player) and can_smash(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Seventh Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Sixth Chest",
@@ -2644,22 +3606,27 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lake Lantern Cave Tenth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Third Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Thirteenth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lake Lantern Cave Twelfth Chest",
         lambda state: (can_smash(state, player) and state.has("Lantern", player)),
+        lambda state: (can_smash(state, player)),
     )
     set_rule_if_exists(
         "Lanayru Field Behind Gate Underwater Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists(
         "Lanayru Field Bridge Poe",
@@ -2675,12 +3642,22 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             or state.has("Gale Boomerang", player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or state.has("Gale Boomerang", player)
+            or can_get_bug_with_lantern(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lanayru Field Male Stag Beetle",
         lambda state: (
             state.has("Progressive Clawshot", player, 1)
             or state.has("Gale Boomerang", player)
+        ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or state.has("Gale Boomerang", player)
+            or can_get_bug_with_lantern(state, player)
         ),
     )
     set_rule_if_exists(
@@ -2698,10 +3675,17 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Lantern", player)
             and can_break_wooden_door(state, player)
         ),
+        lambda state: (
+            state.has("Lantern", player) and can_break_wooden_door(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lanayru Field Spinner Track Chest",
         lambda state: (state.has("Spinner", player)),
+        lambda state: (
+            can_do_map_glitch(state, player)
+            or (can_smash(state, player) and state.has("Spinner", player))
+        ),
     )
     set_rule_if_exists(
         "Lanayru Ice Block Puzzle Cave Chest",
@@ -2713,14 +3697,29 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Progressive Clawshot", player, 1)
             and state.has("Lantern", player)
         ),
+        lambda state: (
+            state.has("Lantern", player)
+            and (
+                state.has("Progressive Clawshot", player, 1)
+                or can_do_bs_moon_boots(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Lanayru Spring Back Room Left Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or can_do_bs_moon_boots(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lanayru Spring Back Room Right Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or can_do_bs_moon_boots(state, player)
+        ),
     )
     set_rule_if_exists(
         "Lanayru Spring East Double Clawshot Chest",
@@ -2729,10 +3728,12 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Lanayru Spring Underwater Left Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists(
         "Lanayru Spring Underwater Right Chest",
         lambda state: (state.has("Iron Boots", player)),
+        lambda state: (has_heavy_mod(state, player)),
     )
     set_rule_if_exists(
         "Lanayru Spring West Double Clawshot Chest",
@@ -2753,6 +3754,28 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Outside South Castle Town Double Clawshot Chasm Chest",
         lambda state: (state.has("Progressive Clawshot", player, 2)),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 2)
+            or (
+                has_sword(state, player)
+                and (
+                    (
+                        (
+                            state._tp_damage_magnification(player)
+                            == DamageMagnification.option_vanilla
+                        )
+                        or (
+                            state._tp_damage_magnification(player)
+                            == DamageMagnification.option_double
+                        )
+                    )
+                    or can_use_bottled_fairy(state, player)
+                )
+            )
+            or has_bombs(state, player)
+            or state.has("Spinner", player)
+            or state.has("Shadow Crystal", player)
+        ),
     )
     set_rule_if_exists("Outside South Castle Town Female Ladybug", lambda state: (True))
     set_rule_if_exists(
@@ -2760,6 +3783,23 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Spinner", player)
             and state.has("Progressive Clawshot", player, 1)
+        ),
+        lambda state: (
+            (
+                state.has("Spinner", player)
+                and state.has("Progressive Clawshot", player, 1)
+            )
+            or (can_do_map_glitch(state, player) and has_bottle(state, player))
+            or can_do_moon_boots(state, player)
+            or can_do_bs_moon_boots(state, player)
+            or can_do_lja(state, player)
+            or (
+                has_sword(state, player)
+                and (
+                    state.has("Progressive Hidden Skill", player, 3)
+                    or has_bombs(state, player)
+                )
+            )
         ),
     )
     set_rule_if_exists(
@@ -2813,12 +3853,22 @@ def set_location_access_rules(world: "TPWorld"):
             or state.has("Gale Boomerang", player)
             or state.can_reach_region("Outside Castle Town West Grotto Ledge", player)
         ),
+        lambda state: (
+            state.has("Progressive Clawshot", player, 1)
+            or state.has("Gale Boomerang", player)
+            or can_do_map_glitch(state, player)
+            or can_get_bug_with_lantern(state, player)
+        ),
     )
     set_rule_if_exists(
         "West Hyrule Field Golden Wolf",
         lambda state: (
             state.has("Shadow Crystal", player)
             and state.can_reach_region("Upper Zoras River", player)
+        ),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and state.can_reach_region("Zoras Domain", player)
         ),
     )
     set_rule_if_exists(
@@ -2833,10 +3883,18 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Shadow Crystal", player)
             and state.can_reach_region("Castle Town South", player)
         ),
+        lambda state: (state.has("Invoice", player)),
     )
     set_rule_if_exists(
         "Zoras Domain Chest Behind Waterfall",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            or can_do_bs_moon_boots(state, player)
+            or state.has("Spinner", player)
+            or (has_bombs(state, player) and has_sword(state, player))
+            or can_do_lja(state, player)
+        ),
     )
     set_rule_if_exists(
         "Zoras Domain Chest By Mother and Child Isles", lambda state: (True)
@@ -2846,12 +3904,16 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Gale Boomerang", player) and state.has("Iron Boots", player)
         ),
+        lambda state: (
+            state.has("Gale Boomerang", player) and has_heavy_mod(state, player)
+        ),
     )
     set_rule_if_exists(
         "Zoras Domain Light All Torches Chest",
         lambda state: (
             state.has("Lantern", player) and state.has("Iron Boots", player)
         ),
+        lambda state: (state.has("Lantern", player) and has_heavy_mod(state, player)),
     )
     set_rule_if_exists("Zoras Domain Male Dragonfly", lambda state: (True))
     set_rule_if_exists(
@@ -2865,6 +3927,9 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Iron Boots", player)
             and state.has("Zora Armor", player)
         ),
+        lambda state: (
+            can_use_water_bombs(state, player) and state.has("Iron Boots", player)
+        ),
     )
     set_rule_if_exists(
         "Zoras Domain Waterfall Poe",
@@ -2876,6 +3941,7 @@ def set_location_access_rules(world: "TPWorld"):
             # can_complete_prologue(state, player) and
             can_change_time(state, player)
         ),
+        lambda state: True,  # (can_complete_prologue(state, player)),
     )
     set_rule_if_exists(
         "Links Basement Chest",
@@ -2888,6 +3954,7 @@ def set_location_access_rules(world: "TPWorld"):
             and state.has("Progressive Fishing Rod", player, 1)
             and can_change_time(state, player)
         ),
+        lambda state: (state.has("Progressive Fishing Rod", player, 1)),
     )
     set_rule_if_exists(
         "Ordon Ranch Grotto Lantern Chest",
@@ -2939,7 +4006,9 @@ def set_location_access_rules(world: "TPWorld"):
     )
     set_rule_if_exists("Sera Shop Slingshot", lambda state: (True))
     set_rule_if_exists(
-        "Uli Cradle Delivery", lambda state: (can_change_time(state, player))
+        "Uli Cradle Delivery",
+        lambda state: (can_change_time(state, player)),
+        lambda state: (True),
     )
     set_rule_if_exists("Wooden Sword Chest", lambda state: (True))
     set_rule_if_exists("Wrestling With Bo", lambda state: (True))
@@ -2950,14 +4019,31 @@ def set_location_access_rules(world: "TPWorld"):
             can_complete_snowpeak_ruins(state, player)
             and can_defeat_ShadowBeast(state, player)
         ),
+        lambda state: (can_complete_snowpeak_ruins(state, player)),
     )
     set_rule_if_exists(
         "Snowpeak Above Freezard Grotto Poe",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                state.has("Progressive Fishing Rod", player, 2)
+                or (state._tp_skip_snowpeak_entrance(player))
+                or can_do_map_glitch(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Snowpeak Blizzard Poe",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                state.has("Progressive Fishing Rod", player, 2)
+                or (state._tp_skip_snowpeak_entrance(player))
+                or can_do_map_glitch(state, player)
+            )
+        ),
     )
     set_rule_if_exists(
         "Snowpeak Cave Ice Lantern Chest",
@@ -2974,6 +4060,9 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Snowpeak Freezard Grotto Chest",
         lambda state: (state.has("Ball and Chain", player)),
+        lambda state: (
+            can_defeat_Freezard(state, player) and state.has("Ball and Chain", player)
+        ),
     )
     set_rule_if_exists(
         "Snowpeak Icy Summit Poe",
@@ -2998,4 +4087,12 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Snowpeak Poe Among Trees",
         lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and (
+                state.has("Progressive Fishing Rod", player, 2)
+                or (state._tp_skip_snowpeak_entrance(player))
+                or can_do_map_glitch(state, player)
+            )
+        ),
     )

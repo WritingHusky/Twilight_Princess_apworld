@@ -161,9 +161,9 @@ function main() {
         local bundle="${bundle_base}-${tag}"
         local destdir="${target_path}/${bundle}"
 
-        for platform in "${SUPPORTED_PLATFORMS[@]}"; do
-            get_deps "${platform}" "${project}/requirements.txt" "${destdir}/lib"
-        done
+        # for platform in "${SUPPORTED_PLATFORMS[@]}"; do
+        #     get_deps "${platform}" "${project}/requirements.txt" "${destdir}/lib"
+        # done
         mk_apworld "${project}" "${destdir}"
         cp_data "${project}" "${destdir}"
         bundle "${destdir}" "${target_path}/${bundle}.zip"

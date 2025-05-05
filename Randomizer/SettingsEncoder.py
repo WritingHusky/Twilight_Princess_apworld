@@ -4,8 +4,6 @@ from ..Items import TPItem
 from ..Locations import TPLocation
 from ..options import *
 
-if TYPE_CHECKING:
-    from worlds.twilight_princess_apworld import TPWorld
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
 # Based off of:

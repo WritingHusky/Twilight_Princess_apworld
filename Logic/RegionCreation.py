@@ -227,6 +227,11 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     )
     multiworld.regions.append(snowpeak_ruins_caged_freezard_room)
 
+    snowpeak_ruins_caged_freezard_room_lower = Region(
+        "Snowpeak Ruins Caged Freezard Room Lower", player, multiworld
+    )
+    multiworld.regions.append(snowpeak_ruins_caged_freezard_room_lower)
+
     snowpeak_ruins_chapel = Region("Snowpeak Ruins Chapel", player, multiworld)
     multiworld.regions.append(snowpeak_ruins_chapel)
 
