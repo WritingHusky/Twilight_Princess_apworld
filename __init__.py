@@ -220,6 +220,18 @@ class TPWorld(World):
                     MapAndCompassSettings.option_vanilla
                 )
 
+        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
+            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
+            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
+            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
+            self.options.hidden_skills_shuffled.value = (
+                HiddenSkillsShuffled.option_false
+            )
+            self.options.sky_characters_shuffled.value = (
+                SkyCharactersShuffled.option_false
+            )
+            self.options.poe_shuffled.value = PoeShuffled.option_false
+
         # If Shadow Crystal is a precollected item don't try to put it in Sphere 1
         if any(
             [
@@ -317,7 +329,7 @@ class TPWorld(World):
             )
 
             region.locations.append(location)
-            if location in self.nonprogress_locations:
+            if location_name in self.nonprogress_locations:
                 self.get_location(location_name).progress_type = (
                     LocationProgressType.EXCLUDED
                 )
@@ -327,7 +339,10 @@ class TPWorld(World):
             == DungeonRewardsProgression.option_true
         ):
             for location, data in LOCATION_TABLE.items():
-                if ((TPFlag.Boss & data.flags) == TPFlag.Boss) or (
+                if (
+                    (TPFlag.Boss & data.flags)
+                    == TPFlag.Boss
+                    # ) or (
                     # (TPFlag.MiniBoss & data.flags) == TPFlag.MiniBoss # Might want to make miniboss aswell
                 ):
                     self.get_location(location).progress_type = (
@@ -1120,6 +1135,61 @@ class TPWorld(World):
         assert (
             len(pre_fill_items) == 0
         ), f"Not all pre fill items placed {pre_fill_items=}"
+
+    # def post_fill(self):
+    #     # To lazy to make them a test so testing here instead
+
+    #     if not self.options.overworld_shuffled.value:
+    #         for location_name, data in LOCATION_TABLE.items():
+    #             location = self.get_location(location_name)
+    #             assert isinstance(location.item, Item)
+    #             if (data.flags & TPFlag.Overworld) == TPFlag.Overworld:
+    #                 if (
+    #                     not (
+    #                         location.item.name == "Poe Soul"
+    #                         and self.options.poe_shuffled
+    #                     )
+    #                     or not (
+    #                         location.item.name in item_name_groups["Bugs"]
+    #                         and self.options.golden_bugs_shuffled
+    #                     )
+    #                     or not (
+    #                         location.item.name == "Progressive Sky Book"
+    #                         and self.options.sky_characters_shuffled
+    #                     )
+    #                 ):
+    #                     assert (
+    #                         location.progress_type == LocationProgressType.EXCLUDED
+    #                     ), f"{location_name=}"
+    #                     assert (
+    #                         not location.item.advancement
+    #                     ), f"{location_name=}, {location.item=}"
+
+    #     if not self.options.dungeons_shuffled.value:
+    #         for location_name, data in LOCATION_TABLE.items():
+    #             location = self.get_location(location_name)
+    #             assert isinstance(location.item, Item)
+    #             if (data.flags & TPFlag.Dungeon == TPFlag.Dungeon) and not (
+    #                 (data.flags & TPFlag.Boss == TPFlag.Boss)
+    #                 and self.options.dungeon_rewards_progression
+    #             ):
+    #                 if not (
+    #                     location.item.name in item_name_groups["Small Keys"]
+    #                     and self.options.small_key_settings.value
+    #                     == DungeonItem.option_vanilla
+    #                 ) or not (
+    #                     location.item.name in item_name_groups["Big Keys"]
+    #                     and self.options.big_key_settings.value
+    #                     == DungeonItem.option_vanilla
+    #                 ):
+    #                     assert (
+    #                         location.progress_type == LocationProgressType.EXCLUDED
+    #                     ), f"{location_name=}"
+    #                     assert (
+    #                         not location.item.advancement
+    #                     ), f"{location_name=}, {location.item=}"
+
+    #     return super().post_fill()
 
     def generate_output(self, output_directory: str) -> None:
         """

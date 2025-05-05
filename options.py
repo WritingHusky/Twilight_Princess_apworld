@@ -609,7 +609,7 @@ class TPOptions(PerGameCommonOptions):
     small_key_settings: SmallKeySettings
     big_key_settings: BigKeySettings
     map_and_compass_settings: MapAndCompassSettings
-    dungeon_rewards_progression: DungeonRewardsProgression  # Not yet useful
+    dungeon_rewards_progression: DungeonRewardsProgression
     small_keys_on_bosses: SmallKeysOnBosses
 
     # Logic Settings
