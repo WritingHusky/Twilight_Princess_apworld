@@ -248,7 +248,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ordon Pumpkin": TPItemData("Small Key", IC.progression, 129, 1, 0xF4),
     "Ordon Goat Cheese": TPItemData("Small Key", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
-    "Victory": TPItemData("Event", IC.progression, 132, 1, None),
+    "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
 }
 

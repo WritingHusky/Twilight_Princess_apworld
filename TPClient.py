@@ -544,7 +544,7 @@ async def check_locations(ctx: TPContext) -> None:
                     [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
                 )
                 ctx.finished_game = True
-                locations_read.add(TPLocation.get_apid(data.code))
+                # locations_read.add(TPLocation.get_apid(data.code))
             continue
 
         # If there is not a valid apid dont bother checking that location
