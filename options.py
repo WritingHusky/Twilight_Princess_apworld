@@ -124,6 +124,8 @@ class OverWoldShuffled(Toggle):
     """
     If enabled, Overworld locations can contain progression items.
     Cannot be disabled if Dungeon shuffle is disabled
+    Note:
+    Disabling may lead to generation failures as the possible location count is reduced dramtically.
     """
 
     display_name = "Overworld Items"
