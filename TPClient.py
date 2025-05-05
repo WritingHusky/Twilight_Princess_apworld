@@ -434,9 +434,8 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
             logger.info(f"Debug: Giving {items[i]} into queue")
 
         if items[i] == "Victory":
-            assert (
-                ctx.finished_game
-            ), "Player got victory but the game is not complete in client"
+            if not ctx.finished_game:
+                logger.info("Player got victory but the game is not complete in client")
             continue
 
         write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
