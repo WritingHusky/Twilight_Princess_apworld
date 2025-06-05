@@ -424,7 +424,7 @@ class TPWorld(World):
                 == SmallKeysOnBosses.option_false
             ):
                 for location, data in LOCATION_TABLE.items():
-                    if (TPFlag.Boss & data.flags) == TPFlag.Boss:
+                    if (data.flags & TPFlag.Boss) == TPFlag.Boss:
                         old_rule = self.get_location(location).item_rule
                         self.get_location(location).item_rule = (
                             lambda item, _oldrule=old_rule: (
@@ -544,6 +544,7 @@ class TPWorld(World):
             assert (
                 location == "Lake Hylia Bridge Owl Statue Sky Character"
             ), f"{location=}"
+            # Sky book chest will already be excluded
             del location, character_list, character
 
         collection_state_base = CollectionState(self.multiworld)
@@ -1136,60 +1137,172 @@ class TPWorld(World):
             len(pre_fill_items) == 0
         ), f"Not all pre fill items placed {pre_fill_items=}"
 
-    # def post_fill(self):
-    #     # To lazy to make them a test so testing here instead
+    def post_fill(self):
+        # As part of (semi-)tiger beetle style test ensure things worked Properly in prod
+        # This Allows for easy fuzzing to test find bugs
+        for location_name, data in LOCATION_TABLE.items():
+            location = self.get_location(location_name)
+            assert isinstance(location.item, Item)
 
-    #     if not self.options.overworld_shuffled.value:
-    #         for location_name, data in LOCATION_TABLE.items():
-    #             location = self.get_location(location_name)
-    #             assert isinstance(location.item, Item)
-    #             if (data.flags & TPFlag.Overworld) == TPFlag.Overworld:
-    #                 if (
-    #                     not (
-    #                         location.item.name == "Poe Soul"
-    #                         and self.options.poe_shuffled
-    #                     )
-    #                     or not (
-    #                         location.item.name in item_name_groups["Bugs"]
-    #                         and self.options.golden_bugs_shuffled
-    #                     )
-    #                     or not (
-    #                         location.item.name == "Progressive Sky Book"
-    #                         and self.options.sky_characters_shuffled
-    #                     )
-    #                 ):
-    #                     assert (
-    #                         location.progress_type == LocationProgressType.EXCLUDED
-    #                     ), f"{location_name=}"
-    #                     assert (
-    #                         not location.item.advancement
-    #                     ), f"{location_name=}, {location.item=}"
+            # Poe (Vanilla when not Shuffled) (ignore Jovani)
+            if (
+                not self.options.poe_shuffled
+                and (data.flags & TPFlag.Poe) == TPFlag.Poe
+                and not (data.flags & TPFlag.Npc) == TPFlag.Npc
+            ):
+                # Catches Dungeon Poes as well
+                assert (
+                    location.item.name == "Poe Soul"
+                ), f"[Post Fill Error] {location.name} does not have a Poe Soul it has {location.item}"
+                assert (
+                    location.name in VANILLA_POE_LOCATIONS
+                ), f"[Post Fill Error] {location.name} has a Poe Soul but poes not shuffled"
 
-    #     if not self.options.dungeons_shuffled.value:
-    #         for location_name, data in LOCATION_TABLE.items():
-    #             location = self.get_location(location_name)
-    #             assert isinstance(location.item, Item)
-    #             if (data.flags & TPFlag.Dungeon == TPFlag.Dungeon) and not (
-    #                 (data.flags & TPFlag.Boss == TPFlag.Boss)
-    #                 and self.options.dungeon_rewards_progression
-    #             ):
-    #                 if not (
-    #                     location.item.name in item_name_groups["Small Keys"]
-    #                     and self.options.small_key_settings.value
-    #                     == DungeonItem.option_vanilla
-    #                 ) or not (
-    #                     location.item.name in item_name_groups["Big Keys"]
-    #                     and self.options.big_key_settings.value
-    #                     == DungeonItem.option_vanilla
-    #                 ):
-    #                     assert (
-    #                         location.progress_type == LocationProgressType.EXCLUDED
-    #                     ), f"{location_name=}"
-    #                     assert (
-    #                         not location.item.advancement
-    #                     ), f"{location_name=}, {location.item=}"
+            # Bugs (Vanilla when not Shuffled) (ignore agitha)
+            if (
+                not self.options.golden_bugs_shuffled
+                and (data.flags & TPFlag.Bug) == TPFlag.Bug
+                and not (data.flags & TPFlag.Npc) == TPFlag.Npc
+            ):
+                assert (
+                    location.item.name in item_name_groups["Bugs"]
+                ), f"[Post Fill Error] {location.name} does not have a Golden Bug it has {location.item}"
+                assert (
+                    location.name in VANILLA_GOLDEN_BUG_LOCATIONS.values()
+                ), f"[Post Fill Error] {location.name} has a Golden Bug but bugs not shuffled"
 
-    #     return super().post_fill()
+            # Hidden Skill (Excluded when not Shuffled)
+            if (
+                not self.options.hidden_skills_shuffled
+                and (data.flags & TPFlag.Skill) == TPFlag.Skill
+            ):
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but hidden_skill not shuffled"
+
+            # Sky Book (Vanilla when not Shuffled)
+            if (
+                not self.options.sky_characters_shuffled
+                and (data.flags & TPFlag.Sky_Book) == TPFlag.Sky_Book
+            ):
+                if "Sky Character" not in location.name:
+                    assert (
+                        location.progress_type == LocationProgressType.EXCLUDED
+                    ), f"[Post Fill Error] {location.name} is {location.progress_type} but Sky Characters not shuffled"
+
+                else:
+                    assert (
+                        location.item.name == "Progressive Sky Book"
+                    ), f"[Post Fill Error] {location.name} does not have a Sky Character it has {location.item}"
+                    assert (
+                        location.name in VANILLA_SKY_CHARACTER_LOCATIONS
+                    ), f"[Post Fill Error] {location.name} has a Sky Character but they are not shuffled"
+
+            # Heart (Excluded when not Shuffled) (Do not Consider Boss heart containers)
+            if (
+                not self.options.heart_piece_shuffled
+                and (data.flags & TPFlag.Heart) == TPFlag.Heart
+                and not (data.flags & TPFlag.Boss) == TPFlag.Boss
+            ):
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but Heart Pieces not shuffled"
+
+            # Shop (Excluded when not Shuffled)
+            if (
+                not self.options.shop_items_shuffled
+                and (data.flags & TPFlag.Shop) == TPFlag.Shop
+            ):
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but Shop not shuffled"
+
+            # NPC (Excluded when not Shuffled)
+            if (
+                not self.options.npc_items_shuffled
+                and (data.flags & TPFlag.Npc) == TPFlag.Npc
+            ):
+                # Handle Agitha
+                if (data.flags & TPFlag.Bug) == TPFlag.Bug:
+                    if not self.options.golden_bugs_shuffled:
+                        assert (
+                            location.progress_type == LocationProgressType.EXCLUDED
+                        ), f"[Post Fill Error] {location.name} is {location.progress_type} but NPC's not shuffled"
+                # Handle Jovani
+                if (data.flags & TPFlag.Poe) == TPFlag.Poe:
+                    if not self.options.poe_shuffled:
+                        assert (
+                            location.progress_type == LocationProgressType.EXCLUDED
+                        ), f"[Post Fill Error] {location.name} is {location.progress_type} but NPC's not shuffled"
+
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but NPC's not shuffled"
+
+            # Story (Vanilla items, no other locations should have the items)
+            match (location.name):
+                case "Renados Letter":
+                    assert (
+                        location.item.name == "Renado's Letter"
+                    ), f"[Post Fill Error] {location.name} has {location.item.name}"
+                case "Telma Invoice":
+                    assert (
+                        location.item.name == "Invoice"
+                    ), f"[Post Fill Error] {location.name} has {location.item.name}"
+                case "Wooden Statue":
+                    assert (
+                        location.item.name == "Wooden Statue"
+                    ), f"[Post Fill Error] {location.name} has {location.item.name}"
+                case "Ilias Charm":
+                    assert (
+                        location.item.name == "Ilias Charm"
+                    ), f"[Post Fill Error] {location.name} has {location.item.name}"
+                case "Ilia Memory Reward":
+                    assert (
+                        location.item.name == "Horse Call"
+                    ), f"[Post Fill Error] {location.name} has {location.item.name}"
+
+            # Dungeon (Check Only Dungeon Locations)
+            if not self.options.dungeons_shuffled and data.flags == TPFlag.Dungeon:
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but Dungeons not shuffled"
+
+            # Boss / Mini Boss
+            if (data.flags & TPFlag.Boss) == TPFlag.Boss:
+                # Dungeon Rewards (Becomes Priority)
+                if self.options.dungeon_rewards_progression:  # or mini boss if made so
+                    assert (
+                        location.progress_type == LocationProgressType.PRIORITY
+                    ), f"[Post Fill Error] {location.name} is {location.progress_type} but Dungeons rewards are progression"
+                # (Default check of dungeon)
+                else:
+                    if not self.options.dungeons_shuffled:
+                        assert (
+                            location.progress_type == LocationProgressType.EXCLUDED
+                        ), f"[Post Fill Error] {location.name} is {location.progress_type} but Dungeons not shuffled"
+
+                # Small Keys On Bosses (Check Item)
+                if not self.options.small_keys_on_bosses:
+                    assert (
+                        location.item.name not in item_name_groups["Small Keys"]
+                    ), f"[Post Fill Error] {location.name} has {location.item} but small keys are not on bosses"
+
+            # Small Key
+
+            # Big Key
+
+            # M&C
+
+            # Overworld (Check only overworld flagged locations)
+            if not self.options.overworld_shuffled and data.flags == TPFlag.Overworld:
+                assert (
+                    location.progress_type == LocationProgressType.EXCLUDED
+                ), f"[Post Fill Error] {location.name} is {location.progress_type} but OverWorld not shuffled"
+
+            # Early Shadow Crystal
+
+        return super().post_fill()
 
     def generate_output(self, output_directory: str) -> None:
         """
