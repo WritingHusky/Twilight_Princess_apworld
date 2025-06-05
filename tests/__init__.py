@@ -11,6 +11,12 @@ DEFAULT_TEST_SEED = get_seed()
 
 
 class TwilightPrincessWorldTestBase(WorldTestBase):
+
+    # Insipred by Tiger Beetle most of the testing occurs within generation.
+    # These Tests are a basic set to stimulate the in built tests.
+    # Later there may be more tests to test specific things but most of the testing occurs are run time
+    #   This way a fuzzer can be run to explore the seed space for all possible bugs in the system
+
     game = "Twilight Princess"
     player = 1
     options: dict[str, Any]
