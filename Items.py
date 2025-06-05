@@ -158,7 +158,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Lantern Oil (Coro Bottle)": TPItemData("Bottle", IC.progression, 48, 1, 0x9D),
     "Great Fairy Tears (Jovani)": TPItemData("Bottle", IC.progression, 49, 1, 0x75),
     # Story Items fit here (useful if randomized eventually)
-    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 1, 0x84),
+    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
     "Forest Temple Small Key": TPItemData("Small key", IC.progression, 54, 4, 0x85),
     "Goron Mines Small Key": TPItemData("Small key", IC.progression, 55, 3, 0x86),
     "Lakebed Temple Small Key": TPItemData("Small key", IC.progression, 56, 3, 0x87),
