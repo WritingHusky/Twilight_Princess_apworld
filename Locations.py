@@ -1663,7 +1663,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Zant Heart Container": TPLocationData(
         code=167,
-        flags=TPFlag.Dungeon | TPFlag.Heart | TPFlag.Dungeon,
+        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,

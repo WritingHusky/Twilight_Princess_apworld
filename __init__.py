@@ -34,6 +34,7 @@ from worlds.LauncherComponents import (
 
 from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
+    DUNGEON_TO_BOSS_DEFEAT,
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
     VANILLA_SKY_CHARACTER_LOCATIONS,
@@ -420,20 +421,30 @@ class TPWorld(World):
                         )
                     )
 
-            # Add item rules for small keys on bosses
-            if (
-                self.options.small_keys_on_bosses.value
-                == SmallKeysOnBosses.option_false
-            ):
-                for location, data in LOCATION_TABLE.items():
-                    if (data.flags & TPFlag.Boss) == TPFlag.Boss:
-                        old_rule = self.get_location(location).item_rule
-                        self.get_location(location).item_rule = (
-                            lambda item, _oldrule=old_rule: (
-                                (item.name not in item_name_groups["Small Keys"])
-                                and _oldrule(item)
-                            )
+        # Small Keys on bosses based on setting
+        if self.options.small_keys_on_bosses.value == SmallKeysOnBosses.option_false:
+            for location, data in LOCATION_TABLE.items():
+                if (data.flags & TPFlag.Boss) == TPFlag.Boss:
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            (item.name not in item_name_groups["Small Keys"])
+                            and _oldrule(item)
                         )
+                    )
+
+        # Boss keys on own defeat locations
+        for dungeon, data in VANILLA_BIG_KEY_LOCATIONS.items():
+            for key, _ in data.items():
+                for location in DUNGEON_TO_BOSS_DEFEAT[dungeon]:
+                    if not location:
+                        continue
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule, _key=key: (
+                            (item.name != _key) and _oldrule(item)
+                        )
+                    )
 
     def pre_fill(self) -> None:
         """
