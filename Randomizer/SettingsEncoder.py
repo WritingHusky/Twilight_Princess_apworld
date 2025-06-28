@@ -23,7 +23,9 @@ def get_item_placements(
 
     for location in multiworld.get_locations(player):
         assert isinstance(location, TPLocation)
-        assert isinstance(location.item, Item), f"{location.name}, {location.item}"
+        assert isinstance(
+            location.item, Item
+        ), f"[Twilight Princess] {location.name}, {location.item}"
 
         # Ignore event locations
         if not isinstance(location.code, int):
@@ -46,7 +48,7 @@ def get_item_placements(
             # Filer
             if isinstance(location.address, int)
         ]
-    ), f"{len(location_number_to_item_code)},{len(multiworld.get_locations(player))}"
+    ), f"[Twilight Princess] {len(location_number_to_item_code)},{len(multiworld.get_locations(player))}"
 
     result = encode_item_placements(location_number_to_item_code)
     assert isinstance(result, str)
@@ -180,20 +182,24 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         if isinstance(setting_value, bool):
             bit_string += "1" if setting_value else "0"
         elif isinstance(setting_value, tuple):
-            assert len(setting_value) == 2, f"{setting_value}"
-            assert isinstance(setting_value[0], int), f"{setting_value}"
-            assert isinstance(setting_value[1], int), f"{setting_value}"
+            assert len(setting_value) == 2, f"[Twilight Princess] {setting_value}"
+            assert isinstance(
+                setting_value[0], int
+            ), f"[Twilight Princess] {setting_value}"
+            assert isinstance(
+                setting_value[1], int
+            ), f"[Twilight Princess] {setting_value}"
             bit_string += encode_num_as_bits(setting_value[0], setting_value[1])
         else:
-            assert False, f"{setting_value}"
+            assert False, f"[Twilight Princess] {setting_value}"
 
     # Create the starting inventory
     item_bit_string = ""
     for item in multiworld.precollected_items[player]:
         assert isinstance(
             item, TPItem
-        ), f"{item=}, TP Player has precollected a non TP Item?"
-        assert isinstance(item.item_id, int), f"{item=}"
+        ), f"[Twilight Princess] {item=}, TP Player has precollected a non TP Item?"
+        assert isinstance(item.item_id, int), f"[Twilight Princess] {item=}"
         item_bit_string += encode_num_as_bits(item.item_id, 9)
 
     item_bit_string += "111111111"

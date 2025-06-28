@@ -123,11 +123,11 @@ class TPLocationData(NamedTuple):
     region: Optional[int] = None
     offset: Optional[int] = None
     bit: Optional[int] = None
+    # Note: LocationData.region refers to where the data is stored (which is labled as regions)
 
 
 class TPLocation(Location):
     game: str = "Twilight Princess"
-    # dungeon: Optional["Dungeon"] = None
 
     def __init__(self, player: int, name: str, parent: Region, data: TPLocationData):
 
@@ -4512,6 +4512,7 @@ LOCATION_TABLE = {
     # "Ordon Spring Portal": TPLocationData(
     #     None, TPFlag.Always, TPStages.Ordon_Spring, TPLocationType.Region
     # ),
+    # Story locations used as events
     "Renados Letter": TPLocationData(
         code=None,
         flags=TPFlag.Always,
@@ -4559,6 +4560,7 @@ LOCATION_TABLE = {
     ),
 }
 
+# A dictionary of every location to it's region. Could be part of location Data however i'm lazy
 LOCATION_TO_REGION: dict[str, str] = {
     "Arbiters Grounds Entrance Chest": "Arbiters Grounds Entrance",
     "Arbiters Grounds Torch Room East Chest": "Arbiters Grounds Lobby",

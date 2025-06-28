@@ -3,7 +3,7 @@ from ..Items import GoldenBugs, TPItem
 from ..RoomFunctions import RoomFunctions
 from ..options import FaronWoodsLogic
 
-
+#region Glichless Logic
 def can_use(state: CollectionState, player: int, item: str):
     if isinstance(item, str):
         return state.has(item, player)
@@ -1474,29 +1474,29 @@ def can_clear_forest(state: CollectionState, player: int):
     )
 
 
-def can_complete_faron_twilight(state: CollectionState, player: int):
-    assert False, "This is no longer used"
-    # return ( # state._tp_faron_twilight_cleared(player) or
-    #     can_complete_prologue(state, player)
-    #     and state.can_reach_region("South Faron Woods", player)
-    #     and state.can_reach_region("Faron Woods Coros House Lower", player)
-    #     and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
-    #     and state.can_reach_region("North Faron Woods", player)
-    #     and state.can_reach_region("Ordon Spring", player)
-    #     and (
-    #         not state._tp_bonks_do_damage(player)
-    #         or (
-    #             state._tp_bonks_do_damage(player)
-    #             and (
-    #                 (
-    #                     state._tp_damage_magnification(player)
-    #                     is not DamageMagnification.option_ohko
-    #                 )
-    #                 or can_use_bottled_fairies(state, player)
-    #             )
-    #         )
-    #     )
-    # )
+# def can_complete_faron_twilight(state: CollectionState, player: int):
+#     assert False, "This is no longer used"
+#     return ( # state._tp_faron_twilight_cleared(player) or
+#         can_complete_prologue(state, player)
+#         and state.can_reach_region("South Faron Woods", player)
+#         and state.can_reach_region("Faron Woods Coros House Lower", player)
+#         and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
+#         and state.can_reach_region("North Faron Woods", player)
+#         and state.can_reach_region("Ordon Spring", player)
+#         and (
+#             not state._tp_bonks_do_damage(player)
+#             or (
+#                 state._tp_bonks_do_damage(player)
+#                 and (
+#                     (
+#                         state._tp_damage_magnification(player)
+#                         is not DamageMagnification.option_ohko
+#                     )
+#                     or can_use_bottled_fairies(state, player)
+#                 )
+#             )
+#         )
+#     )
 
 
 # def can_complete_eldin_twilight(state: CollectionState, player: int):
@@ -1701,9 +1701,8 @@ def can_get_bug_with_lantern(state: CollectionState, player: int):
     # TODO: If option to not have bug models replaced becomes a thing, this function can be useful
     return False
 
-
-# START OF GLITCHED LOGIC
-
+#endregion
+#region Gliched Logic
 
 def has_sword_or_BS(state: CollectionState, player: int):
     return has_sword(state, player) or state.has("Progressive Hidden Skill", player, 3)
@@ -1791,7 +1790,7 @@ def can_do_moon_boots(state: CollectionState, player: int):
             state.has("Iron Boots", player)
             and state.has("Progressive Hidden Skill", player, 3)
         )
-    )  # Ensure you can equip something over boots
+    )  # Ensure you can equip something over boots TODO: moon boots item count logic?
 
 
 def can_do_js_moon_boots(state: CollectionState, player: int):

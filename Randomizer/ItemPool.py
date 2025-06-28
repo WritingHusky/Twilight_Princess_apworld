@@ -143,7 +143,7 @@ VANILLA_BIG_KEY_LOCATIONS = {
     },
 }
 
-VANILLA_MAP_AND_COMPASS_LOCATIONS: Dict[str, List[str]] = {
+VANILLA_MAP_AND_COMPASS_LOCATIONS = {
     "Forest Temple": {
         "Forest Temple Map": [
             "Forest Temple Central North Chest",
@@ -318,42 +318,36 @@ VANILLA_SKY_CHARACTER_LOCATIONS = [
 ]
 
 
-# This takes all the items form the world and adds them to the multiworld itempool
 def generate_itempool(world: "TPWorld") -> None:
     multiworld = world.multiworld
 
-    # Get the core pool of items.
     pool, precollected_items = get_pool_core(world)
 
-    # Add precollected items to the multiworld's `precollected_items` list.
     for item in precollected_items:
         multiworld.push_precollected(item_factory(item, world))
 
-    # Create the pool of the remaining shuffled items.
     items = item_factory(pool, world)
     multiworld.random.shuffle(items)
 
     multiworld.itempool.extend(items)
 
 
-# This gets all the items from the world and
 def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     pool: List[str] = []
     precollected_items: List[str] = []
     # n_pending_junk: int = location_count
 
-    # Split items into three different pools: progression, useful, and filler.
+    # Split items into four different pools: prefill, progression, useful, and filler.
+    prefill_pool: list[str] = []
     progression_pool: list[str] = []
     useful_pool: list[str] = []
     filler_pool: list[str] = []
-    prefill_pool: list[str] = []
 
-    # Add regular items to the item pool.
     for item, data in ITEM_TABLE.items():
+        # Catch items that need special handling
         if data.code != None and item not in ["Victory", "Ice Trap"]:
-
+            # Prefill check
             if (
-                # If item is in a dungeon then they will be placed pre_fill so they should not be in the pool
                 (
                     item in item_name_groups["Small Keys"]
                     and world.options.small_key_settings.in_dungeon
@@ -366,13 +360,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     item in item_name_groups["Maps and Compasses"]
                     and world.options.map_and_compass_settings.in_dungeon
                 )
-                # When bugs not shuffled, prefill them to vanilla locations
                 or (
                     item in item_name_groups["Bugs"]
                     and world.options.golden_bugs_shuffled.value
                     == GoldenBugsShuffled.option_false
                 )
-                # When poes not shuffled, prefill them to vanilla locations
                 or (
                     item == "Poe Soul"
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
@@ -391,7 +383,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 prefill_pool.extend([item] * data.quantity)
                 continue
 
-            # If item is started with then precollect it
+            # Start-with items
             if (
                 (
                     item in item_name_groups["Small Keys"]
@@ -417,6 +409,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 precollected_items.extend([item] * data.quantity)
                 continue
 
+            # Other items get shuffled normally so sort by classification into pools
             adjusted_classification = world.determine_item_classification(item)
             classification = (
                 data.classification
@@ -432,9 +425,9 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 filler_pool.extend([item] * data.quantity)
 
         else:
-            assert item in ["Victory", "Ice Trap"], f"{item}"
+            assert item in ["Victory", "Ice Trap"], f"[Twilight Princess] {item}"
 
-        # Get the number of locations that have not been filled yet
+    # Get the number of locations that have not been filled yet
     placeable_locations = [
         location
         for location in world.multiworld.get_locations(world.player)
@@ -452,7 +445,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
         ]
     ):
         raise FillError(
-            "There are insufficient locations to place progression items! "
+            "[Twilight Princess] There are insufficient locations to place progression items! "
             f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
         )
 
@@ -460,7 +453,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
 
-    # For Sky characters vanilla, 1 item placed into precollected so increase filler count
+    # For Sky characters vanilla, 1 item placed into precollected (in-prefill) so increase filler count
     if (
         world.options.sky_characters_shuffled.value
         == SkyCharactersShuffled.option_false
@@ -473,8 +466,8 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     world.filler_pool = filler_pool
     world.prefill_pool = prefill_pool
 
-    assert len(world.useful_pool) > 0
-    assert len(world.filler_pool) > 0
+    assert len(world.useful_pool) > 0, f"[Twilight Princess] {len(world.useful_pool)=}"
+    assert len(world.filler_pool) > 0, f"[Twilight Princess] {len(world.filler_pool)=}"
 
     # Place filler items ensure that the pool has the correct number of items.
     pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
@@ -482,6 +475,8 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     return pool, precollected_items
 
 
+# TODO Check varible classification of boss items
+# Used to fill out boss defeat events and result used to fill out prefill Collection State
 def get_boss_defeat_items(world: "TPWorld"):
     return {
         "Diababa": TPItem(
@@ -624,7 +619,7 @@ def get_boss_defeat_items(world: "TPWorld"):
 
 
 def place_deterministic_items(world: "TPWorld") -> None:
-    """This function places items that are: Not shuffled, only part of logic, or are used for the spoiler log."""
+    """This function places items that are: not shuffled, only part of logic, or are used for the spoiler log."""
 
     # Place a "Victory" item on "Defeat Ganondorf" for the spoiler log.
     world.get_location("Hyrule Castle Ganondorf").place_locked_item(
@@ -658,7 +653,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
     )
 
     # Manually place items that cannot be randomized yet.
-    # These are still items post generation, but are not shuffled (yet?). (this means getting them will fire a message?)
+    # These are still items in-game, but are not worried about post generation
     world.get_location("Renados Letter").place_locked_item(
         TPItem(
             "Renado's Letter",
@@ -711,206 +706,18 @@ def place_deterministic_items(world: "TPWorld") -> None:
             ),
         )
     )
-    world.get_location(  # Base Rando forces this. Horse call is also in the itempool that gets shuffled
-        "Ilia Memory Reward"
-    ).place_locked_item(
-        item_factory("Horse Call", world)
+    # Base Rando forces this as horse call
+    # NOTE: Collecting Horse Call/Any Quest item will disable/lock all previous items in the quest chain
+    world.get_location("Ilia Memory Reward").place_locked_item(
+        TPItem(
+            "Horse Call",
+            world.player,
+            TPItemData(
+                code=None,  # was code 53
+                type="Item",
+                quantity=1,
+                classification=IC.progression | IC.useful,
+                item_id=0x84,
+            ),
+        )
     )
-
-    # Portals are only worried about for open map setting which is handled in create_regions()
-
-    # world.get_location("Ordon Spring Portal").place_locked_item(
-    #     TPItem(
-    #         "Ordon Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("North Faron Portal").place_locked_item(
-    #     TPItem(
-    #         "North Faron Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("South Faron Portal").place_locked_item(
-    #     TPItem(
-    #         "South Faron Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Kakariko Gorge Portal").place_locked_item(
-    #     TPItem(
-    #         "Kakariko Gorge Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Kakariko Village Portal").place_locked_item(
-    #     TPItem(
-    #         "Kakariko Village Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Death Mountain Portal").place_locked_item(
-    #     TPItem(
-    #         "Death Mountain Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Castle Town Portal").place_locked_item(
-    #     TPItem(
-    #         "Castle Town Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Zoras Domain Portal").place_locked_item(
-    #     TPItem(
-    #         "Zoras Domain Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Lake Hylia Portal").place_locked_item(
-    #     TPItem(
-    #         "Lake Hylia Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Gerudo Desert Portal").place_locked_item(
-    #     TPItem(
-    #         "Gerudo Desert Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Mirror Chamber Portal").place_locked_item(
-    #     TPItem(
-    #         "Mirror Chamber Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Snowpeak Portal").place_locked_item(
-    #     TPItem(
-    #         "Snowpeak Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Sacred Grove Portal").place_locked_item(
-    #     TPItem(
-    #         "Sacred Grove Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Bridge of Eldin Portal").place_locked_item(
-    #     TPItem(
-    #         "Bridge of Eldin Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )
-    # world.get_location("Upper Zoras River Portal").place_locked_item(
-    #     TPItem(
-    #         "Upper Zoras River Portal",
-    #         world.player,
-    #         TPItemData(
-    #             code=None,
-    #             type="Portal",
-    #             quantity=1,
-    #             classification=IC.progression,
-    #             item_id=1,
-    #         ),
-    #     )
-    # )

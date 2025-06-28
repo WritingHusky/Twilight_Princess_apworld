@@ -8,10 +8,11 @@ from ..options import *
 if TYPE_CHECKING:
     from .. import TPWorld
 
-
+# All connections created are present in this file, even if the rule is always True.
+# This is to allow for easy change / lookup of connection rules
 def set_region_access_rules(world: "TPWorld", player: int):
 
-    assert isinstance(world, World), f"{world=}"
+    assert isinstance(world, World), f"[Twilight Princess] {world=}"
 
     def set_rule_if_exits(
         exit: Entrance,
@@ -23,7 +24,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             world.options.logic_rules.value == LogicRules.option_glitched
             and glitched_rule
         ):
-            # assert glitched_rule, f"{location=} has no glitched rule"
+            # assert glitched_rule, f"[Twilight Princess] {location=} has no glitched rule"
             set_rule(exit, glitched_rule)
         # elif world.options.logic_rules.value == LogicRules.option_no_logic:
         #     set_rule(exit, lambda state: (True))

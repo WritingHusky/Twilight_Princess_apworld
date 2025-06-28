@@ -158,7 +158,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Lantern Oil (Coro Bottle)": TPItemData("Bottle", IC.progression, 48, 1, 0x9D),
     "Great Fairy Tears (Jovani)": TPItemData("Bottle", IC.progression, 49, 1, 0x75),
     # Story Items fit here (useful if randomized eventually)
-    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
+    # "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
     "Forest Temple Small Key": TPItemData("Small key", IC.progression, 54, 4, 0x85),
     "Goron Mines Small Key": TPItemData("Small key", IC.progression, 55, 3, 0x86),
     "Lakebed Temple Small Key": TPItemData("Small key", IC.progression, 56, 3, 0x87),
@@ -426,8 +426,7 @@ ItemWheelItems = [
     "Lantern Oil (Coro Bottle)",
     "Great Fairy Tears (Jovani)",
     "Auru's Memo",
-    "Renado's Letter",  # Covers letter, invoice, statue, charm. It doesn't matter which item you
-    # have in the chain, as long as you have the slot available.
+    "Renado's Letter",  # Covers letter, invoice, statue, charm. It doesn't matter which item you have in the chain, as long as you have the slot available.
     "Horse Call",
 ]
 

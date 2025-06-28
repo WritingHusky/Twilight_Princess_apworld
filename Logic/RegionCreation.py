@@ -2,9 +2,8 @@ from typing import Dict
 from BaseClasses import MultiWorld, Region
 
 
+# I Tried turning this into a for loop a list of all the rooms, but it would skip rooms ocaionaly so I just left it like this
 def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
-
-    # TODO Turn this into a for loop
 
     # Create Menu region
     menu = Region("Menu", player, multiworld)
