@@ -308,7 +308,7 @@ def base_server_data_connection(team: int, slot: int):
     return [
         {
             "cmd": "Set",
-            "key": f"TP_{team}_{slot}_{data["key"]}",
+            "key": f"TP_{team}_{slot}_{data['key']}",
             "default": data["default"],
             "want_reply": False,
             "operations": [],
