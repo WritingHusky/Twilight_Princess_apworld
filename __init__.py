@@ -246,6 +246,10 @@ class TPWorld(World):
             self._determine_nonprogress_and_progress_locations()
         )
 
+        if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
+            self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
+            self.multiworld.local_early_items[self.player]["Lantern"] = 1
+
     def create_regions(self) -> None:
         """
         Create and connect regions for the Twilight Princess world.
