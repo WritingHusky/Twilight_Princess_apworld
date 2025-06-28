@@ -17,7 +17,8 @@ Twilight Princess:
   # increase_wallet: true
   # damage_magnification: vanilla
   # bonks_do_damage: false
-  overworld_shuffled: true
+  overworld_shuffled: false
+  dungeons_shuffled: true
 
   # AP world settings
   # logic_rules: glitched

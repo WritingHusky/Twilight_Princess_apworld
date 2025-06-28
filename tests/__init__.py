@@ -26,7 +26,7 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
         logging.FileHandler("worlds\\twilight_princess_apworld\\tests\\logs.log")
     )
 
-    run_long_tests = False
+    run_long_tests = True
     run_generation_tests = False
     auto_construct = True
 
