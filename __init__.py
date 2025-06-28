@@ -192,12 +192,37 @@ class TPWorld(World):
         """
         Setup things ready for generation.
         """
+        # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
+        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
+            raise OptionError(
+                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enbale Overworld Shuffle to generate"
+            )
+            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
+            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
+            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
+            self.options.hidden_skills_shuffled.value = (
+                HiddenSkillsShuffled.option_false
+            )
+            self.options.sky_characters_shuffled.value = (
+                SkyCharactersShuffled.option_false
+            )
+            self.options.poe_shuffled.value = PoeShuffled.option_false
+
+            # Add things needed to beat dungeons to early spheres
+            # self.multiworld.local_early_items[self.player][
+            #     "Progressive Master Sword"
+            # ] = 1
+            # self.multiworld.local_early_items[self.player]["Progressive Hero's Bow"] = 1
+            # self.multiworld.local_early_items[self.player]["Progressive Clawshot"] = 1
+            # self.multiworld.local_early_items[self.player]["Bomb bag"] = 1
+            self.multiworld.local_early_items[self.player]["Gate Keys"] = 1
+
         if (
             self.options.overworld_shuffled.value == OverWoldShuffled.option_false
             and self.options.dungeons_shuffled.value == DungeonsShuffled.option_false
         ):
             raise OptionError(
-                "[Twilight Princess] One of Overworld and Dungeons must be shuffled please fix this"
+                "[Twilight Princess] One of Overworld and Dungeons must be shuffled, Please fix this"
             )
 
         self.boss_defeat_items = get_boss_defeat_items(self)
@@ -219,19 +244,6 @@ class TPWorld(World):
                 self.options.map_and_compass_settings.value = (
                     MapAndCompassSettings.option_vanilla
                 )
-
-        # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
-        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
-            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
-            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
-            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
-            self.options.hidden_skills_shuffled.value = (
-                HiddenSkillsShuffled.option_false
-            )
-            self.options.sky_characters_shuffled.value = (
-                SkyCharactersShuffled.option_false
-            )
-            self.options.poe_shuffled.value = PoeShuffled.option_false
 
         # If Shadow Crystal is a precollected item don't try to put it in Sphere 1
         if any(
