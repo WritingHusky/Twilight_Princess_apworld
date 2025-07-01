@@ -160,7 +160,15 @@ class DungeonItem(Choice):
 
     @property
     def in_dungeon(self) -> bool:
-        return self.value in (0, 1, 2)
+        return self.value in (
+            self.option_vanilla,
+            self.option_own_dungeon,
+            self.option_any_dungeon,
+        )
+
+    @property
+    def in_dungeon_shuffled(self) -> bool:
+        return self.value in (self.option_own_dungeon, self.option_any_dungeon)
 
 
 class SmallKeySettings(DungeonItem):
