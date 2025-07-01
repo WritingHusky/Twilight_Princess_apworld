@@ -172,6 +172,10 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     # Place filler items ensure that the pool has the correct number of items.
     pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
 
+    # assert len(pool) == len(
+    #     world.multiworld.get_unfilled_locations(world.player)
+    # ), f"[Twilight Princess] made {len(pool)} items but needed {len(world.multiworld.get_unfilled_locations(world.player))}"
+
     return pool, precollected_items
 
 

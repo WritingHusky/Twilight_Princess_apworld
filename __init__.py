@@ -455,6 +455,28 @@ class TPWorld(World):
         # This fills the itempool with items according to the location count (any precollected items are pushed to precollected_items)
         generate_itempool(self)
 
+        for item in item_name_groups["Big Keys"]:
+            if item in self.pre_shuffle_pool:
+                assert self.options.big_key_settings.value in (
+                    BigKeySettings.option_own_dungeon,
+                    BigKeySettings.option_any_dungeon,
+                    BigKeySettings.option_vanilla,
+                ), f"{self.options.big_key_settings.value=}, {item=}, {self.pre_shuffle_pool=}"
+        for item in item_name_groups["Small Keys"]:
+            if item in self.pre_shuffle_pool:
+                assert self.options.small_key_settings.value in (
+                    SmallKeySettings.option_own_dungeon,
+                    SmallKeySettings.option_any_dungeon,
+                    SmallKeySettings.option_vanilla,
+                ), f"{self.options.small_key_settings.value=}, {item=}, {self.pre_shuffle_pool=}"
+        for item in item_name_groups["Maps and Compasses"]:
+            if item in self.pre_shuffle_pool:
+                assert self.options.map_and_compass_settings.value in (
+                    MapAndCompassSettings.option_own_dungeon,
+                    MapAndCompassSettings.option_any_dungeon,
+                    MapAndCompassSettings.option_vanilla,
+                ), f"{self.options.map_and_compass_settings.value=}, {item=}, {self.pre_shuffle_pool=}"
+
         # This will place items that did not get put into the item pool
         place_pre_shuffled_items(self)
 
@@ -781,6 +803,11 @@ class TPWorld(World):
             ITEM_TABLE[name],
             self.determine_item_classification(name),
         )
+
+    def remove_from_pre_shuffle_pool(self, item: str):
+        x = self.pre_shuffle_pool.count(item)
+        self.pre_shuffle_pool.remove(item)
+        assert self.pre_shuffle_pool.count(item) < x
 
     def get_filler_item_name(self) -> str:
         """
