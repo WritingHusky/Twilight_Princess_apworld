@@ -23,8 +23,8 @@ Twilight Princess:
   # AP world settings
   # logic_rules: glitched
   # early_shadow_crystal: false
-  small_key_settings: any_dungeon
-  # big_key_settings: any_dungeon
+  # small_key_settings: own_dungeon
+  # big_key_settings: own_dungeon
 
   # Hard coded settings
   # skip_prologue: true
