@@ -17,412 +17,6 @@ from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_grou
 if TYPE_CHECKING:
     from .. import TPWorld
 
-
-def generate_itempool(world: "TPWorld") -> None:
-    multiworld = world.multiworld
-
-    pool, precollected_items = get_pool_core(world)
-
-    for item in precollected_items:
-        multiworld.push_precollected(item_factory(item, world))
-
-    items = item_factory(pool, world)
-    multiworld.random.shuffle(items)
-
-    multiworld.itempool.extend(items)
-
-
-def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
-    pool: List[str] = []
-    precollected_items: List[str] = []
-    # n_pending_junk: int = location_count
-
-    # Split items into four different pools: prefill, progression, useful, and filler.
-    pre_shuffle_pool: list[str] = []
-    progression_pool: list[str] = []
-    useful_pool: list[str] = []
-    filler_pool: list[str] = []
-
-    for item, data in ITEM_TABLE.items():
-        # Catch items that need special handling
-        if data.code != None and item not in ["Victory", "Ice Trap"]:
-            # Pre shuffle check
-            if (
-                (
-                    item in item_name_groups["Small Keys"]
-                    and world.options.small_key_settings.in_dungeon
-                )
-                or (
-                    item in item_name_groups["Big Keys"]
-                    and world.options.big_key_settings.in_dungeon
-                )
-                or (
-                    item in item_name_groups["Maps and Compasses"]
-                    and world.options.map_and_compass_settings.in_dungeon
-                )
-                or (
-                    item == "Shadow Crystal"
-                    and world.options.early_shadow_crystal
-                    == EarlyShadowCrystal.option_true
-                )
-                or (
-                    item in item_name_groups["Bugs"]
-                    and world.options.golden_bugs_shuffled.value
-                    == GoldenBugsShuffled.option_false
-                )
-                or (
-                    item == "Poe Soul"
-                    and world.options.poe_shuffled.value == PoeShuffled.option_false
-                )
-                or (
-                    item == "Progressive Sky Book"
-                    and world.options.sky_characters_shuffled.value
-                    == SkyCharactersShuffled.option_false
-                )
-            ):
-                pre_shuffle_pool.extend([item] * data.quantity)
-                continue
-
-            # Start-with items
-            if (
-                (
-                    item in item_name_groups["Small Keys"]
-                    and world.options.small_key_settings.value
-                    == DungeonItem.option_startwith
-                )
-                or (
-                    item in ["Gate Keys", "Gerudo Desert Bublin Camp Key"]
-                    and world.options.small_key_settings.value
-                    == DungeonItem.option_startwith
-                )
-                or (
-                    item in item_name_groups["Big Keys"]
-                    and world.options.big_key_settings.value
-                    == DungeonItem.option_startwith
-                )
-                or (
-                    item in item_name_groups["Maps and Compasses"]
-                    and world.options.map_and_compass_settings.value
-                    == DungeonItem.option_startwith
-                )
-            ):
-                precollected_items.extend([item] * data.quantity)
-                continue
-
-            # Other items get shuffled normally so sort by classification into pools
-            adjusted_classification = world.determine_item_classification(item)
-            classification = (
-                data.classification
-                if adjusted_classification is None
-                else adjusted_classification
-            )
-
-            if classification & IC.progression:
-                progression_pool.extend([item] * data.quantity)
-            elif classification & IC.useful:
-                useful_pool.extend([item] * data.quantity)
-            else:
-                filler_pool.extend([item] * data.quantity)
-
-        else:
-            assert item in ["Victory", "Ice Trap"], f"[Twilight Princess] {item}"
-
-    # Get the number of locations that have not been filled yet
-    placeable_locations = [
-        location
-        for location in world.multiworld.get_locations(world.player)
-        if location.address is not None and location.item is None
-    ]
-
-    num_items_left_to_place = len(placeable_locations) - len(pre_shuffle_pool)
-
-    # Check progression pool against locations that can hold progression items
-    if len(progression_pool) > len(
-        [
-            location
-            for location in placeable_locations
-            if location.progress_type != LocationProgressType.EXCLUDED
-        ]
-    ):
-        raise FillError(
-            "[Twilight Princess] There are insufficient locations to place progression items! "
-            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
-        )
-
-    world.progression_pool = progression_pool
-    pool.extend(progression_pool)
-    num_items_left_to_place -= len(progression_pool)
-
-    # For Sky characters vanilla, 1 item placed into precollected (in-prefill) so increase filler count
-    if (
-        world.options.sky_characters_shuffled.value
-        == SkyCharactersShuffled.option_false
-    ):
-        num_items_left_to_place += 1
-
-    world.multiworld.random.shuffle(useful_pool)
-    world.multiworld.random.shuffle(filler_pool)
-    world.useful_pool = useful_pool
-    world.filler_pool = filler_pool
-    world.pre_shuffle_pool = pre_shuffle_pool
-
-    assert len(world.useful_pool) > 0, f"[Twilight Princess] {len(world.useful_pool)=}"
-    assert len(world.filler_pool) > 0, f"[Twilight Princess] {len(world.filler_pool)=}"
-
-    # Place filler items ensure that the pool has the correct number of items.
-    pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
-
-    return pool, precollected_items
-
-
-# TODO Check varible classification of boss items
-# Used to fill out boss defeat events and result used to fill out prefill Collection State
-def get_boss_defeat_items(world: "TPWorld"):
-    return {
-        "Diababa": TPItem(
-            "Diababa Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression  # Faron woods owl statue
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Fyrus": TPItem(
-            "Fyrus Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression  # Talo Shrap shooting
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Morpheel": TPItem(
-            "Morpheel Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Stallord": TPItem(
-            "Stallord Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression  # Palace of twilight
-                    # if world.options.castle_requirements.value
-                    # in [
-                    #     CastleRequirements.option_all_dungeons,
-                    #     CastleRequirements.option_vanilla,
-                    # ]
-                    # else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Blizzeta": TPItem(
-            "Blizzeta Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression  # Snow peak racing
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Armogohma": TPItem(
-            "Armogohma Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression  # Renados letter location
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Argorok": TPItem(
-            "Argorok Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    or world.options.palace_requirements
-                    == PalaceRequirements.option_vanilla
-                    else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-        "Zant": TPItem(
-            "Zant Defeated",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Boss Defeated",
-                quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    in [
-                        CastleRequirements.option_all_dungeons,
-                        CastleRequirements.option_vanilla,
-                    ]
-                    else IC.useful
-                ),
-                item_id=1,
-            ),
-        ),
-    }
-
-
-def place_deterministic_items(world: "TPWorld") -> None:
-    """This function places items that are: not shuffled, only part of logic, or are used for the spoiler log."""
-
-    # Place a "Victory" item on "Defeat Ganondorf" for the spoiler log.
-    world.get_location("Hyrule Castle Ganondorf").place_locked_item(
-        item_factory("Victory", world)
-    )
-
-    # Place a Boss Defeated item on the boss rooms
-    world.get_location("Forest Temple Diababa").place_locked_item(
-        world.boss_defeat_items["Diababa"]
-    )
-    world.get_location("Goron Mines Fyrus").place_locked_item(
-        world.boss_defeat_items["Fyrus"]
-    )
-    world.get_location("Lakebed Temple Morpheel").place_locked_item(
-        world.boss_defeat_items["Morpheel"]
-    )
-    world.get_location("Arbiters Grounds Stallord").place_locked_item(
-        world.boss_defeat_items["Stallord"]
-    )
-    world.get_location("Snowpeak Ruins Blizzeta").place_locked_item(
-        world.boss_defeat_items["Blizzeta"]
-    )
-    world.get_location("Temple of Time Armogohma").place_locked_item(
-        world.boss_defeat_items["Armogohma"]
-    )
-    world.get_location("City in The Sky Argorok").place_locked_item(
-        world.boss_defeat_items["Argorok"]
-    )
-    world.get_location("Palace of Twilight Zant").place_locked_item(
-        world.boss_defeat_items["Zant"]
-    )
-
-    # Manually place items that cannot be randomized yet.
-    # These are still items in-game, but are not worried about post generation
-    world.get_location("Renados Letter").place_locked_item(
-        TPItem(
-            "Renado's Letter",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x80,
-            ),
-        )
-    )
-    world.get_location("Telma Invoice").place_locked_item(
-        TPItem(
-            "Invoice",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x81,
-            ),
-        )
-    )
-    world.get_location("Wooden Statue").place_locked_item(
-        TPItem(
-            "Wooden Statue",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x82,
-            ),
-        )
-    )
-    world.get_location("Ilias Charm").place_locked_item(
-        TPItem(
-            "Ilias Charm",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x83,
-            ),
-        )
-    )
-    # Base Rando forces this as horse call
-    # NOTE: Collecting Horse Call/Any Quest item will disable/lock all previous items in the quest chain
-    world.get_location("Ilia Memory Reward").place_locked_item(
-        TPItem(
-            "Horse Call",
-            world.player,
-            TPItemData(
-                code=None,  # was code 53
-                type="Item",
-                quantity=1,
-                classification=IC.progression | IC.useful,
-                item_id=0x84,
-            ),
-        )
-    )
-
-
 VANILLA_SMALL_KEYS_LOCATIONS = {
     "Forest Temple": {
         "Forest Temple Small Key": [
@@ -547,6 +141,45 @@ VANILLA_BIG_KEY_LOCATIONS = {
             "Hyrule Castle Big Key Chest",
         ],
     },
+}
+DUNGEON_TO_BOSS_DEFEAT: dict[str, list[str | None]] = {
+    "Forest Temple": [
+        "Forest Temple Diababa Heart Container",
+        "Forest Temple Dungeon Reward",
+    ],
+    "Goron Mines": [
+        "Goron Mines Fyrus Heart Container",
+        "Goron Mines Dungeon Reward",
+    ],
+    "Lakebed Temple": [
+        "Lakebed Temple Morpheel Heart Container",
+        "Lakebed Temple Dungeon Reward",
+    ],
+    "Arbiters Grounds": [
+        "Arbiters Grounds Stallord Heart Container",
+        "Arbiters Grounds Dungeon Reward",
+    ],
+    "Snowpeak Ruins": [
+        "Snowpeak Ruins Blizzeta Heart Container",
+        "Snowpeak Ruins Dungeon Reward",
+    ],
+    "Temple of Time": [
+        "Temple of Time Armogohma Heart Container",
+        "Temple of Time Dungeon Reward",
+    ],
+    "City in The Sky": [
+        "City in The Sky Argorok Heart Container",
+        "City in The Sky Dungeon Reward",
+    ],
+    "Palace of Twilight": [
+        "Palace of Twilight Zant Heart Container",
+        # "", # no dungeon reward
+    ],
+    # Hyrule castle boss defeat is game complete
+    "Hyrule Castle": [
+        #     "",
+        #     "",
+    ],
 }
 VANILLA_MAP_AND_COMPASS_LOCATIONS = {
     "Forest Temple": {
@@ -722,42 +355,407 @@ VANILLA_SKY_CHARACTER_LOCATIONS = [
     "Lake Hylia Bridge Owl Statue Sky Character",
 ]
 
-DUNGEON_TO_BOSS_DEFEAT: dict[str, list[str | None]] = {
-    "Forest Temple": [
-        "Forest Temple Diababa Heart Container",
-        "Forest Temple Dungeon Reward",
-    ],
-    "Goron Mines": [
-        "Goron Mines Fyrus Heart Container",
-        "Goron Mines Dungeon Reward",
-    ],
-    "Lakebed Temple": [
-        "Lakebed Temple Morpheel Heart Container",
-        "Lakebed Temple Dungeon Reward",
-    ],
-    "Arbiters Grounds": [
-        "Arbiters Grounds Stallord Heart Container",
-        "Arbiters Grounds Dungeon Reward",
-    ],
-    "Snowpeak Ruins": [
-        "Snowpeak Ruins Blizzeta Heart Container",
-        "Snowpeak Ruins Dungeon Reward",
-    ],
-    "Temple of Time": [
-        "Temple of Time Armogohma Heart Container",
-        "Temple of Time Dungeon Reward",
-    ],
-    "City in The Sky": [
-        "City in The Sky Argorok Heart Container",
-        "City in The Sky Dungeon Reward",
-    ],
-    "Palace of Twilight": [
-        "Palace of Twilight Zant Heart Container",
-        # "", # no dungeon reward
-    ],
-    # Hyrule castle boss defeat is game complete
-    "Hyrule Castle": [
-        #     "",
-        #     "",
-    ],
-}
+
+def generate_itempool(world: "TPWorld") -> None:
+    multiworld = world.multiworld
+
+    pool, precollected_items = get_pool_core(world)
+
+    for item in precollected_items:
+        multiworld.push_precollected(item_factory(item, world))
+
+    items = item_factory(pool, world)
+    multiworld.random.shuffle(items)
+
+    multiworld.itempool.extend(items)
+
+
+def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
+    pool: List[str] = []
+    precollected_items: List[str] = []
+    # n_pending_junk: int = location_count
+
+    # Split items into four different pools: prefill, progression, useful, and filler.
+    prefill_pool: list[str] = []
+    progression_pool: list[str] = []
+    useful_pool: list[str] = []
+    filler_pool: list[str] = []
+
+    for item, data in ITEM_TABLE.items():
+        # Catch items that need special handling
+        if data.code != None and item not in ["Victory", "Ice Trap"]:
+            # Prefill check
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.in_dungeon
+                )
+                or (
+                    item in item_name_groups["Bugs"]
+                    and world.options.golden_bugs_shuffled.value
+                    == GoldenBugsShuffled.option_false
+                )
+                or (
+                    item == "Poe Soul"
+                    and world.options.poe_shuffled.value == PoeShuffled.option_false
+                )
+                or (
+                    item == "Shadow Crystal"
+                    and world.options.early_shadow_crystal
+                    == EarlyShadowCrystal.option_true
+                )
+                or (
+                    item == "Progressive Sky Book"
+                    and world.options.sky_characters_shuffled.value
+                    == SkyCharactersShuffled.option_false
+                )
+            ):
+                prefill_pool.extend([item] * data.quantity)
+                continue
+
+            # Start-with items
+            if (
+                (
+                    item in item_name_groups["Small Keys"]
+                    and world.options.small_key_settings.value
+                    == DungeonItem.option_startwith
+                )
+                or (
+                    item in ["Gate Keys", "Gerudo Desert Bublin Camp Key"]
+                    and world.options.small_key_settings.value
+                    == DungeonItem.option_startwith
+                )
+                or (
+                    item in item_name_groups["Big Keys"]
+                    and world.options.big_key_settings.value
+                    == DungeonItem.option_startwith
+                )
+                or (
+                    item in item_name_groups["Maps and Compasses"]
+                    and world.options.map_and_compass_settings.value
+                    == DungeonItem.option_startwith
+                )
+            ):
+                precollected_items.extend([item] * data.quantity)
+                continue
+
+            # Other items get shuffled normally so sort by classification into pools
+            adjusted_classification = world.determine_item_classification(item)
+            classification = (
+                data.classification
+                if adjusted_classification is None
+                else adjusted_classification
+            )
+
+            if classification & IC.progression:
+                progression_pool.extend([item] * data.quantity)
+            elif classification & IC.useful:
+                useful_pool.extend([item] * data.quantity)
+            else:
+                filler_pool.extend([item] * data.quantity)
+
+        else:
+            assert item in ["Victory", "Ice Trap"], f"[Twilight Princess] {item}"
+
+    # Get the number of locations that have not been filled yet
+    placeable_locations = [
+        location
+        for location in world.multiworld.get_locations(world.player)
+        if location.address is not None and location.item is None
+    ]
+
+    num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
+
+    # Check progression pool against locations that can hold progression items
+    if len(progression_pool) > len(
+        [
+            location
+            for location in placeable_locations
+            if location.progress_type != LocationProgressType.EXCLUDED
+        ]
+    ):
+        raise FillError(
+            "[Twilight Princess] There are insufficient locations to place progression items! "
+            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
+        )
+
+    world.progression_pool = progression_pool
+    pool.extend(progression_pool)
+    num_items_left_to_place -= len(progression_pool)
+
+    # For Sky characters vanilla, 1 item placed into precollected (in-prefill) so increase filler count
+    if (
+        world.options.sky_characters_shuffled.value
+        == SkyCharactersShuffled.option_false
+    ):
+        num_items_left_to_place += 1
+
+    world.multiworld.random.shuffle(useful_pool)
+    world.multiworld.random.shuffle(filler_pool)
+    world.useful_pool = useful_pool
+    world.filler_pool = filler_pool
+    world.prefill_pool = prefill_pool
+
+    assert len(world.useful_pool) > 0, f"[Twilight Princess] {len(world.useful_pool)=}"
+    assert len(world.filler_pool) > 0, f"[Twilight Princess] {len(world.filler_pool)=}"
+
+    # Place filler items ensure that the pool has the correct number of items.
+    pool.extend([world.get_filler_item_name() for _ in range(num_items_left_to_place)])
+
+    return pool, precollected_items
+
+
+# TODO Check varible classification of boss items
+# Used to fill out boss defeat events and result used to fill out prefill Collection State
+def get_boss_defeat_items(world: "TPWorld"):
+    return {
+        "Diababa": TPItem(
+            "Diababa Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Fyrus": TPItem(
+            "Fyrus Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Morpheel": TPItem(
+            "Morpheel Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    == CastleRequirements.option_all_dungeons
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Stallord": TPItem(
+            "Stallord Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    in [
+                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_vanilla,
+                    ]
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Blizzeta": TPItem(
+            "Blizzeta Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Armogohma": TPItem(
+            "Armogohma Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    # if world.options.castle_requirements.value
+                    # == CastleRequirements.option_all_dungeons
+                    # else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Argorok": TPItem(
+            "Argorok Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    == CastleRequirements.option_all_dungeons
+                    or world.options.palace_requirements
+                    == PalaceRequirements.option_vanilla
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+        "Zant": TPItem(
+            "Zant Defeated",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Boss Defeated",
+                quantity=1,
+                classification=(
+                    IC.progression
+                    if world.options.castle_requirements.value
+                    in [
+                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_vanilla,
+                    ]
+                    else IC.useful
+                ),
+                item_id=1,
+            ),
+        ),
+    }
+
+
+def place_deterministic_items(world: "TPWorld") -> None:
+    """This function places items that are: not shuffled, only part of logic, or are used for the spoiler log."""
+
+    # Place a "Victory" item on "Defeat Ganondorf" for the spoiler log.
+    world.get_location("Hyrule Castle Ganondorf").place_locked_item(
+        item_factory("Victory", world)
+    )
+
+    # Place a Boss Defeated item on the boss rooms
+    world.get_location("Forest Temple Diababa").place_locked_item(
+        world.boss_defeat_items["Diababa"]
+    )
+    world.get_location("Goron Mines Fyrus").place_locked_item(
+        world.boss_defeat_items["Fyrus"]
+    )
+    world.get_location("Lakebed Temple Morpheel").place_locked_item(
+        world.boss_defeat_items["Morpheel"]
+    )
+    world.get_location("Arbiters Grounds Stallord").place_locked_item(
+        world.boss_defeat_items["Stallord"]
+    )
+    world.get_location("Snowpeak Ruins Blizzeta").place_locked_item(
+        world.boss_defeat_items["Blizzeta"]
+    )
+    world.get_location("Temple of Time Armogohma").place_locked_item(
+        world.boss_defeat_items["Armogohma"]
+    )
+    world.get_location("City in The Sky Argorok").place_locked_item(
+        world.boss_defeat_items["Argorok"]
+    )
+    world.get_location("Palace of Twilight Zant").place_locked_item(
+        world.boss_defeat_items["Zant"]
+    )
+
+    # Manually place items that cannot be randomized yet.
+    # These are still items in-game, but are not worried about post generation
+    world.get_location("Renados Letter").place_locked_item(
+        TPItem(
+            "Renado's Letter",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Quest",
+                quantity=1,
+                classification=IC.progression,
+                item_id=0x80,
+            ),
+        )
+    )
+    world.get_location("Telma Invoice").place_locked_item(
+        TPItem(
+            "Invoice",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Quest",
+                quantity=1,
+                classification=IC.progression,
+                item_id=0x81,
+            ),
+        )
+    )
+    world.get_location("Wooden Statue").place_locked_item(
+        TPItem(
+            "Wooden Statue",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Quest",
+                quantity=1,
+                classification=IC.progression,
+                item_id=0x82,
+            ),
+        )
+    )
+    world.get_location("Ilias Charm").place_locked_item(
+        TPItem(
+            "Ilias Charm",
+            world.player,
+            TPItemData(
+                code=None,
+                type="Quest",
+                quantity=1,
+                classification=IC.progression,
+                item_id=0x83,
+            ),
+        )
+    )
+    # Base Rando forces this as horse call
+    # NOTE: Collecting Horse Call/Any Quest item will disable/lock all previous items in the quest chain
+    world.get_location("Ilia Memory Reward").place_locked_item(
+        TPItem(
+            "Horse Call",
+            world.player,
+            TPItemData(
+                code=None,  # was code 53
+                type="Item",
+                quantity=1,
+                classification=IC.progression | IC.useful,
+                item_id=0x84,
+            ),
+        )
+    )
