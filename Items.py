@@ -234,7 +234,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Mirror Shard": TPItemData("Item", IC.progression, 120, 4, 0xA5),
     "Progressive Fused Shadow": TPItemData("Item", IC.progression, 121, 3, 0xD8),
     "Progressive Hidden Skill": TPItemData("Item", VERY_USEFUL, 122, 7, 0xE1),
-    "Progressive Sky Book": TPItemData("Item", IC.progression, 123, 7, 0xE9),
+    "Progressive Sky Book": TPItemData(
+        "Item", IC.progression, 123, 7, 0xE9
+    ),  # 1 book + 6 characters
     # "Sky Character 1": TPItemData("Item", IC.useful, 132, 1, 0xDB),
     # "Sky Character 2": TPItemData("Item", IC.useful, 133, 1, 0xDC),
     # "Sky Character 3": TPItemData("Item", IC.useful, 134, 1, 0xDD),
