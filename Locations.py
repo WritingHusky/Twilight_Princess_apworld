@@ -1667,8 +1667,8 @@ LOCATION_TABLE = {
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
-        offset=0x1D,
-        bit=0x10,
+        offset=0x1B,
+        bit=0x1,
     ),
     "Snowpeak Ruins Ball and Chain": TPLocationData(
         code=168,
