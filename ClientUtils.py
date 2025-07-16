@@ -281,7 +281,7 @@ server_data = [
     },
     {
         "key": "Current Stage",
-        "default": "None",
+        "default": "Menu",
         "want_reply": False,
         "operations": [],
         "Region": "Stage",  # This will search +0x58 for the 8 byte string for links return place

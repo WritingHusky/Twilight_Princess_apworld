@@ -591,7 +591,9 @@ async def check_locations(ctx: TPContext) -> None:
             assert "TP_" not in data["key"], f"{data=}"
             new_key = f"TP_{ctx.team}_{ctx.slot}_{data["key"]}"
             ctx.server_data[i]["key"] = new_key
-            new_server_data_copy[new_key] = False if "Region" not in new_key else "Menu"
+            new_server_data_copy[new_key] = (
+                False if "Current" not in new_key else "Menu"
+            )
         ctx.server_data_built = True
         ctx.server_data_copy = new_server_data_copy
 
