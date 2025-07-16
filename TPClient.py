@@ -9,6 +9,7 @@ import dolphin_memory_engine  # type: ignore
 
 from .ClientUtils import (
     NODE_TO_STRING,
+    STAGE_TO_NAME,
     VERSION,
     base_server_data_connection,
     server_data,
@@ -677,6 +678,32 @@ async def check_locations(ctx: TPContext) -> None:
                     }
                 )
                 results.append({server_copy_key: new_node_str})
+        elif data["Region"] == "Stage":
+            assert isinstance(server_copy_value, str), f"{server_copy_key=}"
+
+            result = read_string(SAVE_FILE_ADDR + 0x58, 8)
+
+            assert isinstance(result, str), f"{result=}"
+            assert result in STAGE_TO_NAME, f"{result=}"
+
+            current_stage_str = STAGE_TO_NAME[result]
+            if current_stage_str != server_copy_value:
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {current_stage_str}"
+                    )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [
+                            {"operation": "replace", "value": current_stage_str}
+                        ],
+                    }
+                )
+                results.append({server_copy_key: current_stage_str})
         else:
             assert False, f"{data=}"
 
