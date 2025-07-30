@@ -1,11 +1,14 @@
 import asyncio
+from collections import deque
 from copy import deepcopy
 import time
 import traceback
 from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine  # type: ignore
+import dolphin_memory_engine
+
+from worlds.twilight_princess_apworld.ClientItemChecker import check_item_count  # type: ignore
 
 from .ClientUtils import (
     NODE_TO_STRING,
@@ -174,7 +177,8 @@ class TPContext(CommonContext):
         :param password: The password for the server.
         """
         super().__init__(server_address, password)
-        self.items_received_2: list[tuple[NetworkItem, int]] = []
+        # self.items_received_2: list[tuple[NetworkItem, int]] = []
+        self.item_queue: deque[tuple[NetworkItem, int]] = deque()
         self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
         self.dolphin_status: str = CONNECTION_INITIAL_STATUS
         self.awaiting_dolphin: bool = False
@@ -221,8 +225,13 @@ class TPContext(CommonContext):
         :param args: The command arguments.
         """
         if cmd == "Connected":
-            self.items_received_2 = []
-            self.last_received_index = -1
+            # self.items_received_2 = []
+            self.item_queue = deque()
+            if check_ingame(self):
+                self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
+            else:
+                self.last_received_index = -1
+
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
                 assert isinstance(
                     args["slot_data"]["DeathLink"], int
@@ -252,9 +261,10 @@ class TPContext(CommonContext):
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
                 for item in args["items"]:
-                    self.items_received_2.append((item, self.last_received_index))
+                    # self.items_received_2.append((item, self.last_received_index))
+                    self.item_queue.append((item, self.last_received_index))
                     self.last_received_index += 1
-            self.items_received_2.sort(key=lambda v: v[1])
+            # self.items_received_2.sort(key=lambda v: v[1])
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -454,6 +464,76 @@ async def give_items(ctx: TPContext) -> None:
         await check_ingame(ctx)
         and dolphin_memory_engine.read_byte(CURR_NODE_ADDR) != 0xFF
     ):
+
+        idx = read_short(EXPECTED_INDEX_ADDR)
+        last_item_index = ctx.items_received[-1][1]
+        while len(ctx.item_queue) > 0:
+            item, item_index = ctx.item_queue.pop()
+            item_name = LOOKUP_ID_TO_NAME[item.item]
+            assert (
+                item_name in ITEM_TABLE
+            ), f"[Twilight Princess Client] tried to give {item_name=} but it is not in the item table"
+
+            item_data = ITEM_TABLE[item_name]
+            # Verify that we can actualy give the item to the player to avoid giving duplicates
+            # # Use ctx.items_recieved to act a the master list of what that player should have
+            if item_data.type in [
+                "Rupee",
+                "Ammo",
+                "Trap",
+                "Heart",
+            ]:
+                item_give_queue.append(item_name)
+
+            elif item_data.type in [
+                "Item",
+                "Bottle",
+                "Small key",
+                "Big key",
+                # "Compass",
+                # "Map",
+                "Bug",
+                "Poe",
+            ]:
+                expected_item_count = sum(
+                    [
+                        1 if item_copy.item == item.item else 0
+                        for item_copy in ctx.items_received
+                    ]
+                )
+                actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+
+                # Note: items not given through the client will cause a item wait where an item is not given
+                # # Item handling is set to recive all items (including on locations) to fix this
+                if expected_item_count > actual_item_count:
+                    item_give_queue.append(item_name)
+
+            elif item_data.type == "Event":
+                assert (
+                    False
+                ), f"[Twilight Princess Client] got an event item. I didn't think that could happen, as it has no id"
+            else:
+                assert (
+                    False
+                ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
+
+            if len(item_give_queue) == 8 or idx == last_item_index:
+                while not await _give_item(ctx, item_give_queue):
+                    await asyncio.sleep(0.5)
+                write_short(EXPECTED_INDEX_ADDR, idx + 1)
+                item_give_queue = []
+        return
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
         # Read the expected index of the player, which is the index of the latest item they've received.
         expected_idx = read_short(EXPECTED_INDEX_ADDR)
 
