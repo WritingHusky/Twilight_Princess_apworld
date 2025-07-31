@@ -384,6 +384,9 @@ def write_string(console_address: int, string: str) -> None:
     )
 
 
+# def check_key_counts()
+
+
 def _give_death(ctx: TPContext) -> None:
     """
     Trigger the player's death in-game by setting their current health to zero.
@@ -481,7 +484,6 @@ async def give_items(ctx: TPContext) -> None:
                 "Rupee",
                 "Ammo",
                 "Trap",
-                # "Heart",
             ]:
                 item_give_queue.append(item_name)
 
@@ -509,6 +511,11 @@ async def give_items(ctx: TPContext) -> None:
                 # Usually this will be a differance of 1
                 if expected_item_count > actual_item_count:
                     item_give_queue.append(item_name)
+                else:
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Tried to give {item_name=} but player already has {expected_item_count=}, {actual_item_count=}"
+                        )
 
             elif item_data.type in [
                 "Compass",
@@ -521,6 +528,38 @@ async def give_items(ctx: TPContext) -> None:
                     == 0
                 ):
                     item_give_queue.append(item_name)
+                else:
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Tried to give {item_name=} but player already has one"
+                        )
+            elif item_data.type in [
+                "Heart",
+            ]:
+                actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
+                heart_container_count = sum(
+                    [
+                        1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
+                        for item_copy in ctx.items_received
+                    ]
+                )
+                heart_piece_count = sum(
+                    [
+                        1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
+                        for item_copy in ctx.items_received
+                    ]
+                )
+
+                if (
+                    actual_heart_pieace_count
+                    < (heart_container_count * 5) + heart_piece_count
+                ):
+                    item_give_queue.append(item_name)
+                else:
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count)=}"
+                        )
 
             elif item_data.type == "Event":
                 assert (
