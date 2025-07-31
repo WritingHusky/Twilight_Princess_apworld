@@ -1,4 +1,6 @@
-import dolphin_memory_engine  # type: ignore
+import dolphin_memory_engine
+
+from worlds.twilight_princess_apworld.Locations import NodeID  # type: ignore
 
 
 def check_flag(flag: int, address: int) -> bool:
@@ -308,3 +310,187 @@ def check_item_count(item_name: str, base_addr: int) -> int:
 
         case _:
             assert False, f"[Twilight Princess Client] could not handle  {item_name=} "
+
+
+def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -> int:
+
+    match (item_name):
+        case "Forest Temple Compass":
+            if node_number == NodeID.Forest_Temple:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Forest_Temple * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Forest Temple Map":
+            if node_number == NodeID.Forest_Temple:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Forest_Temple * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Goron Mines Compass":
+            if node_number == NodeID.Goron_Mines:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Goron_Mines * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Goron Mines Map":
+            if node_number == NodeID.Goron_Mines:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Goron_Mines * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Lakebed Temple Compass":
+            if node_number == NodeID.Lakebed_Temple:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Lakebed_Temple * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Lakebed Temple Map":
+            if node_number == NodeID.Lakebed_Temple:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Lakebed_Temple * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Arbiters Grounds Compass":
+            if node_number == NodeID.Arbiters_Grounds:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Arbiters_Grounds * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Arbiters Grounds Map":
+            if node_number == NodeID.Arbiters_Grounds:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Arbiters_Grounds * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Snowpeak Ruins Compass":
+            if node_number == NodeID.Snowpeak_Ruins:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Snowpeak_Ruins * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Snowpeak Ruins Map":
+            if node_number == NodeID.Snowpeak_Ruins:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Snowpeak_Ruins * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Temple of Time Compass":
+            if node_number == NodeID.Temple_of_Time:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Temple_of_Time * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Temple of Time Map":
+            if node_number == NodeID.Temple_of_Time:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Temple_of_Time * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "City in The Sky Compass":
+            if node_number == NodeID.City_in_the_Sky:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.City_in_the_Sky * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "City in The Sky Map":
+            if node_number == NodeID.City_in_the_Sky:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.City_in_the_Sky * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Palace of Twilight Compass":
+            if node_number == NodeID.Palace_of_Twilight:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Palace_of_Twilight * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Palace of Twilight Map":
+            if node_number == NodeID.Palace_of_Twilight:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Palace_of_Twilight * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0
+
+        case "Hyrule Castle Compass":
+            if node_number == NodeID.Hyrule_Castle:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Hyrule_Castle * 32) + base_addr + 0x1D
+
+            if check_flag(0x2, addr):
+                return 1
+            return 0
+
+        case "Hyrule Castle Map":
+            if node_number == NodeID.Hyrule_Castle:
+                addr = base_addr + 0x1D + 0x958
+            else:
+                addr = (NodeID.Hyrule_Castle * 32) + base_addr + 0x1D
+
+            if check_flag(0x1, addr):
+                return 1
+            return 0

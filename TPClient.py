@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Optional
 from MultiServer import mark_raw
 import dolphin_memory_engine
 
-from worlds.twilight_princess_apworld.ClientItemChecker import check_item_count  # type: ignore
+from worlds.twilight_princess_apworld.ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
 from .ClientUtils import (
     NODE_TO_STRING,
@@ -465,8 +465,8 @@ async def give_items(ctx: TPContext) -> None:
         and dolphin_memory_engine.read_byte(CURR_NODE_ADDR) != 0xFF
     ):
 
-        idx = read_short(EXPECTED_INDEX_ADDR)
-        last_item_index = ctx.items_received[-1][1]
+        item_give_queue: list[str] = []
+
         while len(ctx.item_queue) > 0:
             item, item_index = ctx.item_queue.pop()
             item_name = LOOKUP_ID_TO_NAME[item.item]
@@ -481,17 +481,15 @@ async def give_items(ctx: TPContext) -> None:
                 "Rupee",
                 "Ammo",
                 "Trap",
-                "Heart",
+                # "Heart",
             ]:
                 item_give_queue.append(item_name)
 
             elif item_data.type in [
                 "Item",
                 "Bottle",
-                "Small key",
-                "Big key",
-                # "Compass",
-                # "Map",
+                # "Small key",
+                # "Big key",
                 "Bug",
                 "Poe",
             ]:
@@ -501,11 +499,27 @@ async def give_items(ctx: TPContext) -> None:
                         for item_copy in ctx.items_received
                     ]
                 )
-                actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+                actual_item_count = check_item_count(
+                    item_name, SAVE_FILE_ADDR
+                ) + item_give_queue.count(item_name)
 
                 # Note: items not given through the client will cause a item wait where an item is not given
                 # # Item handling is set to recive all items (including on locations) to fix this
+
+                # Usually this will be a differance of 1
                 if expected_item_count > actual_item_count:
+                    item_give_queue.append(item_name)
+
+            elif item_data.type in [
+                "Compass",
+                "Map",
+            ]:
+                if (
+                    check_dungeon_item_count(
+                        item_name, SAVE_FILE_ADDR, ctx.current_node
+                    )
+                    == 0
+                ):
                     item_give_queue.append(item_name)
 
             elif item_data.type == "Event":
@@ -517,11 +531,15 @@ async def give_items(ctx: TPContext) -> None:
                     False
                 ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
-            if len(item_give_queue) == 8 or idx == last_item_index:
+            # Only try to give a full queue or whatever is there
+            if len(item_give_queue) == 8 or item_index == ctx.last_received_index:
                 while not await _give_item(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
-                write_short(EXPECTED_INDEX_ADDR, idx + 1)
+                write_short(EXPECTED_INDEX_ADDR, item_index + 1)
                 item_give_queue = []
+        assert (
+            len(item_give_queue) == 0
+        ), f"[Twilight Princess Client] item give queue is not empty at the end {item_give_queue=}\n{item_index=} - {ctx.last_received_index=}"
         return
         #
         #
@@ -575,18 +593,18 @@ async def give_items(ctx: TPContext) -> None:
 
         item_give_queue: list[str] = []
 
-        for item, idx in items_copy:
+        for item, expected_idx in items_copy:
             assert item.item in LOOKUP_ID_TO_NAME, f"{item=}"
-            assert idx == expected_idx  # Double check items are given in order
+            assert expected_idx == expected_idx  # Double check items are given in order
 
             item_give_queue.append(LOOKUP_ID_TO_NAME[item.item])
             expected_idx += 1
 
             # Build the queue if we have a full set of items or we have reached the last item
-            if len(item_give_queue) == 8 or idx == last_item_index:
+            if len(item_give_queue) == 8 or expected_idx == last_item_index:
                 while not await _give_item(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
-                write_short(EXPECTED_INDEX_ADDR, idx + 1)
+                write_short(EXPECTED_INDEX_ADDR, expected_idx + 1)
                 item_give_queue = []
 
         assert expected_idx - 1 == last_item_index  # Check the last item was given
