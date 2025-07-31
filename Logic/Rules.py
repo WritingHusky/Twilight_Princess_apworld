@@ -1365,20 +1365,22 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 (
-                    can_do_lja(state, player)
-                    and (
-                        can_skip_key_to_deku_toad(state, player)
-                        or state.has("Lakebed Temple Small Key", player, 1)
+                    (
+                        can_do_lja(state, player)
+                        and (
+                            can_skip_key_to_deku_toad(state, player)
+                            or state.has("Lakebed Temple Small Key", player, 1)
+                        )
                     )
                 )
-            )
-            or (
-                (
-                    can_skip_key_to_deku_toad(state, player)
-                    or state.has("Lakebed Temple Small Key", player, 3)
+                or (
+                    (
+                        can_skip_key_to_deku_toad(state, player)
+                        or state.has("Lakebed Temple Small Key", player, 3)
+                    )
+                    and state.has("Progressive Clawshot", player, 1)
+                    and can_launch_bombs(state, player)
                 )
-                and state.has("Progressive Clawshot", player, 1)
-                and can_launch_bombs(state, player)
             )
             and has_heavy_mod(state, player)
         ),
@@ -1407,20 +1409,22 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 (
-                    can_do_lja(state, player)
-                    and (
-                        can_skip_key_to_deku_toad(state, player)
-                        or state.has("Lakebed Temple Small Key", player, 1)
+                    (
+                        can_do_lja(state, player)
+                        and (
+                            can_skip_key_to_deku_toad(state, player)
+                            or state.has("Lakebed Temple Small Key", player, 1)
+                        )
                     )
                 )
-            )
-            or (
-                (
-                    can_skip_key_to_deku_toad(state, player)
-                    or state.has("Lakebed Temple Small Key", player, 3)
+                or (
+                    (
+                        can_skip_key_to_deku_toad(state, player)
+                        or state.has("Lakebed Temple Small Key", player, 3)
+                    )
+                    and state.has("Progressive Clawshot", player, 1)
+                    and can_launch_bombs(state, player)
                 )
-                and state.has("Progressive Clawshot", player, 1)
-                and can_launch_bombs(state, player)
             )
             and has_heavy_mod(state, player)
         ),
@@ -2742,7 +2746,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Gale Boomerang", player)
             or state.has("Progressive Clawshot", player, 1)
-            or can_do_map_glitch(state, player)
+            or can_do_storage(state, player)
             or can_do_eb_moon_boots(state, player)
         ),
     )
@@ -3772,7 +3776,15 @@ def set_location_access_rules(world: "TPWorld"):
                     or can_use_bottled_fairy(state, player)
                 )
             )
-            or has_bombs(state, player)
+            or (
+                has_bombs(state, player)
+                and (
+                    (
+                        state._tp_damage_magnification(player)
+                        != DamageMagnification.option_ohko
+                    )
+                    or can_use_bottled_fairy(state, player)
+                )
             or state.has("Spinner", player)
             or state.has("Shadow Crystal", player)
         ),
