@@ -122,6 +122,10 @@ class DungeonsShuffled(Toggle):
 
 class OverWoldShuffled(Toggle):
     """
+    !!!!! Do not disable !!!!
+    -- Currently disabling will cause generation failure --
+    -- System to allow for succesful generation is in devlopment --
+
     If enabled, Overworld locations can contain progression items.
     Cannot be disabled if Dungeon shuffle is disabled
     Note:

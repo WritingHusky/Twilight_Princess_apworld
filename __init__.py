@@ -34,6 +34,7 @@ from worlds.LauncherComponents import (
 
 from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
+    DUNGEON_TO_BOSS_DEFEAT,
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
     VANILLA_SKY_CHARACTER_LOCATIONS,
@@ -191,12 +192,37 @@ class TPWorld(World):
         """
         Setup things ready for generation.
         """
+        # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
+        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
+            raise OptionError(
+                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enbale Overworld Shuffle to generate"
+            )
+            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
+            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
+            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
+            self.options.hidden_skills_shuffled.value = (
+                HiddenSkillsShuffled.option_false
+            )
+            self.options.sky_characters_shuffled.value = (
+                SkyCharactersShuffled.option_false
+            )
+            self.options.poe_shuffled.value = PoeShuffled.option_false
+
+            # Add things needed to beat dungeons to early spheres
+            # self.multiworld.local_early_items[self.player][
+            #     "Progressive Master Sword"
+            # ] = 1
+            # self.multiworld.local_early_items[self.player]["Progressive Hero's Bow"] = 1
+            # self.multiworld.local_early_items[self.player]["Progressive Clawshot"] = 1
+            # self.multiworld.local_early_items[self.player]["Bomb bag"] = 1
+            self.multiworld.local_early_items[self.player]["Gate Keys"] = 1
+
         if (
             self.options.overworld_shuffled.value == OverWoldShuffled.option_false
             and self.options.dungeons_shuffled.value == DungeonsShuffled.option_false
         ):
             raise OptionError(
-                "[Twilight Princess] One of Overworld and Dungeons must be shuffled please fix this"
+                "[Twilight Princess] One of Overworld and Dungeons must be shuffled, Please fix this"
             )
 
         self.boss_defeat_items = get_boss_defeat_items(self)
@@ -219,19 +245,6 @@ class TPWorld(World):
                     MapAndCompassSettings.option_vanilla
                 )
 
-        # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
-        if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
-            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
-            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
-            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
-            self.options.hidden_skills_shuffled.value = (
-                HiddenSkillsShuffled.option_false
-            )
-            self.options.sky_characters_shuffled.value = (
-                SkyCharactersShuffled.option_false
-            )
-            self.options.poe_shuffled.value = PoeShuffled.option_false
-
         # If Shadow Crystal is a precollected item don't try to put it in Sphere 1
         if any(
             [
@@ -244,6 +257,10 @@ class TPWorld(World):
         self.nonprogress_locations, self.progress_locations = (
             self._determine_nonprogress_and_progress_locations()
         )
+
+        if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
+            self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
+            self.multiworld.local_early_items[self.player]["Lantern"] = 1
 
     def create_regions(self) -> None:
         """
@@ -420,20 +437,30 @@ class TPWorld(World):
                         )
                     )
 
-            # Add item rules for small keys on bosses
-            if (
-                self.options.small_keys_on_bosses.value
-                == SmallKeysOnBosses.option_false
-            ):
-                for location, data in LOCATION_TABLE.items():
-                    if (data.flags & TPFlag.Boss) == TPFlag.Boss:
-                        old_rule = self.get_location(location).item_rule
-                        self.get_location(location).item_rule = (
-                            lambda item, _oldrule=old_rule: (
-                                (item.name not in item_name_groups["Small Keys"])
-                                and _oldrule(item)
-                            )
+        # Small Keys on bosses based on setting
+        if self.options.small_keys_on_bosses.value == SmallKeysOnBosses.option_false:
+            for location, data in LOCATION_TABLE.items():
+                if (data.flags & TPFlag.Boss) == TPFlag.Boss:
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule: (
+                            (item.name not in item_name_groups["Small Keys"])
+                            and _oldrule(item)
                         )
+                    )
+
+        # Boss keys on own defeat locations
+        for dungeon, data in VANILLA_BIG_KEY_LOCATIONS.items():
+            for key, _ in data.items():
+                for location in DUNGEON_TO_BOSS_DEFEAT[dungeon]:
+                    if not location:
+                        continue
+                    old_rule = self.get_location(location).item_rule
+                    self.get_location(location).item_rule = (
+                        lambda item, _oldrule=old_rule, _key=key: (
+                            (item.name != _key) and _oldrule(item)
+                        )
+                    )
 
     def pre_fill(self) -> None:
         """
@@ -1402,40 +1429,40 @@ class TPWorld(World):
         assert name in ITEM_TABLE, f"[Twilight Princess] {name=}"
 
         adjusted_classification = None
-        if (
-            (
-                self.options.golden_bugs_shuffled.value
-                == GoldenBugsShuffled.option_false
-                and name in item_name_groups["Bugs"]
-            )
-            or (
-                self.options.sky_characters_shuffled.value
-                == SkyCharactersShuffled.option_false
-                and name == "Progressive Ancient Sky Book"
-            )
-            or (
-                self.options.poe_shuffled.value == PoeShuffled.option_false
-                and name == "Poe Soul"
-            )
-            or (
-                self.options.heart_piece_shuffled.value
-                == HeartPieceShuffled.option_false
-                and name in item_name_groups["Heart"]
-            )
-            # ) or (
-            #     not self.options.npc_items_shuffled
-            #     and name in item_name_groups["NPC Items"]
-            # ) or (
-            #     not self.options.shop_items_shuffled
-            #     and name in item_name_groups["Shop Items"]
-            # ) or (
-            #     not self.options.hidden_skills_shuffled
-            #     and name == "Progressive Hidden Skill"
-            # ) or (
-            #     not self.options.overworld_shuffled
-            #     and name in item_name_groups["Overworld Items"]
-        ):
-            adjusted_classification = IC.filler
+        # if (
+        #     # (
+        #     #     self.options.golden_bugs_shuffled.value
+        #     #     == GoldenBugsShuffled.option_false
+        #     #     and name in item_name_groups["Bugs"]
+        #     # )
+        #     # or (
+        #     #     self.options.sky_characters_shuffled.value
+        #     #     == SkyCharactersShuffled.option_false
+        #     #     and name == "Progressive Ancient Sky Book"
+        #     # )
+        #     # or (
+        #     #     self.options.poe_shuffled.value == PoeShuffled.option_false
+        #     #     and name == "Poe Soul"
+        #     # )
+        #     # or (
+        #     #     self.options.heart_piece_shuffled.value
+        #     #     == HeartPieceShuffled.option_false
+        #     #     and name in item_name_groups["Heart"]
+        #     # )
+        #     # ) or (
+        #     #     not self.options.npc_items_shuffled
+        #     #     and name in item_name_groups["NPC Items"]
+        #     # ) or (
+        #     #     not self.options.shop_items_shuffled
+        #     #     and name in item_name_groups["Shop Items"]
+        #     # ) or (
+        #     #     not self.options.hidden_skills_shuffled
+        #     #     and name == "Progressive Hidden Skill"
+        #     # ) or (
+        #     #     not self.options.overworld_shuffled
+        #     #     and name in item_name_groups["Overworld Items"]
+        # ):
+        #     adjusted_classification = IC.filler
 
         return adjusted_classification
 

@@ -174,7 +174,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     #     "Small key", IC.progression, 63, 1, 0xEE
     # ),
     # "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
-    "Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
+    "Gate Keys": TPItemData(
+        "Item", IC.progression, 65, 1, 0xF3
+    ),  # Item to not have to count like other keys
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),
@@ -234,7 +236,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Mirror Shard": TPItemData("Item", IC.progression, 120, 4, 0xA5),
     "Progressive Fused Shadow": TPItemData("Item", IC.progression, 121, 3, 0xD8),
     "Progressive Hidden Skill": TPItemData("Item", VERY_USEFUL, 122, 7, 0xE1),
-    "Progressive Sky Book": TPItemData("Item", IC.progression, 123, 7, 0xE9),
+    "Progressive Sky Book": TPItemData(
+        "Item", IC.progression, 123, 7, 0xE9
+    ),  # 1 book + 6 characters
     # "Sky Character 1": TPItemData("Item", IC.useful, 132, 1, 0xDB),
     # "Sky Character 2": TPItemData("Item", IC.useful, 133, 1, 0xDC),
     # "Sky Character 3": TPItemData("Item", IC.useful, 134, 1, 0xDD),

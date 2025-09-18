@@ -18,6 +18,7 @@ Twilight Princess:
   # damage_magnification: vanilla
   # bonks_do_damage: false
   overworld_shuffled: true
+  # dungeons_shuffled: true
 
   # AP world settings
   # logic_rules: glitched

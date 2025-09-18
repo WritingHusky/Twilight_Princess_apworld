@@ -142,7 +142,45 @@ VANILLA_BIG_KEY_LOCATIONS = {
         ],
     },
 }
-
+DUNGEON_TO_BOSS_DEFEAT: dict[str, list[str | None]] = {
+    "Forest Temple": [
+        "Forest Temple Diababa Heart Container",
+        "Forest Temple Dungeon Reward",
+    ],
+    "Goron Mines": [
+        "Goron Mines Fyrus Heart Container",
+        "Goron Mines Dungeon Reward",
+    ],
+    "Lakebed Temple": [
+        "Lakebed Temple Morpheel Heart Container",
+        "Lakebed Temple Dungeon Reward",
+    ],
+    "Arbiters Grounds": [
+        "Arbiters Grounds Stallord Heart Container",
+        "Arbiters Grounds Dungeon Reward",
+    ],
+    "Snowpeak Ruins": [
+        "Snowpeak Ruins Blizzeta Heart Container",
+        "Snowpeak Ruins Dungeon Reward",
+    ],
+    "Temple of Time": [
+        "Temple of Time Armogohma Heart Container",
+        "Temple of Time Dungeon Reward",
+    ],
+    "City in The Sky": [
+        "City in The Sky Argorok Heart Container",
+        "City in The Sky Dungeon Reward",
+    ],
+    "Palace of Twilight": [
+        "Palace of Twilight Zant Heart Container",
+        # "", # no dungeon reward
+    ],
+    # Hyrule castle boss defeat is game complete
+    "Hyrule Castle": [
+        #     "",
+        #     "",
+    ],
+}
 VANILLA_MAP_AND_COMPASS_LOCATIONS = {
     "Forest Temple": {
         "Forest Temple Map": [
