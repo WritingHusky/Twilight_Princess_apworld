@@ -195,7 +195,7 @@ class TPWorld(World):
         # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
         if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
             raise OptionError(
-                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enbale Overworld Shuffle to generate"
+                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enable Overworld Shuffle to generate"
             )
             self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
             self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false

@@ -6,9 +6,9 @@ import traceback
 from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine
+import dolphin_memory_engine # type: ignore
 
-from worlds.twilight_princess_apworld.ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
+from .ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
 from .ClientUtils import (
     NODE_TO_STRING,
@@ -557,13 +557,13 @@ async def give_items(ctx: TPContext) -> None:
 
                 if (
                     actual_heart_pieace_count
-                    < (heart_container_count * 5) + heart_piece_count
+                    < (heart_container_count * 5) + heart_piece_count + 15
                 ):
                     item_give_queue.append(item_name)
                 else:
                     if DEBUGGING:
                         logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count)=}"
+                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count + 15)=}"
                         )
 
             elif item_data.type == "Event":
@@ -576,7 +576,7 @@ async def give_items(ctx: TPContext) -> None:
                 ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
             # Only try to give a full queue or whatever is there
-            if len(item_give_queue) == 8 or item_index == ctx.last_received_index:
+            if len(item_give_queue) == 8 or item_index == ctx.last_received_index -1:
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, item_index + 1)

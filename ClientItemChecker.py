@@ -1,6 +1,6 @@
 import dolphin_memory_engine
 
-from worlds.twilight_princess_apworld.Locations import NodeID  # type: ignore
+from .Locations import NodeID  # type: ignore
 
 ACTIVE_SLOT_OFFSET = 0x958
 
