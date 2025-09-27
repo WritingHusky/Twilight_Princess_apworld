@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING, Dict, List, Tuple
 
 from BaseClasses import ItemClassification as IC, LocationProgressType
 from Fill import FillError
+from ..Logic.Macros import *
+from ...generic.Rules import set_rule
 from ..options import (
     CastleRequirements,
     DungeonItem,
@@ -665,27 +667,36 @@ def place_deterministic_items(world: "TPWorld") -> None:
     )
 
     # Place a Boss Defeated item on the boss rooms
+    set_rule(world.get_location("Forest Temple Diababa"), lambda state: (can_defeat_Diababa(state, world.player)))
+    
     world.get_location("Forest Temple Diababa").place_locked_item(
         world.boss_defeat_items["Diababa"]
     )
+    set_rule(world.get_location("Goron Mines Fyrus"), lambda state: (can_defeat_Fyrus(state, world.player)))
     world.get_location("Goron Mines Fyrus").place_locked_item(
         world.boss_defeat_items["Fyrus"]
     )
+    set_rule(world.get_location("Lakebed Temple Morpheel"), lambda state: (can_defeat_Morpheel(state, world.player)))
     world.get_location("Lakebed Temple Morpheel").place_locked_item(
         world.boss_defeat_items["Morpheel"]
     )
+    set_rule(world.get_location("Arbiters Grounds Stallord"), lambda state: (can_defeat_Stallord(state, world.player)))
     world.get_location("Arbiters Grounds Stallord").place_locked_item(
         world.boss_defeat_items["Stallord"]
     )
+    set_rule(world.get_location("Snowpeak Ruins Blizzeta"), lambda state: (can_defeat_Blizzeta(state, world.player)))
     world.get_location("Snowpeak Ruins Blizzeta").place_locked_item(
         world.boss_defeat_items["Blizzeta"]
     )
+    set_rule(world.get_location("Temple of Time Armogohma"), lambda state: (can_defeat_Armogohma(state, world.player)))
     world.get_location("Temple of Time Armogohma").place_locked_item(
         world.boss_defeat_items["Armogohma"]
     )
+    set_rule(world.get_location("City in The Sky Argorok"), lambda state: (can_defeat_Argorok(state, world.player)))
     world.get_location("City in The Sky Argorok").place_locked_item(
         world.boss_defeat_items["Argorok"]
     )
+    set_rule(world.get_location("Palace of Twilight Zant"), lambda state: (can_defeat_Zant(state, world.player)))
     world.get_location("Palace of Twilight Zant").place_locked_item(
         world.boss_defeat_items["Zant"]
     )
