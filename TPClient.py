@@ -6,7 +6,7 @@ import traceback
 from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine # type: ignore
+import dolphin_memory_engine  # type: ignore
 
 from .ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
@@ -179,6 +179,7 @@ class TPContext(CommonContext):
         super().__init__(server_address, password)
         # self.items_received_2: list[tuple[NetworkItem, int]] = []
         self.item_queue: deque[tuple[NetworkItem, int]] = deque()
+        self.insurance_queue: deque[tuple[str, int]] = deque()
         self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
         self.dolphin_status: str = CONNECTION_INITIAL_STATUS
         self.awaiting_dolphin: bool = False
@@ -227,6 +228,7 @@ class TPContext(CommonContext):
         if cmd == "Connected":
             # self.items_received_2 = []
             self.item_queue = deque()
+            self.insurance_queue = deque()
             if check_ingame(self):
                 self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
             else:
@@ -261,8 +263,12 @@ class TPContext(CommonContext):
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
                 for item in args["items"]:
-                    self.item_queue.append((item, self.last_received_index))
-                    self.last_received_index += 1
+                    assert isinstance(
+                        item, NetworkItem
+                    ), f"[Twilight Princess Client] Recived an item the is not a Network Item {item=}"
+                    if item.player != self.slot:  # Don't give own items
+                        self.item_queue.append((item, self.last_received_index))
+                        self.last_received_index += 1
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -487,6 +493,8 @@ async def give_items(ctx: TPContext) -> None:
                 "Rupee",
                 "Ammo",
                 "Trap",
+                "Small key",  # TODO: Insure Keys
+                "Big key",
             ]:
                 item_give_queue.append(item_name)
 
@@ -494,8 +502,6 @@ async def give_items(ctx: TPContext) -> None:
             elif item_data.type in [
                 "Item",
                 "Bottle",
-                # "Small key",
-                # "Big key",
                 "Bug",
                 "Poe",
             ]:
@@ -576,7 +582,7 @@ async def give_items(ctx: TPContext) -> None:
                 ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
             # Only try to give a full queue or whatever is there
-            if len(item_give_queue) == 8 or item_index == ctx.last_received_index -1:
+            if len(item_give_queue) == 8 or item_index == ctx.last_received_index - 1:
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, item_index + 1)
@@ -652,6 +658,108 @@ async def give_items(ctx: TPContext) -> None:
                 item_give_queue = []
 
         assert expected_idx - 1 == last_item_index  # Check the last item was given
+
+
+async def validate_item(ctx: TPContext) -> None:
+
+    # TODO: Consider adding a limiter so that checking doesn't happen every frame
+
+    # First check if item queue is empty as we don't want to double give
+    for i in range(0, 8):
+        item_stack_addr = ITEM_WRITE_ADDR + i
+        if read_byte(item_stack_addr) != 0x00:
+            return
+
+    for item_name, item_data in ITEM_TABLE.items():
+
+        if item_data.type in [
+            "Rupee",
+            "Ammo",
+            "Trap",
+            "Event",
+            "Small key",  # TODO: Insure Keys
+            "Big key",
+        ]:
+            # Skip all non insurable items
+            continue
+
+        elif item_data.type in [
+            "Item",
+            "Bottle",
+            "Bug",
+            "Poe",
+        ]:
+            expected_item_count = sum(
+                [
+                    1 if item_copy.item == item_data.code else 0
+                    for item_copy in ctx.items_received
+                ]
+            )
+            actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+            difference = expected_item_count - actual_item_count
+            if difference > 0:
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: Insurance caught that you missed {difference}x{item_name} adding it to the queue"
+                    )
+                    ctx.insurance_queue.append([item_name, difference])
+
+        elif item_data.type in [
+            "Compass",
+            "Map",
+        ]:
+            if (
+                check_dungeon_item_count(item_name, SAVE_FILE_ADDR, ctx.current_node)
+                == 0
+            ):
+                ctx.insurance_queue.append([item_name, 1])
+
+        elif item_data.type in [
+            "Heart",
+        ]:
+            # Only try to give heart pieces and not containers
+            if item_name != "Piece of Heart":
+                continue
+
+            actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
+            heart_container_count = sum(
+                [
+                    1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
+                    for item_copy in ctx.items_received
+                ]
+            )
+            heart_piece_count = sum(
+                [
+                    1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
+                    for item_copy in ctx.items_received
+                ]
+            )
+
+            heart_difference = (
+                (heart_container_count * 5) + heart_piece_count + 15
+            ) - actual_heart_pieace_count
+
+            if heart_difference > 0:
+                ctx.insurance_queue.append([item_name, difference])
+        else:
+            assert (
+                False
+            ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
+
+        item_give_list: list[str] = []
+
+        while len(ctx.insurance_queue) > 0:
+
+            item_name, count = ctx.insurance_queue.pop()
+
+            assert count > 0
+            for _ in range(count):
+
+                item_give_list.append(item_name)
+
+                if len(item_give_list) == 8 or len(ctx.insurance_queue) <= 0:
+                    while not await _give_items(ctx, item_give_list):
+                        await asyncio.sleep(0.5)
 
 
 async def check_locations(ctx: TPContext) -> None:
