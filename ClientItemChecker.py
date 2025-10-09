@@ -315,6 +315,18 @@ def check_item_count(item_name: str, base_addr: int) -> int:
                 return 1
             return 0
 
+        case "Empty Bottle (Fishing Hole)":
+            if dolphin_memory_engine.read_byte(base_addr + 0xAA) != 255:
+                return 4
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+                return 3
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+                return 2
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA7) != 255:
+                return 1
+            else:
+                return 0
+
         case "Gerudo Desert Bublin Camp Key":
             assert False, "find this in memory"
             if check_flag(0x80, base_addr + 0xE8):

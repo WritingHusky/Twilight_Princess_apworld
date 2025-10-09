@@ -17,7 +17,7 @@ from .ClientUtils import (
     base_server_data_connection,
     server_data,
 )
-from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
+from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME, TPItem, item_factory
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
 from CommonClient import (
@@ -39,6 +39,8 @@ CONNECTION_REFUSED_SAVE_STATUS = "Dolphin failed to connect. Please load into th
 CONNECTION_LOST_STATUS = "Dolphin connection was lost. Please restart your emulator and make sure Twilight Princess is running."
 CONNECTION_CONNECTED_STATUS = "Dolphin connected successfully."
 CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
+
+VALIDATION_TIME = 2
 
 # CURR_HEALTH_ADDR = 0x804061C2
 # CURR_NODE_ADDR = 0x80406B38
@@ -132,7 +134,7 @@ class TPCommandProcessor(ClientCommandProcessor):
 
     @mark_raw
     def _cmd_name(self, name: str = "") -> None:
-        """Change the name of the current save file"""
+        """Change the name of the current save file (i.e. /name Player1 )"""
 
         if not isinstance(self.ctx, TPContext):
             return
@@ -190,6 +192,7 @@ class TPContext(CommonContext):
         self.server_data = deepcopy(server_data)
         self.server_data_built: bool = False
         self.server_data_sent: bool = False
+        self.validation_timer: float = 0.0
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -226,9 +229,10 @@ class TPContext(CommonContext):
         :param args: The command arguments.
         """
         if cmd == "Connected":
-            # self.items_received_2 = []
+            self.items_received = []
             self.item_queue = deque()
             self.insurance_queue = deque()
+            self.validation_timer = time.time()
             if check_ingame(self):
                 self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
             else:
@@ -266,9 +270,12 @@ class TPContext(CommonContext):
                     assert isinstance(
                         item, NetworkItem
                     ), f"[Twilight Princess Client] Recived an item the is not a Network Item {item=}"
+                    self.items_received.append(item)
+                    self.validation_timer = time.time()
+                    # assert False, f"{self.items_received=}"
+                    self.last_received_index += 1
                     if item.player != self.slot:  # Don't give own items
                         self.item_queue.append((item, self.last_received_index))
-                        self.last_received_index += 1
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -435,6 +442,8 @@ async def _give_items(ctx: TPContext, items: list[str]) -> bool:
             ITEM_TABLE[item_name].item_id, int
         ), f"{item_name=} has no item_id"
 
+    ctx.validation_timer = time.time()
+
     # Only add items to the queue if it is empty
     for i in range(0, 8):
         item_stack_addr = ITEM_WRITE_ADDR + i
@@ -494,7 +503,8 @@ async def give_items(ctx: TPContext) -> None:
                 "Ammo",
                 "Trap",
                 "Small key",  # TODO: Insure Keys
-                "Big key",
+                "Big Key",
+                "Book",
             ]:
                 item_give_queue.append(item_name)
 
@@ -505,72 +515,68 @@ async def give_items(ctx: TPContext) -> None:
                 "Bug",
                 "Poe",
             ]:
-                expected_item_count = sum(
-                    [
-                        1 if item_copy.item == item.item else 0
-                        for item_copy in ctx.items_received
-                    ]
-                )
-                actual_item_count = check_item_count(
-                    item_name, SAVE_FILE_ADDR
-                ) + item_give_queue.count(item_name)
+                # actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
 
-                # Note: items given directly through memory will cause an item wait where an item is not given
-                # # If this occurs they did it to themselfs
+                # expected_item_count = 0
+                # for item in ctx.items_received:
+                #     if item.item == item_data.code:
+                #         expected_item_count += 1
 
-                # Usually this will be a differance of 1
-                if expected_item_count > actual_item_count:
-                    item_give_queue.append(item_name)
-                else:
-                    if DEBUGGING:
-                        logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has {expected_item_count=}, {actual_item_count=}"
-                        )
+                # # Note: items given directly through memory will cause an item wait where an item is not given
+                # # # If this occurs they did it to themselfs
+
+                # # Usually this will be a differance of 1
+                # if expected_item_count > actual_item_count:
+                #     item_give_queue.append(item_name)
+                # else:
+                #     if DEBUGGING:
+                #         logger.info(
+                #             f"Debug: Tried to give {item_name=} but player already has {expected_item_count=}, {actual_item_count=}"
+                #         )
+                continue
 
             elif item_data.type in [
                 "Compass",
                 "Map",
             ]:
-                if (
-                    check_dungeon_item_count(
-                        item_name, SAVE_FILE_ADDR, ctx.current_node
-                    )
-                    == 0
-                ):
-                    item_give_queue.append(item_name)
-                else:
-                    if DEBUGGING:
-                        logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has one"
-                        )
+                # if (
+                #     check_dungeon_item_count(
+                #         item_name, SAVE_FILE_ADDR, ctx.current_node
+                #     )
+                #     == 0
+                # ):
+                #     item_give_queue.append(item_name)
+                # else:
+                #     if DEBUGGING:
+                #         logger.info(
+                #             f"Debug: Tried to give {item_name=} but player already has one"
+                #         )
+                continue
 
             elif item_data.type in [
                 "Heart",
             ]:
-                actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
-                heart_container_count = sum(
-                    [
-                        1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
-                        for item_copy in ctx.items_received
-                    ]
-                )
-                heart_piece_count = sum(
-                    [
-                        1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
-                        for item_copy in ctx.items_received
-                    ]
-                )
+                # actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
 
-                if (
-                    actual_heart_pieace_count
-                    < (heart_container_count * 5) + heart_piece_count + 15
-                ):
-                    item_give_queue.append(item_name)
-                else:
-                    if DEBUGGING:
-                        logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count + 15)=}"
-                        )
+                # heart_piece_count = 0
+                # heart_container_count = 0
+                # for item in ctx.items_received:
+                #     if item.item == TPItem.get_apid(ITEM_TABLE["Piece of Heart"].code):
+                #         heart_piece_count += 1
+                #     if item.item == TPItem.get_apid(ITEM_TABLE["Heart Container"].code):
+                #         heart_container_count += 1
+
+                # if (
+                #     actual_heart_pieace_count
+                #     < (heart_container_count * 5) + heart_piece_count + 15
+                # ):
+                #     item_give_queue.append(item_name)
+                # else:
+                #     if DEBUGGING:
+                #         logger.info(
+                #             f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {heart_container_count=},{heart_piece_count=}"
+                #         )
+                continue
 
             elif item_data.type == "Event":
                 assert (
@@ -582,7 +588,9 @@ async def give_items(ctx: TPContext) -> None:
                 ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
             # Only try to give a full queue or whatever is there
-            if len(item_give_queue) == 8 or item_index == ctx.last_received_index - 1:
+            if len(item_give_queue) == 8 or (
+                item_index >= ctx.last_received_index - 1 and len(item_give_queue) > 0
+            ):
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, item_index + 1)
@@ -662,6 +670,9 @@ async def give_items(ctx: TPContext) -> None:
 
 async def validate_item(ctx: TPContext) -> None:
 
+    if ctx.validation_timer > time.time() + VALIDATION_TIME:
+        return
+
     # TODO: Consider adding a limiter so that checking doesn't happen every frame
 
     # First check if item queue is empty as we don't want to double give
@@ -678,7 +689,8 @@ async def validate_item(ctx: TPContext) -> None:
             "Trap",
             "Event",
             "Small key",  # TODO: Insure Keys
-            "Big key",
+            "Big Key",
+            "Book",
         ]:
             # Skip all non insurable items
             continue
@@ -689,13 +701,19 @@ async def validate_item(ctx: TPContext) -> None:
             "Bug",
             "Poe",
         ]:
-            expected_item_count = sum(
-                [
-                    1 if item_copy.item == item_data.code else 0
-                    for item_copy in ctx.items_received
-                ]
-            )
+            if (
+                item_data.type == "Bottle"
+            ):  # Bottle is only non progressive that checks together
+                if item_name != "Empty Bottle (Fishing Hole)":
+                    continue
+
             actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+
+            expected_item_count = 0
+            for item in ctx.items_received:
+                if item.item == item_data.code:
+                    expected_item_count += 1
+
             difference = expected_item_count - actual_item_count
             if difference > 0:
                 if DEBUGGING:
@@ -709,7 +727,7 @@ async def validate_item(ctx: TPContext) -> None:
             "Map",
         ]:
             if (
-                check_dungeon_item_count(item_name, SAVE_FILE_ADDR, ctx.current_node)
+                check_dungeon_item_count(item_name, NODES_START_ADDR, ctx.current_node)
                 == 0
             ):
                 ctx.insurance_queue.append([item_name, 1])
@@ -722,25 +740,20 @@ async def validate_item(ctx: TPContext) -> None:
                 continue
 
             actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
-            heart_container_count = sum(
-                [
-                    1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
-                    for item_copy in ctx.items_received
-                ]
-            )
-            heart_piece_count = sum(
-                [
-                    1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
-                    for item_copy in ctx.items_received
-                ]
-            )
+            heart_piece_count = 0
+            heart_container_count = 0
+            for item in ctx.items_received:
+                if item.item == TPItem.get_apid(ITEM_TABLE["Piece of Heart"].code):
+                    heart_piece_count += 1
+                if item.item == TPItem.get_apid(ITEM_TABLE["Heart Container"].code):
+                    heart_container_count += 1
 
             heart_difference = (
                 (heart_container_count * 5) + heart_piece_count + 15
             ) - actual_heart_pieace_count
 
             if heart_difference > 0:
-                ctx.insurance_queue.append([item_name, difference])
+                ctx.insurance_queue.append([item_name, heart_difference])
         else:
             assert (
                 False
@@ -1090,6 +1103,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                         ctx.server_data_sent = True
                     await give_items(ctx)
                     await check_locations(ctx)
+                    await validate_item(ctx)
                 else:
                     if not ctx.auth:
                         ctx.auth = read_string(SLOT_NAME_ADDR, 0x40)

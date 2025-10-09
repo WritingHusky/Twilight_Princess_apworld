@@ -237,7 +237,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Fused Shadow": TPItemData("Item", IC.progression, 121, 3, 0xD8),
     "Progressive Hidden Skill": TPItemData("Item", VERY_USEFUL, 122, 7, 0xE1),
     "Progressive Sky Book": TPItemData(
-        "Item", IC.progression, 123, 7, 0xE9
+        "Book", IC.progression, 123, 7, 0xE9
     ),  # 1 book + 6 characters
     # "Sky Character 1": TPItemData("Item", IC.useful, 132, 1, 0xDB),
     # "Sky Character 2": TPItemData("Item", IC.useful, 133, 1, 0xDC),
@@ -249,8 +249,8 @@ ITEM_TABLE: dict[str, TPItemData] = {
     # "Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
     # "Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),
     # "Poe 4 (Fire)": TPItemData("Item", IC.useful, 128, 1, 0xF2),
-    "Ordon Pumpkin": TPItemData("Small Key", IC.progression, 129, 1, 0xF4),
-    "Ordon Goat Cheese": TPItemData("Small Key", IC.progression, 130, 1, 0xF5),
+    "Ordon Pumpkin": TPItemData("Small key", IC.progression, 129, 1, 0xF4),
+    "Ordon Goat Cheese": TPItemData("Small key", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
     "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
