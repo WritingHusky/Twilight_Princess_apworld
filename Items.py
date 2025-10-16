@@ -174,7 +174,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     #     "Small key", IC.progression, 63, 1, 0xEE
     # ),
     # "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
-    "Gate Keys": TPItemData("Small key", IC.progression, 65, 1, 0xF3),
+    "Gate Keys": TPItemData(
+        "Item", IC.progression, 65, 1, 0xF3
+    ),  # Item to not have to count like other keys
     "Gerudo Desert Bublin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),
@@ -247,8 +249,8 @@ ITEM_TABLE: dict[str, TPItemData] = {
     # "Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
     # "Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),
     # "Poe 4 (Fire)": TPItemData("Item", IC.useful, 128, 1, 0xF2),
-    "Ordon Pumpkin": TPItemData("Small Key", IC.progression, 129, 1, 0xF4),
-    "Ordon Goat Cheese": TPItemData("Small Key", IC.progression, 130, 1, 0xF5),
+    "Ordon Pumpkin": TPItemData("Small key", IC.progression, 129, 1, 0xF4),
+    "Ordon Goat Cheese": TPItemData("Small key", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
     "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),

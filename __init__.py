@@ -35,6 +35,7 @@ from worlds.LauncherComponents import (
 from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
     DUNGEON_TO_BOSS_DEFEAT,
+    DUNGEON_TO_BOSS_DEFEAT,
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
     VANILLA_SKY_CHARACTER_LOCATIONS,
@@ -257,6 +258,10 @@ class TPWorld(World):
         self.nonprogress_locations, self.progress_locations = (
             self._determine_nonprogress_and_progress_locations()
         )
+
+        if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
+            self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
+            self.multiworld.local_early_items[self.player]["Lantern"] = 1
 
         if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
             self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1

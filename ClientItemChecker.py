@@ -1,6 +1,8 @@
 import dolphin_memory_engine
 
-from worlds.twilight_princess_apworld.Locations import NodeID  # type: ignore
+from .Locations import NodeID  # type: ignore
+
+ACTIVE_SLOT_OFFSET = 0x958
 
 
 def check_flag(flag: int, address: int) -> bool:
@@ -308,6 +310,29 @@ def check_item_count(item_name: str, base_addr: int) -> int:
         case "Poe Soul":
             return dolphin_memory_engine.read_byte(base_addr + 0x10C)
 
+        case "Gate Keys":
+            if check_flag(0x8, base_addr + 0xE8):
+                return 1
+            return 0
+
+        case "Empty Bottle (Fishing Hole)":
+            if dolphin_memory_engine.read_byte(base_addr + 0xAA) != 255:
+                return 4
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+                return 3
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+                return 2
+            elif dolphin_memory_engine.read_byte(base_addr + 0xA7) != 255:
+                return 1
+            else:
+                return 0
+
+        case "Gerudo Desert Bublin Camp Key":
+            assert False, "find this in memory"
+            if check_flag(0x80, base_addr + 0xE8):
+                return 1
+            return 0
+
         case _:
             assert False, f"[Twilight Princess Client] could not handle  {item_name=} "
 
@@ -317,7 +342,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
     match (item_name):
         case "Forest Temple Compass":
             if node_number == NodeID.Forest_Temple:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Forest_Temple * 32) + base_addr + 0x1D
 
@@ -327,7 +352,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Forest Temple Map":
             if node_number == NodeID.Forest_Temple:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Forest_Temple * 32) + base_addr + 0x1D
 
@@ -337,7 +362,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Goron Mines Compass":
             if node_number == NodeID.Goron_Mines:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Goron_Mines * 32) + base_addr + 0x1D
 
@@ -347,7 +372,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Goron Mines Map":
             if node_number == NodeID.Goron_Mines:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Goron_Mines * 32) + base_addr + 0x1D
 
@@ -357,7 +382,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Lakebed Temple Compass":
             if node_number == NodeID.Lakebed_Temple:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Lakebed_Temple * 32) + base_addr + 0x1D
 
@@ -367,7 +392,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Lakebed Temple Map":
             if node_number == NodeID.Lakebed_Temple:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Lakebed_Temple * 32) + base_addr + 0x1D
 
@@ -377,7 +402,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Arbiters Grounds Compass":
             if node_number == NodeID.Arbiters_Grounds:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Arbiters_Grounds * 32) + base_addr + 0x1D
 
@@ -387,7 +412,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Arbiters Grounds Map":
             if node_number == NodeID.Arbiters_Grounds:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Arbiters_Grounds * 32) + base_addr + 0x1D
 
@@ -397,7 +422,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Snowpeak Ruins Compass":
             if node_number == NodeID.Snowpeak_Ruins:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Snowpeak_Ruins * 32) + base_addr + 0x1D
 
@@ -407,7 +432,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Snowpeak Ruins Map":
             if node_number == NodeID.Snowpeak_Ruins:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Snowpeak_Ruins * 32) + base_addr + 0x1D
 
@@ -417,7 +442,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Temple of Time Compass":
             if node_number == NodeID.Temple_of_Time:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Temple_of_Time * 32) + base_addr + 0x1D
 
@@ -427,7 +452,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Temple of Time Map":
             if node_number == NodeID.Temple_of_Time:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Temple_of_Time * 32) + base_addr + 0x1D
 
@@ -437,7 +462,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "City in The Sky Compass":
             if node_number == NodeID.City_in_the_Sky:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.City_in_the_Sky * 32) + base_addr + 0x1D
 
@@ -447,7 +472,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "City in The Sky Map":
             if node_number == NodeID.City_in_the_Sky:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.City_in_the_Sky * 32) + base_addr + 0x1D
 
@@ -457,7 +482,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Palace of Twilight Compass":
             if node_number == NodeID.Palace_of_Twilight:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Palace_of_Twilight * 32) + base_addr + 0x1D
 
@@ -467,7 +492,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Palace of Twilight Map":
             if node_number == NodeID.Palace_of_Twilight:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Palace_of_Twilight * 32) + base_addr + 0x1D
 
@@ -477,7 +502,7 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Hyrule Castle Compass":
             if node_number == NodeID.Hyrule_Castle:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Hyrule_Castle * 32) + base_addr + 0x1D
 
@@ -487,10 +512,85 @@ def check_dungeon_item_count(item_name: str, base_addr: int, node_number: int) -
 
         case "Hyrule Castle Map":
             if node_number == NodeID.Hyrule_Castle:
-                addr = base_addr + 0x1D + 0x958
+                addr = base_addr + 0x1D + ACTIVE_SLOT_OFFSET
             else:
                 addr = (NodeID.Hyrule_Castle * 32) + base_addr + 0x1D
 
             if check_flag(0x1, addr):
                 return 1
             return 0
+
+
+def check_dungeon_key_count(item_name: str, base_addr: int, node_number: int) -> int:
+    match (item_name):
+        case "Forest Temple Small Key":
+            if node_number == NodeID.Forest_Temple:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Forest_Temple * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Goron Mines Small Key":
+            if node_number == NodeID.Goron_Mines:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Goron_Mines * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Lakebed Temple Small Key":
+            if node_number == NodeID.Lakebed_Temple:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Lakebed_Temple * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Arbiters Grounds Small Key":
+            if node_number == NodeID.Arbiters_Grounds:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Arbiters_Grounds * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Snowpeak Ruins Small Key":
+            if node_number == NodeID.Snowpeak_Ruins:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Snowpeak_Ruins * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Temple of Time Small Key":
+            if node_number == NodeID.Temple_of_Time:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Temple_of_Time * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "City in The Sky Small Key":
+            if node_number == NodeID.City_in_the_Sky:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.City_in_the_Sky * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Palace of Twilight Small Key":
+            if node_number == NodeID.Palace_of_Twilight:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Palace_of_Twilight * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
+
+        case "Hyrule Castle Small Key":
+            if node_number == NodeID.Hyrule_Castle:
+                addr = base_addr + 0x1C + ACTIVE_SLOT_OFFSET
+            else:
+                addr = (NodeID.Hyrule_Castle * 32) + base_addr + 0x1C
+
+            return dolphin_memory_engine.read_byte(addr)
