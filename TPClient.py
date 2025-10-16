@@ -1,6 +1,7 @@
 import asyncio
 from collections import deque
 from copy import deepcopy
+import threading
 import time
 import traceback
 from typing import TYPE_CHECKING, Any, Optional
@@ -40,7 +41,7 @@ CONNECTION_LOST_STATUS = "Dolphin connection was lost. Please restart your emula
 CONNECTION_CONNECTED_STATUS = "Dolphin connected successfully."
 CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 
-VALIDATION_TIME = 2
+VALIDATION_TIME = 10
 
 # CURR_HEALTH_ADDR = 0x804061C2
 # CURR_NODE_ADDR = 0x80406B38
@@ -49,6 +50,8 @@ VALIDATION_TIME = 2
 # EXPECTED_INDEX_ADDR = 0x80406734
 # NODES_START_ADDR = 0x804063B0
 # ACTIVE_NODE_ADDR = 0x80406B18
+LINK_POINTER_ADDR = 0x8040BF6C
+M_EVENT_STATUS_ADDR = 0x8040B16D
 
 DEBUGGING = True
 
@@ -62,6 +65,8 @@ def set_address(
     expected_index_addr=None,
     nodes_start_addr=None,
     active_node_addr=None,
+    link_pointer_addr=None,
+    m_event_status_addr=None,
 ):
     global STRING_ENCODING
     if regionCode is None:
@@ -76,7 +81,7 @@ def set_address(
             saveFileAddr = 0x80400300
             STRING_ENCODING = "shift-jis"
 
-    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR
+    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR, LINK_POINTER_ADDR, M_EVENT_STATUS_ADDR
 
     CURR_HEALTH_ADDR = (
         curr_health_addr if curr_health_addr is not None else saveFileAddr + 0x2
@@ -100,6 +105,14 @@ def set_address(
         active_node_addr if active_node_addr is not None else saveFileAddr + 0x958
     )
     SAVE_FILE_ADDR = saveFileAddr
+    LINK_POINTER_ADDR = (
+        link_pointer_addr if link_pointer_addr is not None else saveFileAddr + 0x5DAC
+    )
+    M_EVENT_STATUS_ADDR = (
+        m_event_status_addr
+        if m_event_status_addr is not None
+        else saveFileAddr + 0x4FAD
+    )
 
 
 # ...existing code...
@@ -183,16 +196,18 @@ class TPContext(CommonContext):
         self.item_queue: deque[tuple[NetworkItem, int]] = deque()
         self.insurance_queue: deque[tuple[str, int]] = deque()
         self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
-        self.dolphin_status: str = CONNECTION_INITIAL_STATUS
-        self.awaiting_dolphin: bool = False
-        self.last_received_index: int = -1
-        self.has_send_death: bool = False
-        self.current_node: int = 0xFF
+        self.dolphin_status = CONNECTION_INITIAL_STATUS
+        self.awaiting_dolphin = False
+        self.last_received_index = -1
+        self.has_send_death = False
+        self.current_node = 0xFF
         self.server_data_copy: dict[str, str | bool] = {}
         self.server_data = deepcopy(server_data)
-        self.server_data_built: bool = False
-        self.server_data_sent: bool = False
-        self.validation_timer: float = 0.0
+        self.server_data_built = False
+        self.server_data_sent = False
+        self.validation_timer = time.time()
+        # Event is used for pause as it better represents how I want to think about it
+        self.validation_pause = asyncio.Event()
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -233,6 +248,7 @@ class TPContext(CommonContext):
             self.item_queue = deque()
             self.insurance_queue = deque()
             self.validation_timer = time.time()
+            self.validation_pause.set()
             if check_ingame(self):
                 self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
             else:
@@ -271,11 +287,10 @@ class TPContext(CommonContext):
                         item, NetworkItem
                     ), f"[Twilight Princess Client] Recived an item the is not a Network Item {item=}"
                     self.items_received.append(item)
-                    self.validation_timer = time.time()
-                    # assert False, f"{self.items_received=}"
                     self.last_received_index += 1
                     if item.player != self.slot:  # Don't give own items
                         self.item_queue.append((item, self.last_received_index))
+                    self.validation_pause.set()
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -323,6 +338,21 @@ def read_short(console_address: int) -> int:
     assert isinstance(console_address, int)
     result = int.from_bytes(
         dolphin_memory_engine.read_bytes(console_address, 2), byteorder="big"
+    )
+    assert isinstance(result, int)
+    return result
+
+
+def read_pointer(console_address: int) -> int:
+    """
+    Read a short from Dolphin memory.
+
+    :param console_address: Address to read from.
+    :return: The value read from memory.
+    """
+    assert isinstance(console_address, int)
+    result = int.from_bytes(
+        dolphin_memory_engine.read_bytes(console_address, 4), byteorder="big"
     )
     assert isinstance(result, int)
     return result
@@ -411,6 +441,7 @@ def _give_death(ctx: TPContext) -> None:
         ctx.slot is not None
         and dolphin_memory_engine.is_hooked()
         and ctx.dolphin_status == CONNECTION_CONNECTED_STATUS
+        and _check_status()
     ):
         ctx.has_send_death = True
         write_short(CURR_HEALTH_ADDR, 0)
@@ -436,6 +467,9 @@ async def _give_items(ctx: TPContext, items: list[str]) -> bool:
 
     if not await check_ingame(ctx):
         return False
+    if not _check_status():
+        return False
+
     for item_name in items:
         assert item_name in ITEM_TABLE, f"{item_name=} not in item table "
         assert isinstance(
@@ -598,6 +632,9 @@ async def give_items(ctx: TPContext) -> None:
         assert (
             len(item_give_queue) == 0
         ), f"[Twilight Princess Client] item give queue is not empty at the end {item_give_queue=}\n{item_index=} - {ctx.last_received_index=}"
+
+        # Now validation should be good to occur
+        ctx.validation_pause.clear()
         return
         #
         #
@@ -670,10 +707,11 @@ async def give_items(ctx: TPContext) -> None:
 
 async def validate_item(ctx: TPContext) -> None:
 
-    if ctx.validation_timer > time.time() + VALIDATION_TIME:
+    # If paused or the timer has not passed then skip validation
+    if (ctx.validation_pause.is_set()) or (
+        ctx.validation_timer < (time.time() + VALIDATION_TIME)
+    ):
         return
-
-    # TODO: Consider adding a limiter so that checking doesn't happen every frame
 
     # First check if item queue is empty as we don't want to double give
     for i in range(0, 8):
@@ -759,6 +797,9 @@ async def validate_item(ctx: TPContext) -> None:
                 False
             ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
+        # Validation completed so wait until starting again
+        ctx.validation_pause.set()
+
         item_give_list: list[str] = []
 
         while len(ctx.insurance_queue) > 0:
@@ -773,6 +814,9 @@ async def validate_item(ctx: TPContext) -> None:
                 if len(item_give_list) == 8 or len(ctx.insurance_queue) <= 0:
                     while not await _give_items(ctx, item_give_list):
                         await asyncio.sleep(0.5)
+
+        # Set the timer for validation to start again
+        ctx.validation_timer = time.time()
 
 
 async def check_locations(ctx: TPContext) -> None:
@@ -1066,6 +1110,21 @@ async def check_ingame(ctx: TPContext) -> bool:
     else:
         ctx.current_node = new_node
         return new_node != 0xFF
+
+
+def _check_status() -> bool:
+    """
+    Check if link is in a good state to interact with.
+
+    *Gotten from how lunar chooses when to give player items*
+    """
+    link_actr = read_pointer(LINK_POINTER_ADDR)
+
+    mEventStatus = read_byte(M_EVENT_STATUS_ADDR)
+    mDemoType = read_short(link_actr + 0x604)
+    mEventId = read_short(link_actr + 0x7BE)
+
+    return mEventStatus == 0 and mDemoType == 0 and mEventId == 0
 
 
 async def check_key_counts(ctx: TPContext) -> None:
