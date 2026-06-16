@@ -163,7 +163,7 @@ class TPWorld(World):
     player: int
 
     progression_pool: list[str]
-    seedID = ""
+    seed_id = ""
 
     def __init__(self, *args, **kwargs):
         super(TPWorld, self).__init__(*args, **kwargs)
@@ -1363,6 +1363,7 @@ class TPWorld(World):
         # ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
 
     def post_fill(self):
+        self.seed_id = gen_seed_id(self)
         # As part of (semi-)tiger beetle style test ensure things worked Properly in prod
         # This Allows for easy fuzzing to test find bugs
         for location_name, data in LOCATION_TABLE.items():
@@ -1544,7 +1545,6 @@ class TPWorld(World):
         item_str, debug_str = get_item_placements(self.multiworld, self.player)
 
         setting_string = get_setting_string(self.multiworld, self.player)
-        self.seed_id = gen_seed_id(self)
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
             "SettingsString": setting_string,
@@ -1821,7 +1821,7 @@ class TPWorld(World):
             "DeathLink": self.options.death_link.value,
             "Settings": self.get_settings_map(),
             "LocationClassification": {},
-            "SeedID": self.seedID,
+            "SeedID": self.seed_id,
         }
 
         for location in self.get_locations():

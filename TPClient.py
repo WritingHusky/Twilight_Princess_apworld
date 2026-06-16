@@ -371,7 +371,10 @@ class TPContext(CommonContext):
                     )
                 if self.SeedID != read_seedID:
 
-                    raise Exception(WRONG_SEED_LOADED_MSG + self.SeedID)
+                    logger.info(WRONG_SEED_LOADED_MSG + self.SeedID)
+                    Utils.async_start(
+                        self.disconnect()
+                    )
 
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
                 assert isinstance(
@@ -1546,7 +1549,13 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                     await asyncio.sleep(0.1)
                     continue
                 if not ctx.rando_loaded_message:
-                    logger.info("Randomizer loaded, have fun")
+                    pointer = read_pointer(0x800042BC)
+                    if pointer == 0:
+                        raise Exception(
+                            "Failed to read Seed; Please Make sure dolphin is connected correctly"
+                        )
+                    read_seedID = read_string(pointer + 0x70, 16)
+                    logger.info(f"Randomizer loaded, you may now connect. Using seed id {read_seedID}")
                     ctx.rando_loaded_message = True
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
