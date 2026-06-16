@@ -425,6 +425,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.dungeon_rewards_progression.value
                     == DungeonRewardsProgression.option_vanilla
                 )
+                or (
+                    item == "Heart Container"
+                    and world.options.dungeon_rewards_progression.value
+                    == DungeonRewardsProgression.option_vanilla
+                )
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue
