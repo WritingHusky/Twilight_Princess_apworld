@@ -304,7 +304,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Stallord Heart Container": TPLocationData(
         code=16,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -394,7 +394,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Argorok Heart Container": TPLocationData(
         code=26,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -682,7 +682,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Diababa Heart Container": TPLocationData(
         code=58,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -871,7 +871,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Fyrus Heart Container": TPLocationData(
         code=79,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -1411,7 +1411,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Morpheel Heart Container": TPLocationData(
         code=139,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1663,7 +1663,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Zant Heart Container": TPLocationData(
         code=167,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1681,7 +1681,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Blizzeta Heart Container": TPLocationData(
         code=169,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1888,7 +1888,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Armogohma Heart Container": TPLocationData(
         code=192,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart | TPFlag.Dungeon,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,

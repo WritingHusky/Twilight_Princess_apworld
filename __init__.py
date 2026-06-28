@@ -595,6 +595,8 @@ class TPWorld(World):
             #     boss_locations,
             #     k=4,
             # )
+            self.multiworld.random.shuffle(boss_locations)
+            self.multiworld.random.shuffle(boss_item_list)
 
             state_locations = [self.get_location(name) for name in boss_locations]
             assert (
@@ -652,33 +654,33 @@ class TPWorld(World):
             #     collection_state_base.collect(boss_item)
             del boss_item
 
-            # Place heart containers into vanilla boss locations
-            vanilla_boss_heart_locations = [
-                "Arbiters Grounds Stallord Heart Container",
-                "City in The Sky Argorok Heart Container",
-                "Forest Temple Diababa Heart Container",
-                "Goron Mines Fyrus Heart Container",
-                "Lakebed Temple Morpheel Heart Container",
-                "Palace of Twilight Zant Heart Container",
-                "Snowpeak Ruins Blizzeta Heart Container",
-                "Temple of Time Armogohma Heart Container",
-            ]
-            heart_list = [
-                item for item in pre_fill_items if item.name == "Heart Container"
-            ]
-            assert (
-                len(heart_list) == 8
-            ), f"[Twilight Princess] There are only {len(heart_list)} / 8 heart containers in the pre fill pool"
+            # # Place heart containers into vanilla boss locations
+            # vanilla_boss_heart_locations = [
+            #     "Arbiters Grounds Stallord Heart Container",
+            #     "City in The Sky Argorok Heart Container",
+            #     "Forest Temple Diababa Heart Container",
+            #     "Goron Mines Fyrus Heart Container",
+            #     "Lakebed Temple Morpheel Heart Container",
+            #     "Palace of Twilight Zant Heart Container",
+            #     "Snowpeak Ruins Blizzeta Heart Container",
+            #     "Temple of Time Armogohma Heart Container",
+            # ]
+            # heart_list = [
+            #     item for item in pre_fill_items if item.name == "Heart Container"
+            # ]
+            # assert (
+            #     len(heart_list) == 8
+            # ), f"[Twilight Princess] There are only {len(heart_list)} / 8 heart containers in the pre fill pool"
 
-            for heart, location_name in zip(heart_list, vanilla_boss_heart_locations):
-                location = self.get_location(location_name)
-                assert (
-                    location.item is None and location.address is not None
-                ), f"[Twilight Princess] (Vanilla) Heart container location not available {location_name=}"
-                location.place_locked_item(heart)
-                pre_fill_items.remove(heart)
-                collection_state_base.collect(heart)
-            del heart
+            # for heart, location_name in zip(heart_list, vanilla_boss_heart_locations):
+            #     location = self.get_location(location_name)
+            #     assert (
+            #         location.item is None and location.address is not None
+            #     ), f"[Twilight Princess] (Vanilla) Heart container location not available {location_name=}"
+            #     location.place_locked_item(heart)
+            #     pre_fill_items.remove(heart)
+            #     collection_state_base.collect(heart)
+            # del heart
 
 
         if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
