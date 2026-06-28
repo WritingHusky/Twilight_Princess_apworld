@@ -1000,13 +1000,14 @@ def _validate_item(
 
 async def validate_items(ctx: TPContext) -> None:
 
+    # Wait for timer to expire
+    if ctx.validation_time_start + VALIDATION_TIME > time.time():
+        return
+    
     if not await check_ingame(ctx):
         ctx.insurance_queue = deque()
         if DEBUGGING:
             logger.info("Debug: Insurance occured during load game ")
-
-    # Wait for timer to expire
-    if ctx.validation_time_start + VALIDATION_TIME > time.time():
         return
 
     # Restart timer if not in correct state
@@ -1069,6 +1070,7 @@ async def validate_items(ctx: TPContext) -> None:
             ctx.insurance_queue = deque()
             if DEBUGGING:
                 logger.info("Debug: Insurance occured during load game ")
+            return
 
         while len(ctx.insurance_queue) > 0:
 
