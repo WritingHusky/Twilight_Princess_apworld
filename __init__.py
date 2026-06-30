@@ -556,7 +556,7 @@ class TPWorld(World):
             ), "[Twilight Princess] No pre fill items but early shadow crystal"
             assert (
                 self.options.dungeon_rewards_progression.value
-                == DungeonRewardsProgression.option_anything
+                in [ DungeonRewardsProgression.option_anything, DungeonRewardsProgression.option_any_progressive]
             ), "[Twilight Princess] No pre fill items but Dungeon Rewards are vanilla"
             return
 
