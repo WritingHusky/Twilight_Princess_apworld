@@ -54,6 +54,11 @@ WRONG_SEED_LOADED_MSG = "Invalid Seed; Either the wrong seed was loaded, or you 
 CONNECT_IN_GAME_MSG = (
     "Please load a save file and gain control of link before attempting to connect"
 )
+ITEM_IMBALANCE_MSG_1 = (
+    "The game has recieved more items then the server expects.\nGame recieved "
+)
+ITEM_IMBALANCE_MSG_2 = " items, but server expected "
+ITEM_IMBALANCE_MSG_3 = " items to be recieved.\nWhen the 2 numbers match you will begin recieving items again."
 
 VALIDATION_TIME = 10
 
@@ -347,12 +352,10 @@ class TPContext(CommonContext):
             self.item_queue = deque()
             self.insurance_queue = deque()
             self.validation_time_start = time.time()
+            self.item_imbalance_msg_timer = time.time()
             self.validation_pause.set()
             self.locations_checked = set()
-            if check_ingame(self):
-                self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
-            else:
-                self.last_received_index = -1
+            self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
 
             if args["slot_data"] is not None and "SeedID" in args["slot_data"]:
                 assert isinstance(
@@ -372,9 +375,7 @@ class TPContext(CommonContext):
                 if self.SeedID != read_seedID:
 
                     logger.info(WRONG_SEED_LOADED_MSG + self.SeedID)
-                    Utils.async_start(
-                        self.disconnect()
-                    )
+                    Utils.async_start(self.disconnect())
 
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
                 assert isinstance(
@@ -402,11 +403,34 @@ class TPContext(CommonContext):
             self.server_data = deepcopy(server_data)
 
         elif cmd == "ReceivedItems":
-            if args["index"] >= self.last_received_index:
-                # TODO: add handling for a 0 index to reset the items Recieved
-                self.last_received_index = args["index"]
+            if DEBUGGING:
+                logger.info(
+                    f"Debug: Recieved Item {args["index"]=}   {self.last_received_index=}"
+                )
+
+            assert isinstance(args["items"], list)
+
+            # Every ValidationTime (10s) try to sync if items bad. Also msg to tell people what is happening
+            if len(self.items_received) < self.last_received_index:
+                if self.item_imbalance_msg_timer > time.time + VALIDATION_TIME:
+                    logger.info(
+                        ITEM_IMBALANCE_MSG_1
+                        + self.last_received_index
+                        + ITEM_IMBALANCE_MSG_2
+                        + len(self.items_received)
+                        + ITEM_IMBALANCE_MSG_3
+                    )
+                    self.item_imbalance_msg_timer = time.time()
+                    asyncio.create_task(self.send_msgs([{"cmd": "Sync"}]))
+
+            elif len(self.items_received) > self.last_received_index:
+
                 self.validation_pause.set()
-                for item in args["items"]:
+                new_items = self.items_received[self.last_received_index :]
+                self.last_received_index = len(self.items_received)
+                write_short(EXPECTED_INDEX_ADDR, self.last_received_index)
+
+                for item in new_items:
                     assert isinstance(
                         item, NetworkItem
                     ), f"[Twilight Princess Client] Recived an item the is not a Network Item {item=}"
@@ -414,11 +438,8 @@ class TPContext(CommonContext):
                     # Dont add to the list as common alreadyy does
                     # self.items_received.append(item)
                     if DEBUGGING:
-                        logger.info(
-                            f"Debug: Recieved {item=} from server \nAnd item in items_receiveced {item in self.items_received}"
-                        )
+                        logger.info(f"Debug: Recieved {item=} from server")
 
-                    self.last_received_index += 1
                     if (
                         item.player != self.slot or item.location == -1
                     ):  # Don't give own items unless cheated in
@@ -812,7 +833,6 @@ async def give_items(ctx: TPContext) -> None:
                     logger.info(f"Debug: Queued Items to give {item_give_queue}")
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
-                write_short(EXPECTED_INDEX_ADDR, item_index + 1)
                 item_give_queue = []
 
         if len(item_give_queue) > 0:
@@ -823,7 +843,6 @@ async def give_items(ctx: TPContext) -> None:
                 logger.info(f"Debug: Queued Items to give {item_give_queue}")
             while not await _give_items(ctx, item_give_queue):
                 await asyncio.sleep(0.5)
-            write_short(EXPECTED_INDEX_ADDR, item_index + 1)
         # assert (
         #     len(ctx.item_queue) == 0
         # ), f"[Twilight Princess Client] item give queue is not empty at the end {ctx.item_queue=}\n{item_index=} - {ctx.last_received_index=}"
@@ -1003,7 +1022,7 @@ async def validate_items(ctx: TPContext) -> None:
     # Wait for timer to expire
     if ctx.validation_time_start + VALIDATION_TIME > time.time():
         return
-    
+
     if not await check_ingame(ctx):
         ctx.insurance_queue = deque()
         if DEBUGGING:
@@ -1557,7 +1576,9 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                             "Failed to read Seed; Please Make sure dolphin is connected correctly"
                         )
                     read_seedID = read_string(pointer + 0x70, 16)
-                    logger.info(f"Randomizer loaded, you may now connect. Using seed id {read_seedID}")
+                    logger.info(
+                        f"Randomizer loaded, you may now connect. Using seed id {read_seedID}"
+                    )
                     ctx.rando_loaded_message = True
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
