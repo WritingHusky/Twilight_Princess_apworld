@@ -514,7 +514,8 @@ def read_short(console_address: int) -> int:
 
 def read_pointer(console_address: int) -> int:
     """
-    Read a short from Dolphin memory.
+    Read a pointer from Dolphin memory.
+    *Note only reads the pointer not value at pointer
 
     :param console_address: Address to read from.
     :return: The value read from memory.
@@ -1123,6 +1124,10 @@ async def check_locations(ctx: TPContext) -> None:
 
     :param ctx: Twilight Princess client context.
     """
+
+    if not check_ingame(ctx):
+        return
+
     current_node = read_byte(CURR_NODE_ADDR)
 
     locations_read = set()
@@ -1401,11 +1406,17 @@ async def check_locations(ctx: TPContext) -> None:
         else:
             assert False, f"{data=}"
 
-    # Incase the stage changed during location checking
     await asyncio.sleep(0.1)
     if current_node != read_byte(CURR_NODE_ADDR):
         if DEBUGGING:
             logger.info("Debug: Stage changed during location checks skiping checks")
+        return
+
+    if not check_ingame(ctx):
+        if DEBUGGING:
+            logger.info(
+                "Debug: No longer in game during loation checks skipping checks"
+            )
         return
 
     new_locations_checked = locations_read.difference(ctx.locations_checked)
@@ -1469,7 +1480,7 @@ async def check_death(ctx: TPContext) -> None:
             ctx.has_send_death = False
 
 
-async def check_ingame(ctx: TPContext) -> bool:
+async def check_ingame(ctx: TPContext, level: int = 0) -> bool:
     """
     Check if the player is currently in-game.
     If the player switches to hyrule field wait 3s to see if the node updates to the menu
@@ -1481,47 +1492,38 @@ async def check_ingame(ctx: TPContext) -> bool:
     if not dolphin_memory_engine.is_hooked():
         return False
 
-    in_game = False
-    seed_loaded = False
-    seed_ptr = read_pointer(0x800042BC)
+    # Use Title Stage as in game check
+    if read_string(SAVE_FILE_ADDR + 0x4E00, 8) == "F_SP102":
+        if ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time():
+            # logger.warning(RANDO_NOT_LOADED_MSG)
+            ctx.check_in_game_msg_timer = time.time()
+        return False
 
-    if seed_ptr != 0x00:
-        seed_loaded = True
+    new_node = read_byte(CURR_NODE_ADDR)
 
-    # We still need to update the current node so it stops thinking we are in the menu before connecting
-
-    current_node = read_byte(CURR_NODE_ADDR)
-    if current_node == ctx.current_node:
-        in_game = current_node != 0xFF
-
-    # If Node changed check for chnge to hyrule field
-    elif current_node != 0x06:
-        ctx.current_node = current_node
-        in_game = current_node != 0xFF
-
-    else:
-        await asyncio.sleep(4)
-        new_node = read_byte(CURR_NODE_ADDR)
-
+    # If switching to hyrule field wait and prove not loading title screen
+    if ctx.current_node != new_node:
         if new_node == 0x06:
-            ctx.current_node = 0x06
-            in_game = True
+            ctx.current_node = new_node
+
+            if level > 3:
+                return False
+            level += 1
+
+            await asyncio.sleep(3)
+            if not await check_ingame(ctx, level):
+                return False
         else:
             ctx.current_node = new_node
-            in_game = new_node != 0xFF
 
-    if not in_game and (ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time()):
-        # logger.warning(RANDO_NOT_LOADED_MSG)
-        ctx.check_in_game_msg_timer = time.time()
-    elif (
-        (not seed_loaded)
-        and in_game
-        and (ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time())
-        and ctx.connection_tried
-    ):
-        logger.warning(WRONG_SEED_LOADED_MSG + ctx.SeedID)
-        ctx.check_in_game_msg_timer = time.time()
-    return seed_loaded
+    if read_pointer(0x800042BC) != 0x00:
+        if (
+            ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time()
+        ) and ctx.connection_tried:
+            logger.warning(WRONG_SEED_LOADED_MSG + ctx.SeedID)
+            ctx.check_in_game_msg_timer = time.time()
+        return True
+    return False
 
 
 def _check_status() -> bool:
