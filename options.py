@@ -226,7 +226,7 @@ class MapAndCompassSettings(DungeonItem):
 class DungeonRewardsProgression(Choice):
     """
     Controls whether dungeon reward and heart containers are forced to have progression items.
-    Note: chossing vanilla with dungeons shuffled causes generation issues (~10% failure rate) so be careful when chosing vanilla
+    Note: chossing vanilla with dungeons shuffled causes generation issues (~6% failure rate) so be careful when chosing vanilla
     """
 
     display_name = "Dungeon Rewards are prgression"

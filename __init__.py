@@ -607,6 +607,9 @@ class TPWorld(World):
             for boss_item in boss_item_list:
                 state.remove(boss_item)
 
+            state.update_reachable_regions(self.player)
+            state.sweep_for_advancements()
+
             boss_items_copy = deepcopy(boss_item_list)
 
             fill_restrictive(
@@ -615,7 +618,7 @@ class TPWorld(World):
                 state_locations,
                 boss_item_list,
                 single_player_placement=True,
-                # lock=True,
+                lock=True,
                 allow_excluded=True,
             )
 
