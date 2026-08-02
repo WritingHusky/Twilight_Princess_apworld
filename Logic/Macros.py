@@ -692,7 +692,8 @@ def can_defeat_RedeadKnight(state: CollectionState, player: int):
 
 def can_defeat_ShadowBeast(state: CollectionState, player: int):
     return has_sword(state, player) or (
-        state.has("Shadow Crystal", player)  # and can_complete_MDH(state, player)
+        state.has("Shadow Crystal", player)
+        and can_complete_MDH(state, player)
     )
 
 
@@ -1436,7 +1437,8 @@ def can_get_arrows(state: CollectionState, player: int):
     )
 
 
-# def can_complete_prologue(state: CollectionState, player: int):
+def can_complete_prologue(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return (
 #     #     state.can_reach_region("North Faron Woods", player)
@@ -1451,7 +1453,8 @@ def can_complete_goats1(state: CollectionState, player: int):
     # )
 
 
-# def can_complete_MDH(state: CollectionState, player: int):
+def can_complete_MDH(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return state._tp_skip_mdh(player) or (
 #     #     can_complete_lakebed_temple(state, player)
@@ -1469,12 +1472,13 @@ def can_clear_forest(state: CollectionState, player: int):
     return (
         can_complete_forest_temple(state, player)
         or (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
-        # and can_complete_prologue(state, player)
-        # and can_complete_faron_twilight(state, player)
+        and can_complete_prologue(state, player)
+        and can_complete_faron_twilight(state, player)
     )
 
 
-# def can_complete_faron_twilight(state: CollectionState, player: int):
+def can_complete_faron_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     return ( # state._tp_faron_twilight_cleared(player) or
 #         can_complete_prologue(state, player)
@@ -1499,7 +1503,8 @@ def can_clear_forest(state: CollectionState, player: int):
 #     )
 
 
-# def can_complete_eldin_twilight(state: CollectionState, player: int):
+def can_complete_eldin_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     return state._tp_eldin_twilight_cleared(player) or (
 #         state.can_reach_region("Faron Field", player)
@@ -1529,7 +1534,8 @@ def can_clear_forest(state: CollectionState, player: int):
 #     )
 
 
-# def can_complete_lanayru_twilight(state: CollectionState, player: int):
+def can_complete_lanayru_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return state._tp_lanayru_twilight_cleared(player) or (
 #     #     (
@@ -1558,7 +1564,8 @@ def can_clear_forest(state: CollectionState, player: int):
 #     # )
 
 
-# def can_complete_all_twilight(state: CollectionState, player: int):
+def can_complete_all_twilight(state: CollectionState, player: int):
+    return True
 # assert False, "This is no longer used"
 # return (
 #     can_complete_faron_twilight(state, player)
@@ -1862,9 +1869,11 @@ def can_do_ft_windless_bridge_room(state: CollectionState, player: int):
 
 
 def can_clear_forest_glitched(state: CollectionState, player: int):
-    return (  # can_complete_prologue(state, player) and
-        state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open
-    ) or (
+    return (
+        can_complete_prologue(state, player)
+        and state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open
+    )
+    or (
         can_complete_forest_temple(state, player)
         or can_do_lja(state, player)
         or can_do_map_glitch(state, player)
@@ -1893,3 +1902,7 @@ def can_skip_key_to_deku_toad(state: CollectionState, player: int):
             )
         )
     )
+
+
+def can_warp_meteor(state: CollectionState, player: int):
+    return True
