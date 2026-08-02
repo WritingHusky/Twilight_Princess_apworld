@@ -2850,13 +2850,13 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
     )
 
     multiworld.get_region("Ordon Village", player).connect(
-        multiworld.get_region("Ordon Bos House Right Door", player),
-        "Ordon Village -> Ordon Bos House Right Door",
+        multiworld.get_region("Ordon Shield House Lower", player),
+        "Ordon Village -> Ordon Shield House Lower",
     )
 
     multiworld.get_region("Ordon Seras Shop", player).connect(
-        multiworld.get_region("Ordon Shield House Lower", player),
-        "Ordon Seras Shop -> Ordon Shield House Lower",
+        multiworld.get_region("Ordon Village", player),
+        "Ordon Seras Shop -> Ordon Village",
     )
 
     multiworld.get_region("Ordon Shield House Lower", player).connect(
