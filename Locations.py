@@ -5113,7 +5113,7 @@ LOCATION_TO_REGION: dict[str, str] = {
     "Uli Cradle Delivery": "Ordon Village",
     "Ordon Cat Rescue": "Ordon Seras Shop",
     "Sera Shop Slingshot": "Ordon Seras Shop",
-    "Ordon Shield": "Ordon Shield House",
+    "Ordon Shield": "Ordon Shield House Upper",
     "Ordon Sword": "Ordon Sword House",
     # "" : "Ordon Bos House Left Door",
     # "" : "Ordon Bos House Right Door",
