@@ -354,6 +354,7 @@ class TPContext(CommonContext):
             self.validation_time_start = time.time()
             self.item_imbalance_msg_timer = time.time()
             self.validation_pause.set()
+            self.start_inventory: list = []
             self.locations_checked = set()
             self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
 
@@ -388,6 +389,12 @@ class TPContext(CommonContext):
                     logger.info(
                         f"Debug: Seting deathlink to {bool(args["slot_data"]["DeathLink"])}"
                     )
+            if args["slot_data"] is not None and "StartInventory" in args["slot_data"]:
+                assert isinstance(
+                    args["slot_data"]["StartInventory"], list
+                ), f"{args["slot_data"]["StartInventory"]=}"
+
+                self.start_inventory: list[int] = args["slot_data"]["StartInventory"]
             if args["slot_data"] is not None and (
                 not args["slot_data"]["World Version"]
                 or args["slot_data"]["World Version"] != VERSION
@@ -606,7 +613,7 @@ def write_name(name: str):
 
     logger.info(f"Writing name {padded_name}")
     write_string(SLOT_NAME_ADDR, padded_name)
-    write_byte(SAVE_FILE_ADDR + 0x900, 0x1)
+    # write_byte(SAVE_FILE_ADDR + 0x900, 0x1)
 
 
 # def check_key_counts()
@@ -728,105 +735,103 @@ async def give_items(ctx: TPContext) -> None:
             if DEBUGGING:
                 logger.info(f"Debug: Trying to give {item_name=}")
 
-            # Basic items we don't care if are given multiple times
-            if item_data.type in [
-                "Rupee",
-                "Ammo",
-                "Trap",
-            ]:
-                item_give_queue.append(item_name)
+            # Dont need to be worried about
+            item_give_queue.append(item_name)
 
-            # Items that we need to check the count of before giving to link
-            elif item_data.type in [
-                "Item",
-                "Bottle",
-                "Bug",
-                "Poe",
-            ]:
+            # # Basic items we don't care if are given multiple times
+            # if item_data.type in [
+            #     "Rupee",
+            #     "Ammo",
+            #     "Trap",
+            # ]:
+            #     item_give_queue.append(item_name)
 
-                # actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+            # # Items that we need to check the count of before giving to link
+            # elif item_data.type in [
+            #     "Item",
+            #     "Bottle",
+            #     "Bug",
+            #     "Poe",
+            # ]:
 
-                # expected_item_count = 0
-                # for item in ctx.items_received:
-                #     if item.item == item_data.code:
-                #         expected_item_count += 1
+            #     if (  # num missing - num already giving
+            #         _validate_item(item_name, ctx) - item_give_queue.count(item_name)
+            #     ) > 0:
+            #         item_give_queue.append(item_name)
 
-                # # Note: items given directly through memory will cause an item wait where an item is not given
-                # # # If this occurs they did it to themselfs
+            # elif item_data.type in [
+            #     "Compass",
+            #     "Map",
+            # ]:
+            #     if (
+            #         check_dungeon_item_count(
+            #             item_name, SAVE_FILE_ADDR, ctx.current_node
+            #         )
+            #         == 0
+            #     ):
+            #         item_give_queue.append(item_name)
+            #     else:
+            #         if DEBUGGING:
+            #             logger.info(
+            #                 f"Debug: Tried to give {item_name=} but player already has one"
+            #             )
 
-                # # Usually this will be a differance of 1
-                # if expected_item_count > actual_item_count:
-                #     item_give_queue.append(item_name)
-                # else:
-                #     if DEBUGGING:
-                #         logger.info(
-                #             f"Debug: Tried to give {item_name=} but player already has {expected_item_count=}, {actual_item_count=}"
-                #         )
-                continue
+            # elif item_data.type == "Heart":
+            #     heart_diff = _validate_item("Piece of Heart", ctx)
+            #     for item in item_give_queue:
+            #         if item == "Piece of Heart":
+            #             heart_diff = heart_diff - 1
+            #         elif item == "Heart Container":
+            #             heart_diff = heart_diff - 5
+            #     if heart_diff > 0:
+            #         item_give_queue.append(item_name)
 
-            elif item_data.type in [
-                "Compass",
-                "Map",
-            ]:
-                if (
-                    check_dungeon_item_count(
-                        item_name, SAVE_FILE_ADDR, ctx.current_node
-                    )
-                    == 0
-                ):
-                    item_give_queue.append(item_name)
-                else:
-                    if DEBUGGING:
-                        logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has one"
-                        )
-            elif item_data.type in [
-                "Heart",
-                "Book",
-                "Small key",
-                "Big Key",
-            ]:
-                continue
+            # elif item_data.type in [
+            #     "Book",
+            #     "Small key",
+            #     "Big Key",
+            # ]:
+            #     continue
 
-                # Don't use this just holding here to remember how
-                # if item_name in KEY_TO_OFFSET.keys():
-                #     key_offset = SAVE_FILE_ADDR + 0x901 + KEY_TO_OFFSET[item_name]
-                #     key_count = read_byte(key_offset)
-                #     write_byte(key_offset, key_count + 1)
+            #     # Don't use this just holding here to remember how
+            #     # if item_name in KEY_TO_OFFSET.keys():
+            #     #     key_offset = SAVE_FILE_ADDR + 0x901 + KEY_TO_OFFSET[item_name]
+            #     #     key_count = read_byte(key_offset)
+            #     #     write_byte(key_offset, key_count + 1)
 
-                actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
-                heart_container_count = sum(
-                    [
-                        1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
-                        for item_copy in ctx.items_received
-                    ]
-                )
-                heart_piece_count = sum(
-                    [
-                        1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
-                        for item_copy in ctx.items_received
-                    ]
-                )
+            #     actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
+            #     heart_container_count = sum(
+            #         [
+            #             1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
+            #             for item_copy in ctx.items_received
+            #         ]
+            #     )
+            #     heart_piece_count = sum(
+            #         [
+            #             1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
+            #             for item_copy in ctx.items_received
+            #         ]
+            #     )
 
-                if (
-                    actual_heart_pieace_count
-                    < (heart_container_count * 5) + heart_piece_count
-                ):
-                    item_give_queue.append(item_name)
-                else:
-                    if DEBUGGING:
-                        logger.info(
-                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count)=}"
-                        )
+            #     if (
+            #         actual_heart_pieace_count
+            #         < (heart_container_count * 5) + heart_piece_count
+            #     ):
+            #         item_give_queue.append(item_name)
+            #     else:
+            #         if DEBUGGING:
+            #             logger.info(
+            #                 f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count)=}"
+            #             )
 
-            elif item_data.type == "Event":
-                assert (
-                    False
-                ), f"[Twilight Princess Client] got an event item. {item_name=} I didn't think that could happen, as it has no id"
-            else:
-                assert (
-                    False
-                ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
+            # elif item_data.type == "Event":
+            #     assert (
+            #         False
+            #     ), f"[Twilight Princess Client] got an event item. {item_name=} I didn't think that could happen, as it has no id"
+            # else:
+            #     assert (
+            #         False
+            #     ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
             # Only try to give a full queue or whatever is there
             if len(item_give_queue) == 8:
@@ -835,6 +840,7 @@ async def give_items(ctx: TPContext) -> None:
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
                 item_give_queue = []
+                ctx.validation_time_start = time.time()
 
         if len(item_give_queue) > 0:
             assert (
@@ -844,6 +850,7 @@ async def give_items(ctx: TPContext) -> None:
                 logger.info(f"Debug: Queued Items to give {item_give_queue}")
             while not await _give_items(ctx, item_give_queue):
                 await asyncio.sleep(0.5)
+            ctx.validation_time_start = time.time()
         # assert (
         #     len(ctx.item_queue) == 0
         # ), f"[Twilight Princess Client] item give queue is not empty at the end {ctx.item_queue=}\n{item_index=} - {ctx.last_received_index=}"
@@ -941,7 +948,9 @@ def _validate_item(
         # Skip all non insurable items
         return -1
 
-    elif item_data.type in [
+    item_id = item_data.code + ITEM_APID_BASE
+
+    if item_data.type in [
         "Book",
         "Small key",
         "Big Key",
@@ -954,8 +963,12 @@ def _validate_item(
 
         expected_item_count = 0
         for item in ctx.items_received:
-            if item.item == item_data.code + ITEM_APID_BASE:
+            if item.item == item_id:
                 expected_item_count += 1
+
+        # If item is in KEY_TO_OFFSET count is handled independent of link, everything else must be accounted for
+        if item_name not in KEY_TO_OFFSET.keys():
+            expected_item_count += ctx.start_inventory.count(item_id)
 
         expected_item_count = min(expected_item_count, item_data.quantity)
 
@@ -974,8 +987,11 @@ def _validate_item(
 
         expected_item_count = 0
         for item in ctx.items_received:
-            if item.item == item_data.code + ITEM_APID_BASE:
+            if item.item == item_id:
                 expected_item_count += 1
+
+        expected_item_count += ctx.start_inventory.count(item_id)
+
         expected_item_count = min(expected_item_count, item_data.quantity)
 
         if descriptive:
@@ -993,11 +1009,16 @@ def _validate_item(
         actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
         heart_piece_count = 0
         heart_container_count = 0
-        for item in ctx.items_received:
-            if item.item == ITEM_TABLE["Piece of Heart"].code + ITEM_APID_BASE:
-                heart_piece_count += 1
-            if item.item == ITEM_TABLE["Heart Container"].code + ITEM_APID_BASE:
-                heart_container_count += 1
+        heart_container_id = ITEM_TABLE["Piece of Heart"].code + ITEM_APID_BASE
+        heart_piece_id = ITEM_TABLE["Heart Container"].code + ITEM_APID_BASE
+
+        heart_piece_count = [item.item for item in ctx.items_received].count(
+            heart_piece_id
+        ) + ctx.start_inventory.count(heart_piece_id)
+
+        heart_container_count = [item.item for item in ctx.items_received].count(
+            heart_container_id
+        ) + ctx.start_inventory.count(heart_container_id)
 
         heart_difference = (
             (heart_container_count * 5) + heart_piece_count + 15

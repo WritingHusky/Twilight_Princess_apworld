@@ -554,10 +554,10 @@ class TPWorld(World):
             assert (
                 self.options.early_shadow_crystal == EarlyShadowCrystal.option_false
             ), "[Twilight Princess] No pre fill items but early shadow crystal"
-            assert (
-                self.options.dungeon_rewards_progression.value
-                in [ DungeonRewardsProgression.option_anything, DungeonRewardsProgression.option_any_progressive]
-            ), "[Twilight Princess] No pre fill items but Dungeon Rewards are vanilla"
+            assert self.options.dungeon_rewards_progression.value in [
+                DungeonRewardsProgression.option_anything,
+                DungeonRewardsProgression.option_any_progressive,
+            ], "[Twilight Princess] No pre fill items but Dungeon Rewards are vanilla"
             return
 
         # Place boss items
@@ -681,7 +681,6 @@ class TPWorld(World):
             #     pre_fill_items.remove(heart)
             #     collection_state_base.collect(heart)
             # del heart
-
 
         if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
             bug_list = [
@@ -1576,28 +1575,28 @@ class TPWorld(World):
 
         setting_string = get_setting_string(self.multiworld, self.player)
         # Output seed name and slot number to seed RNG in randomizer client.
-        output_data = {
-            "SettingsString": setting_string,
-            "ItemPlacement": item_str,
-            "Debug": {
-                "settings": self.get_settings_map(),
-                "ItemPlacements": {},
-            },
-            "LocationClassification": {},
-        }
+        # output_data = {
+        #     "SettingsString": setting_string,
+        #     "ItemPlacement": item_str,
+        #     "Debug": {
+        #         "settings": self.get_settings_map(),
+        #         "ItemPlacements": {},
+        #     },
+        #     "LocationClassification": {},
+        # }
 
-        # Fill out the itemPlacements to match off of to debug
-        for location_name, item in debug_str:
-            item_list = [
-                new_item
-                for new_item, data in ITEM_TABLE.items()
-                if data.item_id == item
-            ]
-            if len(item_list) == 0:
-                item_list = ["Non TP", "Test"]
-            output_data["Debug"]["ItemPlacements"][
-                location_name
-            ] = f"{item} ({item_list[0]})"
+        # # Fill out the itemPlacements to match off of to debug
+        # for location_name, item in debug_str:
+        #     item_list = [
+        #         new_item
+        #         for new_item, data in ITEM_TABLE.items()
+        #         if data.item_id == item
+        #     ]
+        #     if len(item_list) == 0:
+        #         item_list = ["Non TP", "Test"]
+        #     output_data["Debug"]["ItemPlacements"][
+        #         location_name
+        #     ] = f"{item} ({item_list[0]})"
 
         # for location in locations:
         #     assert isinstance(location, TPLocation)
@@ -1852,6 +1851,9 @@ class TPWorld(World):
             "Settings": self.get_settings_map(),
             "LocationClassification": {},
             "SeedID": self.seed_id,
+            "StartInventory": [
+                item.code for item in self.multiworld.precollected_items[self.player]
+            ],
         }
 
         for location in self.get_locations():
