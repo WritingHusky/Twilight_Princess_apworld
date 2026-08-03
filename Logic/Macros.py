@@ -1436,7 +1436,7 @@ def can_defeat_Stallord(state: CollectionState, player: int):
         )
         or (
             can_do_difficult_combat(state, player)
-            and state.has("Shadow Crystal", player)
+            and state.has("Spinner", player)
         )
     )
 
@@ -1464,7 +1464,7 @@ def can_defeat_Argorok(state: CollectionState, player: int):
         and (
             state.has("Iron Boots", player)
             or (
-                state._tp_glitched(player)
+                can_do_niche_stuff(state, player)
                 and state.has("Magic Armor", player)
             )
         )
