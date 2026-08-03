@@ -1126,8 +1126,6 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance(
             "Snowpeak Ruins Caged Freezard Room -> Snowpeak Ruins Caged Freezard Room Lower"
         ),
-        # This is only to apease the unit tests, this region cannot be exited by glitchless.
-        # lambda state: (False),
         lambda state: (
             can_smash(state, player)
         ),
