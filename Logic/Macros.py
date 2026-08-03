@@ -2426,7 +2426,7 @@ def can_step_clip(state: CollectionState, player: int):
     )
 
 
-def get_item_wheel_slot_count(state: CollectionState, player, int):
+def get_item_wheel_slot_count(state: CollectionState, player: int):
     count = 0
     for item in (
         "Progressive Clawshot",
