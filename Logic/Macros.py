@@ -2353,6 +2353,7 @@ def can_break_hc_barrier(state: CollectionState, player: int):
         #    return True
         # if max health >= required may health
         #    return True
+    )
 
 
 def can_buy_magic_armor(state: CollectionState, player: int):
