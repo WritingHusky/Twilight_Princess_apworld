@@ -1603,11 +1603,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and can_defeat_Darknut(state, player)
                 and state.has("Temple of Time Small Key", player, 3)
             )
-            or state._tp_tot_entrance(player)
+            or state._tp_tot_entrance(player) # needs to be changed to DoT setting
         ),
         lambda state: (
             state.has("Progressive Dominion Rod", player, 1)
-            or state._tp_tot_entrance(player)
+            or state._tp_tot_entrance(player) # needs to be changed to DoT setting
         ),
     )
 
@@ -1750,7 +1750,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             )
             or (
                 has_sword(state, player)
-                and can_do_lja(state, player)
+                and (
+                    can_do_lja(state, player)
+                    or state.has("Shadow Crystal", player)
+                )
             )
         ),
     )
@@ -2067,7 +2070,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Eldin Field -> Eldin Field From Lava Cave Lower"),
         lambda state: (False),
         lambda state: (
-            state.has("Shadow Crystal", player)
+            (
+                state.has("Shadow Crystal", player)
+                and can_complete_eldin_twilight(state, player) # always True
+            )
             or can_do_lja(state, player)
         ),
     )
@@ -2091,7 +2097,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             can_smash(state, player)
-            or state.has("Shadow Crystal", player)
+            or (
+                state.has("Shadow Crystal", player)
+                and can_complete_eldin_twilight(state, player) # always True
+            )
         ),
     )
 
@@ -2159,7 +2168,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             can_smash(state, player)
-            or can_do_map_glitch(state, player)
+            or (
+                can_do_map_glitch(state, player)
+                and can_complete_eldin_twilight(state, player) # always True
+                and (
+                    can_complete_eldin_twilight(state, player) # always True
+                    or True # Setting Ilia Quest == Charm
+                )
+            )
         ),
     )
 
@@ -2734,6 +2750,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             can_clear_forest(state, player)
             and can_complete_faron_twilight(state, player) # always True
             and can_complete_prologue(state, player) # always True
+        ),
+        lambda state: (
+            can_clear_forest_glitched(state, player)
+            and can_complete_faron_twilight(state, player) # always True
         ),
     )
 
@@ -4067,7 +4087,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             can_smash(state, player)
-            or can_do_map_glitch(state, player)
+            or (
+                can_do_map_glitch(state, player)
+                and can_complete_lanayru_twilight(state, player) # always True
+            )
         ),
     )
 
