@@ -2453,6 +2453,6 @@ def get_item_wheel_slot_count(state: CollectionState, player: int):
     ):
         if state.has(item, player):
             count += 1
-        return count
+    return count
 
 
