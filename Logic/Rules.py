@@ -2277,7 +2277,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Temple of Time Floor Switch Puzzle Room Upper Chest",
         lambda state: (state.has("Progressive Clawshot", player, 1)),
     )
-    set_rule_if_exists("Temple of Time Gilloutine Chest", lambda state: (True))
+    set_rule_if_exists("Temple of Time Guilloutine Chest", lambda state: (True))
     set_rule_if_exists(
         "Temple of Time Lobby Lantern Chest",
         lambda state: (state.has("Lantern", player)),
@@ -2412,6 +2412,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and can_complete_goron_mines(state, player)
+            and can_complete_eldin_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -2426,15 +2427,28 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Eldin Field Bomskit Grotto Lantern Chest",
         lambda state: (
-            can_defeat_Bomskit(state, player) and state.has("Lantern", player)
+            can_defeat_Bomskit(state, player)
+            and state.has("Lantern", player)
         ),
     )
     set_rule_if_exists(
         "Eldin Field Bomskit Grotto Left Chest",
-        lambda state: (can_defeat_Bomskit(state, player)),
+        lambda state: (
+            can_defeat_Bomskit(state, player)
+        ),
     )
-    set_rule_if_exists("Eldin Field Female Grasshopper", lambda state: (True))
-    set_rule_if_exists("Eldin Field Male Grasshopper", lambda state: (True))
+    set_rule_if_exists(
+        "Eldin Field Female Grasshopper",
+        lambda state: (
+            can_complete_eldin_twilight(state, player) # always True
+        )
+    )
+    set_rule_if_exists(
+        "Eldin Field Male Grasshopper",
+        lambda state: (
+            can_complete_eldin_twilight(state, player) # always True
+        )
+    )
     set_rule_if_exists(
         "Eldin Field Stalfos Grotto Left Small Chest", lambda state: (True)
     )
@@ -2751,8 +2765,8 @@ def set_location_access_rules(world: "TPWorld"):
         "Faron Field Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            # and can_complete_MDH(state, player)
-            # and can_complete_all_twilight(state, player)
+            and can_complete_MDH(state, player) # always True
+            and can_complete_all_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -2784,9 +2798,8 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Faron Mist Poe",
         lambda state: (
-            state.has(
-                "Shadow Crystal", player
-            )  # and can_complete_prologue(state, player)
+            state.has("Shadow Crystal", player)
+            and can_complete_prologue(state, player) # always True
         ),
         lambda state: (state.has("Shadow Crystal", player)),
     )
@@ -3267,7 +3280,12 @@ def set_location_access_rules(world: "TPWorld"):
         "Agitha Male Stag Beetle Reward",
         lambda state: (state.has("Male Stag Beetle", player)),
     )
-    set_rule_if_exists("Auru Gift To Fyer", lambda state: (True))
+    set_rule_if_exists(
+        "Auru Gift To Fyer",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
     set_rule_if_exists(
         "Castle Town Malo Mart Magic Armor",
         lambda state: (
@@ -3308,18 +3326,48 @@ def set_location_access_rules(world: "TPWorld"):
         ),
         lambda state: (True),
     )
-    set_rule_if_exists("Flight By Fowl Fifth Platform Chest", lambda state: (True))
-    set_rule_if_exists("Flight By Fowl Fourth Platform Chest", lambda state: (True))
+    set_rule_if_exists(
+        "Flight By Fowl Fifth Platform Chest",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
+    set_rule_if_exists(
+        "Flight By Fowl Fourth Platform Chest",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
     set_rule_if_exists(
         "Flight By Fowl Ledge Poe",
-        lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and can_complete_lanayru_twilight(state, player) # always True
+        ),
     )
-    set_rule_if_exists("Flight By Fowl Second Platform Chest", lambda state: (True))
-    set_rule_if_exists("Flight By Fowl Third Platform Chest", lambda state: (True))
-    set_rule_if_exists("Flight By Fowl Top Platform Reward", lambda state: (True))
+    set_rule_if_exists(
+        "Flight By Fowl Second Platform Chest",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
+    set_rule_if_exists(
+        "Flight By Fowl Third Platform Chest",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
+    set_rule_if_exists(
+        "Flight By Fowl Top Platform Reward",
+        lambda state: (
+            can_complete_lanayru_twilight(state, player) # always True
+        )
+    )
     set_rule_if_exists(
         "Hyrule Field Amphitheater Owl Statue Chest",
-        lambda state: (state.has("Progressive Dominion Rod", player, 2)),
+        lambda state: (
+            state.has("Progressive Dominion Rod", player, 2)
+        ),
         lambda state: (
             state.has("Progressive Dominion Rod", player, 2)
             or can_do_lja(state, player)
@@ -3333,7 +3381,10 @@ def set_location_access_rules(world: "TPWorld"):
     )
     set_rule_if_exists(
         "Hyrule Field Amphitheater Poe",
-        lambda state: (state.has("Shadow Crystal", player)),
+        lambda state: (
+            state.has("Shadow Crystal", player)
+            and can_complete_lanayru_twilight(state, player) # always True
+        ),
     )
     set_rule_if_exists(
         "Isle of Riches Poe",
