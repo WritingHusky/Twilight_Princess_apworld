@@ -82,7 +82,7 @@ components.append(
 )
 
 
-class TPPlayerContainer(APPlayerContainer):
+class TPPlayerContainer(APPatch):
     """
     Defines the container file for Twilight Princess
     """
@@ -1628,25 +1628,25 @@ class TPWorld(World):
             f"{multiworld.get_out_file_name_base(player)}",
         )
         seed_string = f"{setting_string},{item_str},{self.player_name},{self.seed_id}"
-        with open(f"{file_path}.txt", "w") as f:
-            f.write(seed_string)
+        # with open(f"{file_path}.txt", "w") as f:
+        #     f.write(seed_string)
 
         aptp = TPPlayerContainer(
             seed_string, f"{file_path}.aptp", self.player_name, self.player
         )
         aptp.write()
 
-        puml_path = file_path = os.path.join(
-            output_directory, f"{multiworld.get_out_file_name_base(player)}.puml"
-        )
-        visualize_regions(
-            self.multiworld.get_region("Menu", self.player),
-            puml_path,
-            show_entrance_names=True,
-            regions_to_highlight=self.multiworld.get_all_state(
-                self.player
-            ).reachable_regions[self.player],
-        )
+        # puml_path = file_path = os.path.join(
+        #     output_directory, f"{multiworld.get_out_file_name_base(player)}.puml"
+        # )
+        # visualize_regions(
+        #     self.multiworld.get_region("Menu", self.player),
+        #     puml_path,
+        #     show_entrance_names=True,
+        #     regions_to_highlight=self.multiworld.get_all_state(
+        #         self.player
+        #     ).reachable_regions[self.player],
+        # )
 
     def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
         """
