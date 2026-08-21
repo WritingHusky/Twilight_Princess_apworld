@@ -190,12 +190,7 @@ class TPWorld(World):
         options = self.options
 
         enabled_flags = TPFlag.Always
-        enabled_flags |= (
-            TPFlag.Boss
-            if options.dungeon_rewards_progression
-            != DungeonRewardsProgression.option_anything
-            else TPFlag.Always
-        )
+        enabled_flags |= TPFlag.Boss
         enabled_flags |= TPFlag.MiniBoss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
@@ -516,6 +511,17 @@ class TPWorld(World):
                         )
                     )
 
+        # Quick sanity check, Must happen here so it runs before plando-ed items
+        allstate = self.multiworld.get_all_state()
+        for location in [
+            location_name
+            for location_name in LOCATION_TABLE.keys()
+            if LOCATION_TABLE[location_name].code != None
+        ]:
+            assert allstate.can_reach_location(
+                location, self.player
+            ), f"[Twilight Princess] Pre fill allstate check failed for {location=}"
+
     def pre_fill(self) -> None:
         """
         Apply special fill rules before the fill stage.
@@ -559,103 +565,6 @@ class TPWorld(World):
                 DungeonRewardsProgression.option_any_progressive,
             ], "[Twilight Princess] No pre fill items but Dungeon Rewards are vanilla"
             return
-
-        # Place boss items
-        if (
-            self.options.dungeon_rewards_progression.value
-            == DungeonRewardsProgression.option_vanilla
-        ):
-            boss_item_list = [
-                item
-                for item in pre_fill_items
-                if item.name in item_name_groups["Boss items"]
-            ]
-
-            assert (
-                len(boss_item_list) == 7
-            ), f"[Twilight Princess] There is only {len(boss_item_list)} boss items in the pre fill pool"
-
-            boss_item_list_str = [item.name for item in boss_item_list]
-
-            for boss_item in item_name_groups["Boss items"]:
-                assert (
-                    boss_item in boss_item_list_str
-                ), f"[Twilight Princess] {boss_item=} is not in pre_fill_items, {pre_fill_items=}"
-            del boss_item
-            boss_locations = [
-                "Arbiters Grounds Dungeon Reward",
-                "City in The Sky Dungeon Reward",
-                "Forest Temple Dungeon Reward",
-                "Goron Mines Dungeon Reward",
-                "Lakebed Temple Dungeon Reward",
-                "Snowpeak Ruins Dungeon Reward",
-                "Temple of Time Dungeon Reward",
-            ]
-            # mirror_locations = self.random.sample(
-            #     boss_locations,
-            #     k=4,
-            # )
-            self.multiworld.random.shuffle(boss_locations)
-            self.multiworld.random.shuffle(boss_item_list)
-
-            state_locations = [self.get_location(name) for name in boss_locations]
-            assert (
-                len(state_locations) == 7
-            ), f"[Twilight Princess] State locations is invalid {state_locations=}"
-
-            state = self.multiworld.get_all_state()
-            for boss_item in boss_item_list:
-                state.remove(boss_item)
-
-            state.update_reachable_regions(self.player)
-            state.sweep_for_advancements()
-
-            boss_items_copy = deepcopy(boss_item_list)
-
-            fill_restrictive(
-                self.multiworld,
-                state,
-                state_locations,
-                boss_item_list,
-                single_player_placement=True,
-                lock=True,
-                allow_excluded=True,
-            )
-
-            assert (
-                len(boss_item_list) == 0
-            ), "[Twilight Princess] All boss items not placed"
-            for boss_item in boss_items_copy:
-                pre_fill_items.remove(boss_item)
-                collection_state_base.collect(boss_item)
-
-            # shard_locations = [
-            #     location
-            #     for location in boss_locations
-            #     if location not in mirror_locations
-            # ]
-
-            # assert (
-            #     len(mirror_locations) == 4
-            # ), f"[Twilight Princess] Mirror locations is not 4 {mirror_locations}"
-            # assert (
-            #     len(shard_locations) == 3
-            # ), f"[Twilight Princess] Shard locations is not 3 {shard_locations=} {mirror_locations=}"
-
-            # for boss_item in boss_item_list:
-            #     if boss_item.name == "Progressive Mirror Shard":
-            #         location = mirror_locations.pop()
-            #     elif boss_item.name == "Progressive Fused Shadow":
-            #         location = shard_locations.pop()
-            #     else:
-            #         assert (
-            #             False
-            #         ), f"[Twilight Princess] Bad boss item in list {boss_item=}"
-
-            #     self.get_location(location).place_locked_item(boss_item)
-            #     pre_fill_items.remove(boss_item)
-            #     collection_state_base.collect(boss_item)
-            del boss_item
 
             # # Place heart containers into vanilla boss locations
             # vanilla_boss_heart_locations = [
@@ -765,7 +674,10 @@ class TPWorld(World):
         if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
             locations = self.multiworld.get_locations(self.player)
             locations = [
-                location for location in locations if isinstance(location.address, int)
+                location
+                for location in locations
+                if isinstance(location.address, int)
+                and collection_state_base.can_reach(location)
             ]
 
             assert len(locations) > 0, f"[Twilight Princess] {locations=}"
@@ -785,7 +697,7 @@ class TPWorld(World):
                 shadow_crystal_item_s,
                 single_player_placement=True,
                 lock=True,
-                allow_excluded=True,
+                allow_excluded=False,
                 # allow_partial=True,
             )
             assert (
@@ -794,7 +706,109 @@ class TPWorld(World):
             pre_fill_items.remove(shadow_crystal_item_copy[0])
             collection_state_base.collect(shadow_crystal_item_copy[0])
 
-            locations = None
+            del locations
+
+        # Place boss items
+        if (
+            self.options.dungeon_rewards_progression.value
+            == DungeonRewardsProgression.option_vanilla
+        ):
+            boss_item_list = [
+                item
+                for item in pre_fill_items
+                if item.name in item_name_groups["Boss items"]
+            ]
+
+            assert (
+                len(boss_item_list) == 7
+            ), f"[Twilight Princess] There is only {len(boss_item_list)} boss items in the pre fill pool"
+
+            boss_item_list_str = [item.name for item in boss_item_list]
+
+            for boss_item in item_name_groups["Boss items"]:
+                assert (
+                    boss_item in boss_item_list_str
+                ), f"[Twilight Princess] {boss_item=} is not in pre_fill_items, {pre_fill_items=}"
+            del boss_item
+            boss_locations = [
+                "Arbiters Grounds Dungeon Reward",
+                "City in The Sky Dungeon Reward",
+                "Forest Temple Dungeon Reward",
+                "Goron Mines Dungeon Reward",
+                "Lakebed Temple Dungeon Reward",
+                "Snowpeak Ruins Dungeon Reward",
+                "Temple of Time Dungeon Reward",
+            ]
+            # mirror_locations = self.random.sample(
+            #     boss_locations,
+            #     k=4,
+            # )
+            self.multiworld.random.shuffle(boss_locations)
+            self.multiworld.random.shuffle(boss_item_list)
+
+            for item, location in zip(boss_item_list, boss_locations):
+                self.get_location(location).place_locked_item(item)
+                collection_state_base.collect(item)
+                pre_fill_items.remove(item)
+            # state_locations = [self.get_location(name) for name in boss_locations]
+            # assert (
+            #     len(state_locations) == 7
+            # ), f"[Twilight Princess] State locations is invalid {state_locations=}"
+
+            # state = self.multiworld.get_all_state()
+            # for boss_item in boss_item_list:
+            #     state.remove(boss_item)
+
+            # # state.update_reachable_regions(self.player)
+            # state.sweep_for_advancements()
+
+            # boss_items_copy = deepcopy(boss_item_list)
+
+            # fill_restrictive(
+            #     self.multiworld,
+            #     state,
+            #     state_locations,
+            #     boss_item_list,
+            #     single_player_placement=True,
+            #     lock=True,
+            #     allow_excluded=True,
+            # )
+            # assert (
+            #     len(boss_item_list) == 0
+            # ), "[Twilight Princess] All boss items not placed"
+            # for boss_item in boss_items_copy:
+            #     pre_fill_items.remove(boss_item)
+            #     collection_state_base.collect(boss_item)
+
+            # del state, state_locations
+
+            # shard_locations = [
+            #     location
+            #     for location in boss_locations
+            #     if location not in mirror_locations
+            # ]
+
+            # assert (
+            #     len(mirror_locations) == 4
+            # ), f"[Twilight Princess] Mirror locations is not 4 {mirror_locations}"
+            # assert (
+            #     len(shard_locations) == 3
+            # ), f"[Twilight Princess] Shard locations is not 3 {shard_locations=} {mirror_locations=}"
+
+            # for boss_item in boss_item_list:
+            #     if boss_item.name == "Progressive Mirror Shard":
+            #         location = mirror_locations.pop()
+            #     elif boss_item.name == "Progressive Fused Shadow":
+            #         location = shard_locations.pop()
+            #     else:
+            #         assert (
+            #             False
+            #         ), f"[Twilight Princess] Bad boss item in list {boss_item=}"
+
+            #     self.get_location(location).place_locked_item(boss_item)
+            #     pre_fill_items.remove(boss_item)
+            #     collection_state_base.collect(boss_item)
+            # del boss_item
 
         # Add everything from the item pool to allow for full access
         for item in self.progression_pool:
@@ -1394,174 +1408,14 @@ class TPWorld(World):
         #     len(pre_fill_items) == 0
         # ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
 
+        for location in self.multiworld.get_filled_locations(self.player):
+            if location.address != None and location.item.advancement:
+                if location.progress_type == LocationProgressType.EXCLUDED:
+                    location.progress_type = LocationProgressType.DEFAULT
+
     def post_fill(self):
         self.seed_id = gen_seed_id(self)
-        # As part of (semi-)tiger beetle style test ensure things worked Properly in prod
-        # This Allows for easy fuzzing to test find bugs
-        for location_name, data in LOCATION_TABLE.items():
-            location = self.get_location(location_name)
-            assert isinstance(location.item, Item)
-
-            # Poe (Vanilla when not Shuffled) (ignore Jovani)
-            if (
-                not self.options.poe_shuffled
-                and (data.flags & TPFlag.Poe) == TPFlag.Poe
-                and not (data.flags & TPFlag.Npc) == TPFlag.Npc
-            ):
-                # Catches Dungeon Poes as well
-                assert (
-                    location.item.name == "Poe Soul"
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} does not have a Poe Soul it has {location.item}"
-                assert (
-                    location.name in VANILLA_POE_LOCATIONS
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} has a Poe Soul but poes not shuffled"
-
-            # Bugs (Vanilla when not Shuffled) (ignore agitha)
-            if (
-                not self.options.golden_bugs_shuffled
-                and (data.flags & TPFlag.Bug) == TPFlag.Bug
-                and not (data.flags & TPFlag.Npc) == TPFlag.Npc
-            ):
-                assert (
-                    location.item.name in item_name_groups["Bugs"]
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} does not have a Golden Bug it has {location.item}"
-                assert (
-                    location.name in VANILLA_GOLDEN_BUG_LOCATIONS.values()
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} has a Golden Bug but bugs not shuffled"
-
-            # Hidden Skill (Excluded when not Shuffled)
-            if (
-                not self.options.hidden_skills_shuffled
-                and (data.flags & TPFlag.Skill) == TPFlag.Skill
-            ):
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but hidden_skill not shuffled"
-
-            # Sky Book (Vanilla when not Shuffled)
-            if (
-                not self.options.sky_characters_shuffled
-                and (data.flags & TPFlag.Sky_Book) == TPFlag.Sky_Book
-            ):
-                if "Sky Character" not in location.name:
-                    assert (
-                        location.progress_type == LocationProgressType.EXCLUDED
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Sky Characters not shuffled"
-
-                else:
-                    assert (
-                        location.item.name == "Progressive Sky Book"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} does not have a Sky Character it has {location.item}"
-                    assert (
-                        location.name in VANILLA_SKY_CHARACTER_LOCATIONS
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has a Sky Character but they are not shuffled"
-
-            # Heart (Excluded when not Shuffled) (Do not Consider Boss heart containers)
-            if (
-                not self.options.heart_piece_shuffled
-                and (data.flags & TPFlag.Heart) == TPFlag.Heart
-                and not (data.flags & TPFlag.Boss) == TPFlag.Boss
-            ):
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Heart Pieces not shuffled"
-
-            # Shop (Excluded when not Shuffled)
-            if (
-                not self.options.shop_items_shuffled
-                and (data.flags & TPFlag.Shop) == TPFlag.Shop
-            ):
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Shop not shuffled"
-
-            # NPC (Excluded when not Shuffled)
-            if (
-                not self.options.npc_items_shuffled
-                and (data.flags & TPFlag.Npc) == TPFlag.Npc
-            ):
-                # Handle Agitha
-                if (data.flags & TPFlag.Bug) == TPFlag.Bug:
-                    if not self.options.golden_bugs_shuffled:
-                        assert (
-                            location.progress_type == LocationProgressType.EXCLUDED
-                        ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but NPC's not shuffled"
-                # Handle Jovani
-                if (data.flags & TPFlag.Poe) == TPFlag.Poe:
-                    if not self.options.poe_shuffled:
-                        assert (
-                            location.progress_type == LocationProgressType.EXCLUDED
-                        ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but NPC's not shuffled"
-
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but NPC's not shuffled"
-
-            # Story (Vanilla items, no other locations should have the items)
-            match (location.name):
-                case "Renados Letter":
-                    assert (
-                        location.item.name == "Renado's Letter"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item.name}"
-                case "Telma Invoice":
-                    assert (
-                        location.item.name == "Invoice"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item.name}"
-                case "Wooden Statue":
-                    assert (
-                        location.item.name == "Wooden Statue"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item.name}"
-                case "Ilias Charm":
-                    assert (
-                        location.item.name == "Ilias Charm"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item.name}"
-                case "Ilia Memory Reward":
-                    assert (
-                        location.item.name == "Horse Call"
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item.name}"
-
-            # Dungeon (Check Only Dungeon Locations)
-            if not self.options.dungeons_shuffled and data.flags == TPFlag.Dungeon:
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Dungeons not shuffled"
-
-            # Boss / Mini Boss
-            if (data.flags & TPFlag.Boss) == TPFlag.Boss:
-                # Dungeon Rewards (Becomes Priority)
-                if self.options.dungeon_rewards_progression.value in [
-                    DungeonRewardsProgression.option_any_progressive,
-                    DungeonRewardsProgression.option_vanilla,
-                ]:  # or mini boss if made so
-                    assert (
-                        location.progress_type == LocationProgressType.PRIORITY
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Dungeons rewards are progression"
-                # (Default check of dungeon)
-                else:
-                    if not self.options.dungeons_shuffled:
-                        assert (
-                            location.progress_type == LocationProgressType.EXCLUDED
-                        ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Dungeons not shuffled"
-
-                # Small Keys On Bosses (Check Item)
-                if not self.options.small_keys_on_bosses:
-                    assert (
-                        location.item.name not in item_name_groups["Small Keys"]
-                    ), f"[Twilight Princess] (Post Fill Error) {location.name} has {location.item} but small keys are not on bosses"
-
-            # Small Key
-
-            # Big Key
-
-            # M&C
-
-            # Overworld (Check only overworld flagged locations)
-            if not self.options.overworld_shuffled and data.flags == TPFlag.Overworld:
-                assert (
-                    location.progress_type == LocationProgressType.EXCLUDED
-                ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but OverWorld not shuffled"
-
-            # Early Shadow Crystal
+        # Post fill location type checking removed due to changing location types based on prefilled items
 
         return super().post_fill()
 

@@ -1606,7 +1606,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
-                    # Handle this here as on connect cannot deal with async calls and this is before location checks
+                    # Build data storage here, as on connect cannot deal with async calls and this is before location checks
                     if not ctx.server_data_sent:
                         await ctx.send_msgs(
                             base_server_data_connection(ctx.team, ctx.slot)
