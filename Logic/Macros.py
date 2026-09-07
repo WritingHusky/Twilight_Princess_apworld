@@ -1544,7 +1544,7 @@ def has_shield(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House", player)
-            and True # not state._tp_shops_shuffled(player)
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
         )
         or state.can_reach_region("Death Mountain Hot Spring", player)
     )
@@ -1619,22 +1619,23 @@ def can_knock_down_hc_painting(state: CollectionState, player: int):
             and can_get_arrows(state, player)
         )
         or (
+            can_do_niche_stuff(state, player)
+            and (
+                has_bombs(state, player)
+                  or (
+                      has_sword(state, player)
+                      and state.has("Progressive Hidden Skill", player, 6)
+                 )
+             )
+        )
+        or (
             state._tp_glitched(player)
             and (
                 (
-                    has_bombs(state, player)
-                    or (
-                        has_sword(state, player)
-                        and state.has("Progressive Hidden Skill", player, 6)
-                    )
+                    has_sword(state, player)
+                    and can_do_moon_boots(state, player)
                 )
-                or (
-                    (
-                        has_sword(state, player)
-                        and can_do_moon_boots(state, player)
-                    )
-                    or can_do_bs_moon_boots(state, player)
-                )
+                or can_do_bs_moon_boots(state, player)
             )
         )
     )
@@ -1675,8 +1676,17 @@ def can_free_all_monkeys(state: CollectionState, player: int):
     return (
         can_break_monkey_cage(state, player)
         and (
-            state.has("Lantern", player)
-            and can_refill_oil(state, player)
+            (
+                state.has("Lantern", player)
+                and can_refill_oil(state, player)
+            )
+            or (
+                state.has("Forest Temple Small Key", player, 4) # (same as keysy setting enabled)
+                and (
+                    has_bombs(state, player)
+                    or state.has("Iron Boots")
+                )
+            )
         )
         and can_burn_webs(state, player)
         and state.has("Gale Boomerang", player)
@@ -1752,7 +1762,7 @@ def can_get_arrows(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House Balcony", player)
-            and True # not state._tp_shops_shuffled(player)
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
         )
     )
 
@@ -1773,10 +1783,10 @@ def can_refill_oil(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House", player)
-            and True # not setting.shops_shuffled
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
         )
         or state.can_reach_region("Death Mountain Hot Spring", player)
-        or state.can_reach_region("City in the Sky Entrance", player)
+        or state.can_reach_region("City in The Sky Entrance", player)
         or (
             state.can_reach_region("Hyrule Castle Main Hall", player)
             and can_defeat_bokoblin(state, player)
