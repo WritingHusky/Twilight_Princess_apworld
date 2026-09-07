@@ -640,14 +640,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
             and can_defeat_lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 2)
             and can_defeat_darknut(state, player)
-            and boomerang
+            and state.has("Gale Boomerang", player)
         ),
         lambda state: (
             can_defeat_bokoblin(state, player)
             and can_defeat_lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 1)
             and can_defeat_darknut(state, player)
-            and boomerang
+            and state.has("Gale Boomerang", player)
         ),
     )
 
@@ -2039,7 +2039,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 state.can_reach_region("Eldin Field Near Castle Town", player)
                 and can_complete_eldin_twilight(state, player) # always True
                 and can_complete_lanayru_twilight(state, player) # always True
-                and state.can_reach_region("Kakariko Malo Mart")
+                and state.can_reach_region("Kakariko Malo Mart", player)
             )
             or False # Setting Skip Bridge Donation == True 
         ),
@@ -2172,8 +2172,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_do_map_glitch(state, player)
                 and can_complete_eldin_twilight(state, player) # always True
                 and (
-                    can_complete_eldin_twilight(state, player) # always True
-                    or True # Setting Ilia Quest == Charm
+                    can_complete_lanayru_twilight(state, player) # always True
+                    or state.has("Horse Call", player)
                 )
             )
         ),
@@ -4594,7 +4594,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Zoras Domain -> Zoras Domain Snowpeak Entrance"),
         lambda state: (
             (
-                state.can_reach_region("Zoras Domain Throne Room")
+                state.can_reach_region("Zoras Domain Throne Room", player)
                 and can_complete_eldin_twilight(state, player) # always True
                 and state.has("Ball and Chain", player)
             )
