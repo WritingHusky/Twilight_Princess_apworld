@@ -1684,7 +1684,7 @@ def can_free_all_monkeys(state: CollectionState, player: int):
                 state.has("Forest Temple Small Key", player, 4) # (same as keysy setting enabled)
                 and (
                     has_bombs(state, player)
-                    or state.has("Iron Boots")
+                    or state.has("Iron Boots", player)
                 )
             )
         )
