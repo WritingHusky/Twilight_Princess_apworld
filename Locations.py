@@ -1994,7 +1994,7 @@ LOCATION_TABLE = {
         offset=0x5,
         bit=0x1,
     ),
-    "Temple of Time Guilloutine Chest": TPLocationData(
+    "Temple of Time Guillotine Chest": TPLocationData(
         code=204,
         flags=TPFlag.Dungeon,
         stage_id=TPStages.Temple_of_Time,
@@ -4781,7 +4781,7 @@ LOCATION_TO_REGION: dict[str, str] = {
     "Temple of Time Scales Gohma Chest": "Temple of Time Scales of Time",
     "Temple of Time Scales Upper Chest": "Temple of Time Scales of Time",
     "Temple of Time Poe Above Scales": "Temple of Time Scales of Time",
-    "Temple of Time Guilloutine Chest": "Temple of Time Upper Spike Trap Corridor",
+    "Temple of Time Guillotine Chest": "Temple of Time Upper Spike Trap Corridor",
     "Temple of Time Chest Before Darknut": "Temple of Time Upper Spike Trap Corridor",
     # "" : "Death Mountain Near Kakariko",
     "Death Mountain Alcove Chest": "Death Mountain Trail",
