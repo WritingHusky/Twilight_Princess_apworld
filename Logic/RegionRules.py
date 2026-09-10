@@ -3593,7 +3593,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Bulblin Camp -> Outside Arbiters Grounds"),
         lambda state: (
             (
-                state.has("Gerudo Desert Bublin Camp Key", player)
+                state.has("Gerudo Desert Bulblin Camp Key", player)
                 and can_defeat_KingBulblinDesert(state, player)
             )
             or state._tp_skip_arbiters_entrance(player)
@@ -3602,7 +3602,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             (
                 can_defeat_KingBulblinDesert(state, player)
                 and (
-                    state.has("Gerudo Desert Bublin Camp Key", player)
+                    state.has("Gerudo Desert Bulblin Camp Key", player)
                     or (
                         can_do_map_glitch(state, player)
                         and has_sword(state, player)
