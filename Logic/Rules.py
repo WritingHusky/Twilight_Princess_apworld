@@ -3021,7 +3021,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and (
-                state.has("Gerudo Desert Bublin Camp Key", player)
+                state.has("Gerudo Desert Bulblin Camp Key", player)
                 or state._tp_skip_arbiters_entrance(player)
             )
         ),
@@ -3029,7 +3029,7 @@ def set_location_access_rules(world: "TPWorld"):
             state.has("Shadow Crystal", player)
             and (
                 (
-                    state.has("Gerudo Desert Bublin Camp Key", player)
+                    state.has("Gerudo Desert Bulblin Camp Key", player)
                     or (
                         can_do_map_glitch(state, player)
                         and has_sword(state, player)
