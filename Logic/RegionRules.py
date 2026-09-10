@@ -2286,10 +2286,6 @@ def set_region_access_rules(world: "TPWorld", player: int):
             )
             and can_complete_eldin_twilight(state, player) # always True
         ),
-        lambda state: (
-            can_complete_goron_mines(state, player)
-            or can_smash(state, player)
-        ),
     )
 
     set_rule_if_exits(
