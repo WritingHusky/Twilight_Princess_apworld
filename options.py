@@ -454,10 +454,10 @@ class SkipLakebedEntrance(Toggle):
 class SkipArbitersGroundsEntrance(Toggle):
     """
     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    If enabled, entering Arbiters Grounds does not require defeating King Bublin.
+    If enabled, entering Arbiters Grounds does not require defeating King Bulblin.
     """
 
-    display_name = "Arbiters Grounds Does not require Bublin Camp"
+    display_name = "Arbiters Grounds Does not require Bulblin Camp"
     default = True
 
 
