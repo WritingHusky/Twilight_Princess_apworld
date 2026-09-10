@@ -541,7 +541,7 @@ def set_location_access_rules(world: "TPWorld"):
         ),
         lambda state: (
             (
-                can_defeat_Dinalfos(state, player)
+                can_defeat_Kargarok(state, player)
                 and can_defeat_Walltula(state, player)
                 and state.has("Shadow Crystal", player)
             )
@@ -1146,7 +1146,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Hyrule Castle Main Hall Northwest Chest",
         lambda state: (
-            and state.has("Progressive Clawshot", player, 2)
+            state.has("Progressive Clawshot", player, 2)
         ),
         lambda state: (
             state.has("Progressive Clawshot", player, 1)
@@ -2528,7 +2528,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Kakariko Gorge Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_mdh(state, player) # always True
+            and can_complete_MDH(state, player) # always True
             and can_complete_all_twilight(state, player) # always True
         ),
     )
@@ -2766,7 +2766,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Faron Field Poe",
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_mdh(state, player) # always True
+            and can_complete_MDH(state, player) # always True
             and can_complete_all_twilight(state, player) # always True
         ),
     )
@@ -4488,9 +4488,6 @@ def set_location_access_rules(world: "TPWorld"):
                 False # snowpeak portal # not yet implemented
                 or can_defeat_ShadowBeast(state, player)
             )
-        ),
-        lambda state: (
-            can_complete_snowpeak_ruins(state, player)
         ),
     )
     set_rule_if_exists(
