@@ -431,7 +431,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     == DungeonItem.option_startwith
                 )
                 or (
-                    item in ["Gate Keys", "Gerudo Desert Bublin Camp Key"]
+                    item in ["Gate Keys", "Gerudo Desert Bulblin Camp Key"]
                     and world.options.small_key_settings.value
                     == DungeonItem.option_startwith
                 )
