@@ -327,7 +327,7 @@ def check_item_count(item_name: str, base_addr: int) -> int:
             else:
                 return 0
 
-        case "Gerudo Desert Bublin Camp Key":
+        case "Gerudo Desert Bulblin Camp Key":
             assert False, "find this in memory"
             if check_flag(0x80, base_addr + 0xE8):
                 return 1
