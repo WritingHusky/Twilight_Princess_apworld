@@ -353,7 +353,7 @@ Twilight Princess:
 
   skip_arbiters_grounds_entrance:
     # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, entering Arbiters Grounds does not require defeating King Bublin.
+    # If enabled, entering Arbiters Grounds does not require defeating King Bulblin.
     'false': 0
     'true': 50
 
