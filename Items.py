@@ -177,7 +177,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Gate Keys": TPItemData(
         "Item", IC.progression, 65, 1, 0xF3
     ),  # Item to not have to count like other keys
-    "Gerudo Desert Bublin Camp Key": TPItemData(
+    "Gerudo Desert Bulblin Camp Key": TPItemData(
         "Small key", IC.progression, 66, 1, 0x8E
     ),
     "Auru's Memo": TPItemData("Item", IC.progression, 67, 1, 0x90),
