@@ -8,6 +8,7 @@ from ..options import *
 if TYPE_CHECKING:
     from .. import TPWorld
 
+
 # All connections created are present in this file, even if the rule is always True.
 # This is to allow for easy change / lookup of connection rules
 def set_region_access_rules(world: "TPWorld", player: int):

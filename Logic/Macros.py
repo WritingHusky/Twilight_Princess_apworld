@@ -3,7 +3,8 @@ from ..Items import GoldenBugs, TPItem
 from ..RoomFunctions import RoomFunctions
 from ..options import FaronWoodsLogic
 
-#region Glichless Logic
+
+# region Glichless Logic
 def can_use(state: CollectionState, player: int, item: str):
     if isinstance(item, str):
         return state.has(item, player)
@@ -1293,7 +1294,7 @@ def can_defeat_KingBulblinDesert(state: CollectionState, player: int):
         or (
             can_do_difficult_combat(state, player)
             and (
-                state.has("Shadow Crystal", player)
+                state.has("Spinner", player)
                 or state.has("Iron Boots", player)
                 or has_bombs(state, player)
                 or (
@@ -1317,7 +1318,7 @@ def can_defeat_KingBulblinCastle(state: CollectionState, player: int):
         or (
             can_do_difficult_combat(state, player)
             and (
-                state.has("Shadow Crystal", player)
+                state.has("Spinner", player)
                 or state.has("Iron Boots", player)
                 or has_bombs(state, player)
                 or can_use_backslice_as_sword(state, player)
@@ -1508,6 +1509,13 @@ def can_smash(state: CollectionState, player: int):
     return (
         state.has("Ball and Chain", player)
         or has_bombs(state, player)
+    )
+
+
+def can_destroy_webs_without_lantern(state: CollectionState, player: int):
+    return (
+        has_bombs(state, player)
+        or state.has("Ball and Chain", player)
     )
 
 
@@ -1764,6 +1772,42 @@ def can_get_arrows(state: CollectionState, player: int):
             state.can_reach_region("Castle Town Goron House Balcony", player)
             and True # (not state._tp_shops_shuffled(player)) # not yet implemented
         )
+    )
+
+def can_refill_oil(state: CollectionState, player: int):
+    state.can_reach_region("North Faron Woods", player)
+    or state.can_reach_region("South Faron Woods", player)
+    or state.can_reach_region("Arbiters Grounds Entrance", player)
+    or (
+        state.can_reach_region("Lake Hylia Long Cave", player)
+        and can_smash(state, player)
+    )
+    or state.can_reach_region("Ordon Seras Shop", player)
+    or (
+        can_complete_goron_mines(state, player)
+        and state.can_reach_region("Lower Kakariko Village", player)
+    )
+    or (
+        state.can_reach_region("Castle Town Goron House", player)
+        and not state._tp_shops_shuffled(player)
+    )
+    or state.can_reach_region("Death Mountain Hot Spring", player)
+    or state.can_reach_region("City in The Sky Entrance", player)
+    or (
+        state.can_reach_region("Hyrule Castle Main Hall", player)
+        and can_defeat_bokoblin(state, player)
+        and can_defeat_lizalfos(state, player)
+        and state.has("Progressive Clawshot", player, 2)
+        and can_defeat_darknut(state, player)
+    )
+    or (
+        state.can_reach_region("Eldin Lantern Cave", player)
+        and can_destroy_webs_without_lantern(state, player)
+        and can_defeat_chu(state, player)
+    )
+    or (
+        state.can_reach_region("Hyrule Castle Graveyard", player)
+        and can_smash(state, player)
     )
 
 
@@ -2097,8 +2141,10 @@ def can_get_bug_with_lantern(state: CollectionState, player: int):
     # TODO: If option to not have bug models replaced becomes a thing, this function can be useful
     return False
 
-#endregion
-#region Gliched Logic
+
+# endregion
+# region Gliched Logic
+
 
 def has_sword_or_BS(state: CollectionState, player: int):
     return (
@@ -2108,34 +2154,14 @@ def has_sword_or_BS(state: CollectionState, player: int):
 
 
 def has_bottle(state: CollectionState, player: int):
-    return (
-        (
-            state.has("Empty Bottle (Fishing Hole)", player)
-            or state.has("Milk (half) (Sera Bottle)", player)
-            or state.has("Great Fairy Tears (Jovani)", player)
-            or state.has("Lantern Oil (Coro Bottle)", player)
-        )
-        and (
-            state.has("Lantern", player)
-            and can_refill_oil(state, player)
-        )
-    ) # NOTE: Is this true?
+    return (state.has("Progressive Bottle", player)) and state.has(
+        "Lantern", player
+    )  # NOTE: Require lantern to get rid of oil
 
 
 def has_bottles(state: CollectionState, player: int):
-    n = 0
-    if (state.has("Lantern", player) and can_refill_oil(state, player)):
-        if state.has("Empty Bottle (Fishing Hole)", player):
-            n += 1
-        if state.has("Milk (half) (Sera Bottle)", player):
-            n += 1
-        if state.has("Great Fairy Tears (Jovani)", player):
-            n += 1
-        if state.has("Lantern Oil (Coro Bottle)", player):
-            n += 1
-
-    if n > 1:
-        return True
+    if state.has("Lantern", player):
+        return state.has("Progressive Bottle", player, 2)
     return False
 
 
@@ -2412,6 +2438,12 @@ def can_open_hc_bk_gate(state: CollectionState, player: int):
         #     and hearts >= requirement
         # )
     )
+def get_item_wheel_slot_count(state: CollectionState, player: int):
+    count = 0
+    for item in state._tp_item_wheel_items(player):
+        if state.has(item, player):
+            count += 1
+    return count
 
 
 def can_step_clip(state: CollectionState, player: int):
@@ -2434,35 +2466,4 @@ def can_step_clip(state: CollectionState, player: int):
         or has_bombs(state, player)
         or has_bottle(state, player)
     )
-
-
-def get_item_wheel_slot_count(state: CollectionState, player: int):
-    count = 0
-    for item in (
-        "Progressive Clawshot",
-        "Progressive Dominion Rod",
-        "Ball and Chain",
-        "Spinner",
-        "Progressive Hero's Bow",
-        "Iron Boots",
-        "Gale Boomerang",
-        "Lantern",
-        "Slingshot",
-        "Progressive Fishing Rod",
-        "Hawkeye",
-        "Bomb Bag",
-        "Bomb Bag",
-        "Bomb Bag",
-        "Empty Bottle (Fishing Hole)",
-        "Milk (half) (Sera Bottle)",
-        "Lantern Oil (Coro Bottle)",
-        "Great Fairy Tears (Jovani)",
-        "Auru's Memo",
-        "Renado's Letter",
-        "Horse Call",
-    ):
-        if state.has(item, player):
-            count += 1
-    return count
-
 

@@ -1,8 +1,9 @@
 import dolphin_memory_engine
 
-from .Locations import NodeID  # type: ignore
+from .Locations import NodeID  # type:
+from .ClientUtils import KEY_TO_OFFSET
 
-ACTIVE_SLOT_OFFSET = 0x958
+ACTIVE_SLOT_OFFSET = 0x768
 
 
 def check_flag(flag: int, address: int) -> bool:
@@ -10,330 +11,335 @@ def check_flag(flag: int, address: int) -> bool:
     return (result & flag) != 0
 
 
-def check_item_count(item_name: str, base_addr: int) -> int:
+def check_item_count(item_name: str, save_file_addr: int) -> int:
     """Checks the save data for if the item / number of items is in the inventory"""
     match (item_name):
         case "Progressive Master Sword":
-            if check_flag(0x2, base_addr + 0xD6):  # Light Sword
+            if check_flag(0x2, save_file_addr + 0xD6):  # Light Sword
                 return 4
-            if check_flag(0x2, base_addr + 0xD2):  # Master Sword
+            if check_flag(0x2, save_file_addr + 0xD2):  # Master Sword
                 return 3
-            if check_flag(0x1, base_addr + 0xD2):  # Ordon Sword
+            if check_flag(0x1, save_file_addr + 0xD2):  # Ordon Sword
                 return 2
-            if check_flag(0x80, base_addr + 0xD0):  # Wooden Sword
+            if check_flag(0x80, save_file_addr + 0xD0):  # Wooden Sword
                 return 1
             return 0
 
         case "Ordon Shield":
-            if check_flag(0x4, base_addr + 0xD2):
+            if check_flag(0x4, save_file_addr + 0xD2):
                 return 1
             return 0
 
         case "Hylian Shield":
-            if check_flag(0x10, base_addr + 0xD2):
+            if check_flag(0x10, save_file_addr + 0xD2):
                 return 1
             return 0
 
         case "Magic Armor":
-            if check_flag(0x1, base_addr + 0xD1):
+            if check_flag(0x1, save_file_addr + 0xD1):
                 return 1
             return 0
 
         case "Zora Armor":
-            if check_flag(0x2, base_addr + 0xD1):
+            if check_flag(0x2, save_file_addr + 0xD1):
                 return 1
             return 0
 
         case "Shadow Crystal":
-            if check_flag(0x4, base_addr + 0xD1):
+            if check_flag(0x4, save_file_addr + 0xD1):
                 return 1
             return 0
 
         case "Progressive Wallet":
-            if check_flag(0x40, base_addr + 0xD1):  # Giant Wallet
+            if check_flag(0x40, save_file_addr + 0xD1):  # Giant Wallet
                 return 2
-            if check_flag(0x20, base_addr + 0xD1):  # Big Wallet
+            if check_flag(0x20, save_file_addr + 0xD1):  # Big Wallet
                 return 1
             return 0
 
         case "Hawkeye":
-            if check_flag(0x40, base_addr + 0xD0):
+            if check_flag(0x40, save_file_addr + 0xD0):
                 return 1
             return 0
 
         case "Gale Boomerang":
-            if check_flag(0x1, base_addr + 0xD7):
+            if check_flag(0x1, save_file_addr + 0xD7):
                 return 1
             return 0
 
         case "Spinner":
-            if check_flag(0x2, base_addr + 0xD7):
+            if check_flag(0x2, save_file_addr + 0xD7):
                 return 1
             return 0
 
         case "Ball and Chain":
-            if check_flag(0x4, base_addr + 0xD7):
+            if check_flag(0x4, save_file_addr + 0xD7):
                 return 1
             return 0
 
         case "Progressive Hero's Bow":
-            if check_flag(0x40, base_addr + 0xD5):  # Giant Quiver
+            if check_flag(0x40, save_file_addr + 0xD5):  # Giant Quiver
                 return 3
-            if check_flag(0x20, base_addr + 0xD5):  # Big Quiver
+            if check_flag(0x20, save_file_addr + 0xD5):  # Big Quiver
                 return 2
-            if check_flag(0x8, base_addr + 0xD7):  # Hero's Bow
+            if check_flag(0x8, save_file_addr + 0xD7):  # Hero's Bow
                 return 1
             return 0
 
         case "Progressive Clawshot":
-            if check_flag(0x80, base_addr + 0xD7):  # Double Clawshot
+            if check_flag(0x80, save_file_addr + 0xD7):  # Double Clawshot
                 return 2
-            if check_flag(0x10, base_addr + 0xD7):  # Clawshot
+            if check_flag(0x10, save_file_addr + 0xD7):  # Clawshot
                 return 1
             return 0
 
         case "Iron Boots":
-            if check_flag(0x20, base_addr + 0xD7):
+            if check_flag(0x20, save_file_addr + 0xD7):
                 return 1
             return 0
 
         case "Progressive Dominion Rod":
-            if check_flag(0x40, base_addr + 0xD7):  # Dominion Rod
+            if check_flag(0x10, save_file_addr + 0xD6):  # Dominoin Rod
                 return 2
-            if check_flag(0x10, base_addr + 0xD6):  # Powerless Dominion Rod
+            if check_flag(0x40, save_file_addr + 0xD7):  # Powerless Dominion Rod
                 return 1
             return 0
 
         case "Lantern":
-            if check_flag(0x1, base_addr + 0xD6):
+            if check_flag(0x1, save_file_addr + 0xD6):
                 return 1
             return 0
 
         case "Progressive Fishing Rod":
-            if check_flag(0x20, base_addr + 0xD0):  # Coral Earing
+            if check_flag(0x20, save_file_addr + 0xD0):  # Coral Earing
                 return 2
-            if check_flag(0x8, base_addr + 0xD6):  # Fishing Rod
+            if check_flag(0x4, save_file_addr + 0xD6):  # Fishing Rod
                 return 1
             return 0
 
         case "Slingshot":
-            if check_flag(0x1, base_addr + 0xD8):
+            if check_flag(0x8, save_file_addr + 0xD6):
                 return 1
             return 0
 
         case "Bomb Bag":
-            if dolphin_memory_engine.read_byte(base_addr + 0xAD) != 0xFF:  # Bomb Bag 3
+            if (
+                dolphin_memory_engine.read_byte(save_file_addr + 0xAD) != 0xFF
+            ):  # Bomb Bag 3
                 return 3
-            if dolphin_memory_engine.read_byte(base_addr + 0xAC) != 0xFF:  # Bomb Bag 2
+            if (
+                dolphin_memory_engine.read_byte(save_file_addr + 0xAC) != 0xFF
+            ):  # Bomb Bag 2
                 return 2
-            if dolphin_memory_engine.read_byte(base_addr + 0xAB) != 0xFF:  # Bomb Bag 1
+            if (
+                dolphin_memory_engine.read_byte(save_file_addr + 0xAB) != 0xFF
+            ):  # Bomb Bag 1
                 return 1
             return 0
 
         case "Horse Call":
-            if check_flag(0x10, base_addr + 0xDF):
+            if check_flag(0x10, save_file_addr + 0xDF):
                 return 1
             return 0
 
         case "Auru's Memo":
-            if check_flag(0x1, base_addr + 0xDD):
+            if check_flag(0x1, save_file_addr + 0xDD):
                 return 1
             return 0
 
         case "Ashei's Sketch":
-            if check_flag(0x2, base_addr + 0xDD):
+            if check_flag(0x2, save_file_addr + 0xDD):
                 return 1
             return 0
 
         case "Progressive Mirror Shard":
-            if check_flag(0x8, base_addr + 0x10A):  # City Shard
+            if check_flag(0x8, save_file_addr + 0x10A):  # City Shard
                 return 4
-            if check_flag(0x4, base_addr + 0x10A):  # Temple of Time Shard
+            if check_flag(0x4, save_file_addr + 0x10A):  # Temple of Time Shard
                 return 3
-            if check_flag(0x2, base_addr + 0x10A):  # Snowpeak Shard
+            if check_flag(0x2, save_file_addr + 0x10A):  # Snowpeak Shard
                 return 2
-            if check_flag(0x1, base_addr + 0x10A):  # Arbiters Shard
+            if check_flag(0x1, save_file_addr + 0x10A):  # Arbiters Shard
                 return 1
             return 0
 
         case "Progressive Fused Shadow":
-            if check_flag(0x4, base_addr + 0x109):  # Lakebed Shadow
+            if check_flag(0x4, save_file_addr + 0x109):  # Lakebed Shadow
                 return 3
-            if check_flag(0x2, base_addr + 0x109):  # Goron Shadow
+            if check_flag(0x2, save_file_addr + 0x109):  # Goron Shadow
                 return 2
-            if check_flag(0x1, base_addr + 0x109):  # Forest Shadow
+            if check_flag(0x1, save_file_addr + 0x109):  # Forest Shadow
                 return 1
             return 0
 
         case "Progressive Hidden Skill":
-            if check_flag(0x20, base_addr + 0x81A):  # Great Spin
+            if check_flag(0x20, save_file_addr + 0x81A):  # Great Spin
                 return 7
-            if check_flag(0x40, base_addr + 0x81A):  # Jump Strike
+            if check_flag(0x40, save_file_addr + 0x81A):  # Jump Strike
                 return 6
-            if check_flag(0x80, base_addr + 0x81A):  # Mortal Draw
+            if check_flag(0x80, save_file_addr + 0x81A):  # Mortal Draw
                 return 5
-            if check_flag(0x1, base_addr + 0x819):  # Helm Splitter
+            if check_flag(0x1, save_file_addr + 0x819):  # Helm Splitter
                 return 4
-            if check_flag(0x2, base_addr + 0x819):  # Backslice
+            if check_flag(0x2, save_file_addr + 0x819):  # Backslice
                 return 3
-            if check_flag(0x8, base_addr + 0x819):  # Shield Attack
+            if check_flag(0x8, save_file_addr + 0x819):  # Shield Attack
                 return 2
-            if check_flag(0x4, base_addr + 0x819):  # Ending Blow
+            if check_flag(0x4, save_file_addr + 0x819):  # Ending Blow
                 return 1
             return 0
 
         case "Giant Bomb Bag":
-            if check_flag(0x80, base_addr + 0xD6):
+            if check_flag(0x80, save_file_addr + 0xD6):
                 return 1
             return 0
 
         case "Male Beetle":
-            if check_flag(0x1, base_addr + 0xE7):
+            if check_flag(0x1, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Female Beetle":
-            if check_flag(0x2, base_addr + 0xE7):
+            if check_flag(0x2, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Male Butterfly":
-            if check_flag(0x4, base_addr + 0xE7):
+            if check_flag(0x4, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Female Butterfly":
-            if check_flag(0x8, base_addr + 0xE7):
+            if check_flag(0x8, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Male Stag Beetle":
-            if check_flag(0x10, base_addr + 0xE7):
+            if check_flag(0x10, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Female Stag Beetle":
-            if check_flag(0x20, base_addr + 0xE7):
+            if check_flag(0x20, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Male Grasshopper":
-            if check_flag(0x40, base_addr + 0xE7):
+            if check_flag(0x40, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Female Grasshopper":
-            if check_flag(0x80, base_addr + 0xE7):
+            if check_flag(0x80, save_file_addr + 0xE7):
                 return 1
             return 0
 
         case "Male Phasmid":
-            if check_flag(0x1, base_addr + 0xE6):
+            if check_flag(0x1, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Female Phasmid":
-            if check_flag(0x2, base_addr + 0xE6):
+            if check_flag(0x2, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Male Pill Bug":
-            if check_flag(0x4, base_addr + 0xE6):
+            if check_flag(0x4, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Female Pill Bug":
-            if check_flag(0x8, base_addr + 0xE6):
+            if check_flag(0x8, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Male Mantis":
-            if check_flag(0x10, base_addr + 0xE6):
+            if check_flag(0x10, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Female Mantis":
-            if check_flag(0x20, base_addr + 0xE6):
+            if check_flag(0x20, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Male Ladybug":
-            if check_flag(0x40, base_addr + 0xE6):
+            if check_flag(0x40, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Female Ladybug":
-            if check_flag(0x80, base_addr + 0xE6):
+            if check_flag(0x80, save_file_addr + 0xE6):
                 return 1
             return 0
 
         case "Male Snail":
-            if check_flag(0x1, base_addr + 0xE5):
+            if check_flag(0x1, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Female Snail":
-            if check_flag(0x2, base_addr + 0xE5):
+            if check_flag(0x2, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Male Dragonfly":
-            if check_flag(0x4, base_addr + 0xE5):
+            if check_flag(0x4, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Female Dragonfly":
-            if check_flag(0x8, base_addr + 0xE5):
+            if check_flag(0x8, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Male Ant":
-            if check_flag(0x10, base_addr + 0xE5):
+            if check_flag(0x10, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Female Ant":
-            if check_flag(0x20, base_addr + 0xE5):
+            if check_flag(0x20, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Male Dayfly":
-            if check_flag(0x40, base_addr + 0xE5):
+            if check_flag(0x40, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Female Dayfly":
-            if check_flag(0x80, base_addr + 0xE5):
+            if check_flag(0x80, save_file_addr + 0xE5):
                 return 1
             return 0
 
         case "Poe Soul":
-            return dolphin_memory_engine.read_byte(base_addr + 0x10C)
+            return dolphin_memory_engine.read_byte(save_file_addr + 0x10C)
 
         case "Gate Keys":
-            if check_flag(0x8, base_addr + 0xE8):
+            if check_flag(0x8, save_file_addr + 0xE9):
                 return 1
             return 0
 
-        case "Empty Bottle (Fishing Hole)":
-            if dolphin_memory_engine.read_byte(base_addr + 0xAA) != 255:
+        case "Progressive Bottle":
+            if dolphin_memory_engine.read_byte(save_file_addr + 0xAA) != 255:
                 return 4
-            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+            elif dolphin_memory_engine.read_byte(save_file_addr + 0xA9) != 255:
                 return 3
-            elif dolphin_memory_engine.read_byte(base_addr + 0xA9) != 255:
+            elif dolphin_memory_engine.read_byte(save_file_addr + 0xA8) != 255:
                 return 2
-            elif dolphin_memory_engine.read_byte(base_addr + 0xA7) != 255:
+            elif dolphin_memory_engine.read_byte(save_file_addr + 0xA7) != 255:
                 return 1
             else:
                 return 0
 
-        case "Gerudo Desert Bulblin Camp Key":
-            assert False, "find this in memory"
-            if check_flag(0x80, base_addr + 0xE8):
-                return 1
-            return 0
-
         case _:
+            if item_name in KEY_TO_OFFSET.keys():
+                key_offset = save_file_addr + 0x901 + KEY_TO_OFFSET[item_name]
+                key_count = dolphin_memory_engine.read_byte(key_offset)
+                return key_count
+
             assert False, f"[Twilight Princess Client] could not handle  {item_name=} "
 
 

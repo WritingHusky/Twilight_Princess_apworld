@@ -1,25 +1,20 @@
 import asyncio
 from collections import deque
 from copy import deepcopy
-import threading
 import time
 import traceback
+import math
 from typing import TYPE_CHECKING, Any, Optional
 
 from MultiServer import mark_raw
-import dolphin_memory_engine  # type: ignore
+import dolphin_memory_engine
 
 from .ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
-from .ClientUtils import (
-    NODE_TO_STRING,
-    STAGE_TO_NAME,
-    VERSION,
-    base_server_data_connection,
-    server_data,
-)
+from .ClientUtils import *
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME, TPItem, item_factory
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
+from .Randomizer.SettingsDecoder import run_decoder
 import Utils
 from CommonClient import (
     ClientCommandProcessor,
@@ -30,16 +25,35 @@ from CommonClient import (
     get_base_parser,
 )
 
+# Source - https://stackoverflow.com/a/14119223
+# Posted by tomvodi, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-03-25, License - CC BY-SA 4.0
+
+import tkinter as tk
+from tkinter import filedialog
+
+root = tk.Tk()
+root.withdraw()
+
+
 from NetUtils import NetworkItem, ClientStatus
+
+from .ClientUtils import ITEM_APID_BASE
 
 if TYPE_CHECKING:
     import kvui
 
-CONNECTION_REFUSED_GAME_STATUS = "Dolphin failed to connect. Please load a ROM for Twilight Princess. Trying again in 5 seconds..."
+CONNECTION_REFUSED_GAME_STATUS = "Dolphin connected but wrong game found. Please load a ROM for Twilight Princess. Trying again in 5 seconds..."
 CONNECTION_REFUSED_SAVE_STATUS = "Dolphin failed to connect. Please load into the save file. Trying again in 5 seconds..."
 CONNECTION_LOST_STATUS = "Dolphin connection was lost. Please restart your emulator and make sure Twilight Princess is running."
 CONNECTION_CONNECTED_STATUS = "Dolphin connected successfully."
 CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
+
+RANDO_NOT_LOADED_MSG = "Randomizer is not loaded, Client will not work until fixed"
+WRONG_SEED_LOADED_MSG = "Invalid Seed; Either the wrong seed was loaded, or you are not in game yet; Seed to use: "
+CONNECT_IN_GAME_MSG = (
+    "Please load a save file and gain control of link before attempting to connect"
+)
 
 VALIDATION_TIME = 10
 
@@ -72,16 +86,18 @@ def set_address(
     if regionCode is None:
         regionCode = read_byte(0x80000003)
     saveFileAddr = 0x804061C0  # US by default
-    STRING_ENCODING = "ascii"
+    STRING_ENCODING = "latin"
     match (regionCode):
         case 0x50:  # ASCII for 'P', which is EU
             saveFileAddr = 0x80408160
-            STRING_ENCODING = "ascii"
+            STRING_ENCODING = "latin"
         case 0x4A:  # ASCII for 'J', which is JP
             saveFileAddr = 0x80400300
             STRING_ENCODING = "shift-jis"
 
-    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR, LINK_POINTER_ADDR, M_EVENT_STATUS_ADDR
+    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR, LINK_POINTER_ADDR, M_EVENT_STATUS_ADDR, REGION_CODE
+
+    REGION_CODE = regionCode
 
     CURR_HEALTH_ADDR = (
         curr_health_addr if curr_health_addr is not None else saveFileAddr + 0x2
@@ -96,7 +112,7 @@ def set_address(
         item_write_addr if item_write_addr is not None else saveFileAddr + 0x8F0
     )
     EXPECTED_INDEX_ADDR = (
-        expected_index_addr if expected_index_addr is not None else saveFileAddr + 0x900
+        expected_index_addr if expected_index_addr is not None else saveFileAddr + 0x8FC
     )
     NODES_START_ADDR = (
         nodes_start_addr if nodes_start_addr is not None else saveFileAddr + 0x1F0
@@ -145,6 +161,16 @@ class TPCommandProcessor(ClientCommandProcessor):
         global DEBUGGING
         DEBUGGING = not DEBUGGING
 
+    def _cmd_debug_name(self) -> None:
+        """Debug to get player name"""
+        logger.info(self.ctx.auth)
+        logger.info(read_string(read_pointer(0x800042BC) + 0x80, 16))
+
+    def _cmd_debug_seed(self) -> None:
+        """Debug to get player name"""
+        logger.info(self.ctx.SeedID)
+        logger.info(read_string(read_pointer(0x800042BC) + 0x70, 16))
+
     @mark_raw
     def _cmd_name(self, name: str = "") -> None:
         """Change the name of the current save file (i.e. /name Player1 )"""
@@ -158,19 +184,84 @@ class TPCommandProcessor(ClientCommandProcessor):
             logger.info("Client must be connected to dolphin first")
             return
 
-        if self.ctx.current_node == 0xFF:
-            logger.info("Must be in game to change name")
+        async def try_write_name():
+            if not await check_ingame(self.ctx):
+                logger.info("Must be in game to change name")
+            else:
+                write_name(name)
+
+        asyncio.create_task(try_write_name())
+
+    @mark_raw
+    def _cmd_validate(self, item_name: str = "") -> None:
+        """Debug command to check how many items there should be vs how many you have in game"""
+
+        if self.ctx.dolphin_status != CONNECTION_CONNECTED_STATUS:
+            logger.info("please connect dolphin first")
             return
 
-        if len(name) > 16:
-            name = name[:16]
+        if item_name not in ITEM_TABLE:
+            logger.info("not a valid item")
+            return
 
-        # Pad the name with 0x00 characters to make it 16 characters long
-        padded_name = name.ljust(16, "\x00")
+        logger.info(
+            f"Link has {_validate_item(item_name, self.ctx, True)} x {item_name}"
+        )
 
-        logger.info(f"Writing name {padded_name}")
-        write_string(SLOT_NAME_ADDR, padded_name)
-        return
+    @mark_raw
+    def _cmd_validation_time(self, time: str = "10") -> None:
+        """Change the time between validation of links inventory. Time must be a number (Default is 10s)"""
+        try:
+            num = int(time)
+
+            if num <= 0:
+                logger.info("Please choose a number greater then 0")
+                return
+
+            logger.info(f"Setting validation to occur every {num}s")
+            global VALIDATION_TIME
+            VALIDATION_TIME = num
+        except ValueError:
+            logger.info("Invalid input: cannot convert to integer")
+
+    @mark_raw
+    def _cmd_validation_pause(self) -> None:
+        """Toggle Validation on and off"""
+        if self.ctx.validation_pause.is_set():
+            logger.info("Pausing validation")
+            self.ctx.validation_pause.set()
+        else:
+            logger.info("Resuming Validation")
+            self.ctx.validation_pause.clear()
+
+    @mark_raw
+    def _cmd_give(self, item: str) -> None:
+        """Cheat in an item. Note: Use the EXACT! name of item, (can be found in the item.py file on github)"""
+        try:
+            assert isinstance(item, str)
+            assert item in ITEM_TABLE.keys()
+            logger.info("Giving link, " + item)
+
+            async def try_give():
+                while not await _give_items(self.ctx, [item]):
+                    await asyncio.sleep(0.5)
+
+            asyncio.create_task(try_give())
+        except AssertionError:
+            logger.info("Invalid item please use exact item name")
+
+    def _cmd_seed_validate(self):
+        """"""
+        try:
+
+            file_path = filedialog.askopenfilename()
+            assert file_path.endswith(".aptp")
+            with open(file_path) as f:
+                string = f.read()
+                run_decoder(string, file_path)
+
+        except Exception as e:
+            logger.info(e)
 
 
 class TPContext(CommonContext):
@@ -180,9 +271,9 @@ class TPContext(CommonContext):
     This class manages all interactions with the Dolphin emulator and the Archipelago server for Twilight Princess.
     """
 
-    command_processor = TPCommandProcessor
+    command_processor: TPCommandProcessor = TPCommandProcessor
     game: str = "Twilight Princess"
-    items_handling: int = 0b111
+    items_handling: int = 0b011
 
     def __init__(self, server_address: Optional[str], password: Optional[str]) -> None:
         """
@@ -197,7 +288,6 @@ class TPContext(CommonContext):
         self.insurance_queue: deque[tuple[str, int]] = deque()
         self.dolphin_sync_task: Optional[asyncio.Task[None]] = None
         self.dolphin_status = CONNECTION_INITIAL_STATUS
-        self.awaiting_dolphin = False
         self.last_received_index = -1
         self.has_send_death = False
         self.current_node = 0xFF
@@ -205,7 +295,11 @@ class TPContext(CommonContext):
         self.server_data = deepcopy(server_data)
         self.server_data_built = False
         self.server_data_sent = False
-        self.validation_timer = time.time()
+        self.validation_time_start = time.time()
+        self.check_in_game_msg_timer = time.time()
+        self.SeedID = ""
+        self.rando_loaded_message = False
+        self.connection_tried = False
         # Event is used for pause as it better represents how I want to think about it
         self.validation_pause = asyncio.Event()
 
@@ -226,14 +320,18 @@ class TPContext(CommonContext):
         """
         assert isinstance(password_requested, bool)
 
+        if not await check_ingame(self):
+            raise Exception(CONNECT_IN_GAME_MSG)
+
         if password_requested and not self.password:
             await super().server_auth(password_requested)
         if not self.auth:
-            if self.awaiting_dolphin:
-                return
-            self.awaiting_dolphin = True
-            logger.info("Awaiting connection to Dolphin to get player information.")
-            return
+            pointer = read_pointer(0x800042BC)
+            if pointer == 0:
+                raise Exception(
+                    "Failed to read Seed; Please Make sure dolphin is connected correctly"
+                )
+            self.auth = read_string(pointer + 0x80, 16)
         await self.send_connect()
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
@@ -243,16 +341,37 @@ class TPContext(CommonContext):
         :param cmd: The command received from the server.
         :param args: The command arguments.
         """
+
         if cmd == "Connected":
             self.items_received = []
             self.item_queue = deque()
             self.insurance_queue = deque()
-            self.validation_timer = time.time()
+            self.validation_time_start = time.time()
             self.validation_pause.set()
+            self.locations_checked = set()
             if check_ingame(self):
                 self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
             else:
                 self.last_received_index = -1
+
+            if args["slot_data"] is not None and "SeedID" in args["slot_data"]:
+                assert isinstance(
+                    args["slot_data"]["SeedID"], str
+                ), f"{args["slot_data"]["SeedID"]=}"
+                self.SeedID = args["slot_data"]["SeedID"]
+                pointer = read_pointer(0x800042BC)
+                if pointer == 0:
+                    raise Exception(
+                        "Failed to read Seed; Please Make sure dolphin is connected correctly"
+                    )
+                read_seedID = read_string(pointer + 0x70, 16)
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: Connected checking seed ids\nServer wants: {self.SeedID}\nClient has:  {read_seedID}"
+                    )
+                if self.SeedID != read_seedID:
+
+                    raise Exception(WRONG_SEED_LOADED_MSG + self.SeedID)
 
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
                 assert isinstance(
@@ -281,16 +400,39 @@ class TPContext(CommonContext):
 
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
+                # TODO: add handling for a 0 index to reset the items Recieved
                 self.last_received_index = args["index"]
+                self.validation_pause.set()
                 for item in args["items"]:
                     assert isinstance(
                         item, NetworkItem
                     ), f"[Twilight Princess Client] Recived an item the is not a Network Item {item=}"
-                    self.items_received.append(item)
+
+                    # Dont add to the list as common alreadyy does
+                    # self.items_received.append(item)
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Recieved {item=} from server \nAnd item in items_receiveced {item in self.items_received}"
+                        )
+
                     self.last_received_index += 1
-                    if item.player != self.slot:  # Don't give own items
+                    if (
+                        item.player != self.slot or item.location == -1
+                    ):  # Don't give own items unless cheated in
+                        if DEBUGGING:
+                            logger.info(f"Debug: Adding into the queue {item=}")
                         self.item_queue.append((item, self.last_received_index))
-                    self.validation_pause.set()
+                    # Add local keys to the validation count
+                    elif LOOKUP_ID_TO_NAME[item.item] in KEY_TO_OFFSET.keys():
+                        # if DEBUGGING:
+                        #     logger.info(f"Debug: Found Key locally so adding to count")
+                        key_offset = (
+                            SAVE_FILE_ADDR
+                            + 0x901
+                            + KEY_TO_OFFSET[LOOKUP_ID_TO_NAME[item.item]]
+                        )
+                        key_count = read_byte(key_offset)
+                        write_byte(key_offset, key_count + 1)
 
     def on_deathlink(self, data: dict[str, Any]) -> None:
         """
@@ -314,6 +456,9 @@ class TPContext(CommonContext):
         ui.base_title = "Archipelago Twilight Princess Client"
         return ui
 
+    def event_invalid_slot(self):
+        raise Exception("Invalid Slot; Make sure that the right seed is loaded")
+
 
 def read_byte(console_address: int) -> int:
     """
@@ -325,6 +470,7 @@ def read_byte(console_address: int) -> int:
     assert isinstance(console_address, int)
     result = dolphin_memory_engine.read_byte(console_address)
     assert isinstance(result, int)
+    result = result % 256
     return result
 
 
@@ -336,9 +482,8 @@ def read_short(console_address: int) -> int:
     :return: The value read from memory.
     """
     assert isinstance(console_address, int)
-    result = int.from_bytes(
-        dolphin_memory_engine.read_bytes(console_address, 2), byteorder="big"
-    )
+    read_bytes = dolphin_memory_engine.read_bytes(console_address, 2)
+    result = int.from_bytes(read_bytes)
     assert isinstance(result, int)
     return result
 
@@ -425,6 +570,20 @@ def write_string(console_address: int, string: str) -> None:
     )
 
 
+def write_name(name: str):
+    assert isinstance(name, str)
+
+    if len(name) > 16:
+        name = name[:16]
+
+    # Pad the name with 0x00 characters to make it 16 characters long
+    padded_name = name.ljust(16, "\x00")
+
+    logger.info(f"Writing name {padded_name}")
+    write_string(SLOT_NAME_ADDR, padded_name)
+    write_byte(SAVE_FILE_ADDR + 0x900, 0x1)
+
+
 # def check_key_counts()
 
 
@@ -468,6 +627,8 @@ async def _give_items(ctx: TPContext, items: list[str]) -> bool:
     if not await check_ingame(ctx):
         return False
     if not _check_status():
+        # if DEBUGGING:
+        #     logger.info("Debug: Tried to give items but failed status check")
         return False
 
     for item_name in items:
@@ -475,8 +636,6 @@ async def _give_items(ctx: TPContext, items: list[str]) -> bool:
         assert isinstance(
             ITEM_TABLE[item_name].item_id, int
         ), f"{item_name=} has no item_id"
-
-    ctx.validation_timer = time.time()
 
     # Only add items to the queue if it is empty
     for i in range(0, 8):
@@ -488,21 +647,31 @@ async def _give_items(ctx: TPContext, items: list[str]) -> bool:
     # Add items starting at 0x8F0 so that it is given first
     for i in range(0, len(items)):
         item_stack_addr = ITEM_WRITE_ADDR + i
+        item = items[i]
         # Just incase something happens
         assert (
             read_byte(item_stack_addr) == 0x00
         ), f"Tried to add to the queue but it was not empty"
 
         if DEBUGGING:
-            logger.info(f"Debug: Giving {items[i]} into queue")
+            logger.info(f"Debug: Giving {item} into queue")
 
-        if items[i] == "Victory":
+        if item == "Victory":
             if not ctx.finished_game:
                 logger.info("Player got victory but the game is not complete in client")
             continue
 
         write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
+
+        # if item in KEY_TO_OFFSET.keys():
+        #     key_offset = SAVE_FILE_ADDR + 0x901 + KEY_TO_OFFSET[item]
+        #     key_count = read_byte(key_offset)
+        #     write_byte(key_offset, key_count + 1)
+
     # Now the queue is full and all items are added
+
+    ctx.validation_time_start = time.time()
+
     return True
 
 
@@ -516,7 +685,6 @@ async def give_items(ctx: TPContext) -> None:
         await check_ingame(ctx)
         and dolphin_memory_engine.read_byte(CURR_NODE_ADDR) != 0xFF
     ):
-
         # Items will be filtered from client item_queue to here
         item_give_queue: list[str] = []
 
@@ -524,6 +692,7 @@ async def give_items(ctx: TPContext) -> None:
         while len(ctx.item_queue) > 0:
 
             item, item_index = ctx.item_queue.pop()
+
             item_name = LOOKUP_ID_TO_NAME[item.item]
             assert (
                 item_name in ITEM_TABLE
@@ -531,14 +700,14 @@ async def give_items(ctx: TPContext) -> None:
 
             item_data = ITEM_TABLE[item_name]
 
+            if DEBUGGING:
+                logger.info(f"Debug: Trying to give {item_name=}")
+
             # Basic items we don't care if are given multiple times
             if item_data.type in [
                 "Rupee",
                 "Ammo",
                 "Trap",
-                "Small key",  # TODO: Insure Keys
-                "Big Key",
-                "Book",
             ]:
                 item_give_queue.append(item_name)
 
@@ -549,6 +718,7 @@ async def give_items(ctx: TPContext) -> None:
                 "Bug",
                 "Poe",
             ]:
+
                 # actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
 
                 # expected_item_count = 0
@@ -573,44 +743,56 @@ async def give_items(ctx: TPContext) -> None:
                 "Compass",
                 "Map",
             ]:
-                # if (
-                #     check_dungeon_item_count(
-                #         item_name, SAVE_FILE_ADDR, ctx.current_node
-                #     )
-                #     == 0
-                # ):
-                #     item_give_queue.append(item_name)
-                # else:
-                #     if DEBUGGING:
-                #         logger.info(
-                #             f"Debug: Tried to give {item_name=} but player already has one"
-                #         )
-                continue
-
+                if (
+                    check_dungeon_item_count(
+                        item_name, SAVE_FILE_ADDR, ctx.current_node
+                    )
+                    == 0
+                ):
+                    item_give_queue.append(item_name)
+                else:
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Tried to give {item_name=} but player already has one"
+                        )
             elif item_data.type in [
                 "Heart",
+                "Book",
+                "Small key",
+                "Big Key",
             ]:
-                # actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
-
-                # heart_piece_count = 0
-                # heart_container_count = 0
-                # for item in ctx.items_received:
-                #     if item.item == TPItem.get_apid(ITEM_TABLE["Piece of Heart"].code):
-                #         heart_piece_count += 1
-                #     if item.item == TPItem.get_apid(ITEM_TABLE["Heart Container"].code):
-                #         heart_container_count += 1
-
-                # if (
-                #     actual_heart_pieace_count
-                #     < (heart_container_count * 5) + heart_piece_count + 15
-                # ):
-                #     item_give_queue.append(item_name)
-                # else:
-                #     if DEBUGGING:
-                #         logger.info(
-                #             f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {heart_container_count=},{heart_piece_count=}"
-                #         )
                 continue
+
+                # Don't use this just holding here to remember how
+                # if item_name in KEY_TO_OFFSET.keys():
+                #     key_offset = SAVE_FILE_ADDR + 0x901 + KEY_TO_OFFSET[item_name]
+                #     key_count = read_byte(key_offset)
+                #     write_byte(key_offset, key_count + 1)
+
+                actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
+                heart_container_count = sum(
+                    [
+                        1 if item_copy.item == ITEM_TABLE["Heart Container"].code else 0
+                        for item_copy in ctx.items_received
+                    ]
+                )
+                heart_piece_count = sum(
+                    [
+                        1 if item_copy.item == ITEM_TABLE["Piece of Heart"].code else 0
+                        for item_copy in ctx.items_received
+                    ]
+                )
+
+                if (
+                    actual_heart_pieace_count
+                    < (heart_container_count * 5) + heart_piece_count
+                ):
+                    item_give_queue.append(item_name)
+                else:
+                    if DEBUGGING:
+                        logger.info(
+                            f"Debug: Tried to give {item_name=} but player already has {actual_heart_pieace_count=}, {((heart_container_count * 5) + heart_piece_count)=}"
+                        )
 
             elif item_data.type == "Event":
                 assert (
@@ -622,19 +804,33 @@ async def give_items(ctx: TPContext) -> None:
                 ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
 
             # Only try to give a full queue or whatever is there
-            if len(item_give_queue) == 8 or (
-                item_index >= ctx.last_received_index - 1 and len(item_give_queue) > 0
-            ):
+            if len(item_give_queue) == 8:
+                if DEBUGGING:
+                    logger.info(f"Debug: Queued Items to give {item_give_queue}")
                 while not await _give_items(ctx, item_give_queue):
                     await asyncio.sleep(0.5)
                 write_short(EXPECTED_INDEX_ADDR, item_index + 1)
                 item_give_queue = []
-        assert (
-            len(item_give_queue) == 0
-        ), f"[Twilight Princess Client] item give queue is not empty at the end {item_give_queue=}\n{item_index=} - {ctx.last_received_index=}"
+
+        if len(item_give_queue) > 0:
+            assert (
+                len(item_give_queue) <= 8
+            ), f"[Twilight Princess Client] This is an un expected error please report this"
+            if DEBUGGING:
+                logger.info(f"Debug: Queued Items to give {item_give_queue}")
+            while not await _give_items(ctx, item_give_queue):
+                await asyncio.sleep(0.5)
+            write_short(EXPECTED_INDEX_ADDR, item_index + 1)
+        # assert (
+        #     len(ctx.item_queue) == 0
+        # ), f"[Twilight Princess Client] item give queue is not empty at the end {ctx.item_queue=}\n{item_index=} - {ctx.last_received_index=}"
 
         # Now validation should be good to occur
-        ctx.validation_pause.clear()
+        if ctx.validation_pause.is_set():
+            # if DEBUGGING:
+            #     logger.info("Debug: Clearing validation Paused")
+            ctx.validation_pause.clear()
+
         return
         #
         #
@@ -705,118 +901,192 @@ async def give_items(ctx: TPContext) -> None:
         assert expected_idx - 1 == last_item_index  # Check the last item was given
 
 
-async def validate_item(ctx: TPContext) -> None:
+def _validate_item(
+    item_name: str, ctx: TPContext, descriptive=False
+) -> int | tuple[int, int]:
+    """
+    Returns the difference in item count where Positive amount is a missing amount
+    """
+    item_data = ITEM_TABLE[item_name]
 
-    # If paused or the timer has not passed then skip validation
-    if (ctx.validation_pause.is_set()) or (
-        ctx.validation_timer < (time.time() + VALIDATION_TIME)
-    ):
+    if item_data.type in [
+        "Rupee",
+        "Ammo",
+        "Trap",
+        "Event",
+    ]:
+        # Skip all non insurable items
+        return -1
+
+    elif item_data.type in [
+        "Book",
+        "Small key",
+        "Big Key",
+        "Item",
+        "Bottle",
+        "Bug",
+        "Poe",
+    ]:
+        actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+
+        expected_item_count = 0
+        for item in ctx.items_received:
+            if item.item == item_data.code + ITEM_APID_BASE:
+                expected_item_count += 1
+
+        expected_item_count = min(expected_item_count, item_data.quantity)
+
+        if descriptive:
+            return expected_item_count, actual_item_count
+        else:
+            return expected_item_count - actual_item_count
+
+    elif item_data.type in [
+        "Compass",
+        "Map",
+    ]:
+        item_count = check_dungeon_item_count(
+            item_name, NODES_START_ADDR, ctx.current_node
+        )
+
+        expected_item_count = 0
+        for item in ctx.items_received:
+            if item.item == item_data.code + ITEM_APID_BASE:
+                expected_item_count += 1
+        expected_item_count = min(expected_item_count, item_data.quantity)
+
+        if descriptive:
+            return expected_item_count, item_count
+        else:
+            return expected_item_count - item_count
+
+    elif item_data.type in [
+        "Heart",
+    ]:
+        # Only try to give heart pieces and not containers
+        if item_name != "Piece of Heart":
+            return -1
+
+        actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
+        heart_piece_count = 0
+        heart_container_count = 0
+        for item in ctx.items_received:
+            if item.item == ITEM_TABLE["Piece of Heart"].code + ITEM_APID_BASE:
+                heart_piece_count += 1
+            if item.item == ITEM_TABLE["Heart Container"].code + ITEM_APID_BASE:
+                heart_container_count += 1
+
+        heart_difference = (
+            (heart_container_count * 5) + heart_piece_count + 15
+        ) - actual_heart_pieace_count
+
+        if heart_difference > 0:
+            if descriptive:
+                return (
+                    (heart_container_count * 5) + heart_piece_count + 15
+                ), actual_heart_pieace_count
+            else:
+                return heart_difference
+        else:
+            return 0
+    else:
+        assert (
+            False
+        ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
+
+
+async def validate_items(ctx: TPContext) -> None:
+
+    if not await check_ingame(ctx):
+        ctx.insurance_queue = deque()
+        if DEBUGGING:
+            logger.info("Debug: Insurance occured during load game ")
+
+    # Wait for timer to expire
+    if ctx.validation_time_start + VALIDATION_TIME > time.time():
         return
+
+    # Restart timer if not in correct state
+    if (ctx.validation_pause.is_set()) or (not _check_status()):
+        ctx.validation_time_start = time.time()
+        return
+
+    if DEBUGGING:
+        logger.info("Debug: Validating items")
 
     # First check if item queue is empty as we don't want to double give
     for i in range(0, 8):
         item_stack_addr = ITEM_WRITE_ADDR + i
         if read_byte(item_stack_addr) != 0x00:
+            ctx.validation_time_start = time.time()  # Reset timer to wait for empty
             return
 
-    for item_name, item_data in ITEM_TABLE.items():
+    # Now that validation is starting let's pause incase async stuff
+    ctx.validation_pause.set()
 
-        if item_data.type in [
-            "Rupee",
-            "Ammo",
-            "Trap",
-            "Event",
-            "Small key",  # TODO: Insure Keys
-            "Big Key",
-            "Book",
-        ]:
-            # Skip all non insurable items
+    for item_name in ITEM_TABLE:
+
+        item_count = _validate_item(item_name, ctx)
+
+        assert isinstance(
+            item_count, int
+        ), f"[Twilight Princess Client] {item_count=}, {item_name=}"
+
+        if item_count <= 0:  # -1 items are not insurable
             continue
 
-        elif item_data.type in [
-            "Item",
-            "Bottle",
-            "Bug",
-            "Poe",
-        ]:
-            if (
-                item_data.type == "Bottle"
-            ):  # Bottle is only non progressive that checks together
-                if item_name != "Empty Bottle (Fishing Hole)":
-                    continue
+        if DEBUGGING:
+            logger.info(
+                f"Debug: validation found you are missing {item_count} x {item_name}"
+            )
 
-            actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
+        # Give Heart containers when possible to help things (Note: Heart Containers are a -1 item)
+        if item_name == "Piece of Heart" and item_count >= 5:
+            full_hearts = math.floor(item_count / 5)
+            remainder = item_count % 5
 
-            expected_item_count = 0
-            for item in ctx.items_received:
-                if item.item == item_data.code:
-                    expected_item_count += 1
-
-            difference = expected_item_count - actual_item_count
-            if difference > 0:
-                if DEBUGGING:
-                    logger.info(
-                        f"Debug: Insurance caught that you missed {difference}x{item_name} adding it to the queue"
-                    )
-                    ctx.insurance_queue.append([item_name, difference])
-
-        elif item_data.type in [
-            "Compass",
-            "Map",
-        ]:
-            if (
-                check_dungeon_item_count(item_name, NODES_START_ADDR, ctx.current_node)
-                == 0
-            ):
-                ctx.insurance_queue.append([item_name, 1])
-
-        elif item_data.type in [
-            "Heart",
-        ]:
-            # Only try to give heart pieces and not containers
-            if item_name != "Piece of Heart":
-                continue
-
-            actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
-            heart_piece_count = 0
-            heart_container_count = 0
-            for item in ctx.items_received:
-                if item.item == TPItem.get_apid(ITEM_TABLE["Piece of Heart"].code):
-                    heart_piece_count += 1
-                if item.item == TPItem.get_apid(ITEM_TABLE["Heart Container"].code):
-                    heart_container_count += 1
-
-            heart_difference = (
-                (heart_container_count * 5) + heart_piece_count + 15
-            ) - actual_heart_pieace_count
-
-            if heart_difference > 0:
-                ctx.insurance_queue.append([item_name, heart_difference])
-        else:
             assert (
-                False
-            ), f"[Twilight Princess Client] {item_name=} has an invalid type {item_data.type}"
+                (full_hearts * 5) + remainder
+            ) == item_count, f"The math is bad try again {((full_hearts * 5) + remainder)=} {item_count=}"
 
-        # Validation completed so wait until starting again
-        ctx.validation_pause.set()
+            ctx.insurance_queue.append(["Heart Container", full_hearts])
+            if remainder > 0:
+                ctx.insurance_queue.append(["Piece of Heart", remainder])
+        elif item_name in KEY_TO_OFFSET.keys():
+            key_offset = SAVE_FILE_ADDR + 0x901 + KEY_TO_OFFSET[item_name]
+            key_count = read_byte(key_offset)
+            write_byte(key_offset, key_count + item_count)
+            ctx.insurance_queue.append([item_name, item_count])
+        else:
+            ctx.insurance_queue.append([item_name, item_count])
 
         item_give_list: list[str] = []
+
+        if not await check_ingame(ctx):
+            ctx.insurance_queue = deque()
+            if DEBUGGING:
+                logger.info("Debug: Insurance occured during load game ")
 
         while len(ctx.insurance_queue) > 0:
 
             item_name, count = ctx.insurance_queue.pop()
+            if DEBUGGING:
+                logger.info(f"Debug: Popped {item_name} x {count} from insurance queue")
 
             assert count > 0
             for _ in range(count):
 
                 item_give_list.append(item_name)
+                if DEBUGGING:
+                    logger.info(f"Adding {item_name=} into the queue")
 
                 if len(item_give_list) == 8 or len(ctx.insurance_queue) <= 0:
                     while not await _give_items(ctx, item_give_list):
                         await asyncio.sleep(0.5)
+                    item_give_list = []
 
-        # Set the timer for validation to start again
-        ctx.validation_timer = time.time()
+    # Set the timer for validation to start again
+    ctx.validation_time_start = time.time()
 
 
 async def check_locations(ctx: TPContext) -> None:
@@ -898,9 +1168,11 @@ async def check_locations(ctx: TPContext) -> None:
             assert "TP_" not in data["key"], f"{data=}"
             new_key = f"TP_{ctx.team}_{ctx.slot}_{data["key"]}"
             ctx.server_data[i]["key"] = new_key
-            new_server_data_copy[new_key] = (
-                False if "Current" not in new_key else "Menu"
-            )
+            new_value = data["default"]
+
+            assert new_value is not None, f"{new_key}"
+
+            new_server_data_copy[new_key] = new_value
         ctx.server_data_built = True
         ctx.server_data_copy = new_server_data_copy
 
@@ -987,10 +1259,70 @@ async def check_locations(ctx: TPContext) -> None:
                     }
                 )
                 results.append({server_copy_key: new_node_str})
-        elif data["Region"] == "Stage":
-            assert isinstance(server_copy_value, str), f"{server_copy_key=}"
+        elif data["Region"] == "Room":
+            assert isinstance(
+                server_copy_value, int
+            ), f"{server_copy_key=}, {server_copy_value=}"
 
-            result = read_string(SAVE_FILE_ADDR + 0x58, 8)
+            layer_address = SAVE_FILE_ADDR + 0x27220
+            if REGION_CODE == 0x50:
+                layer_address += 0x20
+            current_room = read_byte(layer_address)
+
+            assert isinstance(current_room, int), f"{current_room=}"
+
+            if current_room != server_copy_value:
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {current_room}"
+                    )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": current_room}],
+                    }
+                )
+                results.append({server_copy_key: current_room})
+        elif data["Region"] == "Layer":
+            assert isinstance(
+                server_copy_value, int
+            ), f"{server_copy_key=}, {server_copy_value=}"
+
+            layer_address = SAVE_FILE_ADDR + 0x4E0B
+            current_layer = read_byte(layer_address)
+
+            assert isinstance(current_layer, int), f"{current_layer=}"
+
+            if current_layer != server_copy_value:
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {current_layer}"
+                    )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [
+                            {"operation": "replace", "value": current_layer}
+                        ],
+                    }
+                )
+                results.append({server_copy_key: current_layer})
+        elif data["Region"] == "Stage":
+            assert isinstance(
+                server_copy_value, str
+            ), f"{server_copy_key=}, {server_copy_value=}"
+
+            result = read_string(SAVE_FILE_ADDR + 0x4E00, 8)
+
+            # Handle the dungeon boss room stages
+            if result.startswith("D_MN") and len(result) > 6:
+                result = result[:6]
 
             assert isinstance(result, str), f"{result=}"
             assert result in STAGE_TO_NAME, f"{result=}"
@@ -1013,6 +1345,35 @@ async def check_locations(ctx: TPContext) -> None:
                     }
                 )
                 results.append({server_copy_key: current_stage_str})
+        elif data["Region"] == "Floor":
+            assert isinstance(
+                server_copy_value, int
+            ), f"{server_copy_key=}, {server_copy_value=}"
+
+            result = SAVE_FILE_ADDR + 0x4AC98
+            if REGION_CODE == 0x50:
+                result += 0x20
+            current_floor = read_byte(result)
+
+            assert isinstance(current_floor, int), f"{current_floor=}"
+
+            if current_floor != server_copy_value:
+                if DEBUGGING:
+                    logger.info(
+                        f"Debug: {server_copy_key} Ready to be set to {current_floor}"
+                    )
+                messages.append(
+                    {
+                        "cmd": "Set",
+                        "key": data["key"],
+                        "default": data["default"],
+                        "want_reply": False,
+                        "operations": [
+                            {"operation": "replace", "value": current_floor}
+                        ],
+                    }
+                )
+                results.append({server_copy_key: current_floor})
         else:
             assert False, f"{data=}"
 
@@ -1088,28 +1449,55 @@ async def check_ingame(ctx: TPContext) -> bool:
     """
     Check if the player is currently in-game.
     If the player switches to hyrule field wait 3s to see if the node updates to the menu
-    (This check will occur only once per load to the field, but I will slow the client from working)
+    (This check will occur only once per load to the field)
 
     :return: `True` if the player is in-game, otherwise `False`.
     """
+
+    if not dolphin_memory_engine.is_hooked():
+        return False
+
+    in_game = False
+    seed_loaded = False
+    seed_ptr = read_pointer(0x800042BC)
+
+    if seed_ptr != 0x00:
+        seed_loaded = True
+
+    # We still need to update the current node so it stops thinking we are in the menu before connecting
+
     current_node = read_byte(CURR_NODE_ADDR)
     if current_node == ctx.current_node:
-        return current_node != 0xFF
+        in_game = current_node != 0xFF
 
     # If Node changed check for chnge to hyrule field
-    if current_node != 0x06:
+    elif current_node != 0x06:
         ctx.current_node = current_node
-        return current_node != 0xFF
+        in_game = current_node != 0xFF
 
-    await asyncio.sleep(3)
-    new_node = read_byte(CURR_NODE_ADDR)
-
-    if new_node == 0x06:
-        ctx.current_node = 0x06
-        return True
     else:
-        ctx.current_node = new_node
-        return new_node != 0xFF
+        await asyncio.sleep(4)
+        new_node = read_byte(CURR_NODE_ADDR)
+
+        if new_node == 0x06:
+            ctx.current_node = 0x06
+            in_game = True
+        else:
+            ctx.current_node = new_node
+            in_game = new_node != 0xFF
+
+    if not in_game and (ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time()):
+        # logger.warning(RANDO_NOT_LOADED_MSG)
+        ctx.check_in_game_msg_timer = time.time()
+    elif (
+        (not seed_loaded)
+        and in_game
+        and (ctx.check_in_game_msg_timer + VALIDATION_TIME <= time.time())
+        and ctx.connection_tried
+    ):
+        logger.warning(WRONG_SEED_LOADED_MSG + ctx.SeedID)
+        ctx.check_in_game_msg_timer = time.time()
+    return seed_loaded
 
 
 def _check_status() -> bool:
@@ -1124,7 +1512,13 @@ def _check_status() -> bool:
     mDemoType = read_short(link_actr + 0x604)
     mEventId = read_short(link_actr + 0x7BE)
 
-    return mEventStatus == 0 and mDemoType == 0 and mEventId == 0
+    result = mEventStatus == 0 and mDemoType == 0 and mEventId == 0
+
+    # if result:
+    #     if DEBUGGING:
+    #         logger.info("Debug: Got status passed")
+
+    return result
 
 
 async def check_key_counts(ctx: TPContext) -> None:
@@ -1151,6 +1545,9 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 if not await check_ingame(ctx):
                     await asyncio.sleep(0.1)
                     continue
+                if not ctx.rando_loaded_message:
+                    logger.info("Randomizer loaded, have fun")
+                    ctx.rando_loaded_message = True
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
@@ -1162,12 +1559,8 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                         ctx.server_data_sent = True
                     await give_items(ctx)
                     await check_locations(ctx)
-                    await validate_item(ctx)
-                else:
-                    if not ctx.auth:
-                        ctx.auth = read_string(SLOT_NAME_ADDR, 0x40)
-                    if ctx.awaiting_dolphin:
-                        await ctx.server_auth()
+                    await validate_items(ctx)
+
                 await asyncio.sleep(0.1)
             else:
                 if ctx.dolphin_status == CONNECTION_CONNECTED_STATUS:

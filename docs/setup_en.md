@@ -12,7 +12,7 @@ You'll need the following components to be able to play/generate with Twilight P
 
 - Install [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) v0.6.1 or higher.\
    **Make sure to install the Generator if you intend to generate multiworlds.**
-- The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/Twilight_Princess_apworld/releases/latest).
+- The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/twilight_princess/releases/latest).
 
 If you're playing Twilight Princess, you'll also need:
 

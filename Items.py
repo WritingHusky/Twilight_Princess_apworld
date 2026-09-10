@@ -7,6 +7,7 @@ from worlds.AutoWorld import World
 
 # from .Randomizer.Dungeons import Dungeon
 
+from .ClientUtils import ITEM_APID_BASE
 
 # Events / Items to add
 # DiababaDefeated
@@ -77,7 +78,7 @@ class TPItem(Item):
         :param code: The unique code for the item.
         :return: The computed Archipelago ID.
         """
-        base_id: int = 2320000
+        base_id: int = ITEM_APID_BASE
         return base_id + code
 
 
@@ -135,13 +136,13 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Piece of Heart": TPItemData("Heart", IC.useful, 23, 45, 0x21),
     "Heart Container": TPItemData("Heart", IC.useful, 24, 8, 0x22),
     "Progressive Master Sword": TPItemData("Item", VERY_USEFUL, 25, 4, 0x29),
-    "Ordon Shield": TPItemData("Item", IC.progression, 26, 1, 0x2A),
+    "Ordon Shield": TPItemData("Item", IC.progression_deprioritized, 26, 1, 0x2A),
     "Hylian Shield": TPItemData("Item", IC.progression, 27, 1, 0x2C),
     "Magic Armor": TPItemData("Item", IC.progression, 28, 1, 0x30),
     "Zora Armor": TPItemData("Item", IC.progression, 29, 1, 0x31),
     "Shadow Crystal": TPItemData("Item", VERY_USEFUL, 30, 1, 0x32),
-    "Progressive Wallet": TPItemData("Item", IC.progression, 31, 2, 0x36),
-    "Hawkeye": TPItemData("Item", IC.progression, 32, 1, 0x3E),
+    "Progressive Wallet": TPItemData("Item", IC.progression_deprioritized, 31, 2, 0x36),
+    "Hawkeye": TPItemData("Item", IC.useful, 32, 1, 0x3E),
     "Gale Boomerang": TPItemData("Item", VERY_USEFUL, 33, 1, 0x40),
     "Spinner": TPItemData("Item", VERY_USEFUL, 34, 1, 0x41),
     "Ball and Chain": TPItemData("Item", VERY_USEFUL, 35, 1, 0x42),
@@ -151,12 +152,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Dominion Rod": TPItemData("Item", IC.progression, 39, 2, 0x46),
     "Lantern": TPItemData("Item", VERY_USEFUL, 40, 1, 0x48),
     "Progressive Fishing Rod": TPItemData("Item", IC.progression, 41, 2, 0x4A),
-    "Slingshot": TPItemData("Item", IC.progression, 44, 1, 0x4B),
+    "Slingshot": TPItemData("Item", IC.progression_deprioritized, 44, 1, 0x4B),
     "Bomb Bag": TPItemData("Item", IC.progression, 45, 3, 0x51),
-    "Empty Bottle (Fishing Hole)": TPItemData("Bottle", IC.progression, 46, 1, 0x60),
-    "Milk (half) (Sera Bottle)": TPItemData("Bottle", IC.progression, 47, 1, 0x65),
-    "Lantern Oil (Coro Bottle)": TPItemData("Bottle", IC.progression, 48, 1, 0x9D),
-    "Great Fairy Tears (Jovani)": TPItemData("Bottle", IC.progression, 49, 1, 0x75),
+    "Progressive Bottle": TPItemData("Bottle", IC.progression, 46, 4, 0x9D),
     # Story Items fit here (useful if randomized eventually)
     # "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
     "Forest Temple Small Key": TPItemData("Small key", IC.progression, 54, 4, 0x85),
@@ -181,7 +179,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
         "Small key", IC.progression, 66, 1, 0x8E
     ),
     "Auru's Memo": TPItemData("Item", IC.progression, 67, 1, 0x90),
-    "Ashei's Sketch": TPItemData("Item", IC.progression, 68, 1, 0x91),
+    "Ashei's Sketch": TPItemData("Item", IC.progression_deprioritized, 68, 1, 0x91),
     "Forest Temple Big Key": TPItemData("Big Key", IC.progression, 69, 1, 0x92),
     "Lakebed Temple Big Key": TPItemData("Big Key", IC.progression, 70, 1, 0x93),
     "Goron Mines Key Shard": TPItemData("Big Key", IC.progression, 71, 3, 0xF9),
@@ -209,30 +207,30 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "City in The Sky Map": TPItemData("Map", IC.useful, 93, 1, 0xBC),
     "Palace of Twilight Map": TPItemData("Map", IC.useful, 94, 1, 0xBD),
     "Hyrule Castle Map": TPItemData("Map", IC.useful, 95, 1, 0xBE),
-    "Male Beetle": TPItemData("Bug", IC.progression, 96, 1, 0xC0),
-    "Female Beetle": TPItemData("Bug", IC.progression, 97, 1, 0xC1),
-    "Male Butterfly": TPItemData("Bug", IC.progression, 98, 1, 0xC2),
-    "Female Butterfly": TPItemData("Bug", IC.progression, 99, 1, 0xC3),
-    "Male Stag Beetle": TPItemData("Bug", IC.progression, 100, 1, 0xC4),
-    "Female Stag Beetle": TPItemData("Bug", IC.progression, 101, 1, 0xC5),
-    "Male Grasshopper": TPItemData("Bug", IC.progression, 102, 1, 0xC6),
-    "Female Grasshopper": TPItemData("Bug", IC.progression, 103, 1, 0xC7),
-    "Male Phasmid": TPItemData("Bug", IC.progression, 104, 1, 0xC8),
-    "Female Phasmid": TPItemData("Bug", IC.progression, 105, 1, 0xC9),
-    "Male Pill Bug": TPItemData("Bug", IC.progression, 106, 1, 0xCA),
-    "Female Pill Bug": TPItemData("Bug", IC.progression, 107, 1, 0xCB),
-    "Male Mantis": TPItemData("Bug", IC.progression, 108, 1, 0xCC),
-    "Female Mantis": TPItemData("Bug", IC.progression, 109, 1, 0xCD),
-    "Male Ladybug": TPItemData("Bug", IC.progression, 110, 1, 0xCE),
-    "Female Ladybug": TPItemData("Bug", IC.progression, 111, 1, 0xCF),
-    "Male Snail": TPItemData("Bug", IC.progression, 112, 1, 0xD0),
-    "Female Snail": TPItemData("Bug", IC.progression, 113, 1, 0xD1),
-    "Male Dragonfly": TPItemData("Bug", IC.progression, 114, 1, 0xD2),
-    "Female Dragonfly": TPItemData("Bug", IC.progression, 115, 1, 0xD3),
-    "Male Ant": TPItemData("Bug", IC.progression, 116, 1, 0xD4),
-    "Female Ant": TPItemData("Bug", IC.progression, 117, 1, 0xD5),
-    "Male Dayfly": TPItemData("Bug", IC.progression, 118, 1, 0xD6),
-    "Female Dayfly": TPItemData("Bug", IC.progression, 119, 1, 0xD7),
+    "Male Beetle": TPItemData("Bug", IC.progression_deprioritized, 96, 1, 0xC0),
+    "Female Beetle": TPItemData("Bug", IC.progression_deprioritized, 97, 1, 0xC1),
+    "Male Butterfly": TPItemData("Bug", IC.progression_deprioritized, 98, 1, 0xC2),
+    "Female Butterfly": TPItemData("Bug", IC.progression_deprioritized, 99, 1, 0xC3),
+    "Male Stag Beetle": TPItemData("Bug", IC.progression_deprioritized, 100, 1, 0xC4),
+    "Female Stag Beetle": TPItemData("Bug", IC.progression_deprioritized, 101, 1, 0xC5),
+    "Male Grasshopper": TPItemData("Bug", IC.progression_deprioritized, 102, 1, 0xC6),
+    "Female Grasshopper": TPItemData("Bug", IC.progression_deprioritized, 103, 1, 0xC7),
+    "Male Phasmid": TPItemData("Bug", IC.progression_deprioritized, 104, 1, 0xC8),
+    "Female Phasmid": TPItemData("Bug", IC.progression_deprioritized, 105, 1, 0xC9),
+    "Male Pill Bug": TPItemData("Bug", IC.progression_deprioritized, 106, 1, 0xCA),
+    "Female Pill Bug": TPItemData("Bug", IC.progression_deprioritized, 107, 1, 0xCB),
+    "Male Mantis": TPItemData("Bug", IC.progression_deprioritized, 108, 1, 0xCC),
+    "Female Mantis": TPItemData("Bug", IC.progression_deprioritized, 109, 1, 0xCD),
+    "Male Ladybug": TPItemData("Bug", IC.progression_deprioritized, 110, 1, 0xCE),
+    "Female Ladybug": TPItemData("Bug", IC.progression_deprioritized, 111, 1, 0xCF),
+    "Male Snail": TPItemData("Bug", IC.progression_deprioritized, 112, 1, 0xD0),
+    "Female Snail": TPItemData("Bug", IC.progression_deprioritized, 113, 1, 0xD1),
+    "Male Dragonfly": TPItemData("Bug", IC.progression_deprioritized, 114, 1, 0xD2),
+    "Female Dragonfly": TPItemData("Bug", IC.progression_deprioritized, 115, 1, 0xD3),
+    "Male Ant": TPItemData("Bug", IC.progression_deprioritized, 116, 1, 0xD4),
+    "Female Ant": TPItemData("Bug", IC.progression_deprioritized, 117, 1, 0xD5),
+    "Male Dayfly": TPItemData("Bug", IC.progression_deprioritized, 118, 1, 0xD6),
+    "Female Dayfly": TPItemData("Bug", IC.progression_deprioritized, 119, 1, 0xD7),
     "Progressive Mirror Shard": TPItemData("Item", IC.progression, 120, 4, 0xA5),
     "Progressive Fused Shadow": TPItemData("Item", IC.progression, 121, 3, 0xD8),
     "Progressive Hidden Skill": TPItemData("Item", VERY_USEFUL, 122, 7, 0xE1),
@@ -244,7 +242,9 @@ ITEM_TABLE: dict[str, TPItemData] = {
     # "Sky Character 3": TPItemData("Item", IC.useful, 134, 1, 0xDD),
     # "Sky Character 4": TPItemData("Item", IC.useful, 135, 1, 0xDE),
     # "Sky Character 5": TPItemData("Item", IC.useful, 136, 1, 0xDF),
-    "Poe Soul": TPItemData("Poe", IC.progression_skip_balancing, 124, 60, 0xE0),
+    "Poe Soul": TPItemData(
+        "Poe", IC.progression_deprioritized_skip_balancing, 124, 60, 0xE0
+    ),
     # "Poe 1 (Fire)": TPItemData("Item", IC.useful, 125, 1, 0xEF),
     # "Poe 2 (Fire)": TPItemData("Item", IC.useful, 126, 1, 0xF0),
     # "Poe 3 (Fire)": TPItemData("Item", IC.useful, 127, 1, 0xF1),
@@ -263,18 +263,6 @@ LOOKUP_ID_TO_NAME: dict[int, str] = {
 }
 
 item_name_groups = {
-    "Bottle": {
-        "Empty Bottle (Fishing Hole)",
-        "Milk (half) (Sera Bottle)",
-        "Lantern Oil (Coro Bottle)",
-        "Great Fairy Tears (Jovani)",
-    },
-    "Bottles": {
-        "Empty Bottle (Fishing Hole)",
-        "Milk (half) (Sera Bottle)",
-        "Lantern Oil (Coro Bottle)",
-        "Great Fairy Tears (Jovani)",
-    },
     # "Quest Items": {
     #     "Renado's Letter",
     #     "Invoice",
@@ -505,6 +493,9 @@ item_name_groups = {
     "Hearts": {
         "Piece of Heart",
         "Heart Container",
+    "Boss items": {
+        "Progressive Mirror Shard",
+        "Progressive Fused Shadow",
     },
     # "NPC Items": {},
     # "Shop Items": {},
@@ -556,10 +547,7 @@ ItemWheelItems = [
     "Bomb Bag",
     "Bomb Bag",
     "Bomb Bag",
-    "Empty Bottle (Fishing Hole)",
-    "Milk (half) (Sera Bottle)",
-    "Lantern Oil (Coro Bottle)",
-    "Great Fairy Tears (Jovani)",
+    "Progressive Bottle",
     "Auru's Memo",
     "Renado's Letter",  # Covers letter, invoice, statue, charm. It doesn't matter which item you have in the chain, as long as you have the slot available.
     "Horse Call",

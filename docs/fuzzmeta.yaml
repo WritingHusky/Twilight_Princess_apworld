@@ -1,5 +1,12 @@
 Twilight Princess:
-  Twilight Princess:
+  # Twilight Princess:
+  # Non logic Settings
+  death_link: false
+  instant_message_text: false
+  modify_shop_models: false
+  skip_major_cutscenes: false
+  skip_minor_cutscenes: false
+  increase_spinner_speed: false
 
   # TPRando Settings
   # open_map: false

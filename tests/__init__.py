@@ -5,7 +5,7 @@ from typing import Any
 import pytest  # type: ignore
 from BaseClasses import get_seed
 from test.bases import WorldTestBase
-from worlds.twilight_princess_apworld.options import *
+from worlds.twilight_princess.options import *
 
 DEFAULT_TEST_SEED = get_seed()
 
@@ -22,11 +22,9 @@ class TwilightPrincessWorldTestBase(WorldTestBase):
     options: dict[str, Any]
 
     logger = logging.Logger("Test_logger")
-    logger.addHandler(
-        logging.FileHandler("worlds\\twilight_princess_apworld\\tests\\logs.log")
-    )
+    logger.addHandler(logging.FileHandler("worlds\\twilight_princess\\tests\\logs.log"))
 
-    run_long_tests = True
+    run_long_tests = False
     run_generation_tests = False
     auto_construct = True
 

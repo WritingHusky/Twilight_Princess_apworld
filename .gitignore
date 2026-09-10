@@ -1,14 +1,7 @@
-/build/target/*
-/Docs/Notes.md
-/Docs/simple_setup.md
-
-/build/host.yaml
-/build/custom_worlds
-
+docs/Notes.md
+docs/simple_setup.md
 # Testing Files
-thing.py 
-scripts.txt
 /tests/logs.log
-fuzzParser.py
+fuzzmeta.yaml
 
 __pycache__

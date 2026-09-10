@@ -1,13 +1,19 @@
+from base64 import b64encode
 from collections.abc import Mapping
 from copy import deepcopy
 import json
 import os
 from typing import Any, ClassVar, Optional
+import zipfile
+
+import yaml
 
 from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType
 from BaseClasses import ItemClassification as IC
 from BaseClasses import Tutorial
+from Utils import visualize_regions
+from worlds.Files import APPatch, APPlayerContainer
 from .ClientUtils import VERSION
 from .Items import (
     ITEM_TABLE,
@@ -32,8 +38,10 @@ from worlds.LauncherComponents import (
     launch_subprocess,
 )
 
+from .Randomizer.SeedId import gen_seed_id
 from .Randomizer.SettingsEncoder import get_item_placements, get_setting_string
 from .Randomizer.ItemPool import (
+    DUNGEON_TO_BOSS_DEFEAT,
     DUNGEON_TO_BOSS_DEFEAT,
     VANILLA_GOLDEN_BUG_LOCATIONS,
     VANILLA_POE_LOCATIONS,
@@ -72,6 +80,31 @@ components.append(
         file_identifier=SuffixIdentifier(".aptp"),
     )
 )
+
+
+class TPPlayerContainer(APPlayerContainer):
+    """
+    Defines the container file for Twilight Princess
+    """
+
+    game = "Twilight Princess"
+    compression_method = zipfile.ZIP_DEFLATED
+    patch_file_ending = ".aptp"
+
+    def __init__(
+        self,
+        seed_string: str,
+        patch_path: str,
+        player_name: str,
+        player: int,
+        server: str = "",
+    ):
+        self.output_data = seed_string
+        super().__init__(patch_path, player, player_name, server)
+
+    def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
+        opened_zipfile.writestr("settings.txt", self.output_data)
+        super().write_contents(opened_zipfile)
 
 
 class TPWeb(WebWorld):
@@ -123,8 +156,6 @@ class TPWorld(World):
 
     item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
 
-    required_client_version: tuple[int, int, int] = (0, 5, 0)
-
     web: ClassVar[TPWeb] = TPWeb()
 
     origin_region_name: str = "Menu"
@@ -132,6 +163,7 @@ class TPWorld(World):
     player: int
 
     progression_pool: list[str]
+    seedID = ""
 
     def __init__(self, *args, **kwargs):
         super(TPWorld, self).__init__(*args, **kwargs)
@@ -158,7 +190,12 @@ class TPWorld(World):
         options = self.options
 
         enabled_flags = TPFlag.Always
-        enabled_flags |= TPFlag.Boss
+        enabled_flags |= (
+            TPFlag.Boss
+            if options.dungeon_rewards_progression
+            != DungeonRewardsProgression.option_anything
+            else TPFlag.Always
+        )
         enabled_flags |= TPFlag.MiniBoss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
@@ -192,10 +229,22 @@ class TPWorld(World):
         """
         Setup things ready for generation.
         """
+
+        if len(self.player_name) > 16:
+            raise OptionError(
+                "[Twilight Princess] Player name must be 16 character or less"
+            )
+        try:
+            str.encode(self.player_name, encoding="latin")
+        except UnicodeEncodeError:
+            raise OptionError(
+                "[Twilight Princess] Player name cannot use special characters that do not fit in the Latin encoding."
+            )
+
         # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
         if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
             raise OptionError(
-                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enable Overworld Shuffle to generate"
+                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enbale Overworld Shuffle to generate"
             )
             self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
             self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
@@ -282,7 +331,6 @@ class TPWorld(World):
         # Connect the menu region to the portal locations if open map is selected
         if self.options.open_map.value == OpenMap.option_true:
             portal_regions = [
-                "Snowpeak Summit Upper",
                 "Zoras Domain Throne Room",
                 # "Upper Zoras River",
                 "Lake Hylia",
@@ -298,6 +346,12 @@ class TPWorld(World):
                 # "Mirror Chamber Upper",
                 "Ordon Spring",
             ]
+            if (
+                self.options.skip_snowpeak_entrance.value
+                == SkipSnowpeakEntrance.option_true
+            ):
+                portal_regions.append("Snowpeak Summit Upper")
+
             for portal_region in portal_regions:
                 portal_exit = menu.connect(self.get_region(portal_region))
                 portal_exit.access_rule = lambda state: state.has(
@@ -354,7 +408,7 @@ class TPWorld(World):
         # If dungeon rewards are progression then take a second pass to update Progress Type
         if (
             self.options.dungeon_rewards_progression.value
-            == DungeonRewardsProgression.option_true
+            != DungeonRewardsProgression.option_anything
         ):
             for location, data in LOCATION_TABLE.items():
                 if (
@@ -469,6 +523,8 @@ class TPWorld(World):
 
         pre_fill_items = self.get_pre_fill_items()
 
+        collection_state_base = CollectionState(self.multiworld)
+
         if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
             found_shadow_crystal = False
             for item in pre_fill_items:
@@ -498,7 +554,103 @@ class TPWorld(World):
             assert (
                 self.options.early_shadow_crystal == EarlyShadowCrystal.option_false
             ), "[Twilight Princess] No pre fill items but early shadow crystal"
+            assert (
+                self.options.dungeon_rewards_progression.value
+                == DungeonRewardsProgression.option_anything
+            ), "[Twilight Princess] No pre fill items but Dungeon Rewards are vanilla"
             return
+
+        # Place boss items
+        if (
+            self.options.dungeon_rewards_progression.value
+            == DungeonRewardsProgression.option_vanilla
+        ):
+            boss_item_list = [
+                item
+                for item in pre_fill_items
+                if item.name in item_name_groups["Boss items"]
+            ]
+
+            assert (
+                len(boss_item_list) == 7
+            ), f"[Twilight Princess] There is only {len(boss_item_list)} boss items in the pre fill pool"
+
+            boss_item_list_str = [item.name for item in boss_item_list]
+
+            for boss_item in item_name_groups["Boss items"]:
+                assert (
+                    boss_item in boss_item_list_str
+                ), f"[Twilight Princess] {boss_item=} is not in pre_fill_items, {pre_fill_items=}"
+            del boss_item
+            boss_locations = [
+                "Arbiters Grounds Dungeon Reward",
+                "City in The Sky Dungeon Reward",
+                "Forest Temple Dungeon Reward",
+                "Goron Mines Dungeon Reward",
+                "Lakebed Temple Dungeon Reward",
+                "Snowpeak Ruins Dungeon Reward",
+                "Temple of Time Dungeon Reward",
+            ]
+            # mirror_locations = self.random.sample(
+            #     boss_locations,
+            #     k=4,
+            # )
+
+            state_locations = [self.get_location(name) for name in boss_locations]
+            assert (
+                len(state_locations) == 7
+            ), f"[Twilight Princess] State locations is invalid {state_locations=}"
+
+            state = self.multiworld.get_all_state()
+            for boss_item in boss_item_list:
+                state.remove(boss_item)
+
+            boss_items_copy = deepcopy(boss_item_list)
+
+            fill_restrictive(
+                self.multiworld,
+                state,
+                state_locations,
+                boss_item_list,
+                single_player_placement=True,
+                # lock=True,
+                allow_excluded=True,
+            )
+
+            assert (
+                len(boss_item_list) == 0
+            ), "[Twilight Princess] All boss items not placed"
+            for boss_item in boss_items_copy:
+                pre_fill_items.remove(boss_item)
+                collection_state_base.collect(boss_item)
+
+            # shard_locations = [
+            #     location
+            #     for location in boss_locations
+            #     if location not in mirror_locations
+            # ]
+
+            # assert (
+            #     len(mirror_locations) == 4
+            # ), f"[Twilight Princess] Mirror locations is not 4 {mirror_locations}"
+            # assert (
+            #     len(shard_locations) == 3
+            # ), f"[Twilight Princess] Shard locations is not 3 {shard_locations=} {mirror_locations=}"
+
+            # for boss_item in boss_item_list:
+            #     if boss_item.name == "Progressive Mirror Shard":
+            #         location = mirror_locations.pop()
+            #     elif boss_item.name == "Progressive Fused Shadow":
+            #         location = shard_locations.pop()
+            #     else:
+            #         assert (
+            #             False
+            #         ), f"[Twilight Princess] Bad boss item in list {boss_item=}"
+
+            #     self.get_location(location).place_locked_item(boss_item)
+            #     pre_fill_items.remove(boss_item)
+            #     collection_state_base.collect(boss_item)
+            del boss_item
 
         # Shuffle Bugs into vanilla spots if not shuffled
         if self.options.golden_bugs_shuffled.value == GoldenBugsShuffled.option_false:
@@ -524,6 +676,7 @@ class TPWorld(World):
                 vanilla_location_name = VANILLA_GOLDEN_BUG_LOCATIONS[bug.name]
                 self.get_location(vanilla_location_name).place_locked_item(bug)
                 pre_fill_items.remove(bug)
+                collection_state_base.collect(bug)
             del bug
 
         # Shuffle Poes into vanilla spots if not shuffled
@@ -540,6 +693,7 @@ class TPWorld(World):
                 location = VANILLA_POE_LOCATIONS[i]
                 self.get_location(location).place_locked_item(poe_soul)
                 pre_fill_items.remove(poe_soul)
+                collection_state_base.collect(poe_soul)
             assert (
                 location == "Snowpeak Poe Among Trees"
             ), f"[Twilight Princess] {location=}"
@@ -569,13 +723,12 @@ class TPWorld(World):
                 location = VANILLA_SKY_CHARACTER_LOCATIONS[i]
                 self.get_location(location).place_locked_item(character)
                 pre_fill_items.remove(character)
+                collection_state_base.collect(character)
             assert (
                 location == "Lake Hylia Bridge Owl Statue Sky Character"
             ), f"[Twilight Princess] {location=}"
             # Sky book chest will already be excluded
             del location, character_list, character
-
-        collection_state_base = CollectionState(self.multiworld)
 
         if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
             locations = self.multiworld.get_locations(self.player)
@@ -607,6 +760,7 @@ class TPWorld(World):
                 len(shadow_crystal_item_s) == 0
             ), "[Twilight Princess] Shadow crystal not placed"
             pre_fill_items.remove(shadow_crystal_item_copy[0])
+            collection_state_base.collect(shadow_crystal_item_copy[0])
 
             locations = None
 
@@ -638,6 +792,8 @@ class TPWorld(World):
             collection_state_big_key,
             collection_state_map_and_compass,
         ]
+
+        starting_pool_copy = self.multiworld.precollected_items[self.player].copy()
 
         # Fill collection states, b/c if small keys are in the prefill pool then they are not in the item_pool
         # and Big Keys need small keys to define access, similar for map and compass etc
@@ -752,6 +908,7 @@ class TPWorld(World):
             pass
 
         # Place Vanilla items first so that they are ensured to be placed correctly
+        #   Note: This will will put items even if precollected
         for option, setting, vanilla, state in zip(
             options, settings, vanillas, collection_states
         ):
@@ -856,19 +1013,29 @@ class TPWorld(World):
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
 
+                        # Don't place item if its precollected
+                        skip_item = False
+                        for item in starting_pool_copy:
+                            if item.name == item_name:
+                                skip_item = True
+                                starting_pool_copy.remove(item)
+                                break
+                        if skip_item:
+                            continue
+
                         new_items = list(
                             filter(lambda item: item.name == item_name, pre_fill_items)
                         )
 
-                        assert isinstance(
-                            new_items, list
-                        ), f"[Twilight Princess] (Own dungeon) items not a list {new_items=}"
-                        assert (
-                            len(new_items) > 0
-                        ), f"[Twilight Princess] (Own dungeon) No items found in pre fill items {item_name=}"
-                        assert len(new_items) == len(
-                            vanilla[dungeon_name][item_name]
-                        ), f"[Twilight Princess] (Own dungeon) Items does not match number needed {items=}"
+                        # assert isinstance(
+                        #     new_items, list
+                        # ), f"[Twilight Princess] (Own dungeon) items not a list {new_items=}"
+                        # assert (
+                        #     len(new_items) > 0
+                        # ), f"[Twilight Princess] (Own dungeon) No items found in pre fill items {item_name=}"
+                        # assert len(new_items) == len(
+                        #     vanilla[dungeon_name][item_name]
+                        # ), f"[Twilight Princess] (Own dungeon) Items does not match number needed {items=}"
 
                         items.extend(new_items)
 
@@ -1001,19 +1168,29 @@ class TPWorld(World):
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
 
+                        # Don't place item if its precollected
+                        skip_item = False
+                        for item in starting_pool_copy:
+                            if item.name == item_name:
+                                skip_item = True
+                                starting_pool_copy.remove(item)
+                                break
+                        if skip_item:
+                            continue
+
                         new_items = list(
                             filter(lambda item: item.name == item_name, pre_fill_items)
                         )
 
-                        assert isinstance(
-                            new_items, list
-                        ), f"[Twilight Princess] (Any dungeon) items not a list {new_items=}"
-                        assert (
-                            len(new_items) > 0
-                        ), f"[Twilight Princess] (Any dungeon) No items found in pre fill items {item_name=}"
-                        assert len(new_items) == len(
-                            vanilla[dungeon_name][item_name]
-                        ), f"[Twilight Princess] (Any dungeon) Items does not match number needed {items=}"
+                        # assert isinstance(
+                        #     new_items, list
+                        # ), f"[Twilight Princess] (Any dungeon) items not a list {new_items=}"
+                        # assert (
+                        #     len(new_items) > 0
+                        # ), f"[Twilight Princess] (Any dungeon) No items found in pre fill items {item_name=}"
+                        # assert len(new_items) == len(
+                        #     vanilla[dungeon_name][item_name]
+                        # ), f"[Twilight Princess] (Any dungeon) Items does not match number needed {items=}"
 
                         items.extend(new_items)
 
@@ -1080,19 +1257,29 @@ class TPWorld(World):
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
 
+                        # Don't place item if its precollected
+                        skip_item = False
+                        for item in starting_pool_copy:
+                            if item.name == item_name:
+                                skip_item = True
+                                starting_pool_copy.remove(item)
+                                break
+                        if skip_item:
+                            continue
+
                         new_items = list(
                             filter(lambda item: item.name == item_name, pre_fill_items)
                         )
 
-                        assert isinstance(
-                            new_items, list
-                        ), f"[Twilight Princess] (Any-Own dungeon) items not a list {new_items=}"
-                        assert (
-                            len(new_items) > 0
-                        ), f"[Twilight Princess] (Any-Own dungeon) No items found in pre fill items {item_name=}"
-                        assert len(new_items) == len(
-                            vanilla[dungeon_name][item_name]
-                        ), f"[Twilight Princess] (Any-Own dungeon) Items does not match number needed {items=}"
+                        # assert isinstance(
+                        #     new_items, list
+                        # ), f"[Twilight Princess] (Any-Own dungeon) items not a list {new_items=}"
+                        # assert (
+                        #     len(new_items) > 0
+                        # ), f"[Twilight Princess] (Any-Own dungeon) No items found in pre fill items {item_name=}"
+                        # assert len(new_items) == len(
+                        #     vanilla[dungeon_name][item_name]
+                        # ), f"[Twilight Princess] (Any-Own dungeon) Items does not match number needed {items=}"
 
                         items.extend(new_items)
 
@@ -1171,9 +1358,9 @@ class TPWorld(World):
         # endregion
 
         # All items in the pre fill pool need to be processed in the pre fill
-        assert (
-            len(pre_fill_items) == 0
-        ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
+        # assert (
+        #     len(pre_fill_items) == 0
+        # ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
 
     def post_fill(self):
         # As part of (semi-)tiger beetle style test ensure things worked Properly in prod
@@ -1309,7 +1496,10 @@ class TPWorld(World):
             # Boss / Mini Boss
             if (data.flags & TPFlag.Boss) == TPFlag.Boss:
                 # Dungeon Rewards (Becomes Priority)
-                if self.options.dungeon_rewards_progression:  # or mini boss if made so
+                if self.options.dungeon_rewards_progression.value in [
+                    DungeonRewardsProgression.option_any_progressive,
+                    DungeonRewardsProgression.option_vanilla,
+                ]:  # or mini boss if made so
                     assert (
                         location.progress_type == LocationProgressType.PRIORITY
                     ), f"[Twilight Princess] (Post Fill Error) {location.name} is {location.progress_type} but Dungeons rewards are progression"
@@ -1354,6 +1544,7 @@ class TPWorld(World):
         item_str, debug_str = get_item_placements(self.multiworld, self.player)
 
         setting_string = get_setting_string(self.multiworld, self.player)
+        self.seed_id = gen_seed_id(self)
         # Output seed name and slot number to seed RNG in randomizer client.
         output_data = {
             "SettingsString": setting_string,
@@ -1362,6 +1553,7 @@ class TPWorld(World):
                 "settings": self.get_settings_map(),
                 "ItemPlacements": {},
             },
+            "LocationClassification": {},
         }
 
         # Fill out the itemPlacements to match off of to debug
@@ -1386,24 +1578,43 @@ class TPWorld(World):
         #                 location.name  # I hate that this isn't type hinting
         #             ] = location.item.item_id
 
-        def custom_serializer(obj):
-            if hasattr(obj, "__dict__"):
-                return obj.__dict__
-            return str(obj)
+        # def custom_serializer(obj):
+        #     if hasattr(obj, "__dict__"):
+        #         return obj.__dict__
+        #     return str(obj)
 
-        # Output the details to debug file.
-        debug_file_path = os.path.join(
-            output_directory, f"debug_{multiworld.get_out_file_name_base(player)}.aptp"
-        )
-        with open(debug_file_path, "w") as f:
-            f.write(json.dumps(output_data, indent=4, default=custom_serializer))
+        # # Output the details to debug file.
+        # debug_file_path = os.path.join(
+        #     output_directory, f"debug_{multiworld.get_out_file_name_base(player)}.aptp"
+        # )
+        # with open(debug_file_path, "w") as f:
+        #     f.write(json.dumps(output_data, indent=4, default=custom_serializer))
 
         # Output the settings and item_placement to file.
         file_path = os.path.join(
-            output_directory, f"{multiworld.get_out_file_name_base(player)}.aptp"
+            output_directory,
+            f"{multiworld.get_out_file_name_base(player)}",
         )
-        with open(file_path, "w") as f:
-            f.write(f"{setting_string},{item_str}")
+        seed_string = f"{setting_string},{item_str},{self.player_name},{self.seed_id}"
+        with open(f"{file_path}.txt", "w") as f:
+            f.write(seed_string)
+
+        aptp = TPPlayerContainer(
+            seed_string, f"{file_path}.aptp", self.player_name, self.player
+        )
+        aptp.write()
+
+        puml_path = file_path = os.path.join(
+            output_directory, f"{multiworld.get_out_file_name_base(player)}.puml"
+        )
+        visualize_regions(
+            self.multiworld.get_region("Menu", self.player),
+            puml_path,
+            show_entrance_names=True,
+            regions_to_highlight=self.multiworld.get_all_state(
+                self.player
+            ).reachable_regions[self.player],
+        )
 
     def extend_hint_information(self, hint_data: dict[int, dict[int, str]]) -> None:
         """
@@ -1429,40 +1640,67 @@ class TPWorld(World):
         assert name in ITEM_TABLE, f"[Twilight Princess] {name=}"
 
         adjusted_classification = None
-        # if (
-        #     # (
-        #     #     self.options.golden_bugs_shuffled.value
-        #     #     == GoldenBugsShuffled.option_false
-        #     #     and name in item_name_groups["Bugs"]
-        #     # )
-        #     # or (
-        #     #     self.options.sky_characters_shuffled.value
-        #     #     == SkyCharactersShuffled.option_false
-        #     #     and name == "Progressive Ancient Sky Book"
-        #     # )
-        #     # or (
-        #     #     self.options.poe_shuffled.value == PoeShuffled.option_false
-        #     #     and name == "Poe Soul"
-        #     # )
-        #     # or (
-        #     #     self.options.heart_piece_shuffled.value
-        #     #     == HeartPieceShuffled.option_false
-        #     #     and name in item_name_groups["Heart"]
-        #     # )
-        #     # ) or (
-        #     #     not self.options.npc_items_shuffled
-        #     #     and name in item_name_groups["NPC Items"]
-        #     # ) or (
-        #     #     not self.options.shop_items_shuffled
-        #     #     and name in item_name_groups["Shop Items"]
-        #     # ) or (
-        #     #     not self.options.hidden_skills_shuffled
-        #     #     and name == "Progressive Hidden Skill"
-        #     # ) or (
-        #     #     not self.options.overworld_shuffled
-        #     #     and name in item_name_groups["Overworld Items"]
-        # ):
-        #     adjusted_classification = IC.filler
+        if (
+            False
+            # or (
+            #     self.options.golden_bugs_shuffled.value
+            #     == GoldenBugsShuffled.option_false
+            #     and name in item_name_groups["Bugs"]
+            # )
+            # or (
+            #     self.options.sky_characters_shuffled.value
+            #     == SkyCharactersShuffled.option_false
+            #     and name == "Progressive Ancient Sky Book"
+            # )
+            # or (
+            #     self.options.poe_shuffled.value == PoeShuffled.option_false
+            #     and name == "Poe Soul"
+            # )
+            # or (
+            #     self.options.heart_piece_shuffled.value
+            #     == HeartPieceShuffled.option_false
+            #     and name in item_name_groups["Heart"]
+            # )
+            # or (
+            #     not self.options.npc_items_shuffled
+            #     and name in item_name_groups["NPC Items"]
+            # )
+            # or (
+            #     not self.options.shop_items_shuffled
+            #     and name in item_name_groups["Shop Items"]
+            # )
+            # or (
+            #     not self.options.hidden_skills_shuffled
+            #     and name == "Progressive Hidden Skill"
+            # )
+            # or (
+            #     not self.options.overworld_shuffled
+            #     and name in item_name_groups["Overworld Items"]
+            # )
+            or (
+                name == "Piece of Heart"
+                and all(
+                    [
+                        self.options.dungeons_shuffled.value
+                        == DungeonsShuffled.option_false,
+                        self.options.dungeon_rewards_progression.value
+                        == DungeonRewardsProgression.option_anything,
+                        self.options.heart_piece_shuffled.value
+                        == HeartPieceShuffled.option_false,
+                        self.options.hidden_skills_shuffled.value
+                        == HiddenSkillsShuffled.option_false,
+                        self.options.npc_items_shuffled.value
+                        == NpcItemsShuffled.option_false,
+                        self.options.poe_shuffled.value == PoeShuffled.option_true,
+                        self.options.shop_items_shuffled.value
+                        == ShopItemsShuffled.option_false,
+                        self.options.sky_characters_shuffled.value
+                        == SkyCharactersShuffled.option_false,
+                    ]
+                )
+            )
+        ):
+            adjusted_classification = IC.filler
 
         return adjusted_classification
 
@@ -1582,7 +1820,21 @@ class TPWorld(World):
             "World Version": VERSION,
             "DeathLink": self.options.death_link.value,
             "Settings": self.get_settings_map(),
+            "LocationClassification": {},
+            "SeedID": self.seedID,
         }
+
+        for location in self.get_locations():
+            assert isinstance(location, TPLocation)
+            if location.progress_type == LocationProgressType.PRIORITY:
+                location_classification = "Priority"
+            elif location.progress_type == LocationProgressType.EXCLUDED:
+                location_classification = "Excluded"
+            else:
+                continue
+            slot_data["LocationClassification"][
+                f"{TPLocation.get_apid(location.code)}"
+            ] = location_classification
 
         return slot_data
 

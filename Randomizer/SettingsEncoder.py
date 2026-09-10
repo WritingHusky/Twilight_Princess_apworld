@@ -1,8 +1,12 @@
+import math
 from typing import TYPE_CHECKING
 from BaseClasses import Item, MultiWorld
 from ..Items import TPItem
 from ..Locations import TPLocation
 from ..options import *
+
+if TYPE_CHECKING:
+    from .. import TPWorld
 
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
@@ -182,47 +186,60 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         if isinstance(setting_value, bool):
             bit_string += "1" if setting_value else "0"
         elif isinstance(setting_value, tuple):
-            assert len(setting_value) == 2, f"[Twilight Princess] {setting_value}"
+            assert (
+                len(setting_value) == 2
+            ), f"[Twilight Princess] Unexpected length for setting value tuple {setting_value=}, {settings_map=}"
             assert isinstance(
                 setting_value[0], int
-            ), f"[Twilight Princess] {setting_value}"
+            ), f"[Twilight Princess] Found an invalid setting value number {setting_value=}, {settings_map=}"
             assert isinstance(
                 setting_value[1], int
-            ), f"[Twilight Princess] {setting_value}"
+            ), f"[Twilight Princess] Found an invalid setting value bit count {setting_value=}, {settings_map=}"
             bit_string += encode_num_as_bits(setting_value[0], setting_value[1])
         else:
-            assert False, f"[Twilight Princess] {setting_value}"
+            assert (
+                False
+            ), f"[Twilight Princess] Unexpected format for setting value {setting_value=}, {settings_map=}"
 
     # Create the starting inventory
     item_bit_string = ""
     for item in multiworld.precollected_items[player]:
         assert isinstance(
             item, TPItem
-        ), f"[Twilight Princess] {item=}, TP Player has precollected a non TP Item?"
-        assert isinstance(item.item_id, int), f"[Twilight Princess] {item=}"
+        ), f"[Twilight Princess] TP Player has precollected a non TP Item, {item=} \nSeed String cannot generate with Non TP precollected items"
+        assert isinstance(
+            item.item_id, int
+        ), f"[Twilight Princess] {item=} does not have a valid item id"
         item_bit_string += encode_num_as_bits(item.item_id, 9)
+
+    world: TPWorld = multiworld.worlds[player]
+    if world.options.start_with_horse_call:
+        item_bit_string += encode_num_as_bits(0x84, 9)
 
     item_bit_string += "111111111"
 
     bit_string += item_bit_string
 
     extra_bits = len(bit_string) % 6
-    bits_as_chars = encode_as_6_bit_string(bit_string)
+    seed_body = encode_as_6_bit_string(bit_string)
     version = 5
     ver = hex(version)[2:]
 
     num_length_chars = 0
-    for i in range(1, 6):
-        max_num = 1 << (i * 6)
-        if len(bits_as_chars) <= max_num:
+    for i in range(1, 8):  # max number of len chars is 7
+        max_num = math.pow(64, i)
+        if len(seed_body) < max_num:
             num_length_chars = i
             break
 
-    length_chars = encode_as_6_bit_string(
+    length_char = encode_as_6_bit_string(
         encode_num_as_bits((extra_bits << 3) + num_length_chars, 6)
     )
     len_chars = encode_as_6_bit_string(
-        encode_num_as_bits(len(bits_as_chars), num_length_chars * 6)
+        encode_num_as_bits(len(seed_body), num_length_chars * 6)
     )
+    assert (
+        len(len_chars) == num_length_chars
+    ), f"[Twilight Princess] Failed to create Setting String. Length of size chars {len_chars=} does not match expected size {num_length_chars=}"
 
-    return ver + "s" + length_chars + len_chars + bits_as_chars
+    return ver + "s" + length_char + len_chars + seed_body

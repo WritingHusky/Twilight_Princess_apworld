@@ -7,7 +7,7 @@ from BaseClasses import get_seed
 from Fill import FillError
 from Options import OptionError
 
-from worlds.twilight_princess_apworld.options import *
+from worlds.twilight_princess.options import *
 from . import TwilightPrincessWorldTestBase
 
 bool_options = [
