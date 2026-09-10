@@ -2211,7 +2211,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Barnes Bomb Bag",
         lambda state: (
-            can_complete_eldin_twilight(state, player) # always true
+            can_complete_eldin_twilight(state, player) # always True
             and (
                 True # wallet size not reduced # not yet implemented
                 or state.has("Progressive Wallet", player, 1)
@@ -2551,7 +2551,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and can_change_time(state, player)
-            and can_complete_eldin_twilight(state, player)
+            and can_complete_eldin_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -2796,9 +2796,9 @@ def set_location_access_rules(world: "TPWorld"):
         "Faron Mist North Chest",
         lambda state: (
             state.has("Lantern", player)
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
             and (
-                can_complete_faron_twilight(state, player)
+                can_complete_faron_twilight(state, player) # always True
                 or state.has("Shadow Crystal", player)
             )
         ),
@@ -2807,13 +2807,13 @@ def set_location_access_rules(world: "TPWorld"):
                 (
                     state.has("Lantern", player)
                     and (
-                        can_complete_faron_twilight(state, player) # always true
+                        can_complete_faron_twilight(state, player) # always True
                         or state.has("Shadow Crystal", player)
                     )
                 )
                 or can_do_map_glitch(state, player)
             )
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -2821,20 +2821,20 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             state.has("Shadow Crystal", player)
             and can_complete_prologue(state, player) # always True
-            and can_complete_faron_twilight(state, player) # always true
+            and can_complete_faron_twilight(state, player) # always True
         ),
         lambda state: (
             state.has("Shadow Crystal", player)
-            and can_complete_faron_twilight(state, player) # always true
+            and can_complete_faron_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
         "Faron Mist South Chest",
         lambda state: (
             state.has("Lantern", player)
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
             and (
-                can_complete_faron_twilight(state, player) # always true
+                can_complete_faron_twilight(state, player) # always True
                 or state.has("Shadow Crystal", player)
             )
         ),
@@ -2843,22 +2843,22 @@ def set_location_access_rules(world: "TPWorld"):
                 (
                     state.has("Lantern", player)
                     and (
-                        can_complete_faron_twilight(state, player) # always true
+                        can_complete_faron_twilight(state, player) # always True
                         or state.has("Shadow Crystal", player)
                     )
                 )
                 or can_do_map_glitch(state, player)
             )
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
         ),
     )
     set_rule_if_exists(
         "Faron Mist Stump Chest",
         lambda state: (
             state.has("Lantern", player)
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
             and (
-                can_complete_faron_twilight(state, player) # always true
+                can_complete_faron_twilight(state, player) # always True
                 or state.has("Shadow Crystal", player)
             )
         ),
@@ -2866,11 +2866,11 @@ def set_location_access_rules(world: "TPWorld"):
             (
                 (
                     state.has("Lantern", player)
-                    and can_complete_faron_twilight(state, player) # always true
+                    and can_complete_faron_twilight(state, player) # always True
                 )
                 or state.has("Shadow Crystal", player)
             )
-            and can_complete_prologue(state, player) # always true
+            and can_complete_prologue(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -3673,7 +3673,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Progressive Clawshot", player, 1)
                 or state.has("Gale Boomerang", player)
             )
-            and can_complete_lanayru_twilight(state, player) # always true
+            and can_complete_lanayru_twilight(state, player) # always True
         ),
         lambda state: (
             (
@@ -3681,7 +3681,7 @@ def set_location_access_rules(world: "TPWorld"):
                 or state.has("Gale Boomerang", player)
                 or can_do_storage(state, player)
             )
-            and can_complete_lanayru_twilight(state, player) # always true
+            and can_complete_lanayru_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -3691,7 +3691,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Progressive Clawshot", player, 1)
                 or state.has("Gale Boomerang", player)
             )
-            and can_complete_lanayru_twilight(state, player) # always true
+            and can_complete_lanayru_twilight(state, player) # always True
         ),
     )
     set_rule_if_exists(
@@ -3703,7 +3703,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             (
                 can_do_map_glitch(state, player)
-                and can_complete_lanayru_twilight(state, player) # always true
+                and can_complete_lanayru_twilight(state, player) # always True
             )
             or (
                 state.has("Progressive Clawshot", player, 1)
@@ -3723,7 +3723,7 @@ def set_location_access_rules(world: "TPWorld"):
                 state.has("Progressive Clawshot", player, 1)
                 or (
                     can_do_map_glitch(state, player)
-                    and can_complete_lanayru_twilight(state, player) # always true
+                    and can_complete_lanayru_twilight(state, player) # always True
                 )
             )
         ),
@@ -4387,7 +4387,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Herding Goats Reward",
         lambda state: (
-            can_complete_prologue(state, player) # always true
+            can_complete_prologue(state, player) # always True
             and can_complete_goats1(state, player)
             and can_change_time(state, player)
         ),
@@ -4419,7 +4419,7 @@ def set_location_access_rules(world: "TPWorld"):
             (
                 (
                     (not state._tp_faron_twilight_cleared(player))
-                    and can_complete_prologue(state, player)
+                    and can_complete_prologue(state, player) # always True
                 )
                 or (
                     state._tp_faron_twilight_cleared(player)
@@ -4453,7 +4453,7 @@ def set_location_access_rules(world: "TPWorld"):
     set_rule_if_exists(
         "Ordon Sword",
         lambda state: (
-            can_complete_prologue(state, player) # always true
+            can_complete_prologue(state, player) # always True
             or state._tp_faron_twilight_cleared(player)
         ),
     )
