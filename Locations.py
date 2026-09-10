@@ -83,7 +83,7 @@ class TPStages(Enum):
     Star_Game = "Star Game"
     Eldin_Field = "Eldin Field"
     Faron_Field = "Faron Field"
-    Bublin_Camp = "Bublin Camp"
+    Bulblin_Camp = "Bulblin Camp"
     Lanayru_Field = "Lanayru Field"
     Unkown = "Unkown"
 
@@ -2843,7 +2843,7 @@ LOCATION_TABLE = {
     "Bulblin Camp First Chest Under Tower At Entrance": TPLocationData(
         code=298,
         flags=TPFlag.Overworld,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x0,
@@ -2852,7 +2852,7 @@ LOCATION_TABLE = {
     "Bulblin Camp Poe": TPLocationData(
         code=299,
         flags=TPFlag.Overworld | TPFlag.Poe,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x14,
@@ -2861,7 +2861,7 @@ LOCATION_TABLE = {
     "Bulblin Camp Roasted Boar": TPLocationData(
         code=300,
         flags=TPFlag.Overworld | TPFlag.Heart,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x18,
@@ -2870,7 +2870,7 @@ LOCATION_TABLE = {
     "Bulblin Camp Small Chest in Back of Camp": TPLocationData(
         code=301,
         flags=TPFlag.Overworld,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x0,
@@ -2879,7 +2879,7 @@ LOCATION_TABLE = {
     "Bulblin Guard Key": TPLocationData(
         code=302,
         flags=TPFlag.Overworld,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x18,
@@ -3131,7 +3131,7 @@ LOCATION_TABLE = {
     "Outside Arbiters Grounds Lantern Chest": TPLocationData(
         code=330,
         flags=TPFlag.Overworld,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x2,
@@ -3140,7 +3140,7 @@ LOCATION_TABLE = {
     "Outside Arbiters Grounds Poe": TPLocationData(
         code=331,
         flags=TPFlag.Overworld | TPFlag.Poe,
-        stage_id=TPStages.Bublin_Camp,
+        stage_id=TPStages.Bulblin_Camp,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
         offset=0x10,
