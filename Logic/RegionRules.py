@@ -637,17 +637,17 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Hyrule Castle Main Hall -> Hyrule Castle Above Lantern Staircase"),
         lambda state: (
-            can_defeat_bokoblin(state, player)
-            and can_defeat_lizalfos(state, player)
+            can_defeat_Bokoblin(state, player)
+            and can_defeat_Lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 2)
-            and can_defeat_darknut(state, player)
+            and can_defeat_Darknut(state, player)
             and state.has("Gale Boomerang", player)
         ),
         lambda state: (
-            can_defeat_bokoblin(state, player)
-            and can_defeat_lizalfos(state, player)
+            can_defeat_Bokoblin(state, player)
+            and can_defeat_Lizalfos(state, player)
             and state.has("Progressive Clawshot", player, 1)
-            and can_defeat_darknut(state, player)
+            and can_defeat_Darknut(state, player)
             and state.has("Gale Boomerang", player)
         ),
     )
@@ -655,8 +655,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Hyrule Castle Main Hall -> Hyrule Castle After Double Dinalfos"),
         lambda state: (
-            can_defeat_bokoblin(state, player)
-            and can_defeat_lizalfos(state, player)
+            can_defeat_Bokoblin(state, player)
+            and can_defeat_Lizalfos(state, player)
             and False # Setting HC Shortcut == True
             and state.has("Progressive Clawshot", player, 2)
         ),
@@ -665,7 +665,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Hyrule Castle Above Lantern Staircase -> Hyrule Castle Main Hall"),
         lambda state: (
-            can_defeat_darknut(state, player)
+            can_defeat_Darknut(state, player)
         ),
     )
 
@@ -673,7 +673,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Hyrule Castle Above Lantern Staircase -> Hyrule Castle After Double Dinalfos"),
         lambda state: (
             state.has("Lantern", player)
-            and can_defeat_dinalfos(state, player)
+            and can_defeat_Dinalfos(state, player)
         ),
     )
 
@@ -681,8 +681,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Hyrule Castle Above Lantern Staircase -> Hyrule Castle After Double Darknuts"),
         lambda state: (
             can_knock_down_hc_painting(state, player)
-            and can_defeat_lizalfos(state, player)
-            and can_defeat_darknut(state, player)
+            and can_defeat_Lizalfos(state, player)
+            and can_defeat_Darknut(state, player)
         ),
     )
 
@@ -756,7 +756,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (
                 state.has("Lantern", player)
-                and can_defeat_dinalfos(state, player)
+                and can_defeat_Dinalfos(state, player)
             )
             or False # Setting HC Shortcut == True
         ),
@@ -767,8 +767,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Hyrule Castle Third Floor Balcony -> Hyrule Castle After Double Darknuts"
         ),
         lambda state: (
-            can_defeat_darknut(state, player)
-            and can_defeat_lizalfos(state, player)
+            can_defeat_Darknut(state, player)
+            and can_defeat_Lizalfos(state, player)
             and can_knock_down_hc_painting(state, player)
         ),
     )
@@ -1762,7 +1762,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Death Mountain Volcano -> Death Mountain Hot Spring"),
         lambda state: (
-            can_defeat_goron(state, player)
+            can_defeat_Goron(state, player)
         ),
     )
 
