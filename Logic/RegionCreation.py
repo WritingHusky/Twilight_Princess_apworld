@@ -117,15 +117,20 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     hyrule_castle_graveyard = Region("Hyrule Castle Graveyard", player, multiworld)
     multiworld.regions.append(hyrule_castle_graveyard)
 
-    hyrule_castle_inside_east_wing = Region(
-        "Hyrule Castle Inside East Wing", player, multiworld
+    hyrule_castle_above_lantern_staircase = Region(
+        "Hyrule Castle Above Lantern Staircase", player, multiworld
     )
-    multiworld.regions.append(hyrule_castle_inside_east_wing)
+    multiworld.regions.append(hyrule_castle_above_lantern_staircase)
 
-    hyrule_castle_inside_west_wing = Region(
-        "Hyrule Castle Inside West Wing", player, multiworld
+    hyrule_castle_after_double_dinalfos = Region(
+        "Hyrule Castle After Double Dinalfos", player, multiworld
     )
-    multiworld.regions.append(hyrule_castle_inside_west_wing)
+    multiworld.regions.append(hyrule_castle_after_double_dinalfos)
+
+    hyrule_castle_after_double_darknuts = Region(
+        "Hyrule Castle After Double Darknuts", player, multiworld
+    )
+    multiworld.regions.append(hyrule_castle_after_double_darknuts)
 
     hyrule_castle_main_hall = Region("Hyrule Castle Main Hall", player, multiworld)
     multiworld.regions.append(hyrule_castle_main_hall)
@@ -343,6 +348,9 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
 
     death_mountain_volcano = Region("Death Mountain Volcano", player, multiworld)
     multiworld.regions.append(death_mountain_volcano)
+
+    death_mountain_hot_spring = Region("Death Mountain Hot Spring", player, multiworld)
+    multiworld.regions.append(death_mountain_hot_spring)
 
     death_mountain_outside_sumo_hall = Region(
         "Death Mountain Outside Sumo Hall", player, multiworld
@@ -628,6 +636,11 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     )
     multiworld.regions.append(mist_area_near_north_faron_woods)
 
+    mist_area_near_north_faron_woods_behind_gate = Region(
+        "Mist Area Near North Faron Woods Behind Gate", player, multiworld
+    )
+    multiworld.regions.append(mist_area_near_north_faron_woods_behind_gate)
+
     faron_woods_cave_northern_entrance = Region(
         "Faron Woods Cave Northern Entrance", player, multiworld
     )
@@ -642,11 +655,6 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     faron_field = Region("Faron Field", player, multiworld)
     multiworld.regions.append(faron_field)
 
-    faron_field_behind_boulder = Region(
-        "Faron Field Behind Boulder", player, multiworld
-    )
-    multiworld.regions.append(faron_field_behind_boulder)
-
     faron_field_corner_grotto = Region("Faron Field Corner Grotto", player, multiworld)
     multiworld.regions.append(faron_field_corner_grotto)
 
@@ -654,6 +662,11 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
         "Faron Field Fishing Grotto", player, multiworld
     )
     multiworld.regions.append(faron_field_fishing_grotto)
+
+    north_faron_lost_woods_entrance = Region(
+        "North Faron Lost Woods Entrance", player, multiworld
+    )
+    multiworld.regions.append(north_faron_lost_woods_entrance)
 
     lost_woods = Region("Lost Woods", player, multiworld)
     multiworld.regions.append(lost_woods)
@@ -760,7 +773,7 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     mirror_chamber_upper = Region("Mirror Chamber Upper", player, multiworld)
     multiworld.regions.append(mirror_chamber_upper)
 
-    mirror_chamber_portal = Region("Mirror of Twilight", player, multiworld)
+    mirror_chamber_portal = Region("Mirror Chamber Portal", player, multiworld)
     multiworld.regions.append(mirror_chamber_portal)
 
     castle_town_west = Region("Castle Town West", player, multiworld)
@@ -784,6 +797,9 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
 
     castle_town_goron_house = Region("Castle Town Goron House", player, multiworld)
     multiworld.regions.append(castle_town_goron_house)
+
+    castle_town_goron_house_balcony = Region("Castle Town Goron House Balcony", player, multiworld)
+    multiworld.regions.append(castle_town_goron_house_balcony)
 
     castle_town_malo_mart = Region("Castle Town Malo Mart", player, multiworld)
     multiworld.regions.append(castle_town_malo_mart)
@@ -836,6 +852,9 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
 
     castle_town_south = Region("Castle Town South", player, multiworld)
     multiworld.regions.append(castle_town_south)
+
+    south_castle_town_doors = Region("South Castle Town Doors", player, multiworld)
+    multiworld.regions.append(south_castle_town_doors)
 
     castle_town_agithas_house = Region("Castle Town Agithas House", player, multiworld)
     multiworld.regions.append(castle_town_agithas_house)
@@ -901,11 +920,6 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     outside_castle_town_south = Region("Outside Castle Town South", player, multiworld)
     multiworld.regions.append(outside_castle_town_south)
 
-    outside_castle_town_south_inside_boulder = Region(
-        "Outside Castle Town South Inside Boulder", player, multiworld
-    )
-    multiworld.regions.append(outside_castle_town_south_inside_boulder)
-
     outside_castle_town_south_tektite_grotto = Region(
         "Outside Castle Town South Tektite Grotto", player, multiworld
     )
@@ -926,6 +940,9 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
 
     lake_hylia = Region("Lake Hylia", player, multiworld)
     multiworld.regions.append(lake_hylia)
+
+    lake_hylia_flight_by_fowl = Region("Lake Hylia Flight By Fowl", player, multiworld)
+    multiworld.regions.append(lake_hylia_flight_by_fowl)
 
     lake_hylia_cave_entrance = Region("Lake Hylia Cave Entrance", player, multiworld)
     multiworld.regions.append(lake_hylia_cave_entrance)
@@ -962,11 +979,22 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     fishing_hole = Region("Fishing Hole", player, multiworld)
     multiworld.regions.append(fishing_hole)
 
+    fishing_hole_piece_of_heart = Region(
+        "Fishing Hole Piece of Heart", player, multiworld
+    )
+    multiworld.regions.append(fishing_hole_piece_of_heart)
+
     fishing_hole_house = Region("Fishing Hole House", player, multiworld)
     multiworld.regions.append(fishing_hole_house)
 
     zoras_domain = Region("Zoras Domain", player, multiworld)
     multiworld.regions.append(zoras_domain)
+
+    zoras_domain_top_of_waterfall = Region("Zoras Domain Top of Waterfall", player, multiworld)
+    multiworld.regions.append(zoras_domain_top_of_waterfall)
+
+    zoras_domain_snowpeak_entrance = Region("Zoras Domain Snowpeak Entrance", player, multiworld)
+    multiworld.regions.append(zoras_domain_snowpeak_entrance)
 
     zoras_domain_west_ledge = Region("Zoras Domain West Ledge", player, multiworld)
     multiworld.regions.append(zoras_domain_west_ledge)
@@ -986,8 +1014,11 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     ordon_seras_shop = Region("Ordon Seras Shop", player, multiworld)
     multiworld.regions.append(ordon_seras_shop)
 
-    ordon_shield_house = Region("Ordon Shield House", player, multiworld)
-    multiworld.regions.append(ordon_shield_house)
+    ordon_shield_house_lower = Region("Ordon Shield House Lower", player, multiworld)
+    multiworld.regions.append(ordon_shield_house_lower)
+
+    ordon_shield_house_upper = Region("Ordon Shield House Upper", player, multiworld)
+    multiworld.regions.append(ordon_shield_house_upper)
 
     ordon_sword_house = Region("Ordon Sword House", player, multiworld)
     multiworld.regions.append(ordon_sword_house)
@@ -1038,3 +1069,13 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
 
     snowpeak_summit_lower = Region("Snowpeak Summit Lower", player, multiworld)
     multiworld.regions.append(snowpeak_summit_lower)
+
+    snowpeak_summit_lower_left_door = Region(
+        "Snowpeak Summit Lower Left Door", player, multiworld
+    )
+    multiworld.regions.append(snowpeak_summit_lower_left_door)
+
+    snowpeak_summit_lower_right_door = Region(
+        "Snowpeak Summit Lower Right Door", player, multiworld
+    )
+    multiworld.regions.append(snowpeak_summit_lower_right_door)

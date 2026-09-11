@@ -34,12 +34,15 @@ def can_warp(state: CollectionState, player: int):
 
 def can_get_hot_spring_water(state: CollectionState, player: int):
     return (
-        state.can_reach_region("Lower Kakariko Village", player)
-        or (
-            state.can_reach_region("Death Mountain Elevator Lower", player)
-            and can_defeat_Goron(state, player)
+        (
+            state.can_reach_region("Lower Kakariko Village", player)
+            or (
+                state.can_reach_region("Death Mountain Elevator Lower", player)
+                and can_defeat_Goron(state, player)
+            )
         )
-    ) and has_bottle(state, player)
+        and has_bottle(state, player)
+    )
 
 
 def has_damaging_item(state: CollectionState, player: int):
@@ -58,15 +61,23 @@ def has_damaging_item(state: CollectionState, player: int):
 
 
 def has_sword(state: CollectionState, player: int, count=1):
-    return state.has("Progressive Master Sword", player, count)
+    return (
+        state.has("Progressive Master Sword", player, count)
+    )
 
 
 def can_defeat_Aeralfos(state: CollectionState, player: int):
-    return (state.has("Progressive Clawshot", player)) and (
-        has_sword(state, player)
-        or state.has("Ball and Chain", player)
-        or state.has("Shadow Crystal", player)
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+    return (
+        state.has("Progressive Clawshot", player)
+        and (
+            has_sword(state, player)
+            or state.has("Ball and Chain", player)
+            or state.has("Shadow Crystal", player)
+            or (
+                state._tp_glitched(player)
+                and state.has("Iron Boots", player)
+            )
+        )
     )
 
 
@@ -75,12 +86,15 @@ def can_defeat_Armos(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or state.has("Spinner", player)
         or can_use_backslice_as_sword(state, player)
@@ -92,10 +106,13 @@ def can_defeat_BabaSerpent(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -105,12 +122,15 @@ def can_defeat_BabaSerpent(state: CollectionState, player: int):
 
 def can_defeat_HangingBabaSerpent(state: CollectionState, player: int):
     return (
-        state.has("Gale Boomerang", player)
-        or (
-            (state.has("Progressive Hero's Bow", player))
-            and can_get_arrows(state, player)
+        (
+            state.has("Gale Boomerang", player)
+            or (
+                state.has("Progressive Hero's Bow", player)
+                and can_get_arrows(state, player)
+            )
         )
-    ) and can_defeat_BabaSerpent(state, player)
+        and can_defeat_BabaSerpent(state, player)
+    )
 
 
 def can_defeat_BabyGohma(state: CollectionState, player: int):
@@ -118,21 +138,25 @@ def can_defeat_BabyGohma(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
     )
 
 
 def can_defeat_Bari(state: CollectionState, player: int):
-    return can_use_water_bombs(state, player) or (
-        state.has("Progressive Clawshot", player)
+    return (
+        can_use_water_bombs(state, player)
+        or state.has("Progressive Clawshot", player)
     )
 
 
@@ -140,7 +164,7 @@ def can_defeat_Beamos(state: CollectionState, player: int):
     return (
         state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or has_bombs(state, player)
@@ -152,10 +176,13 @@ def can_defeat_BigBaba(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or state.has("Spinner", player)
         or has_bombs(state, player)
@@ -168,13 +195,16 @@ def can_defeat_Chu(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
     )
@@ -185,10 +215,13 @@ def can_defeat_Bokoblin(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -202,7 +235,7 @@ def can_defeat_Bokoblin_Red(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player, 3)
             and can_get_arrows(state, player)
         )
         or state.has("Shadow Crystal", player)
@@ -210,22 +243,30 @@ def can_defeat_Bokoblin_Red(state: CollectionState, player: int):
         or can_use_backslice_as_sword(state, player)
         or (
             can_do_difficult_combat(state, player)
-            and (state.has("Iron Boots", player) or state.has("Spinner", player))
+            and (
+                state.has("Iron Boots", player)
+                or state.has("Spinner", player)
+            )
         )
     )
 
 
 def can_defeat_Bombfish(state: CollectionState, player: int):
     return (
-        state.has("Iron Boots", player)
-        or state._tp_glitched(player)
-        and state.has("Magic Armor", player)
-    ) and (
-        has_sword(state, player)
-        or (state.has("Progressive Clawshot", player))
-        or (
-            state.has("Progressive Hidden Skill", player)
-            and state.has("Progressive Hidden Skill", player, 2)
+        (
+            state.has("Iron Boots", player)
+            or (
+                state._tp_glitched(player)
+                and state.has("Magic Armor", player)
+            )
+        )
+        and (
+            has_sword(state, player)
+            or state.has("Progressive Clawshot", player)
+            or (
+                has_shield(state, player)
+                and state.has("Progressive Hidden Skill", player, 2)
+            )
         )
     )
 
@@ -235,13 +276,16 @@ def can_defeat_Bombling(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
     )
 
 
@@ -250,14 +294,17 @@ def can_defeat_Bomskit(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
     )
 
 
@@ -266,10 +313,13 @@ def can_defeat_Bubble(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or can_use_backslice_as_sword(state, player)
@@ -281,10 +331,13 @@ def can_defeat_Bulblin(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -296,7 +349,10 @@ def can_defeat_Chilfos(state: CollectionState, player: int):
     return (
         has_sword(state, player)
         or state.has("Ball and Chain", player)
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or state.has("Spinner", player)
         or has_bombs(state, player)
@@ -306,23 +362,38 @@ def can_defeat_Chilfos(state: CollectionState, player: int):
 
 def can_defeat_ChuWorm(state: CollectionState, player: int):
     return (
-        has_sword(state, player)
-        or state.has("Ball and Chain", player)
-        or (
-            (state.has("Progressive Hero's Bow", player))
-            and can_get_arrows(state, player)
+        (
+            has_sword(state, player)
+            or state.has("Ball and Chain", player)
+            or (
+                state.has("Progressive Hero's Bow", player)
+                and can_get_arrows(state, player)
+            )
+            or (
+                state._tp_glitched(player)
+                and state.has("Iron Boots", player)
+            )
+            or state.has("Spinner", player)
+            or state.has("Shadow Crystal", player)
+            or can_use_backslice_as_sword(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
-        or state.has("Spinner", player)
-        or state.has("Shadow Crystal", player)
-        or can_use_backslice_as_sword(state, player)
-    ) and (has_bombs(state, player) or (state.has("Progressive Clawshot", player)))
+        and (
+            has_bombs(state, player)
+            or state.has("Progressive Clawshot", player)
+        )
+    )
 
 
 def can_defeat_Darknut(state: CollectionState, player: int):
-    return has_sword(state, player) or (
-        can_do_difficult_combat(state, player)
-        and (has_bombs(state, player) or state.has("Ball and Chain", player))
+    return (
+        has_sword(state, player)
+        or (
+            can_do_difficult_combat(state, player)
+            and (
+                has_bombs(state, player)
+                or state.has("Ball and Chain", player)
+            )
+        )
     )
 
 
@@ -331,24 +402,29 @@ def can_defeat_DekuBaba(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or (
             has_shield(state, player)
             and state.has("Progressive Hidden Skill", player, 2)
         )
         or state.has("Slingshot", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
     )
 
 
 def can_defeat_DekuLike(state: CollectionState, player: int):
-    return has_bombs(state, player)
+    return (
+        has_bombs(state, player)
+    )
 
 
 def can_defeat_Dodongo(state: CollectionState, player: int):
@@ -356,10 +432,13 @@ def can_defeat_Dodongo(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -380,10 +459,13 @@ def can_defeat_FireBubble(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or can_use_backslice_as_sword(state, player)
@@ -395,10 +477,13 @@ def can_defeat_FireKeese(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -411,7 +496,7 @@ def can_defeat_FireToadpoli(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or (
@@ -426,7 +511,9 @@ def can_defeat_FireToadpoli(state: CollectionState, player: int):
 
 
 def can_defeat_Freezard(state: CollectionState, player: int):
-    return state.has("Ball and Chain", player)
+    return (
+        state.has("Ball and Chain", player)
+    )
 
 
 def can_defeat_Goron(state: CollectionState, player: int):
@@ -434,25 +521,36 @@ def can_defeat_Goron(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
-        or state.has("Shadow Crystal", player)
+        or (
+            can_do_niche_stuff(state, player)
+            and state.has("Iron Boots", player)
+        )
+        or state.has("Spinner", player)
         or (
             has_shield(state, player)
             and state.has("Progressive Hidden Skill", player, 2)
         )
         or state.has("Slingshot", player)
-        or (can_do_difficult_combat(state, player) and state.has("Lantern", player))
-        or (state.has("Progressive Clawshot", player))
+        or (
+            can_do_difficult_combat(state, player)
+            and (
+                state.has("Lantern", player)
+                and can_refill_oil(state, player)
+            )
+        )
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
     )
 
 
 def can_defeat_GhoulRat(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player)
+    return (
+        state.has("Shadow Crystal", player)
+    )
 
 
 def can_defeat_Guay(state: CollectionState, player: int):
@@ -460,11 +558,17 @@ def can_defeat_Guay(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
-        or (can_do_difficult_combat(state, player) and state.has("Spinner", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
+        or (
+            can_do_difficult_combat(state, player)
+            and state.has("Spinner", player)
+        )
         or state.has("Shadow Crystal", player)
         or state.has("Slingshot", player)
     )
@@ -475,10 +579,13 @@ def can_defeat_Helmasaur(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -491,10 +598,13 @@ def can_defeat_Helmasaurus(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -507,10 +617,13 @@ def can_defeat_IceBubble(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or can_use_backslice_as_sword(state, player)
@@ -522,10 +635,13 @@ def can_defeat_IceKeese(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -534,7 +650,9 @@ def can_defeat_IceKeese(state: CollectionState, player: int):
 
 
 def can_defeat_Poe(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player)
+    return (
+        state.has("Shadow Crystal", player)
+    )
 
 
 def can_defeat_Kargarok(state: CollectionState, player: int):
@@ -542,10 +660,13 @@ def can_defeat_Kargarok(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or can_use_backslice_as_sword(state, player)
@@ -557,10 +678,13 @@ def can_defeat_Keese(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -573,10 +697,13 @@ def can_defeat_Leever(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -588,10 +715,13 @@ def can_defeat_Lizalfos(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
@@ -603,10 +733,13 @@ def can_defeat_MiniFreezard(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -619,10 +752,13 @@ def can_defeat_Moldorm(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -634,10 +770,13 @@ def can_defeat_PoisonMite(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or state.has("Lantern", player)
+        or (
+            state.has("Lantern", player)
+            and can_refill_oil(state, player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
     )
@@ -648,10 +787,13 @@ def can_defeat_Puppet(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -664,10 +806,13 @@ def can_defeat_Rat(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -681,10 +826,13 @@ def can_defeat_RedeadKnight(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
@@ -692,8 +840,12 @@ def can_defeat_RedeadKnight(state: CollectionState, player: int):
 
 
 def can_defeat_ShadowBeast(state: CollectionState, player: int):
-    return has_sword(state, player) or (
-        state.has("Shadow Crystal", player)  # and can_complete_MDH(state, player)
+    return (
+        has_sword(state, player)
+        or (
+            state.has("Shadow Crystal", player)
+            and can_midna_charge(state, player)
+        )
     )
 
 
@@ -702,10 +854,13 @@ def can_defeat_ShadowBulblin(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -718,24 +873,29 @@ def can_defeat_ShadowDekuBaba(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
-        or state.has("Shadow Crystal", player)
+        or (
+            can_do_niche_stuff(state, player)
+            and state.has("Iron Boots", player)
+        )
+        or state.has("Spinner", player)
         or (
             has_shield(state, player)
             and state.has("Progressive Hidden Skill", player, 2)
         )
         or state.has("Slingshot", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
     )
 
 
 def can_defeat_ShadowInsect(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player)
+    return (
+        state.has("Shadow Crystal", player)
+    )
 
 
 def can_defeat_ShadowKargarok(state: CollectionState, player: int):
@@ -743,10 +903,13 @@ def can_defeat_ShadowKargarok(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -759,10 +922,13 @@ def can_defeat_ShadowKeese(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Slingshot", player)
         or state.has("Shadow Crystal", player)
@@ -775,10 +941,13 @@ def can_defeat_ShadowVermin(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -787,11 +956,17 @@ def can_defeat_ShadowVermin(state: CollectionState, player: int):
 
 
 def can_defeat_ShellBlade(state: CollectionState, player: int):
-    return can_use_water_bombs(state, player) or (
-        has_sword(state, player)
-        and (
-            state.has("Iron Boots", player)
-            or (state._tp_glitched(player) and state.has("Magic Armor", player))
+    return (
+        can_use_water_bombs(state, player)
+        or (
+            has_sword(state, player)
+            and (
+                state.has("Iron Boots", player)
+                or (
+                    state._tp_glitched(player)
+                    and state.has("Magic Armor", player)
+                )
+            )
         )
     )
 
@@ -801,10 +976,13 @@ def can_defeat_Skullfish(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
     )
@@ -815,10 +993,13 @@ def can_defeat_Skulltula(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -827,7 +1008,9 @@ def can_defeat_Skulltula(state: CollectionState, player: int):
 
 
 def can_defeat_Stalfos(state: CollectionState, player: int):
-    return can_smash(state, player)
+    return (
+        can_smash(state, player)
+    )
 
 
 def can_defeat_Stalhound(state: CollectionState, player: int):
@@ -835,10 +1018,13 @@ def can_defeat_Stalhound(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -851,10 +1037,13 @@ def can_defeat_Stalchild(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -867,10 +1056,13 @@ def can_defeat_Tektite(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -880,18 +1072,24 @@ def can_defeat_Tektite(state: CollectionState, player: int):
 
 def can_defeat_TileWorm(state: CollectionState, player: int):
     return (
-        has_sword(state, player)
-        or state.has("Ball and Chain", player)
-        or (
-            (state.has("Progressive Hero's Bow", player))
-            and can_get_arrows(state, player)
+        (
+            has_sword(state, player)
+            or state.has("Ball and Chain", player)
+            or (
+                state.has("Progressive Hero's Bow", player)
+                and can_get_arrows(state, player)
+            )
+            or state.has("Spinner", player)
+            or state.has("Shadow Crystal", player)
+            or (
+                state._tp_glitched(player)
+                and state.has("Iron Boots", player)
+            )
+            or has_bombs(state, player)
+            or can_use_backslice_as_sword(state, player)
         )
-        or state.has("Spinner", player)
-        or state.has("Shadow Crystal", player)
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
-        or has_bombs(state, player)
-        or can_use_backslice_as_sword(state, player)
-    ) and state.has("Gale Boomerang", player)
+        and state.has("Gale Boomerang", player)
+    )
 
 
 def can_defeat_Toado(state: CollectionState, player: int):
@@ -899,7 +1097,7 @@ def can_defeat_Toado(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or state.has("Spinner", player)
@@ -912,15 +1110,17 @@ def can_defeat_WaterToadpoli(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or (
             has_shield(state, player)
             and state.has("Progressive Hidden Skill", player, 2)
         )
-        or can_do_difficult_combat(state, player)
-        and (state.has("Shadow Crystal", player))
+        or (
+            can_do_difficult_combat(state, player)
+            and state.has("Shadow Crystal", player)
+        )
     )
 
 
@@ -929,7 +1129,7 @@ def can_defeat_TorchSlug(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or state.has("Shadow Crystal", player)
@@ -942,11 +1142,11 @@ def can_defeat_Walltula(state: CollectionState, player: int):
         state.has("Ball and Chain", player)
         or state.has("Slingshot", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or state.has("Gale Boomerang", player)
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
     )
 
 
@@ -955,10 +1155,13 @@ def can_defeat_WhiteWolfos(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -970,10 +1173,13 @@ def can_defeat_YoungGohma(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Spinner", player)
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
@@ -982,8 +1188,12 @@ def can_defeat_YoungGohma(state: CollectionState, player: int):
 
 def can_defeat_ZantHead(state: CollectionState, player: int):
     return (
-        state.has("Shadow Crystal", player) or has_sword(state, player)
-    ) or can_use_backslice_as_sword(state, player)
+        (
+            state.has("Shadow Crystal", player)
+            or has_sword(state, player)
+        )
+        or can_use_backslice_as_sword(state, player)
+    )
 
 
 def can_defeat_Ook(state: CollectionState, player: int):
@@ -991,10 +1201,13 @@ def can_defeat_Ook(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
@@ -1003,25 +1216,37 @@ def can_defeat_Ook(state: CollectionState, player: int):
 
 def can_defeat_Dangoro(state: CollectionState, player: int):
     return (
-        has_sword(state, player)
-        or state.has("Shadow Crystal", player)
-        or (
-            state._tp_glitched(player)
-            and state.has("Ball and Chain", player)
+        (
+            has_sword(state, player)
+            or state.has("Shadow Crystal", player)
             or (
-                (state.has("Progressive Hero's Bow", player))
-                and has_bombs(state, player)
+                can_do_niche_stuff(state, player)
+                and (
+                    state.has("Ball and Chain", player)
+                    or (
+                        (
+                            state.has("Progressive Hero's Bow", player)
+                            and can_get_arrows(state, player)
+                        )
+                        and has_bombs(state, player)
+                    )
+                )
             )
         )
-    ) and state.has("Iron Boots", player)
+        and state.has("Iron Boots", player)
+    )
 
 
 def can_defeat_CarrierKargarok(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player)
+    return (
+        state.has("Shadow Crystal", player)
+    )
 
 
 def can_defeat_TwilitBloat(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player)
+    return (
+        state.has("Shadow Crystal", player)
+    )
 
 
 def can_defeat_DekuToad(state: CollectionState, player: int):
@@ -1029,10 +1254,13 @@ def can_defeat_DekuToad(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or can_use_backslice_as_sword(state, player)
@@ -1040,11 +1268,17 @@ def can_defeat_DekuToad(state: CollectionState, player: int):
 
 
 def can_defeat_SkullKid(state: CollectionState, player: int):
-    return state.has("Progressive Hero's Bow", player)
+    return (
+        state.has("Progressive Hero's Bow", player)
+        and can_get_arrows(state, player)
+    )
 
 
 def can_defeat_KingBulblinBridge(state: CollectionState, player: int):
-    return state.has("Progressive Hero's Bow", player)
+    return (
+        state.has("Progressive Hero's Bow", player)
+        and can_get_arrows(state, player)
+    )
 
 
 def can_defeat_KingBulblinDesert(state: CollectionState, player: int):
@@ -1052,15 +1286,21 @@ def can_defeat_KingBulblinDesert(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or state.has("Shadow Crystal", player)
-        or state.has("Progressive Hero's Bow", player, 3)
+        or (
+            state.has("Progressive Hero's Bow", player, 3)
+            and can_get_arrows(state, player)
+        )
         or can_use_backslice_as_sword(state, player)
         or (
             can_do_difficult_combat(state, player)
             and (
-                state.has("Shadow Crystal", player)
+                state.has("Spinner", player)
                 or state.has("Iron Boots", player)
                 or has_bombs(state, player)
-                or state.has("Progressive Hero's Bow", player, 2)
+                or (
+                    state.has("Progressive Hero's Bow", player, 2)
+                    and can_get_arrows(state, player)
+                )
             )
         )
     )
@@ -1071,11 +1311,14 @@ def can_defeat_KingBulblinCastle(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or state.has("Shadow Crystal", player)
-        or state.has("Progressive Hero's Bow", player, 3)
+        or (
+            state.has("Progressive Hero's Bow", player, 3)
+            and can_get_arrows(state, player)
+        )
         or (
             can_do_difficult_combat(state, player)
             and (
-                state.has("Shadow Crystal", player)
+                state.has("Spinner", player)
                 or state.has("Iron Boots", player)
                 or has_bombs(state, player)
                 or can_use_backslice_as_sword(state, player)
@@ -1090,10 +1333,10 @@ def can_defeat_DeathSword(state: CollectionState, player: int):
         and (
             state.has("Gale Boomerang", player)
             or (
-                (state.has("Progressive Hero's Bow", player))
+                state.has("Progressive Hero's Bow", player)
                 and can_get_arrows(state, player)
             )
-            or (state.has("Progressive Clawshot", player))
+            or state.has("Progressive Clawshot", player)
         )
         and state.has("Shadow Crystal", player)
     )
@@ -1104,10 +1347,13 @@ def can_defeat_Darkhammer(state: CollectionState, player: int):
         has_sword(state, player)
         or state.has("Ball and Chain", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state._tp_glitched(player) and state.has("Iron Boots", player))
+        or (
+            state._tp_glitched(player)
+            and state.has("Iron Boots", player)
+        )
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or (
@@ -1118,21 +1364,30 @@ def can_defeat_Darkhammer(state: CollectionState, player: int):
 
 
 def can_defeat_PhantomZant(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player) or has_sword(state, player)
+    return (
+        state.has("Shadow Crystal", player)
+        or has_sword(state, player)
+    )
 
 
 def can_defeat_Diababa(state: CollectionState, player: int):
-    return can_launch_bombs(state, player) or (
-        state.has("Gale Boomerang", player)
-        and (
-            has_sword(state, player)
-            or state.has("Ball and Chain", player)
-            or (state._tp_glitched(player) and state.has("Iron Boots", player))
-            or state.has("Shadow Crystal", player)
-            or has_bombs(state, player)
-            or (
-                can_do_difficult_combat(state, player)
-                and can_use_backslice_as_sword(state, player)
+    return (
+        can_launch_bombs(state, player)
+        or (
+            state.has("Gale Boomerang", player)
+            and (
+                has_sword(state, player)
+                or state.has("Ball and Chain", player)
+                or (
+                    state._tp_glitched(player)
+                    and state.has("Iron Boots", player)
+                )
+                or state.has("Shadow Crystal", player)
+                or has_bombs(state, player)
+                or (
+                    can_do_difficult_combat(state, player)
+                    and can_use_backslice_as_sword(state, player)
+                )
             )
         )
     )
@@ -1140,7 +1395,10 @@ def can_defeat_Diababa(state: CollectionState, player: int):
 
 def can_defeat_Fyrus(state: CollectionState, player: int):
     return (
-        state.has("Progressive Hero's Bow", player)
+        (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
         and state.has("Iron Boots", player)
         and (
             has_sword(state, player)
@@ -1154,33 +1412,49 @@ def can_defeat_Fyrus(state: CollectionState, player: int):
 
 def can_defeat_Morpheel(state: CollectionState, player: int):
     return (
-        state.has("Zora Armor", player)
-        and state.has("Iron Boots", player)
-        and has_sword(state, player)
-        and (state.has("Progressive Clawshot", player))
-    ) or (
-        state._tp_glitched(player)
-        and (
-            (state.has("Progressive Clawshot", player))
-            and can_do_air_refill(state, player)
+        (
+            state.has("Zora Armor", player)
+            and state.has("Iron Boots", player)
             and has_sword(state, player)
+            and state.has("Progressive Clawshot", player)
+        )
+        or (
+            state._tp_glitched(player)
+            and (
+                state.has("Progressive Clawshot", player)
+                and can_do_air_refill(state, player)
+                and has_sword(state, player)
+            )
         )
     )
 
 
 def can_defeat_Stallord(state: CollectionState, player: int):
-    return (state.has("Spinner", player) and has_sword(state, player)) or (
-        can_do_difficult_combat(state, player) and state.has("Shadow Crystal", player)
+    return (
+        (
+            state.has("Spinner", player)
+            and has_sword(state, player)
+        )
+        or (
+            can_do_difficult_combat(state, player)
+            and state.has("Spinner", player)
+        )
     )
 
 
 def can_defeat_Blizzeta(state: CollectionState, player: int):
-    return state.has("Ball and Chain", player)
+    return (
+        state.has("Ball and Chain", player)
+    )
 
 
 def can_defeat_Armogohma(state: CollectionState, player: int):
-    return (state.has("Progressive Hero's Bow", player)) and (
-        state.has("Progressive Dominion Rod", player)
+    return (
+        (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
+        and state.has("Progressive Dominion Rod", player)
     )
 
 
@@ -1190,23 +1464,35 @@ def can_defeat_Argorok(state: CollectionState, player: int):
         and has_sword(state, player, 2)
         and (
             state.has("Iron Boots", player)
-            or (state._tp_glitched(player) and state.has("Magic Armor", player))
+            or (
+                can_do_niche_stuff(state, player)
+                and state.has("Magic Armor", player)
+            )
         )
     )
 
 
 def can_defeat_Zant(state: CollectionState, player: int):
-    return (has_sword(state, player, 3)) and (
-        state.has("Gale Boomerang", player)
-        and (state.has("Progressive Clawshot", player))
-        and state.has("Ball and Chain", player)
+    return (
+        has_sword(state, player, 3)
         and (
-            state.has("Iron Boots", player)
-            or (state._tp_glitched(player) and state.has("Magic Armor", player))
-        )
-        and (
-            state.has("Zora Armor", player)
-            or (state._tp_glitched(player) and can_do_air_refill(state, player))
+            state.has("Gale Boomerang", player)
+            and state.has("Progressive Clawshot", player)
+            and state.has("Ball and Chain", player)
+            and (
+                state.has("Iron Boots", player)
+                or (
+                    state._tp_glitched(player)
+                    and state.has("Magic Armor", player)
+                )
+            )
+            and (
+                state.has("Zora Armor", player)
+                or (
+                    state._tp_glitched(player)
+                    and can_do_air_refill(state, player)
+                )
+            )
         )
     )
 
@@ -1214,18 +1500,31 @@ def can_defeat_Zant(state: CollectionState, player: int):
 def can_defeat_Ganondorf(state: CollectionState, player: int):
     return (
         state.has("Shadow Crystal", player)
-        and (has_sword(state, player, 3))
-        and (state.has("Progressive Hidden Skill", player))
+        and has_sword(state, player, 3)
+        and state.has("Progressive Hidden Skill", player)
     )
 
 
 def can_smash(state: CollectionState, player: int):
-    return state.has("Ball and Chain", player) or has_bombs(state, player)
+    return (
+        state.has("Ball and Chain", player)
+        or has_bombs(state, player)
+    )
+
+
+def can_destroy_webs_without_lantern(state: CollectionState, player: int):
+    return (
+        has_bombs(state, player)
+        or state.has("Ball and Chain", player)
+    )
 
 
 def can_burn_webs(state: CollectionState, player: int):
     return (
-        state.has("Lantern", player)
+        (
+            state.has("Lantern", player)
+            and can_refill_oil(state, player)
+        )
         or has_bombs(state, player)
         or state.has("Ball and Chain", player)
     )
@@ -1236,10 +1535,10 @@ def has_ranged_item(state: CollectionState, player: int):
         state.has("Ball and Chain", player)
         or state.has("Slingshot", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or state.has("Gale Boomerang", player)
     )
 
@@ -1253,39 +1552,54 @@ def has_shield(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House", player)
-            and not state._tp_shops_shuffled(player)
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
         )
-        # or state.can_reach_region("Death Mountain Hot Spring", player)
+        or state.can_reach_region("Death Mountain Hot Spring", player)
     )
 
 
 def can_use_bottled_fairy(state: CollectionState, player: int):
-    return has_bottle(state, player) and state.can_reach_region("Lake Hylia", player)
+    return (
+        has_bottle(state, player)
+        and state.can_reach_region("Lake Hylia", player)
+    )
 
 
 def can_use_bottled_fairies(state: CollectionState, player: int):
-    return has_bottles(state, player) and state.can_reach_region("Lake Hylia", player)
+    return (
+        has_bottles(state, player)
+        and state.can_reach_region("Lake Hylia", player)
+    )
 
 
-# def can_use_oil_bottle(state: CollectionState, player: int):
-#     return has_bottle(state, player)
+def can_use_oil_bottle(state: CollectionState, player: int):
+    return (
+        (
+            state.has("Lantern", player)
+            and can_refill_oil(state, player)
+        )
+        and state.has("Lantern Oil (Coro Bottle)", player)
+    )
 
 
 def can_launch_bombs(state: CollectionState, player: int):
     return (
-        state.has("Gale Boomerang", player)
-        or (
-            (state.has("Progressive Hero's Bow", player))
-            and can_get_arrows(state, player)
+        (
+            state.has("Gale Boomerang", player)
+            or (
+                state.has("Progressive Hero's Bow", player)
+                and can_get_arrows(state, player)
+            )
         )
-    ) and has_bombs(state, player)
+        and has_bombs(state, player)
+    )
 
 
 def can_cut_hanging_web(state: CollectionState, player: int):
     return (
-        (state.has("Progressive Clawshot", player))
+        state.has("Progressive Clawshot", player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
         or state.has("Gale Boomerang", player)
@@ -1293,32 +1607,42 @@ def can_cut_hanging_web(state: CollectionState, player: int):
     )
 
 
-# def get_player_health(state: CollectionState, player: int):
-#     playerHealth = 3.0  # start at 3 since we have 3 hearts.
+def get_player_health(state: CollectionState, player: int):
+    playerHealth = 3.0  # start at 3 since we have 3 hearts.
 
-#     playerHealth = playerHealth + (
-#         state.world_state.get_item_count("Piece of Heart") * 0.2
-#     )  # Pieces of heart are 1/5 of a heart.
-#     playerHealth = playerHealth + state.world_state.get_item_count(
-#         "Heart Container"
-#     )
+    playerHealth = playerHealth + (
+        state.world_state.get_item_count("Piece of Heart") * 0.2
+    )  # Pieces of heart are 1/5 of a heart.
+    playerHealth = playerHealth + state.world_state.get_item_count(
+        "Heart Container"
+    )
 
-#     return playerHealth
+    return playerHealth
 
 
 def can_knock_down_hc_painting(state: CollectionState, player: int):
-    return state.has("Progressive Hero's Bow", player) or (
-        state._tp_glitched(player)
-        and (
-            (
+    return (
+        (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
+        or (
+            can_do_niche_stuff(state, player)
+            and (
                 has_bombs(state, player)
-                or (
+                  or (
+                      has_sword(state, player)
+                      and state.has("Progressive Hidden Skill", player, 6)
+                 )
+             )
+        )
+        or (
+            state._tp_glitched(player)
+            and (
+                (
                     has_sword(state, player)
-                    and state.has("Progressive Hidden Skill", player, 6)
+                    and can_do_moon_boots(state, player)
                 )
-            )
-            or (
-                (has_sword(state, player) and can_do_moon_boots(state, player))
                 or can_do_bs_moon_boots(state, player)
             )
         )
@@ -1334,10 +1658,10 @@ def can_break_monkey_cage(state: CollectionState, player: int):
         or state.has("Shadow Crystal", player)
         or has_bombs(state, player)
         or (
-            (state.has("Progressive Hero's Bow", player))
+            state.has("Progressive Hero's Bow", player)
             and can_get_arrows(state, player)
         )
-        or (state.has("Progressive Clawshot", player))
+        or state.has("Progressive Clawshot", player)
         or (
             state._tp_glitched(player)
             and has_shield(state, player)
@@ -1347,8 +1671,12 @@ def can_break_monkey_cage(state: CollectionState, player: int):
 
 
 def can_press_mines_switch(state: CollectionState, player: int):
-    return state.has("Iron Boots", player) or (
-        state._tp_glitched(player) and state.has("Ball and Chain", player)
+    return (
+        state.has("Iron Boots", player)
+        or (
+            state._tp_glitched(player)
+            and state.has("Ball and Chain", player)
+        )
     )
 
 
@@ -1356,28 +1684,32 @@ def can_free_all_monkeys(state: CollectionState, player: int):
     return (
         can_break_monkey_cage(state, player)
         and (
-            state.has("Lantern", player)
-            # Holdover from Keysy
-            # or (
-            #     state._tp_is_small_keysy(player)
-            #     and (has_bombs(state, player) or state.has("Iron Boots", player))
-            # )
+            (
+                state.has("Lantern", player)
+                and can_refill_oil(state, player)
+            )
+            or (
+                state.has("Forest Temple Small Key", player, 4) # (same as keysy setting enabled)
+                and (
+                    has_bombs(state, player)
+                    or state.has("Iron Boots", player)
+                )
+            )
         )
         and can_burn_webs(state, player)
         and state.has("Gale Boomerang", player)
         and can_defeat_Bokoblin(state, player)
-        and (
-            (state.has("Forest Temple Small Key", player, 4))
-            # Holdover from Keysy
-            # or (state._tp_is_small_keysy(player))
-        )
+        and state.has("Forest Temple Small Key", player, 4)
     )
 
 
 def can_knock_down_HangingBaba(state: CollectionState, player: int):
     return (
-        (state.has("Progressive Hero's Bow", player))
-        or (state.has("Progressive Clawshot", player))
+        (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
+        or state.has("Progressive Clawshot", player)
         or state.has("Gale Boomerang", player)
         or state.has("Slingshot", player)
     )
@@ -1393,30 +1725,38 @@ def can_break_wooden_door(state: CollectionState, player: int):
 
 
 def has_bombs(state: CollectionState, player: int):
-    return has_bomb_bag(state, player) and (
-        state.can_reach_region("Kakariko Barnes Bomb Shop Lower", player)
-        or (
-            state.can_reach_region("Eldin Field Water Bomb Fish Grotto", player)
-            and state.has("Progressive Fishing Rod", player)
+    return (
+        has_bomb_bag(state, player)
+        and (
+            state.can_reach_region("Kakariko Barnes Bomb Shop Lower", player)
+            or (
+                state.can_reach_region("Eldin Field Water Bomb Fish Grotto", player)
+                and state.has("Progressive Fishing Rod", player)
+            )
+            or state.can_reach_region("City in The Sky Entrance", player)
         )
-        or state.can_reach_region("City in The Sky Entrance", player)
     )
 
 
 def has_bomb_bag(state: CollectionState, player: int):
-    return state.has("Bomb Bag", player)
+    return (
+        state.has("Bomb Bag", player)
+    )
 
 
 def can_use_water_bombs(state: CollectionState, player: int):
-    return has_bomb_bag(state, player) and (
-        state.can_reach_region("Kakariko Barnes Bomb Shop Lower", player)
-        or (
-            state.can_reach_region("Eldin Field Water Bomb Fish Grotto", player)
-            and (state.has("Progressive Fishing Rod", player))
-        )
-        or (
+    return (
+        has_bomb_bag(state, player)
+        and (
             state.can_reach_region("Kakariko Barnes Bomb Shop Lower", player)
-            and state.can_reach_region("Castle Town Malo Mart", player)
+            or (
+                state.can_reach_region("Eldin Field Water Bomb Fish Grotto", player)
+                and state.has("Progressive Fishing Rod", player)
+            )
+            or (
+                state.can_reach_region("Kakariko Barnes Bomb Shop Lower", player)
+                and state.can_reach_region("Castle Town Malo Mart", player)
+            )
         )
     )
 
@@ -1428,14 +1768,89 @@ def can_get_arrows(state: CollectionState, player: int):
             can_complete_goron_mines(state, player)
             and state.can_reach_region("Kakariko Malo Mart", player)
         )
-        # or ( # TODO: renable this logic
-        #     state.can_reach_region("Castle Town Goron House Balcony", player)
-        #     and not state._tp_shops_shuffled(player)
-        # )
+        or (
+            state.can_reach_region("Castle Town Goron House Balcony", player)
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
+        )
+    )
+
+def can_refill_oil(state: CollectionState, player: int):
+    state.can_reach_region("North Faron Woods", player)
+    or state.can_reach_region("South Faron Woods", player)
+    or state.can_reach_region("Arbiters Grounds Entrance", player)
+    or (
+        state.can_reach_region("Lake Hylia Long Cave", player)
+        and can_smash(state, player)
+    )
+    or state.can_reach_region("Ordon Seras Shop", player)
+    or (
+        can_complete_goron_mines(state, player)
+        and state.can_reach_region("Lower Kakariko Village", player)
+    )
+    or (
+        state.can_reach_region("Castle Town Goron House", player)
+        and not state._tp_shops_shuffled(player)
+    )
+    or state.can_reach_region("Death Mountain Hot Spring", player)
+    or state.can_reach_region("City in The Sky Entrance", player)
+    or (
+        state.can_reach_region("Hyrule Castle Main Hall", player)
+        and can_defeat_bokoblin(state, player)
+        and can_defeat_lizalfos(state, player)
+        and state.has("Progressive Clawshot", player, 2)
+        and can_defeat_darknut(state, player)
+    )
+    or (
+        state.can_reach_region("Eldin Lantern Cave", player)
+        and can_destroy_webs_without_lantern(state, player)
+        and can_defeat_chu(state, player)
+    )
+    or (
+        state.can_reach_region("Hyrule Castle Graveyard", player)
+        and can_smash(state, player)
     )
 
 
-# def can_complete_prologue(state: CollectionState, player: int):
+def can_refill_oil(state: CollectionState, player: int):
+    return (
+        state.can_reach_region("North Faron Woods", player)
+        or state.can_reach_region("South Faron Woods", player)
+        or state.can_reach_region("Arbiters Grounds Entrance", player)
+        or (
+            state.can_reach_region("Lake Hylia Long Cave", player)
+            and can_smash(state, player)
+        )
+        or state.can_reach_region("Ordon Seras Shop", player)
+        or (
+            can_complete_goron_mines(state, player)
+            and state.can_reach_region("Lower Kakariko Village", player)
+        )
+        or (
+            state.can_reach_region("Castle Town Goron House", player)
+            and True # (not state._tp_shops_shuffled(player)) # not yet implemented
+        )
+        or state.can_reach_region("Death Mountain Hot Spring", player)
+        or state.can_reach_region("City in The Sky Entrance", player)
+        or (
+            state.can_reach_region("Hyrule Castle Main Hall", player)
+            and can_defeat_bokoblin(state, player)
+            and can_defeat_lizalfos(state, player)
+            and state.has("Progressive Clawshot", player, 2)
+            and can_defeat_darknut(state, player)
+        )
+        or (
+            state.can_reach_region("Eldin Lantern Cave", player)
+            and can_destroy_webs_without_lantern(state, player)
+            and can_defeat_chu(state, player)
+        )
+        or (
+            state.can_reach_region("Hyrule Castle Graveyard", player)
+            and can_smash(state, player)
+        )
+    )
+
+def can_complete_prologue(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return (
 #     #     state.can_reach_region("North Faron Woods", player)
@@ -1444,13 +1859,14 @@ def can_get_arrows(state: CollectionState, player: int):
 
 
 def can_complete_goats1(state: CollectionState, player: int):
-    return state.can_reach_region("Ordon Ranch", player)
-    # or can_complete_prologue(
-    #     state, player
-    # )
+    return (
+        state.can_reach_region("Ordon Ranch", player)
+        or can_complete_prologue(state, player)
+    )
 
 
-# def can_complete_MDH(state: CollectionState, player: int):
+def can_complete_MDH(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return state._tp_skip_mdh(player) or (
 #     #     can_complete_lakebed_temple(state, player)
@@ -1461,19 +1877,24 @@ def can_complete_goats1(state: CollectionState, player: int):
 
 # TODO: Figure this out
 def can_strike_pedestal(state: CollectionState, player: int):
-    return has_sword(state, player, 3)
+    return (
+        has_sword(state, player, 3) # sword amount >= setting tot entrance required
+    )
 
 
 def can_clear_forest(state: CollectionState, player: int):
     return (
-        can_complete_forest_temple(state, player)
-        or (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
-        # and can_complete_prologue(state, player)
-        # and can_complete_faron_twilight(state, player)
+        (
+            can_complete_forest_temple(state, player)
+            or (state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open)
+        )
+        and can_complete_prologue(state, player)
+        and can_complete_faron_twilight(state, player)
     )
 
 
-# def can_complete_faron_twilight(state: CollectionState, player: int):
+def can_complete_faron_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     return ( # state._tp_faron_twilight_cleared(player) or
 #         can_complete_prologue(state, player)
@@ -1498,7 +1919,8 @@ def can_clear_forest(state: CollectionState, player: int):
 #     )
 
 
-# def can_complete_eldin_twilight(state: CollectionState, player: int):
+def can_complete_eldin_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     return state._tp_eldin_twilight_cleared(player) or (
 #         state.can_reach_region("Faron Field", player)
@@ -1528,7 +1950,8 @@ def can_clear_forest(state: CollectionState, player: int):
 #     )
 
 
-# def can_complete_lanayru_twilight(state: CollectionState, player: int):
+def can_complete_lanayru_twilight(state: CollectionState, player: int):
+    return True
 #     assert False, "This is no longer used"
 #     # return state._tp_lanayru_twilight_cleared(player) or (
 #     #     (
@@ -1557,45 +1980,60 @@ def can_clear_forest(state: CollectionState, player: int):
 #     # )
 
 
-# def can_complete_all_twilight(state: CollectionState, player: int):
-# assert False, "This is no longer used"
-# return (
-#     can_complete_faron_twilight(state, player)
-#     and can_complete_eldin_twilight(state, player)
-#     and can_complete_lanayru_twilight(state, player)
-# )
+def can_complete_all_twilight(state: CollectionState, player: int):
+    return (
+        can_complete_faron_twilight(state, player)
+        and can_complete_eldin_twilight(state, player)
+        and can_complete_lanayru_twilight(state, player)
+    )
 
 
 def can_complete_forest_temple(state: CollectionState, player: int):
-    return state.has("Diababa Defeated", player)
+    return (
+        state.has("Diababa Defeated", player)
+    )
 
 
 def can_complete_goron_mines(state: CollectionState, player: int):
-    return state.has("Fyrus Defeated", player)
+    return (
+        state.has("Fyrus Defeated", player)
+    )
 
 
 def can_complete_lakebed_temple(state: CollectionState, player: int):
-    return state.has("Morpheel Defeated", player)
+    return (
+        state.has("Morpheel Defeated", player)
+    )
 
 
 def can_complete_arbiters_grounds(state: CollectionState, player: int):
-    return state.has("Stallord Defeated", player)
+    return (
+        state.has("Stallord Defeated", player)
+    )
 
 
 def can_complete_snowpeak_ruins(state: CollectionState, player: int):
-    return state.has("Blizzeta Defeated", player)
+    return (
+        state.has("Blizzeta Defeated", player)
+    )
 
 
 def can_complete_temple_of_time(state: CollectionState, player: int):
-    return state.has("Armogohma Defeated", player)
+    return (
+        state.has("Armogohma Defeated", player)
+    )
 
 
 def can_complete_city_in_the_sky(state: CollectionState, player: int):
-    return state.has("Argorok Defeated", player)
+    return (
+        state.has("Argorok Defeated", player)
+    )
 
 
 def can_complete_palace_of_twilight(state: CollectionState, player: int):
-    return state.has("Zant Defeated", player)
+    return (
+        state.has("Zant Defeated", player)
+    )
 
 
 def can_complete_all_dungeons(state: CollectionState, player: int):
@@ -1627,7 +2065,7 @@ def has_bugs(state: CollectionState, player: int, count: int):
 
 
 def can_unlock_ordona_map(state: CollectionState, player: int):
-    if state._tp_open_map(player):
+    if (state._tp_open_map(player) and True): # setting skip prologue
         return True
     for mapRoom in RoomFunctions.OrdonaMapRooms:
         if state.can_reach_region(mapRoom):
@@ -1636,7 +2074,7 @@ def can_unlock_ordona_map(state: CollectionState, player: int):
 
 
 def can_unlock_faron_map(state: CollectionState, player: int):
-    if state._tp_open_map(player):
+    if (state._tp_open_map(player) and True): # setting faron twilight cleared
         return True
     for mapRoom in RoomFunctions.FaronMapRooms:
         if state.can_reach_region(mapRoom):
@@ -1645,7 +2083,7 @@ def can_unlock_faron_map(state: CollectionState, player: int):
 
 
 def can_unlock_eldin_map(state: CollectionState, player: int):
-    if state._tp_open_map(player):
+    if (state._tp_open_map(player) and True): # setting eldin twilight cleared
         return True
     for mapRoom in RoomFunctions.EldinMapRooms:
         if state.can_reach_region(mapRoom):
@@ -1654,7 +2092,7 @@ def can_unlock_eldin_map(state: CollectionState, player: int):
 
 
 def can_unlock_lanayru_map(state: CollectionState, player: int):
-    if state._tp_open_map(player):
+    if (state._tp_open_map(player) and True): # setting lanayru twilight cleared
         return True
     for mapRoom in RoomFunctions.LanayruMapRooms:
         if state.can_reach_region(mapRoom):
@@ -1663,9 +2101,7 @@ def can_unlock_lanayru_map(state: CollectionState, player: int):
 
 
 def can_unlock_snowpeak_map(state: CollectionState, player: int):
-    if (
-        state._tp_open_map(player) and not state._tp_skip_snowpeak_entrance(player)
-    ) or state._tp_skip_snowpeak_entrance(player):
+    if state._tp_open_map(player) and state._tp_skip_snowpeak_entrance(player):
         return True
     for mapRoom in RoomFunctions.SnowpeakMapRooms:
         if state.can_reach_region(mapRoom):
@@ -1689,12 +2125,15 @@ def can_do_difficult_combat(state: CollectionState, player: int):
 
 def can_do_niche_stuff(state: CollectionState, player: int):
     # TODO: Change to use setting once it's made
-    return state._tp_glitched(player)
+    return (
+        state._tp_glitched(player)
+    )
 
 
 def can_use_backslice_as_sword(state: CollectionState, player: int):
-    return state._tp_glitched(player) and state.has(
-        "Progressive Hidden Skill", player, 3
+    return (
+        state._tp_glitched(player)
+        and state.has("Progressive Hidden Skill", player, 3)
     )
 
 
@@ -1708,7 +2147,10 @@ def can_get_bug_with_lantern(state: CollectionState, player: int):
 
 
 def has_sword_or_BS(state: CollectionState, player: int):
-    return has_sword(state, player) or state.has("Progressive Hidden Skill", player, 3)
+    return (
+        has_sword(state, player)
+        or state.has("Progressive Hidden Skill", player, 3)
+    )
 
 
 def has_bottle(state: CollectionState, player: int):
@@ -1724,7 +2166,10 @@ def has_bottles(state: CollectionState, player: int):
 
 
 def has_heavy_mod(state: CollectionState, player: int):
-    return state.has("Iron Boots", player) or state.has("Magic Armor", player)
+    return (
+        state.has("Iron Boots", player)
+        or state.has("Magic Armor", player)
+    )
 
 
 def has_cutscene_item(state: CollectionState, player: int):
@@ -1736,7 +2181,10 @@ def has_cutscene_item(state: CollectionState, player: int):
 
 
 def can_do_lja(state: CollectionState, player: int):
-    return has_sword(state, player) and state.has("Gale Boomerang", player)
+    return (
+        has_sword(state, player)
+        and state.has("Gale Boomerang", player)
+    )
 
 
 def can_do_js_lja(state: CollectionState, player: int):
@@ -1748,13 +2196,17 @@ def can_do_js_lja(state: CollectionState, player: int):
 
 
 def can_do_map_glitch(state: CollectionState, player: int):
-    return state.has("Shadow Crystal", player) and state.can_reach_region(
-        "Kakariko Gorge", player
+    return (
+        state.has("Shadow Crystal", player)
+        and state.can_reach_region("Kakariko Gorge", player)
     )
 
 
 def can_do_storage(state: CollectionState, player: int):
-    return can_do_map_glitch(state, player) and has_one_handed_item(state, player)
+    return (
+        can_do_map_glitch(state, player)
+        and has_one_handed_item(state, player)
+    )
 
 
 def has_one_handed_item(state: CollectionState, player: int):
@@ -1763,32 +2215,43 @@ def has_one_handed_item(state: CollectionState, player: int):
         or has_bottle(state, player)
         or state.has("Gale Boomerang", player)
         or state.has("Progressive Clawshot", player)
-        or state.has("Lantern", player)
-        or state.has("Progressive Hero's Bow", player)
+        or (
+            state.has("Lantern", player)
+            and can_refill_oil(state, player)
+        )
+        or (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
         or state.has("Slingshot", player)
         or state.has("Progressive Dominion Rod", player)
     )
 
 
 def can_do_moon_boots(state: CollectionState, player: int):
-    return has_sword(state, player) and (
-        state.has("Magic Armor", player)
-        or (
-            state.has("Iron Boots", player)
-            and state.has("Progressive Hidden Skill", player, 3)
+    return (
+        has_sword(state, player)
+        and (
+            state.has("Magic Armor", player)
+            or (
+                state.has("Iron Boots", player)
+                and (get_item_wheel_slot_count(state, player) >= 3)
+            )
         )
-    )  # Ensure you can equip something over boots TODO: moon boots item count logic?
+    ) # Ensure you can equip something over boots TODO: moon boots item count logic?
 
 
 def can_do_js_moon_boots(state: CollectionState, player: int):
-    return can_do_moon_boots(state, player) and state.has(
-        "Progressive Hidden Skill", player, 6
+    return (
+        can_do_moon_boots(state, player)
+        and state.has("Progressive Hidden Skill", player, 6)
     )
 
 
 def can_do_bs_moon_boots(state: CollectionState, player: int):
-    return state.has("Progressive Hidden Skill", player, 3) and state.has(
-        "Magic Armor", player
+    return (
+        state.has("Progressive Hidden Skill", player, 3)
+        and state.has("Magic Armor", player)
     )
 
 
@@ -1810,22 +2273,31 @@ def can_do_hs_moon_boots(state: CollectionState, player: int):
 
 
 def can_do_fly_glitch(state: CollectionState, player: int):
-    return state.has("Progressive Fishing Rod", player) and has_heavy_mod(state, player)
+    return (
+        state.has("Progressive Fishing Rod", player)
+        and has_heavy_mod(state, player)
+    )
 
 
 def can_do_air_refill(state: CollectionState, player: int):
-    return can_use_water_bombs(state, player) and (
-        state.has("Magic Armor", player)
-        or (
-            state.has("Iron Boots", player)
-            and state.has("Progressive Hidden Skill", player, 3)
+    return (
+        can_use_water_bombs(state, player)
+        and (
+            state.has("Magic Armor", player)
+            or (
+                state.has("Iron Boots", player)
+                and (get_item_wheel_slot_count(state, player) >= 3)
+            )
         )
-    )  # Ensure you can equip something over boots
+    )
 
 
 def can_do_hidden_village_glitched(state: CollectionState, player: int):
     return (
-        state.has("Progressive Hero's Bow", player)
+        (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
         or state.has("Ball and Chain", player)
         or (
             state.has("Slingshot", player)
@@ -1834,7 +2306,7 @@ def can_do_hidden_village_glitched(state: CollectionState, player: int):
                 or has_sword(state, player)
                 or has_bombs(state, player)
                 or state.has("Iron Boots", player)
-                or state.has("Shadow Crystal", player)
+                or state.has("Spinner", player)
             )
         )
     )
@@ -1849,25 +2321,26 @@ def can_do_ft_windless_bridge_room(state: CollectionState, player: int):
 
 
 def can_clear_forest_glitched(state: CollectionState, player: int):
-    return (  # can_complete_prologue(state, player) and
-        state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open
-    ) or (
-        can_complete_forest_temple(state, player)
-        or can_do_lja(state, player)
-        or can_do_map_glitch(state, player)
+    return (
+        can_complete_prologue(state, player)
+        and (
+            state._tp_faron_woods_logic(player) == FaronWoodsLogic.option_open
+            or can_complete_forest_temple(state, player)
+            or can_do_lja(state, player)
+            or can_do_map_glitch(state, player)
+        )
     )
 
 
 def can_complete_eldin_twilight_glitched(state: CollectionState, player: int):
-    return state._tp_eldin_twilight_cleared(player) or can_clear_forest_glitched(
-        state, player
+    return (
+        state._tp_eldin_twilight_cleared(player)
+        or can_clear_forest_glitched(state, player)
     )
 
 
 def can_skip_key_to_deku_toad(state: CollectionState, player: int):
     return (
-        # Holdover from Keysy
-        # state._tp_is_small_keysy(player)
         state.has("Progressive Hidden Skill", player, 3)
         or can_do_bs_moon_boots(state, player)
         or can_do_js_moon_boots(state, player)
@@ -1880,3 +2353,117 @@ def can_skip_key_to_deku_toad(state: CollectionState, player: int):
             )
         )
     )
+
+
+def can_warp_meteor(state: CollectionState, player: int):
+    return (
+        can_complete_lanayru_twilight(state, player)
+        or (
+            can_complete_eldin_twilight(state, player)
+            and state.can_reach_region("Zoras Domain Throne Room", player)
+            and state.has("Shadow Crystal", player)
+        )
+    )
+
+
+def can_break_hc_barrier(state: CollectionState, player: int):
+    return (
+        (state._tp_castle_requirements(player) == CastleRequirements.option_open)
+        or (
+            (state._tp_castle_requirements(player) == CastleRequirements.option_fused_shadows)
+            and state.has("Progressive Fused Shadow", player, 3)
+        )
+        or (
+            (state._tp_castle_requirements(player) == CastleRequirements.option_mirror_shards)
+            and state.has("Progressive Mirror Shard", player, 4)
+        )
+        or (
+            (state._tp_castle_requirements(player) == CastleRequirements.option_all_dungeons)
+            and can_complete_all_dungeons(state, player) # completed dungeon amount >= required dungeon amount
+        )
+        or (
+            (state._tp_castle_requirements(player) == CastleRequirements.option_vanilla)
+            and can_complete_palace_of_twilight(state, player)
+        )
+        # if poe souls >= required poe souls
+        #    return True
+        # if max health >= required may health
+        #    return True
+    )
+
+
+def can_buy_magic_armor(state: CollectionState, player: int):
+    return (
+        state._tp_increase_wallet(player)             # wallet large = return True
+        or state.has("Progressive Wallet", player)    # wallet vanilla/hd = 1 wallet required
+    )                                                 # wallet reduced = 2 wallets required
+
+
+def can_destroy_webs_without_lantern(state: CollectionState, player: int):
+    return (
+        has_bombs(state, player)
+        or state.has("Ball and Chain", player)
+    )
+
+
+def can_midna_charge(state: CollectionState, player: int):
+    return (
+        can_complete_MDH(state, player)
+        and can_complete_all_twilight(state, player)
+    )
+
+
+def can_open_hc_bk_gate(state: CollectionState, player: int):
+    return (
+        True
+        # castle BK requirement == none
+        # or (
+        #     castle BK requirement == fused shadows
+        #     and fused shadows >= requirement
+        # )
+        # or (
+        #     castle BK requirement == mirror shards
+        #     and mirror shards >= requirement
+        # )
+        # or (
+        #     castle BK requirement == dungeons
+        #     and dungeons >= requirement
+        # )
+        # or (
+        #     castle BK requirement == poe souls
+        #     and poe souls >= requirement
+        # )
+        # or (
+        #     castle BK requirement == hearts
+        #     and hearts >= requirement
+        # )
+    )
+def get_item_wheel_slot_count(state: CollectionState, player: int):
+    count = 0
+    for item in state._tp_item_wheel_items(player):
+        if state.has(item, player):
+            count += 1
+    return count
+
+
+def can_step_clip(state: CollectionState, player: int):
+    return (
+        state.has("Progressive Master Sword", player)
+        or state.has("Progressive Clawshot", player)
+        or state.has("Progressive Dominion Rod", player)
+        or state.has("Ball and Chain", player)
+        or (
+            state.has("Progressive Hero's Bow", player)
+            and can_get_arrows(state, player)
+        )
+        or state.has("Gale Boomerang", player)
+        or (
+            state.has("Lantern", player)
+            and can_refill_oil(state, player)
+        )
+        or state.has("Slingshot", player)
+        or state.has("Progressive Fishing Rod", player)
+        or has_bombs(state, player)
+        or has_bottle(state, player)
+    )
+
