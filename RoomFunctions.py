@@ -11,7 +11,6 @@ class RoomFunctions:
         "Sacred Grove Upper",
         "Sacred Grove Lower",
         "Faron Field",
-        "Faron Field Behind Boulder",
         "Kakariko Gorge",
         "Kakariko Gorge Behind Gate",
         "Death Mountain Near Kakariko",
@@ -45,7 +44,6 @@ class RoomFunctions:
         "Outside Castle Town East",
         "Castle Town South",
         "Outside Castle Town South",
-        "Outside Castle Town South Inside Boulder",
         "Lake Hylia Bridge",
         "Lake Hylia Bridge Grotto Ledge",
         "Lake Hylia",
@@ -59,9 +57,7 @@ class RoomFunctions:
         "Bulblin Camp",
         "Mirror Chamber Lower",
         "Mirror Chamber Upper",
-        "Mirror of Twilight",
-        "Ordon Spring",
-        "Ordon Bridge",
+        "Mirror Chamber Portal",
     ]
 
     warp_rooms = [
@@ -82,7 +78,6 @@ class RoomFunctions:
         "Sacred Grove Upper",
         "Sacred Grove Lower",
         "Faron Field",
-        "Faron Field Behind Boulder",
         "Kakariko Gorge",
         "Kakariko Gorge Behind Gate",
         "Death Mountain Near Kakariko",
@@ -116,7 +111,6 @@ class RoomFunctions:
         "Outside Castle Town East",
         "Castle Town South",
         "Outside Castle Town South",
-        "Outside Castle Town South Inside Boulder",
         "Lake Hylia Bridge",
         "Lake Hylia",
         "Gerudo Desert",
@@ -125,7 +119,7 @@ class RoomFunctions:
         "Bulblin Camp",
         "Mirror Chamber Lower",
         "Mirror Chamber Upper",
-        "Mirror of Twilight",
+        "Mirror Chamber Portal",
         "Ordon Village",
         "Outside Links House",
         "Ordon Spring",
@@ -164,7 +158,6 @@ class RoomFunctions:
         "Sacred Grove Past",
         "Sacred Grove Past Behind Window",
         "Faron Field",
-        "Faron Field Behind Boulder",
     ]
 
     EldinMapRooms = [
@@ -183,13 +176,8 @@ class RoomFunctions:
         "Death Mountain Outside Sumo Hall",
         "Death Mountain Elevator Lower",
         "Eldin Field",
-        "Eldin Field Near Castle Town",
         "Eldin Field Lava Cave Ledge",
         "Eldin Field From Lava Cave Lower",
-        "North Eldin Field",
-        "Eldin Field Outside Hidden Village",
-        "Eldin Field Grotto Platform",
-        "Hidden Village",
     ]
 
     LanayruMapRooms = [
@@ -216,7 +204,6 @@ class RoomFunctions:
         "Castle Town South",
         "South Castle Town Doors",
         "Outside Castle Town South",
-        "Outside Castle Town South Inside Boulder",
         "Lake Hylia Bridge",
         "Lake Hylia Bridge Grotto Ledge",
         "Lake Hylia",
@@ -243,5 +230,5 @@ class RoomFunctions:
         "Outside Arbiters Grounds",
         "Mirror Chamber Lower",
         "Mirror Chamber Upper",
-        "Mirror of Twilight",
+        "Mirror Chamber Portal",
     ]
