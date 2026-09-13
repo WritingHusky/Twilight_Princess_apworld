@@ -1286,9 +1286,7 @@ def can_use_bottled_fairies(state: CollectionState, player: int):
 
 
 def can_use_oil_bottle(state: CollectionState, player: int):
-    return (
-        state.has("Lantern", player) and can_refill_oil(state, player)
-    ) and state.has("Lantern Oil (Coro Bottle)", player)
+    return has_bottle(state, player)
 
 
 def can_launch_bombs(state: CollectionState, player: int):
@@ -1783,31 +1781,15 @@ def has_sword_or_BS(state: CollectionState, player: int):
 
 
 def has_bottle(state: CollectionState, player: int):
-    return (
-        state.has("Empty Bottle (Fishing Hole)", player)
-        or state.has("Milk (half) (Sera Bottle)", player)
-        or state.has("Great Fairy Tears (Jovani)", player)
-        or state.has("Lantern Oil (Coro Bottle)", player)
-    ) and (
+    return (state.has("Progressive Bottle", player)) and (
         state.has("Lantern", player) and can_refill_oil(state, player)
-    )  # NOTE: Is this true?
+    )
 
 
 def has_bottles(state: CollectionState, player: int):
-    n = 0
-    if state.has("Lantern", player) and can_refill_oil(state, player):
-        if state.has("Empty Bottle (Fishing Hole)", player):
-            n += 1
-        if state.has("Milk (half) (Sera Bottle)", player):
-            n += 1
-        if state.has("Great Fairy Tears (Jovani)", player):
-            n += 1
-        if state.has("Lantern Oil (Coro Bottle)", player):
-            n += 1
-
-    if n > 1:
-        return True
-    return False
+    return (state.has("Progressive Bottle", player, 2)) and (
+        state.has("Lantern", player) and can_refill_oil(state, player)
+    )
 
 
 def has_heavy_mod(state: CollectionState, player: int):
@@ -2091,14 +2073,16 @@ def get_item_wheel_slot_count(state: CollectionState, player: int):
         "Bomb Bag",
         "Bomb Bag",
         "Bomb Bag",
-        "Empty Bottle (Fishing Hole)",
-        "Milk (half) (Sera Bottle)",
-        "Lantern Oil (Coro Bottle)",
-        "Great Fairy Tears (Jovani)",
+        # "Empty Bottle (Fishing Hole)",
+        # "Milk (half) (Sera Bottle)",
+        # "Lantern Oil (Coro Bottle)",
+        # "Great Fairy Tears (Jovani)",
         "Auru's Memo",
         "Renado's Letter",
         "Horse Call",
     ):
         if state.has(item, player):
             count += 1
+
+    count += state.count("Progressive Bottle", player)
     return count
