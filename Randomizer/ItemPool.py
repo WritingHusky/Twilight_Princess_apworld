@@ -68,7 +68,7 @@ VANILLA_SMALL_KEYS_LOCATIONS = {
         "Temple of Time Small Key": [
             "Temple of Time Lobby Lantern Chest",
             "Temple of Time Armos Antechamber East Chest",
-            "Temple of Time Gilloutine Chest",
+            "Temple of Time Guillotine Chest",
         ],
     },
     "City in The Sky": {

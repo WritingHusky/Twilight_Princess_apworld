@@ -327,7 +327,6 @@ item_name_groups = {
         "Ordon Shield",
         "Hylian Shield",
     },
-    
     "Shield": {
         "Ordon Shield",
         "Hylian Shield",
@@ -336,7 +335,6 @@ item_name_groups = {
         "Zora Armor",
         "Magic Armor",
     },
-    
     "Tunics": {
         "Zora Armor",
         "Magic Armor",
@@ -354,7 +352,6 @@ item_name_groups = {
         "Ordon Pumpkin",
         "Ordon Goat Cheese",
     },
-    
     "Small Keys": {
         "Forest Temple Small Key",
         "Goron Mines Small Key",
@@ -513,6 +510,7 @@ item_name_groups = {
     "Hearts": {
         "Piece of Heart",
         "Heart Container",
+    },
     "Boss items": {
         "Progressive Mirror Shard",
         "Progressive Fused Shadow",

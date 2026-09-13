@@ -798,7 +798,9 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     castle_town_goron_house = Region("Castle Town Goron House", player, multiworld)
     multiworld.regions.append(castle_town_goron_house)
 
-    castle_town_goron_house_balcony = Region("Castle Town Goron House Balcony", player, multiworld)
+    castle_town_goron_house_balcony = Region(
+        "Castle Town Goron House Balcony", player, multiworld
+    )
     multiworld.regions.append(castle_town_goron_house_balcony)
 
     castle_town_malo_mart = Region("Castle Town Malo Mart", player, multiworld)
@@ -990,10 +992,14 @@ def create_regions(multiworld: MultiWorld, player: int) -> Dict[str, Region]:
     zoras_domain = Region("Zoras Domain", player, multiworld)
     multiworld.regions.append(zoras_domain)
 
-    zoras_domain_top_of_waterfall = Region("Zoras Domain Top of Waterfall", player, multiworld)
+    zoras_domain_top_of_waterfall = Region(
+        "Zoras Domain Top of Waterfall", player, multiworld
+    )
     multiworld.regions.append(zoras_domain_top_of_waterfall)
 
-    zoras_domain_snowpeak_entrance = Region("Zoras Domain Snowpeak Entrance", player, multiworld)
+    zoras_domain_snowpeak_entrance = Region(
+        "Zoras Domain Snowpeak Entrance", player, multiworld
+    )
     multiworld.regions.append(zoras_domain_snowpeak_entrance)
 
     zoras_domain_west_ledge = Region("Zoras Domain West Ledge", player, multiworld)
