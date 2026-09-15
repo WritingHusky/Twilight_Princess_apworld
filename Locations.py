@@ -2149,16 +2149,25 @@ LOCATION_TABLE = {
     ),
     "Barnes Bomb Bag": TPLocationData(
         code=212,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc_Shop | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
         offset=0x7F9,
         bit=0x8,
     ),
+    "Bridge of Eldin Boulder Rupee": TPLocationData(
+        code=475,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Hyrule_Field,
+        offset=0x1A,
+        bit=0x80,
+    ),
     "Bridge of Eldin Female Phasmid": TPLocationData(
         code=213,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2167,7 +2176,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Male Phasmid": TPLocationData(
         code=214,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2176,7 +2185,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Owl Statue Chest": TPLocationData(
         code=215,
-        flags=TPFlag.Overworld | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2185,16 +2194,24 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Owl Statue Sky Character": TPLocationData(
         code=216,
-        flags=TPFlag.Overworld | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.Sky_Book,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x11,
         bit=0x8,
     ),
+    "Bridge of Eldin Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Portal,
+        stage_id=TPStages.Hyrule_Field,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
     "Cats Hide and Seek Minigame": TPLocationData(
         code=217,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hidden_Village,
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2203,25 +2220,69 @@ LOCATION_TABLE = {
     ),
     "Death Mountain Alcove Chest": TPLocationData(
         code=218,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Death_Mountain,
         stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1,
         bit=0x40,
     ),
+    "Death Mountain Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Portal,
+        stage_id=TPStages.Death_Mountain,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
     "Death Mountain Trail Poe": TPLocationData(
         code=219,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Death_Mountain,
         stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x10,
         bit=0x2,
     ),
+    "Death Mountain Volcano Ledge Rupee 1": TPLocationData(
+        code=476,
+        flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x8,
+    ),
+    "Death Mountain Volcano Ledge Rupee 2": TPLocationData(
+        code=477,
+        flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x4,
+    ),
+    "Death Mountain Volcano Ledge Rupee 3": TPLocationData(
+        code=478,
+        flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x2,
+    ),
+    "Death Mountain Volcano Pipe Ledge Rock Rupee": TPLocationData(
+        code=479,
+        flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x1,
+    ),
     "Eldin Field Bomb Rock Chest": TPLocationData(
         code=220,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2230,7 +2291,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Bomskit Grotto Lantern Chest": TPLocationData(
         code=221,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2239,7 +2300,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Bomskit Grotto Left Chest": TPLocationData(
         code=222,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.DZX,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2248,7 +2309,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Female Grasshopper": TPLocationData(
         code=223,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2257,7 +2318,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Male Grasshopper": TPLocationData(
         code=224,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2266,7 +2327,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Left Small Chest": TPLocationData(
         code=225,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2275,7 +2336,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Right Small Chest": TPLocationData(
         code=226,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2284,7 +2345,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Stalfos Chest": TPLocationData(
         code=227,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2293,7 +2354,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Water Bomb Fish Grotto Chest": TPLocationData(
         code=228,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2302,7 +2363,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Lantern Cave First Chest": TPLocationData(
         code=229,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Lantern_Cave | TPFlag.ARC,
         stage_id=TPStages.Eldin_Long_Cave,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
@@ -2311,7 +2372,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Lantern Cave Lantern Chest": TPLocationData(
         code=230,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Lantern_Cave,
         stage_id=TPStages.Eldin_Long_Cave,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
@@ -2320,7 +2381,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Lantern Cave Poe": TPLocationData(
         code=231,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Eldin_Lantern_Cave,
         stage_id=TPStages.Eldin_Long_Cave,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
@@ -2329,16 +2390,25 @@ LOCATION_TABLE = {
     ),
     "Eldin Lantern Cave Second Chest": TPLocationData(
         code=232,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Lantern_Cave,
         stage_id=TPStages.Eldin_Long_Cave,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
         offset=0x4,
         bit=0x80,
     ),
+    "Eldin Spring Underwater Boulder Rupee": TPLocationData(
+        code=480,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1A,
+        bit=0x20,
+    ),
     "Eldin Spring Underwater Chest": TPLocationData(
         code=233,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2347,7 +2417,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Stockcave Lantern Chest": TPLocationData(
         code=234,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Stockcave,
         stage_id=TPStages.Eldin_Goron_Stockcave,
         type=TPLocationType.Region,
         region=NodeID.Lake_Hylia_Cave,
@@ -2356,7 +2426,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Stockcave Lowest Chest": TPLocationData(
         code=235,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Stockcave,
         stage_id=TPStages.Eldin_Goron_Stockcave,
         type=TPLocationType.Region,
         region=NodeID.Lake_Hylia_Cave,
@@ -2365,7 +2435,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Stockcave Upper Chest": TPLocationData(
         code=236,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Stockcave,
         stage_id=TPStages.Eldin_Goron_Stockcave,
         type=TPLocationType.Region,
         region=NodeID.Lake_Hylia_Cave,
@@ -2374,7 +2444,7 @@ LOCATION_TABLE = {
     ),
     "Gift From Ralis": TPLocationData(
         code=237,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Flag,
         region=None,
@@ -2383,7 +2453,7 @@ LOCATION_TABLE = {
     ),
     "Goron Springwater Rush": TPLocationData(
         code=238,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.Boss,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2392,16 +2462,34 @@ LOCATION_TABLE = {
     ),
     "Hidden Village Poe": TPLocationData(
         code=239,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hidden_Village,
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x13,
         bit=0x1,
     ),
+    "Ilia Charm": TPLocationData(
+        code=481,
+        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Hidden_Village,
+        stage_id=TPStages.Hidden_Village,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x812,
+        bit=0x80,
+    ),
+    "Ilia Memory Reward": TPLocationData(
+        code=482,
+        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Kakariko_Village,
+        stage_id=TPStages.Kakariko_Village,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x813,
+        bit=0x40,
+    ),
     "Kakariko Gorge Double Clawshot Chest": TPLocationData(
         code=240,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2410,7 +2498,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Female Pill Bug": TPLocationData(
         code=241,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2419,16 +2507,25 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Male Pill Bug": TPLocationData(
         code=242,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x19,
         bit=0x20,
     ),
+    "Kakariko Gorge Owl Statue Boulder Rupee": TPLocationData(
+        code=483,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Hyrule_Field,
+        offset=0x1A,
+        bit=0x20,
+    ),
     "Kakariko Gorge Owl Statue Chest": TPLocationData(
         code=243,
-        flags=TPFlag.Overworld | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2437,7 +2534,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Owl Statue Sky Character": TPLocationData(
         code=244,
-        flags=TPFlag.Overworld | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.Sky_Book,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2446,16 +2543,33 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Poe": TPLocationData(
         code=245,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0xC,
         bit=0x4,
     ),
+    "Kakariko Gorge Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Portal,
+        stage_id=TPStages.Hyrule_Field,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Kakariko Gorge Spire Boulder Rupee": TPLocationData(
+        code=484,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Hyrule_Field,
+        offset=0x1A,
+        bit=0x40,
+    ),
     "Kakariko Gorge Spire Heart Piece": TPLocationData(
         code=246,
-        flags=TPFlag.Overworld | TPFlag.Heart,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2464,7 +2578,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Graveyard Golden Wolf": TPLocationData(
         code=247,
-        flags=TPFlag.Overworld | TPFlag.Skill,
+        flags=TPFlag.Overworld | TPFlag.Hidden_Skill | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Flag,
         region=None,
@@ -2473,7 +2587,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Graveyard Grave Poe": TPLocationData(
         code=248,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2482,7 +2596,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Graveyard Lantern Chest": TPLocationData(
         code=249,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2491,7 +2605,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Graveyard Male Ant": TPLocationData(
         code=250,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2500,25 +2614,52 @@ LOCATION_TABLE = {
     ),
     "Kakariko Graveyard Open Poe": TPLocationData(
         code=251,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x10,
         bit=0x1,
     ),
+    "Kakariko Graveyard Underwater Boulder Rupee": TPLocationData(
+        code=485,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Graveyard | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1A,
+        bit=0x40,
+    ),
     "Kakariko Inn Chest": TPLocationData(
         code=252,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1,
         bit=0x80,
     ),
+    "Kakariko Village Ant House Ledge Box Rupee": TPLocationData(
+        code=486,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x10,
+    ),
+    "Kakariko Village Bell Rupee": TPLocationData(
+        code=487,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1A,
+        bit=0x4,
+    ),
     "Kakariko Village Bomb Rock Spire Heart Piece": TPLocationData(
         code=253,
-        flags=TPFlag.Overworld | TPFlag.Heart,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2527,7 +2668,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Bomb Shop Poe": TPLocationData(
         code=254,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2536,16 +2677,25 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Female Ant": TPLocationData(
         code=255,
-        flags=TPFlag.Overworld | TPFlag.Bug,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x19,
         bit=0x1,
     ),
+    "Kakariko Village Hot Spring Ledge Box Rupee": TPLocationData(
+        code=488,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1B,
+        bit=0x80,
+    ),
     "Kakariko Village Malo Mart Hawkeye": TPLocationData(
         code=256,
-        flags=TPFlag.Overworld | TPFlag.Shop,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.ARC | TPFlag.Shop,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2554,7 +2704,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Malo Mart Hylian Shield": TPLocationData(
         code=257,
-        flags=TPFlag.Overworld | TPFlag.Shop,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Shop,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2563,7 +2713,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Malo Mart Red Potion": TPLocationData(
         code=258,
-        flags=TPFlag.Overworld | TPFlag.Shop,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Shop,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2572,16 +2722,42 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Malo Mart Wooden Shield": TPLocationData(
         code=259,
-        flags=TPFlag.Overworld | TPFlag.Shop,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Shop,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0xB,
         bit=0x20,
     ),
+    "Kakariko Village Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Portal,
+        stage_id=TPStages.Kakariko_Village,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Kakariko Village Spring Shortcut Box Rupee 1": TPLocationData(
+        code=489,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1A,
+        bit=0x1,
+    ),
+    "Kakariko Village Spring Shortcut Box Rupee 2": TPLocationData(
+        code=490,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
+        stage_id=None,
+        type=TPLocationType.Region,
+        region=NodeID.Eldin,
+        offset=0x1A,
+        bit=0x2,
+    ),
     "Kakariko Village Watchtower Poe": TPLocationData(
         code=260,
-        flags=TPFlag.Overworld | TPFlag.Poe,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2590,7 +2766,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Watchtower Alcove Chest": TPLocationData(
         code=261,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -2599,25 +2775,43 @@ LOCATION_TABLE = {
     ),
     "Kakariko Watchtower Chest": TPLocationData(
         code=262,
-        flags=TPFlag.Overworld,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1,
         bit=0x2,
     ),
+    "Renados Letter": TPLocationData(
+        code=491,
+        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Kakariko_Village,
+        stage_id=TPStages.Kakariko_Village,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x7FF,
+        bit=0x80,
+    ),
     "Rutelas Blessing": TPLocationData(
         code=263,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Graveyard,
         stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Flag,
         region=None,
         offset=0x7F8,
         bit=0x4,
     ),
+    "Shad Dominion Rod": TPLocationData(
+        code=492,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Village,
+        stage_id=None,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x63,
+        bit=0x8,
+    ),
     "Skybook From Impaz": TPLocationData(
         code=264,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hidden_Village | TPFlag.ARC,
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -2626,7 +2820,7 @@ LOCATION_TABLE = {
     ),
     "Talo Sharpshooting": TPLocationData(
         code=265,
-        flags=TPFlag.Overworld | TPFlag.Npc,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Village | TPFlag.ARC,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -4514,60 +4708,93 @@ LOCATION_TABLE = {
         offset=0x14,
         bit=0x8,
     ),
-    # "South Faron Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
-    # ),
-    # "Death Mountain Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Death_Mountain, TPLocationType.Region
-    # ),
-    # "Castle Town Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Castle_Town, TPLocationType.Region
-    # ),
-    # "Bridge of Eldin Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
-    # ),
-    # "Mirror Chamber Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Mirror_Chamber, TPLocationType.Region
-    # ),
-    # "Sacred Grove Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Sacred_Grove, TPLocationType.Region
-    # ),
-    # "Snowpeak Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Snowpeak, TPLocationType.Region
-    # ),
-    # "Upper Zoras River Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
-    # ),
-    # "Zoras Domain Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Zoras_Domain, TPLocationType.Region
-    # ),
-    # "Kakariko Village Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Kakariko_Village, TPLocationType.Region
-    # ),
-    # "Kakariko Gorge Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Hyrule_Field, TPLocationType.Region
-    # ),
-    # "Gerudo Desert Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Gerudo_Desert, TPLocationType.Region
-    # ),
-    # "Lake Hylia Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Lake_Hylia, TPLocationType.Region
-    # ),
-    # "North Faron Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
-    # ),
-    # "Ordon Spring Portal": TPLocationData(
-    #     None, TPFlag.Always, TPStages.Ordon_Spring, TPLocationType.Region
-    # ),
-    # Story locations used as events
-    "Renados Letter": TPLocationData(
-        code=475,
+    "South Faron Portal": TPLocationData(
+        code=None,
         flags=TPFlag.Always,
-        stage_id=TPStages.Kakariko_Village,
-        type=TPLocationType.Flag,
-        region=None,
-        offset=0x7FF,
-        bit=0x80,
+        stage_id=TPStages.Faron_Woods,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Castle Town Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Castle_Town,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Mirror Chamber Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Mirror_Chamber,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Sacred Grove Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Sacred_Grove,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Snowpeak Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Snowpeak,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Upper Zoras River Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Zoras_Domain,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Zoras Domain Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Zoras_Domain,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Gerudo Desert Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Gerudo_Desert,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Lake Hylia Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Lake_Hylia,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "North Faron Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Faron_Woods,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
+    ),
+    "Ordon Spring Portal": TPLocationData(
+        code=None,
+        flags=TPFlag.Always,
+        stage_id=TPStages.Ordon_Spring,
+        region=TPLocationType.Region,
+        offset=None,
+        bit=None,
     ),
     "Telma Invoice": TPLocationData(
         code=476,
@@ -4586,24 +4813,6 @@ LOCATION_TABLE = {
         region=None,
         offset=0xDF,
         bit=0x04,
-    ),
-    "Ilia Charm": TPLocationData(
-        code=478,
-        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Hidden_Village,
-        stage_id=TPStages.Hidden_Village,
-        type=TPLocationType.Flag,
-        region=None,
-        offset=0x812,
-        bit=0x80,
-    ),
-    "Ilia Memory Reward": TPLocationData(
-        code=479,
-        flags=TPFlag.Always,
-        stage_id=TPStages.Kakariko_Village,
-        type=TPLocationType.Flag,
-        region=None,
-        offset=0x813,
-        bit=0x40,
     ),
     "Castle Town Goron Shop Arrow Refill": TPLocationData(
         code=480,
@@ -4657,51 +4866,6 @@ LOCATION_TABLE = {
         type=TPLocationType.Flag,
         region=None,
         offset=0xF,
-        bit=0x1,
-    ),
-    "Shad Dominion Rod": TPLocationData(
-        code=486,
-        flags=TPFlag.Overworld,
-        stage_id=None,
-        type=TPLocationType.Flag,
-        region=None,
-        offset=0x63,
-        bit=0x8,
-    ),
-    "Death Mountain Volcano Ledge Rupee 1": TPLocationData(
-        code=487,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
-        bit=0x8,
-    ),
-    "Death Mountain Volcano Ledge Rupee 2": TPLocationData(
-        code=488,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
-        bit=0x4,
-    ),
-    "Death Mountain Volcano Ledge Rupee 3": TPLocationData(
-        code=489,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
-        bit=0x2,
-    ),
-    "Death Mountain Volcano Pipe Ledge Rock Rupee": TPLocationData(
-        code=490,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
         bit=0x1,
     ),
     "Faron Woods Coro Boulder Rupee 1": TPLocationData(
@@ -4884,33 +5048,6 @@ LOCATION_TABLE = {
         offset=0x1A,
         bit=0x2,
     ),
-    "Bridge of Eldin Boulder Rupee": TPLocationData(
-        code=511,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Hyrule_Field,
-        offset=0x1A,
-        bit=0x80,
-    ),
-    "Kakariko Gorge Owl Statue Boulder Rupee": TPLocationData(
-        code=512,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Hyrule_Field,
-        offset=0x1A,
-        bit=0x20,
-    ),
-    "Kakariko Gorge Spire Boulder Rupee": TPLocationData(
-        code=513,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Hyrule_Field,
-        offset=0x1A,
-        bit=0x40,
-    ),
     "Lake Hylia Bridge Faron Boulder Rupee": TPLocationData(
         code=514,
         flags=TPFlag.Overworld | TPFlag.Rupee,
@@ -5000,69 +5137,6 @@ LOCATION_TABLE = {
         region=NodeID.Hyrule_Field,
         offset=0x1B,
         bit=0x20,
-    ),
-    "Kakariko Graveyard Underwater Boulder Rupee": TPLocationData(
-        code=524,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1A,
-        bit=0x40,
-    ),
-    "Eldin Spring Underwater Boulder Rupee": TPLocationData(
-        code=525,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1A,
-        bit=0x20,
-    ),
-    "Kakariko Village Ant House Ledge Box Rupee": TPLocationData(
-        code=526,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
-        bit=0x10,
-    ),
-    "Kakariko Village Bell Rupee": TPLocationData(
-        code=527,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1A,
-        bit=0x4,
-    ),
-    "Kakariko Village Hot Spring Ledge Box Rupee": TPLocationData(
-        code=528,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1B,
-        bit=0x80,
-    ),
-    "Kakariko Village Spring Shortcut Box Rupee 1": TPLocationData(
-        code=529,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1A,
-        bit=0x1,
-    ),
-    "Kakariko Village Spring Shortcut Box Rupee 2": TPLocationData(
-        code=530,
-        flags=TPFlag.Overworld | TPFlag.Rupee,
-        stage_id=None,
-        type=TPLocationType.Region,
-        region=NodeID.Eldin,
-        offset=0x1A,
-        bit=0x2,
     ),
     "Lake Hylia Left Underwater Boulder Rupee": TPLocationData(
         code=531,
@@ -5469,14 +5543,20 @@ LOCATION_TABLE = {
 # TPFlag.Heart
 
 # added following flags:
+#
+#
 # TPFlag.Chest
+#
 # TPFlag.Small_Key
 # TPFlag.Big_Key
+#
 # TPFlag.Dungeon_Item
 # TPFlag.Compass
 # TPFlag.Dungeon_Map
+#
 # TPFlag.Heart_Container
 # TPFlag.Dungeon_Reward
+#
 # TPFlag.Arbiters_Grounds
 # TPFlag.City_in_The_Sky
 # TPFlag.ARC
@@ -5488,9 +5568,14 @@ LOCATION_TABLE = {
 # TPFlag.Snowpeak_Ruins
 # TPFlag.Ordon_Pumpkin
 # TPFlag.Temple_of_Time
+#
 # TPFlag.Cutscene
+# TPFlag.Npc_Shop
 # TPFlag.Quest
+# TPFlag.Kakariko_Village
+# TPFlag.Hyrule_Field_Eldin
 # TPFlag.Hidden_Village
+# TPFlag.Rupee_Hidden
 
 # A dictionary of every location to it's region. Could be part of location Data however i'm lazy
 LOCATION_TO_REGION: dict[str, str] = {
