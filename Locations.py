@@ -160,7 +160,7 @@ DUNGEON_NAMES = [
 LOCATION_TABLE = {
     "Arbiters Grounds Big Key Chest": TPLocationData(
         code=0,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Big_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -169,7 +169,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Death Sword Chest": TPLocationData(
         code=1,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -178,7 +178,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Dungeon Reward": TPLocationData(
         code=2,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -187,7 +187,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds East Lower Turnable Redead Chest": TPLocationData(
         code=3,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Small_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -196,7 +196,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds East Turning Room Poe": TPLocationData(
         code=4,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -205,7 +205,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds East Upper Turnable Chest": TPLocationData(
         code=5,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Dungeon_Item | TPFlag.Compass,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -214,7 +214,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds East Upper Turnable Redead Chest": TPLocationData(
         code=6,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Small_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -223,7 +223,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Entrance Chest": TPLocationData(
         code=7,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Small_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -232,7 +232,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Ghoul Rat Room Chest": TPLocationData(
         code=8,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Small_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -241,7 +241,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Hidden Wall Poe": TPLocationData(
         code=9,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -250,7 +250,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds North Turning Room Chest": TPLocationData(
         code=10,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Small_Key,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -259,7 +259,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Spinner Room First Small Chest": TPLocationData(
         code=11,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -268,7 +268,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Spinner Room Lower Central Small Chest": TPLocationData(
         code=12,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -277,7 +277,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Spinner Room Lower North Chest": TPLocationData(
         code=13,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -286,7 +286,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Spinner Room Second Small Chest": TPLocationData(
         code=14,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -295,7 +295,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Spinner Room Stalfos Alcove Chest": TPLocationData(
         code=15,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -304,16 +304,25 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Stallord Heart Container": TPLocationData(
         code=16,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Arbiters_Grounds | TPFlag.Dungeon | TPFlag.Boss,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
         offset=0x18,
         bit=0x80,
     ),
+    "Arbiters Grounds Stallord": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
+        stage_id=TPStages.Arbiters_Grounds,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Arbiters Grounds Torch Room East Chest": TPLocationData(
         code=17,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -322,7 +331,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Torch Room Poe": TPLocationData(
         code=18,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -331,7 +340,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds Torch Room West Chest": TPLocationData(
         code=19,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds | TPFlag.Dungeon_Item | TPFlag.Dungeon_Map,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -340,7 +349,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds West Chandelier Chest": TPLocationData(
         code=20,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -349,7 +358,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds West Poe": TPLocationData(
         code=21,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -358,7 +367,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds West Small Chest Behind Block": TPLocationData(
         code=22,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -367,7 +376,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds West Stalfos Northeast Chest": TPLocationData(
         code=23,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -376,7 +385,7 @@ LOCATION_TABLE = {
     ),
     "Arbiters Grounds West Stalfos West Chest": TPLocationData(
         code=24,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Arbiters_Grounds,
         stage_id=TPStages.Arbiters_Grounds,
         type=TPLocationType.Region,
         region=NodeID.Arbiters_Grounds,
@@ -385,7 +394,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Aeralfos Chest": TPLocationData(
         code=25,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -394,16 +403,25 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Argorok Heart Container": TPLocationData(
         code=26,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Boss,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
         offset=0x18,
         bit=0x80,
     ),
+    "City in The Sky Argorok": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.City_in_The_Sky,
+        stage_id=TPStages.City_in_the_Sky,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "City in The Sky Baba Tower Alcove Chest": TPLocationData(
         code=27,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -412,7 +430,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Baba Tower Narrow Ledge Chest": TPLocationData(
         code=28,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -421,7 +439,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Baba Tower Top Small Chest": TPLocationData(
         code=29,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -430,7 +448,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Big Key Chest": TPLocationData(
         code=30,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Big_Key | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -439,7 +457,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Central Outside Ledge Chest": TPLocationData(
         code=31,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -448,7 +466,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Central Outside Poe Island Chest": TPLocationData(
         code=32,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -457,7 +475,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Chest Behind North Fan": TPLocationData(
         code=33,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -466,7 +484,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Chest Below Big Key Chest": TPLocationData(
         code=34,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -475,7 +493,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Dungeon Reward": TPLocationData(
         code=35,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Dungeon_Reward,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -484,7 +502,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky East First Wing Chest After Fans": TPLocationData(
         code=36,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -493,7 +511,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky East Tile Worm Small Chest": TPLocationData(
         code=37,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -502,7 +520,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky East Wing After Dinalfos Alcove Chest": TPLocationData(
         code=38,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -511,7 +529,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky East Wing After Dinalfos Ledge Chest": TPLocationData(
         code=39,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -520,7 +538,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky East Wing Lower Level Chest": TPLocationData(
         code=40,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -529,7 +547,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Garden Island Poe": TPLocationData(
         code=41,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -538,7 +556,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Poe Above Central Fan": TPLocationData(
         code=42,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -547,7 +565,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Underwater East Chest": TPLocationData(
         code=43,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -556,7 +574,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Underwater West Chest": TPLocationData(
         code=44,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -565,7 +583,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Garden Corner Chest": TPLocationData(
         code=45,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -574,7 +592,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Garden Ledge Chest": TPLocationData(
         code=46,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -583,7 +601,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Garden Lone Island Chest": TPLocationData(
         code=47,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -592,7 +610,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Garden Lower Chest": TPLocationData(
         code=48,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -601,7 +619,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Wing Baba Balcony Chest": TPLocationData(
         code=49,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -610,7 +628,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Wing First Chest": TPLocationData(
         code=50,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Small_Key,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -619,7 +637,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Wing Narrow Ledge Chest": TPLocationData(
         code=51,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -628,7 +646,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky West Wing Tile Worm Chest": TPLocationData(
         code=52,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -637,7 +655,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Big Baba Key": TPLocationData(
         code=53,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Small_Key | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -646,7 +664,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Big Key Chest": TPLocationData(
         code=54,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Big_Key,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -655,7 +673,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Central Chest Behind Stairs": TPLocationData(
         code=55,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -664,7 +682,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Central Chest Hanging From Web": TPLocationData(
         code=56,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -673,7 +691,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Central North Chest": TPLocationData(
         code=57,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -682,16 +700,25 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Diababa Heart Container": TPLocationData(
         code=58,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Boss,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
         offset=0x18,
         bit=0x80,
     ),
+    "Forest Temple Diababa": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Forest_Temple,
+        stage_id=TPStages.Forest_Temple,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Forest Temple Dungeon Reward": TPLocationData(
         code=59,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -700,7 +727,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple East Tile Worm Chest": TPLocationData(
         code=60,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -709,7 +736,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple East Water Cave Chest": TPLocationData(
         code=61,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -718,7 +745,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Entrance Vines Chest": TPLocationData(
         code=62,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -727,7 +754,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Gale Boomerang": TPLocationData(
         code=63,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Forest_Temple | TPFlag.Dungeon | TPFlag.Boss,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -736,7 +763,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple North Deku Like Chest": TPLocationData(
         code=64,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -745,7 +772,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Second Monkey Under Bridge Chest": TPLocationData(
         code=65,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -754,7 +781,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Totem Pole Chest": TPLocationData(
         code=66,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -763,7 +790,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple West Deku Like Chest": TPLocationData(
         code=67,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -772,7 +799,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple West Tile Worm Chest Behind Stairs": TPLocationData(
         code=68,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -781,7 +808,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple West Tile Worm Room Vines Chest": TPLocationData(
         code=69,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -790,7 +817,7 @@ LOCATION_TABLE = {
     ),
     "Forest Temple Windless Bridge Chest": TPLocationData(
         code=70,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Forest_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Forest_Temple,
         type=TPLocationType.Region,
         region=NodeID.Forest_Temple,
@@ -799,7 +826,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines After Crystal Switch Room Magnet Wall Chest": TPLocationData(
         code=71,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -808,7 +835,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Beamos Room Chest": TPLocationData(
         code=72,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -817,7 +844,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Chest Before Dangoro": TPLocationData(
         code=73,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -826,7 +853,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Crystal Switch Room Small Chest": TPLocationData(
         code=74,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -835,7 +862,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Crystal Switch Room Underwater Chest": TPLocationData(
         code=75,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Small_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -844,7 +871,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Dangoro Chest": TPLocationData(
         code=76,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -853,7 +880,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Dungeon Reward": TPLocationData(
         code=77,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -862,7 +889,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Entrance Chest": TPLocationData(
         code=78,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -871,16 +898,25 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Fyrus Heart Container": TPLocationData(
         code=79,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Boss,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
         offset=0x18,
         bit=0x80,
     ),
+    "Goron Mines Fyrus": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Goron_Mines,
+        stage_id=TPStages.Goron_Mines,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Goron Mines Gor Amato Chest": TPLocationData(
         code=80,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -889,7 +925,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Amato Key Shard": TPLocationData(
         code=81,
-        flags=TPFlag.Npc | TPFlag.Dungeon,
+        flags=TPFlag.Npc | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Items | TPFlag.Big_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
@@ -898,7 +934,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Amato Small Chest": TPLocationData(
         code=82,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -907,7 +943,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Ebizo Chest": TPLocationData(
         code=83,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -916,7 +952,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Ebizo Key Shard": TPLocationData(
         code=84,
-        flags=TPFlag.Npc | TPFlag.Dungeon,
+        flags=TPFlag.Npc | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Items | TPFlag.Big_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
@@ -925,7 +961,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Liggs Chest": TPLocationData(
         code=85,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -934,7 +970,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Gor Liggs Key Shard": TPLocationData(
         code=86,
-        flags=TPFlag.Npc | TPFlag.Dungeon,
+        flags=TPFlag.Npc | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Dungeon_Items | TPFlag.Big_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Flag,
         region=None,
@@ -943,7 +979,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Magnet Maze Chest": TPLocationData(
         code=87,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -952,7 +988,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Main Magnet Room Bottom Chest": TPLocationData(
         code=88,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Small_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -961,7 +997,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Main Magnet Room Top Chest": TPLocationData(
         code=89,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -970,7 +1006,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Outside Beamos Chest": TPLocationData(
         code=90,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines | TPFlag.Small_Key,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -979,7 +1015,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Outside Clawshot Chest": TPLocationData(
         code=91,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -988,7 +1024,7 @@ LOCATION_TABLE = {
     ),
     "Goron Mines Outside Underwater Chest": TPLocationData(
         code=92,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Goron_Mines,
         stage_id=TPStages.Goron_Mines,
         type=TPLocationType.Region,
         region=NodeID.Goron_Mines,
@@ -997,7 +1033,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Big Key Chest": TPLocationData(
         code=93,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle | TPFlag.Big_Key,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1006,7 +1042,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle East Wing Balcony Chest": TPLocationData(
         code=94,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1015,16 +1051,25 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle East Wing Boomerang Puzzle Chest": TPLocationData(
         code=95,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
         offset=0x3,
         bit=0x10,
     ),
+    "Hyrule Castle Ganondorf": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Hyrule_Castle,
+        stage_id=TPStages.Hyrule_Castle,
+        type=TPLocationType.Flag,
+        region=None,
+        offset=0x857,
+        bit=0x80,
+    ),
     "Hyrule Castle Graveyard Grave Switch Room Back Left Chest": TPLocationData(
         code=96,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1033,7 +1078,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Graveyard Grave Switch Room Front Left Chest": TPLocationData(
         code=97,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1042,7 +1087,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Graveyard Grave Switch Room Right Chest": TPLocationData(
         code=98,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1051,7 +1096,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Graveyard Owl Statue Chest": TPLocationData(
         code=99,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle | TPFlag.Small_Key,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1060,7 +1105,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle King Bulblin Key": TPLocationData(
         code=100,
-        flags=TPFlag.Npc | TPFlag.Dungeon,
+        flags=TPFlag.Npc | TPFlag.Small_Key | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1069,7 +1114,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Lantern Staircase Chest": TPLocationData(
         code=101,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1078,7 +1123,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Main Hall Northeast Chest": TPLocationData(
         code=102,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1087,7 +1132,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Main Hall Northwest Chest": TPLocationData(
         code=103,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1096,7 +1141,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Main Hall Southwest Chest": TPLocationData(
         code=104,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1105,7 +1150,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Southeast Balcony Tower Chest": TPLocationData(
         code=105,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle | TPFlag.Small_Key,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1114,7 +1159,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Eighth Small Chest": TPLocationData(
         code=106,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1123,7 +1168,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Fifth Chest": TPLocationData(
         code=107,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1132,7 +1177,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Fifth Small Chest": TPLocationData(
         code=108,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1141,7 +1186,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room First Chest": TPLocationData(
         code=109,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1150,7 +1195,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room First Small Chest": TPLocationData(
         code=110,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1159,7 +1204,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Fourth Chest": TPLocationData(
         code=111,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1168,7 +1213,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Fourth Small Chest": TPLocationData(
         code=112,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1177,7 +1222,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Second Chest": TPLocationData(
         code=113,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1186,7 +1231,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Second Small Chest": TPLocationData(
         code=114,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1195,7 +1240,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Seventh Small Chest": TPLocationData(
         code=115,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1204,7 +1249,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Sixth Small Chest": TPLocationData(
         code=116,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1213,7 +1258,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Third Chest": TPLocationData(
         code=117,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1222,7 +1267,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle Treasure Room Third Small Chest": TPLocationData(
         code=118,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1231,7 +1276,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle West Courtyard Central Small Chest": TPLocationData(
         code=119,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1240,7 +1285,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Castle West Courtyard North Small Chest": TPLocationData(
         code=120,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Hyrule_Castle,
         stage_id=TPStages.Hyrule_Castle,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Castle,
@@ -1249,7 +1294,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Before Deku Toad Alcove Chest": TPLocationData(
         code=121,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1258,7 +1303,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Before Deku Toad Underwater Left Chest": TPLocationData(
         code=122,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1267,7 +1312,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Before Deku Toad Underwater Right Chest": TPLocationData(
         code=123,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1276,7 +1321,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Big Key Chest": TPLocationData(
         code=124,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Big_Key,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1285,7 +1330,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Central Room Chest": TPLocationData(
         code=125,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1294,7 +1339,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Central Room Small Chest": TPLocationData(
         code=126,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1303,7 +1348,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Central Room Spire Chest": TPLocationData(
         code=127,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1312,7 +1357,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Chandelier Chest": TPLocationData(
         code=128,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1321,7 +1366,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Deku Toad Chest": TPLocationData(
         code=129,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1330,7 +1375,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Dungeon Reward": TPLocationData(
         code=130,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1339,7 +1384,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Lower Waterwheel Bridge Chest": TPLocationData(
         code=131,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1348,7 +1393,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Lower Waterwheel Stalactite Chest": TPLocationData(
         code=132,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1357,7 +1402,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Second Floor Southeast Chest": TPLocationData(
         code=133,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Small_Key,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1366,7 +1411,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Second Floor Southwest Chest": TPLocationData(
         code=134,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1375,7 +1420,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Water Supply Clawshot Chest": TPLocationData(
         code=135,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1384,7 +1429,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple East Water Supply Small Chest": TPLocationData(
         code=136,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1393,7 +1438,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Lobby Left Chest": TPLocationData(
         code=137,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1402,7 +1447,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Lobby Rear Chest": TPLocationData(
         code=138,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1411,16 +1456,25 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Morpheel Heart Container": TPLocationData(
         code=139,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Boss,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
         offset=0x18,
         bit=0x80,
     ),
+    "Lakebed Temple Morpheel": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Lakebed_Temple,
+        stage_id=TPStages.Lakebed_Temple,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Lakebed Temple Stalactite Room Chest": TPLocationData(
         code=140,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1429,7 +1483,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple Underwater Maze Small Chest": TPLocationData(
         code=141,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1438,7 +1492,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Lower Small Chest": TPLocationData(
         code=142,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1447,7 +1501,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Second Floor Central Small Chest": TPLocationData(
         code=143,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1456,7 +1510,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Second Floor Northeast Chest": TPLocationData(
         code=144,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1465,7 +1519,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Second Floor Southeast Chest": TPLocationData(
         code=145,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1474,7 +1528,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Second Floor Southwest Underwater Chest": TPLocationData(
         code=146,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1483,7 +1537,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Water Supply Chest": TPLocationData(
         code=147,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1492,7 +1546,7 @@ LOCATION_TABLE = {
     ),
     "Lakebed Temple West Water Supply Small Chest": TPLocationData(
         code=148,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Lakebed_Temple,
         stage_id=TPStages.Lakebed_Temple,
         type=TPLocationType.Region,
         region=NodeID.Lakebed_Temple,
@@ -1501,7 +1555,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Big Key Chest": TPLocationData(
         code=149,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Big_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1510,7 +1564,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Central First Room Chest": TPLocationData(
         code=150,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1519,7 +1573,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Central Outdoor Chest": TPLocationData(
         code=151,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1528,7 +1582,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Central Tower Chest": TPLocationData(
         code=152,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1537,7 +1591,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Collect Both Sols": TPLocationData(
         code=153,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Cutscene | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1546,7 +1600,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing First Room East Alcove Chest": TPLocationData(
         code=154,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1555,7 +1609,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing First Room North Small Chest": TPLocationData(
         code=155,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1564,7 +1618,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing First Room West Alcove Chest": TPLocationData(
         code=156,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1573,7 +1627,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing First Room Zant Head Chest": TPLocationData(
         code=157,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1582,7 +1636,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing Second Room Northeast Chest": TPLocationData(
         code=158,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1591,7 +1645,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing Second Room Northwest Chest": TPLocationData(
         code=159,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1600,7 +1654,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing Second Room Southeast Chest": TPLocationData(
         code=160,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1609,7 +1663,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight East Wing Second Room Southwest Chest": TPLocationData(
         code=161,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1618,7 +1672,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight West Wing Chest Behind Wall of Darkness": TPLocationData(
         code=162,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1627,7 +1681,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight West Wing First Room Central Chest": TPLocationData(
         code=163,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1636,7 +1690,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight West Wing Second Room Central Chest": TPLocationData(
         code=164,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Small_Key,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1645,7 +1699,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight West Wing Second Room Lower South Chest": TPLocationData(
         code=165,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1654,7 +1708,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight West Wing Second Room Southeast Chest": TPLocationData(
         code=166,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -1663,16 +1717,25 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Zant Heart Container": TPLocationData(
         code=167,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Palace_of_Twilight | TPFlag.Heart_Container | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
         offset=0x1B,
         bit=0x1,
     ),
+    "Palace of Twilight Zant": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
+        stage_id=TPStages.Palace_of_Twilight,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Snowpeak Ruins Ball and Chain": TPLocationData(
         code=168,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1681,16 +1744,25 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Blizzeta Heart Container": TPLocationData(
         code=169,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Boss,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
         offset=0x18,
         bit=0x80,
     ),
+    "Snowpeak Ruins Blizzeta": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
+        stage_id=TPStages.Snowpeak_Ruins,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Snowpeak Ruins Broken Floor Chest": TPLocationData(
         code=170,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1699,7 +1771,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Chapel Chest": TPLocationData(
         code=171,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Big_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1708,7 +1780,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Chest After Darkhammer": TPLocationData(
         code=172,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1717,7 +1789,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Courtyard Central Chest": TPLocationData(
         code=173,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1726,7 +1798,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Dungeon Reward": TPLocationData(
         code=174,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1735,7 +1807,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins East Courtyard Buried Chest": TPLocationData(
         code=175,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1744,7 +1816,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins East Courtyard Chest": TPLocationData(
         code=176,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1753,7 +1825,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Ice Room Poe": TPLocationData(
         code=177,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1762,7 +1834,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Lobby Armor Poe": TPLocationData(
         code=178,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1771,7 +1843,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Lobby Chandelier Chest": TPLocationData(
         code=179,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1780,7 +1852,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Lobby East Armor Chest": TPLocationData(
         code=180,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1789,7 +1861,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Lobby Poe": TPLocationData(
         code=181,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1798,7 +1870,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Lobby West Armor Chest": TPLocationData(
         code=182,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1807,7 +1879,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Mansion Map": TPLocationData(
         code=183,
-        flags=TPFlag.Npc | TPFlag.Dungeon,
+        flags=TPFlag.Npc | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1816,7 +1888,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Northeast Chandelier Chest": TPLocationData(
         code=184,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1825,7 +1897,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Ordon Pumpkin Chest": TPLocationData(
         code=185,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Dungeon_Items | TPFlag.Ordon_Pumpkin | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1834,7 +1906,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins West Cannon Room Central Chest": TPLocationData(
         code=186,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1843,7 +1915,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins West Cannon Room Corner Chest": TPLocationData(
         code=187,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1852,7 +1924,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins West Courtyard Buried Chest": TPLocationData(
         code=188,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1861,7 +1933,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Wooden Beam Central Chest": TPLocationData(
         code=189,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1870,7 +1942,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Wooden Beam Chandelier Chest": TPLocationData(
         code=190,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1879,7 +1951,7 @@ LOCATION_TABLE = {
     ),
     "Snowpeak Ruins Wooden Beam Northwest Chest": TPLocationData(
         code=191,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Snowpeak_Ruins | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak_Ruins,
@@ -1888,16 +1960,25 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Armogohma Heart Container": TPLocationData(
         code=192,
-        flags=TPFlag.Heart | TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Heart_Container | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Boss,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
         offset=0x18,
         bit=0x80,
     ),
+    "Temple of Time Armogohma": TPLocationData(
+        code=None,
+        flags=TPFlag.Dungeon | TPFlag.Temple_of_Time,
+        stage_id=TPStages.Temple_of_Time,
+        type=TPLocationType.Region,
+        region=None,
+        offset=None,
+        bit=None,
+    ),
     "Temple of Time Armos Antechamber East Chest": TPLocationData(
         code=193,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Small_Key,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1906,7 +1987,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Armos Antechamber North Chest": TPLocationData(
         code=194,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1915,7 +1996,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Armos Antechamber Statue Chest": TPLocationData(
         code=195,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1924,7 +2005,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Big Key Chest": TPLocationData(
         code=196,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Big_Key,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1933,7 +2014,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Chest Before Darknut": TPLocationData(
         code=197,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1942,7 +2023,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Darknut Chest": TPLocationData(
         code=198,
-        flags=TPFlag.Dungeon | TPFlag.MiniBoss,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1951,7 +2032,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Dungeon Reward": TPLocationData(
         code=199,
-        flags=TPFlag.Dungeon | TPFlag.Boss,
+        flags=TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Dungeon_Reward,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1960,7 +2041,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time First Staircase Armos Chest": TPLocationData(
         code=200,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Dungeon_Items | TPFlag.Dungeon_Map,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1969,7 +2050,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time First Staircase Gohma Gate Chest": TPLocationData(
         code=201,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1978,7 +2059,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time First Staircase Window Chest": TPLocationData(
         code=202,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1987,7 +2068,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Floor Switch Puzzle Room Upper Chest": TPLocationData(
         code=203,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -1996,7 +2077,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Guillotine Chest": TPLocationData(
         code=204,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Small_Key,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2005,7 +2086,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Lobby Lantern Chest": TPLocationData(
         code=205,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Small_Key,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2014,7 +2095,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Moving Wall Beamos Room Chest": TPLocationData(
         code=206,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time | TPFlag.Dungeon_Items | TPFlag.Compass,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2023,7 +2104,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Moving Wall Dinalfos Room Chest": TPLocationData(
         code=207,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2032,7 +2113,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Poe Above Scales": TPLocationData(
         code=208,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2041,7 +2122,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Poe Behind Gate": TPLocationData(
         code=209,
-        flags=TPFlag.Dungeon | TPFlag.Poe,
+        flags=TPFlag.Dungeon | TPFlag.Poe | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2050,7 +2131,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Scales Gohma Chest": TPLocationData(
         code=210,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -2059,7 +2140,7 @@ LOCATION_TABLE = {
     ),
     "Temple of Time Scales Upper Chest": TPLocationData(
         code=211,
-        flags=TPFlag.Dungeon,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.Temple_of_Time,
         stage_id=TPStages.Temple_of_Time,
         type=TPLocationType.Region,
         region=NodeID.Temple_of_Time,
@@ -4433,40 +4514,6 @@ LOCATION_TABLE = {
         offset=0x14,
         bit=0x8,
     ),
-    # Deterministic locations
-    "Hyrule Castle Ganondorf": TPLocationData(
-        code=None,
-        flags=TPFlag.Always,
-        stage_id=TPStages.Hyrule_Castle,
-        type=TPLocationType.Flag,
-        region=None,
-        offset=0x857,
-        bit=0x80,
-    ),
-    "Lakebed Temple Morpheel": TPLocationData(
-        None, TPFlag.Always, TPStages.Lakebed_Temple, TPLocationType.Region
-    ),
-    "Palace of Twilight Zant": TPLocationData(
-        None, TPFlag.Always, TPStages.Palace_of_Twilight, TPLocationType.Region
-    ),
-    "Snowpeak Ruins Blizzeta": TPLocationData(
-        None, TPFlag.Always, TPStages.Snowpeak_Ruins, TPLocationType.Region
-    ),
-    "Temple of Time Armogohma": TPLocationData(
-        None, TPFlag.Always, TPStages.Temple_of_Time, TPLocationType.Region
-    ),
-    "Goron Mines Fyrus": TPLocationData(
-        None, TPFlag.Always, TPStages.Goron_Mines, TPLocationType.Region
-    ),
-    "Forest Temple Diababa": TPLocationData(
-        None, TPFlag.Always, TPStages.Forest_Temple, TPLocationType.Region
-    ),
-    "City in The Sky Argorok": TPLocationData(
-        None, TPFlag.Always, TPStages.City_in_the_Sky, TPLocationType.Region
-    ),
-    "Arbiters Grounds Stallord": TPLocationData(
-        None, TPFlag.Always, TPStages.Arbiters_Grounds, TPLocationType.Region
-    ),
     # "South Faron Portal": TPLocationData(
     #     None, TPFlag.Always, TPStages.Faron_Woods, TPLocationType.Region
     # ),
@@ -4540,9 +4587,9 @@ LOCATION_TABLE = {
         offset=0xDF,
         bit=0x04,
     ),
-    "Ilias Charm": TPLocationData(
+    "Ilia Charm": TPLocationData(
         code=478,
-        flags=TPFlag.Always,
+        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Hidden_Village,
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -5415,6 +5462,36 @@ LOCATION_TABLE = {
     ),
 }
 
+# TODO
+
+# removed following flags:
+# TPFlag.MiniBoss
+# TPFlag.Heart
+
+# added following flags:
+# TPFlag.Chest
+# TPFlag.Small_Key
+# TPFlag.Big_Key
+# TPFlag.Dungeon_Item
+# TPFlag.Compass
+# TPFlag.Dungeon_Map
+# TPFlag.Heart_Container
+# TPFlag.Dungeon_Reward
+# TPFlag.Arbiters_Grounds
+# TPFlag.City_in_The_Sky
+# TPFlag.ARC
+# TPFlag.Forest_Temple
+# TPFlag.Goron_Mines
+# TPFlag.Hyrule_Castle
+# TPFlag.Lakebed_Temple
+# TPFlag.Palace_of_Twilight
+# TPFlag.Snowpeak_Ruins
+# TPFlag.Ordon_Pumpkin
+# TPFlag.Temple_of_Time
+# TPFlag.Cutscene
+# TPFlag.Quest
+# TPFlag.Hidden_Village
+
 # A dictionary of every location to it's region. Could be part of location Data however i'm lazy
 LOCATION_TO_REGION: dict[str, str] = {
     "Arbiters Grounds Entrance Chest": "Arbiters Grounds Entrance",
@@ -5648,7 +5725,7 @@ LOCATION_TO_REGION: dict[str, str] = {
     # "" : "Death Mountain Sumo Hall Elevator",
     # "" : "Death Mountain Sumo Hall Goron Mines Tunnel",
     "Cats Hide and Seek Minigame": "Hidden Village",
-    "Ilias Charm": "Hidden Village",
+    "Ilia Charm": "Hidden Village",
     "Hidden Village Poe": "Hidden Village",
     "Skybook From Impaz": "Hidden Village Impaz House",
     "Kakariko Gorge Owl Statue Chest": "Kakariko Gorge",
