@@ -3,5 +3,6 @@ docs/simple_setup.md
 # Testing Files
 /tests/logs.log
 fuzzmeta.yaml
+New Locations.md
 
 __pycache__

@@ -4,36 +4,37 @@ Here is a file that lays out the basics for the current state of the randomizer
 
 ## Settings
 
-All settings are functional in generation, some are not functionally changed in-game. For example Hyrule Castle Requirments can be set to "all dungeons". The world will generate and take that into account in logic. When you then play the game currently Hyrule Castle will be open, so you can self enfoce the requirement and not enter Hyrule Castle until all dungeons are defeated.
+All settings are functional in generation.
 
 Note:
-Known generation errors when generating with faron woods logic to closed or palace of twilight on non open. The errors are rare so regenerating with a new seed is likely to fix the errors.
+Known generation errors when dungeon rewards are set to `vanilla`, a solution has not been found in attempts to diagonse the bug with no success.
+If you are able to diagnose the bug please let me know.
 
 ## Client
 
-The client has a command `/name` to allow you to change your in-game name upto 16 characters. (This is to be done before connecting to the server and after loading a save)
-
-The client checks for version numbers of the generate seed and will log a message if the versions do not match. (I have not and do not plan to keep backwards compatiblity for a while as this apworld is still in Alpha)
-
-With custom randomizer gci, defeating ganon will trigger the compleation of the world.
-
-Non US Region support (EU, JP) currently under devlopment.
+Each generation requires a custom seed. Each seed has an associated name, the client checks the seed name when connecting to ensure that the correct seed is loaded.
+The client has a validation check every 10s. Interval can be changed with `/validation_time {number of seconds between validation}` The validation checks that you have the correct amount of important items. In the off chance that you do get the item when it is sent out the validation will ensure that you get it.
 
 ## Locations
 
 The location settings will label locations as excluded which will means that they will prevent progession and usefull items from being placed at that location.
 \*In some cases this will place the items in their vanilla location
 
-With there being 475 locations in the game there are bound to be mistakes in the data. If you notice a location not triggering please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/twilight_princess/issues/2)
+With there being 475(soon to be more) locations in the game there may be mistakes in the data. If you notice a location not triggering correctly please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
 
 ## Generation
 
-When generating the world, all possible locations will be created and given an item. Logic is based off the world data from the base randomizer web generator. (If you find logic weridness please make an issue for it)
+When generating the world, all possible locations will be created and given an item. Logic is based off the world data from the base randomizer web generator.
+To easy the burden that shuffling keys creates, Pre-fill actions are taken to shuffle them locally if chosen by the settings. Locations chosen to have their vanilla items are also handled within the Pre-fill.
+
+Overworld locations currently must always be shuffled. Later, after more logic, the setting will be fixed to work.
 
 ## Dungeons
 
 Dungeon Items: Small keys, Big keys, Maps and Compasses, can be shuffled into the world according to some settings. See the Yaml for info about the settings.
 \*Some settings will alter the way these items are shuffled, more info in setting description.
+
+Due to the nature of Archipelago, "Unrequired" dungeons being empty is not implemented because there is no clear what makes a dungeon required when dungeon rewards are not vanilla (which has its own problems).
 
 # Message
 
