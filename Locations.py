@@ -101,13 +101,14 @@ class TPFlag(Flag):
     # Define flag types for different categories of checks
     Always = auto()
 
+    # Major Location
     Dungeon = auto()
     Overworld = auto()
 
+    # Minor Location
     Rupee_Hidden = auto()
     Rupee_Freestanding = auto()
     Npc = auto()
-    Npc_Shop = auto()
     Golden_Bug = auto()
     Bug_Reward = auto()
     Poe = auto()
@@ -119,6 +120,7 @@ class TPFlag(Flag):
     Hidden_Skill = auto()
     Sky_Book = auto()
 
+    # Dungeon Vanilla placement
     Dungeon_Item = auto()
     Big_Key = auto()
     Small_Key = auto()
@@ -127,16 +129,11 @@ class TPFlag(Flag):
 
     Chest = auto()
     Portal = auto()
-    Cutscene = auto()
 
-    ARC = auto()
-    DZX = auto()
-
+    # Micro location
     Hyrule_Field_Eldin = auto()
-    Hyrule_Field_Eldin_Province = auto()
     Hyrule_Field_Lanayru = auto()
-    Hyrule_Field_Lanayru_Province = auto()
-    Hyrule_Field_Faron_Province = auto()
+    Hyrule_Field_Faron = auto()
 
     Forest_Temple = auto()
     Goron_Mines = auto()
@@ -480,7 +477,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Aeralfos Chest": TPLocationData(
         code=25,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -510,7 +507,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Baba Tower Alcove Chest": TPLocationData(
         code=27,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -519,7 +516,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Baba Tower Narrow Ledge Chest": TPLocationData(
         code=28,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -528,7 +525,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Baba Tower Top Small Chest": TPLocationData(
         code=29,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -537,11 +534,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Big Key Chest": TPLocationData(
         code=30,
-        flags=TPFlag.Chest
-        | TPFlag.Dungeon
-        | TPFlag.City_in_The_Sky
-        | TPFlag.Big_Key
-        | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.Big_Key,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -550,7 +543,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Central Outside Ledge Chest": TPLocationData(
         code=31,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -559,7 +552,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Central Outside Poe Island Chest": TPLocationData(
         code=32,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -568,7 +561,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Chest Behind North Fan": TPLocationData(
         code=33,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -577,7 +570,7 @@ LOCATION_TABLE = {
     ),
     "City in The Sky Chest Below Big Key Chest": TPLocationData(
         code=34,
-        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky | TPFlag.ARC,
+        flags=TPFlag.Chest | TPFlag.Dungeon | TPFlag.City_in_The_Sky,
         stage_id=TPStages.City_in_the_Sky,
         type=TPLocationType.Region,
         region=NodeID.City_in_the_Sky,
@@ -1757,7 +1750,7 @@ LOCATION_TABLE = {
     ),
     "Palace of Twilight Collect Both Sols": TPLocationData(
         code=153,
-        flags=TPFlag.Cutscene | TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
+        flags=TPFlag.Dungeon | TPFlag.Palace_of_Twilight,
         stage_id=TPStages.Palace_of_Twilight,
         type=TPLocationType.Region,
         region=NodeID.Palace_of_Twilight,
@@ -2364,7 +2357,7 @@ LOCATION_TABLE = {
     ),
     "Barnes Bomb Bag": TPLocationData(
         code=212,
-        flags=TPFlag.Overworld | TPFlag.Npc_Shop | TPFlag.Kakariko_Village,
+        flags=TPFlag.Overworld | TPFlag.Shop | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -2382,7 +2375,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Female Phasmid": TPLocationData(
         code=213,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2391,7 +2384,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Male Phasmid": TPLocationData(
         code=214,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2400,7 +2393,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Owl Statue Chest": TPLocationData(
         code=215,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2409,7 +2402,7 @@ LOCATION_TABLE = {
     ),
     "Bridge of Eldin Owl Statue Sky Character": TPLocationData(
         code=216,
-        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Sky_Book,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2497,7 +2490,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Bomb Rock Chest": TPLocationData(
         code=220,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2506,7 +2499,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Bomskit Grotto Lantern Chest": TPLocationData(
         code=221,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2515,10 +2508,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Bomskit Grotto Left Chest": TPLocationData(
         code=222,
-        flags=TPFlag.Overworld
-        | TPFlag.Chest
-        | TPFlag.Hyrule_Field_Eldin_Province
-        | TPFlag.DZX,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2527,7 +2517,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Female Grasshopper": TPLocationData(
         code=223,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2536,7 +2526,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Male Grasshopper": TPLocationData(
         code=224,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2545,7 +2535,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Left Small Chest": TPLocationData(
         code=225,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2554,7 +2544,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Right Small Chest": TPLocationData(
         code=226,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2563,7 +2553,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Stalfos Grotto Stalfos Chest": TPLocationData(
         code=227,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2572,7 +2562,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Field Water Bomb Fish Grotto Chest": TPLocationData(
         code=228,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -2581,7 +2571,7 @@ LOCATION_TABLE = {
     ),
     "Eldin Lantern Cave First Chest": TPLocationData(
         code=229,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Lantern_Cave | TPFlag.ARC,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Eldin_Lantern_Cave,
         stage_id=TPStages.Eldin_Long_Cave,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
@@ -2671,10 +2661,7 @@ LOCATION_TABLE = {
     ),
     "Goron Springwater Rush": TPLocationData(
         code=238,
-        flags=TPFlag.Overworld
-        | TPFlag.Npc
-        | TPFlag.Hyrule_Field_Eldin_Province
-        | TPFlag.Boss,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hyrule_Field_Eldin | TPFlag.Boss,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2710,7 +2697,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Double Clawshot Chest": TPLocationData(
         code=240,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2719,7 +2706,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Female Pill Bug": TPLocationData(
         code=241,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2728,7 +2715,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Male Pill Bug": TPLocationData(
         code=242,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2746,7 +2733,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Owl Statue Chest": TPLocationData(
         code=243,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2755,7 +2742,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Owl Statue Sky Character": TPLocationData(
         code=244,
-        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Sky_Book,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2764,7 +2751,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Poe": TPLocationData(
         code=245,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2790,7 +2777,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Gorge Spire Heart Piece": TPLocationData(
         code=246,
-        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin_Province,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -2916,7 +2903,7 @@ LOCATION_TABLE = {
     ),
     "Kakariko Village Malo Mart Hawkeye": TPLocationData(
         code=256,
-        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.ARC | TPFlag.Shop,
+        flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Shop,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
@@ -3032,7 +3019,7 @@ LOCATION_TABLE = {
     ),
     "Skybook From Impaz": TPLocationData(
         code=264,
-        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hidden_Village | TPFlag.ARC,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Hidden_Village,
         stage_id=TPStages.Hidden_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -3041,7 +3028,7 @@ LOCATION_TABLE = {
     ),
     "Talo Sharpshooting": TPLocationData(
         code=265,
-        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Village | TPFlag.ARC,
+        flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Village,
         stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Flag,
         region=None,
@@ -3077,7 +3064,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Bridge Chest": TPLocationData(
         code=267,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -3086,7 +3073,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Corner Grotto Left Chest": TPLocationData(
         code=268,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -3095,7 +3082,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Corner Grotto Rear Chest": TPLocationData(
         code=269,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -3104,7 +3091,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Corner Grotto Right Chest": TPLocationData(
         code=270,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -3113,7 +3100,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Female Beetle": TPLocationData(
         code=271,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -3122,7 +3109,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Male Beetle": TPLocationData(
         code=272,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -3131,7 +3118,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Poe": TPLocationData(
         code=273,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -3140,7 +3127,7 @@ LOCATION_TABLE = {
     ),
     "Faron Field Tree Heart Piece": TPLocationData(
         code=274,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Faron,
         stage_id=TPStages.Faron_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -3167,7 +3154,7 @@ LOCATION_TABLE = {
     ),
     "Faron Mist North Chest": TPLocationData(
         code=277,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Faron_Woods | TPFlag.DZX,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Faron_Woods,
         stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
@@ -3301,7 +3288,7 @@ LOCATION_TABLE = {
     ),
     "North Faron Woods Deku Baba Chest": TPLocationData(
         code=287,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Faron_Woods | TPFlag.ARC,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Faron_Woods,
         stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
@@ -3569,7 +3556,7 @@ LOCATION_TABLE = {
     ),
     "Gerudo Desert Male Dayfly": TPLocationData(
         code=315,
-        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Gerudo_Desert | TPFlag.DZX,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Gerudo_Desert,
         stage_id=TPStages.Gerudo_Desert,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
@@ -3605,7 +3592,7 @@ LOCATION_TABLE = {
     ),
     "Gerudo Desert Northwest Chest Behind Gates": TPLocationData(
         code=319,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Gerudo_Desert | TPFlag.ARC,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Gerudo_Desert,
         stage_id=TPStages.Gerudo_Desert,
         type=TPLocationType.Region,
         region=NodeID.Gerudo_Desert,
@@ -4043,7 +4030,7 @@ LOCATION_TABLE = {
     ),
     "East Castle Town Bridge Poe": TPLocationData(
         code=361,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4124,7 +4111,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Field Amphitheater Owl Statue Chest": TPLocationData(
         code=370,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4133,7 +4120,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Field Amphitheater Owl Statue Sky Character": TPLocationData(
         code=371,
-        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru_Province | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Sky_Book,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4142,7 +4129,7 @@ LOCATION_TABLE = {
     ),
     "Hyrule Field Amphitheater Poe": TPLocationData(
         code=372,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4214,7 +4201,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Bubble Grotto Chest": TPLocationData(
         code=380,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -4223,7 +4210,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Cliff Chest": TPLocationData(
         code=381,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4232,7 +4219,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Cliff Poe": TPLocationData(
         code=382,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4250,9 +4237,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Female Mantis": TPLocationData(
         code=383,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4261,9 +4246,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Male Mantis": TPLocationData(
         code=384,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4272,9 +4255,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Owl Statue Boulder Rupee": TPLocationData(
         code=504,
-        flags=TPFlag.Overworld
-        | TPFlag.Hyrule_Field_Lanayru_Province
-        | TPFlag.Rupee_Hidden,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
         stage_id=None,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4283,7 +4264,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Owl Statue Chest": TPLocationData(
         code=385,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4292,7 +4273,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Owl Statue Sky Character": TPLocationData(
         code=386,
-        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru_Province | TPFlag.Sky_Book,
+        flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Sky_Book,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4301,7 +4282,7 @@ LOCATION_TABLE = {
     ),
     "Lake Hylia Bridge Vines Chest": TPLocationData(
         code=387,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4561,7 +4542,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Behind Gate Underwater Chest": TPLocationData(
         code=411,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4570,7 +4551,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Bridge Poe": TPLocationData(
         code=412,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4579,9 +4560,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Female Stag Beetle": TPLocationData(
         code=413,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4590,9 +4569,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Male Stag Beetle": TPLocationData(
         code=414,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4619,7 +4596,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Poe Grotto Left Poe": TPLocationData(
         code=415,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -4628,7 +4605,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Poe Grotto Right Poe": TPLocationData(
         code=416,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -4637,7 +4614,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Skulltula Grotto Chest": TPLocationData(
         code=417,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -4664,7 +4641,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Field Spinner Track Chest": TPLocationData(
         code=418,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4682,7 +4659,7 @@ LOCATION_TABLE = {
     ),
     "Lanayru Ice Block Puzzle Cave Chest": TPLocationData(
         code=419,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Cave_of_Ordeals,
@@ -4781,7 +4758,7 @@ LOCATION_TABLE = {
     ),
     "Outside Lanayru Spring Left Statue Chest": TPLocationData(
         code=428,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Lake_Hylia | TPFlag.DZX,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Lake_Hylia,
         stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
@@ -4808,7 +4785,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Double Clawshot Chasm Chest": TPLocationData(
         code=430,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4817,9 +4794,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Female Ladybug": TPLocationData(
         code=431,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4828,7 +4803,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Fountain Chest": TPLocationData(
         code=432,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4837,9 +4812,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Golden Wolf": TPLocationData(
         code=433,
-        flags=TPFlag.Overworld
-        | TPFlag.Hidden_Skill
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Hidden_Skill | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Flag,
         region=None,
@@ -4848,9 +4821,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Male Ladybug": TPLocationData(
         code=434,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4859,7 +4830,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Poe": TPLocationData(
         code=435,
-        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Poe | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4868,7 +4839,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Tektite Grotto Chest": TPLocationData(
         code=436,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -4877,7 +4848,7 @@ LOCATION_TABLE = {
     ),
     "Outside South Castle Town Tightrope Chest": TPLocationData(
         code=437,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4984,9 +4955,7 @@ LOCATION_TABLE = {
     ),
     "West Hyrule Field Female Butterfly": TPLocationData(
         code=443,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -4995,9 +4964,7 @@ LOCATION_TABLE = {
     ),
     "West Hyrule Field Golden Wolf": TPLocationData(
         code=444,
-        flags=TPFlag.Overworld
-        | TPFlag.Hidden_Skill
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Hidden_Skill | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Flag,
         region=None,
@@ -5006,7 +4973,7 @@ LOCATION_TABLE = {
     ),
     "West Hyrule Field Helmasaur Grotto Chest": TPLocationData(
         code=445,
-        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Chest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Grotto,
@@ -5015,9 +4982,7 @@ LOCATION_TABLE = {
     ),
     "West Hyrule Field Male Butterfly": TPLocationData(
         code=446,
-        flags=TPFlag.Overworld
-        | TPFlag.Golden_Bug
-        | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Golden_Bug | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
@@ -5044,7 +5009,7 @@ LOCATION_TABLE = {
     ),
     "Wooden Statue": TPLocationData(
         code=524,
-        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Hyrule_Field_Lanayru_Province,
+        flags=TPFlag.Overworld | TPFlag.Quest | TPFlag.Hyrule_Field_Lanayru,
         stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Flag,
         region=None,
