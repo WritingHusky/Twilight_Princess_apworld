@@ -68,7 +68,7 @@ VANILLA_SMALL_KEYS_LOCATIONS = {
         "Temple of Time Small Key": [
             "Temple of Time Lobby Lantern Chest",
             "Temple of Time Armos Antechamber East Chest",
-            "Temple of Time Gilloutine Chest",
+            "Temple of Time Guillotine Chest",
         ],
     },
     "City in The Sky": {
@@ -425,6 +425,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.dungeon_rewards_progression.value
                     == DungeonRewardsProgression.option_vanilla
                 )
+                # or (
+                #     item == "Heart Container"
+                #     and world.options.dungeon_rewards_progression.value
+                #     == DungeonRewardsProgression.option_vanilla
+                # )
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue

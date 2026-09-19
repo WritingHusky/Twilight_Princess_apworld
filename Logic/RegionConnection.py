@@ -1764,12 +1764,16 @@ def connect_regions(multiworld: MultiWorld, player: int) -> None:
         "Mist Area Near North Faron Woods -> Mist Area Near North Faron Woods Behind Gate",
     )
 
-    multiworld.get_region("Mist Area Near North Faron Woods Behind Gate", player).connect(
+    multiworld.get_region(
+        "Mist Area Near North Faron Woods Behind Gate", player
+    ).connect(
         multiworld.get_region("Mist Area Near North Faron Woods", player),
         "Mist Area Near North Faron Woods Behind Gate -> Mist Area Near North Faron Woods",
     )
 
-    multiworld.get_region("Mist Area Near North Faron Woods Behind Gate", player).connect(
+    multiworld.get_region(
+        "Mist Area Near North Faron Woods Behind Gate", player
+    ).connect(
         multiworld.get_region("North Faron Woods", player),
         "Mist Area Near North Faron Woods Behind Gate -> North Faron Woods",
     )

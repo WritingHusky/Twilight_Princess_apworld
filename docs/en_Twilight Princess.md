@@ -38,5 +38,4 @@ This randomizer would not be possible without the help from:
 
 - LunarSoap and the TPRandomizer community
 - Kirito for creating the poptracker for this game
-- Tanjo3 and the Wind Waker AP (Heavy Inspriation code wise)
 - Every one who has reported bugs and requested features
