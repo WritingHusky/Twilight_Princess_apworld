@@ -124,6 +124,7 @@ class TPFlag(Flag):
     Small_Key = auto()
     Compass = auto()
     Dungeon_Map = auto()
+    Ordon_Pumpkin = auto()
 
     Chest = auto()
     Portal = auto()
@@ -164,6 +165,7 @@ class TPFlag(Flag):
     Gerudo_Desert = auto()
     Cave_of_Ordeals = auto()
     Bulblin_Camp = auto()
+    Mirror_Chamber = auto()
 
     Castle_Town = auto()
     Lake_Hylia = auto()
@@ -2425,6 +2427,7 @@ LOCATION_TABLE = {
         | TPFlag.Dungeon
         | TPFlag.Snowpeak_Ruins
         | TPFlag.Dungeon_Item
+        | TPFlag.Ordon_Pumpkin
         | TPFlag.Small_Key,
         stage_id=TPStages.Snowpeak_Ruins,
         type=TPLocationType.Region,
@@ -4393,7 +4396,7 @@ LOCATION_TABLE = {
     "Mirror Chamber Portal": TPLocationData(
         code=None,
         flags=TPFlag.Overworld
-        | TPFlag.Gerudo_Desert
+        | TPFlag.Mirror_Chamber
         | TPFlag.Portal,
         stage_id=TPStages.Mirror_Chamber,
         region=TPLocationType.Region,
@@ -5095,7 +5098,7 @@ LOCATION_TABLE = {
     "Lake Hylia Bridge Owl Statue Boulder Rupee": TPLocationData(
         code=504,
         flags=TPFlag.Overworld
-        | TPFlag.Hyrule_Field_Lanayru_Province
+        | TPFlag.Hyrule_Field_Lanayru
         | TPFlag.Rupee_Hidden,
         stage_id=None,
         type=TPLocationType.Region,
@@ -5931,7 +5934,7 @@ LOCATION_TABLE = {
     "Upper Zoras River Portal": TPLocationData(
         code=None,
         flags=TPFlag.Overworld
-        | TPFlag.Upper_Zoras_River
+        | TPFlag.Zoras_Domain
         | TPFlag.Portal,
         stage_id=TPStages.Zoras_Domain,
         region=TPLocationType.Region,
@@ -6455,7 +6458,7 @@ LOCATION_TABLE = {
         bit=0x80,
     ),
     "Ordon Rusl House Roof Rupee 1": TPLocationData(
-        code=501,
+        code=551,
         flags=TPFlag.Overworld
         | TPFlag.Faron_Woods
         | TPFlag.Rupee_Freestanding,
@@ -6466,7 +6469,7 @@ LOCATION_TABLE = {
         bit=0x2,
     ),
     "Ordon Rusl House Roof Rupee 2": TPLocationData(
-        code=502,
+        code=552,
         flags=TPFlag.Overworld
         | TPFlag.Faron_Woods
         | TPFlag.Rupee_Freestanding,
@@ -6477,7 +6480,7 @@ LOCATION_TABLE = {
         bit=0x10,
     ),
     "Ordon Shield House Ledge Grass Rupee": TPLocationData(
-        code=503,
+        code=553,
         flags=TPFlag.Overworld
         | TPFlag.Faron_Woods
         | TPFlag.Rupee_Freestanding,
