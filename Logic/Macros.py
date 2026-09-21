@@ -1,5 +1,5 @@
 from BaseClasses import CollectionState
-from ..Items import GoldenBugs, TPItem
+from ..Items import GoldenBugs, TPItem, BossItems
 from ..RoomFunctions import RoomFunctions
 from ..options import FaronWoodsLogic, CastleRequirements
 
@@ -2149,7 +2149,7 @@ def can_open_hc_bk_gate(state: CollectionState, player: int):
     return (
         (
             state._tp_castle_bk_requirements(player)
-            == CastleBKRequirements.option_open
+            == CastleBKRequirements.option_none
         )
         or (
             (
@@ -2171,13 +2171,6 @@ def can_open_hc_bk_gate(state: CollectionState, player: int):
                 == CastleBKRequirements.option_dungeons
             )
             and (dungeonCount >= state._tp_hc_bk_amount)
-        )
-        or (
-            (
-                state._tp_castle_bk_requirements(player)
-                == CastleBKRequirements.option_vanilla
-            )
-            and can_complete_palace_of_twilight(state, player)
         )
         or (
             (
