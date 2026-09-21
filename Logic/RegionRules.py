@@ -152,7 +152,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
 
     set_rule_if_exits(
         world.get_entrance("City in The Sky Entrance -> Lake Hylia"),
-        lambda state: (can_use(state, player, "Progressive Clawshot", 1)),
+        lambda state: (True),
     )
 
     set_rule_if_exits(
@@ -182,7 +182,20 @@ def set_region_access_rules(world: "TPWorld", player: int):
 
     set_rule_if_exits(
         world.get_entrance("City in The Sky Lobby -> City in The Sky West Wing"),
-        lambda state: (can_use(state, player, "Progressive Clawshot", 2)),
+        lambda state: (
+            (
+                can_use(state, player, "Progressive Clawshot")
+                and can_use(state, player, "Spinner")
+            )
+            or can_use(state, player, "Progressive Clawshot", 2)
+        ),
+        lambda state: (
+            (
+                can_use(state, player, "Progressive Clawshot")
+                or can_do_lja(state, player)
+            )
+            and can_use(state, player, "Spinner")
+        ),
     )
 
     set_rule_if_exits(
@@ -458,13 +471,17 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_use(state, player, "Goron Mines Small Key", 1)
             or (
-                False and can_use(state, player, "Iron Boots")  # Setting GM Shortcut == True
+                state._tp_gm_shortcut(player)
+                and can_use(state, player, "Iron Boots")
             )
         ),
         lambda state: (
             can_use(state, player, "Goron Mines Small Key", 1)
             or (
-                (False or has_sword(state, player))  # Setting GM Shortcut == True
+                (
+                    state._tp_gm_shortcut(player)
+                    or has_sword(state, player)
+                )
                 and can_use(state, player, "Iron Boots")
             )
         ),
@@ -477,14 +494,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (
                 can_use(state, player, "Goron Mines Small Key", 1)
-                or False  # Setting GM Shortcut == true
+                or state._tp_gm_shortcut(player)
             )
             and can_use(state, player, "Iron Boots")
         ),
         lambda state: (
             (
                 can_use(state, player, "Goron Mines Small Key", 1)
-                or False  # Setting GM Shortcut == true
+                or state._tp_gm_shortcut(player)
                 or has_sword(state, player)
             )
             and can_use(state, player, "Iron Boots")
@@ -603,7 +620,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_Bokoblin(state, player)
             and can_defeat_Lizalfos(state, player)
-            and False  # Setting HC Shortcut == True
+            and state._tp_hc_shortcut(player)
             and can_use(state, player, "Progressive Clawshot", 2)
         ),
     )
@@ -711,8 +728,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Hyrule Castle Third Floor Balcony -> Hyrule Castle After Double Dinalfos"
         ),
         lambda state: (
-            (can_use(state, player, "Lantern") and can_defeat_Dinalfos(state, player))
-            or False  # Setting HC Shortcut == True
+            (
+                can_use(state, player, "Lantern")
+                and can_defeat_Dinalfos(state, player)
+            )
+            or state._tp_hc_shortcut(player)
         ),
     )
 
@@ -763,7 +783,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             and can_defeat_Ganondorf(state, player)
         ),
         lambda state: (
-            (can_use(state, player, "Spinner") or can_do_js_lja(state, player))
+            (
+                can_use(state, player, "Spinner")
+                or can_do_js_lja(state, player)
+            )
             and can_use(state, player, "Progressive Clawshot", 1)
             and can_defeat_Darknut(state, player)
             and can_defeat_Lizalfos(state, player)
@@ -1480,11 +1503,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and can_defeat_Darknut(state, player)
                 and can_use(state, player, "Temple of Time Small Key", 3)
             )
-            or state._tp_tot_entrance(player)  # needs to be changed to DoT setting
+            or state._tp_open_door_of_time(player)
         ),
         lambda state: (
             can_use(state, player, "Progressive Dominion Rod", 1)
-            or state._tp_tot_entrance(player)  # needs to be changed to DoT setting
+            or state._tp_open_door_of_time(player)
         ),
     )
 
@@ -2029,7 +2052,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 state.can_reach_region("Kakariko Renados Sanctuary", player)
                 and can_use(state, player, "Wooden Statue")
             )
-            or False  # Setting Ilia Quest == Charm
+            or (
+                state._tp_ilia_quest(player)
+                == IliaQuest.option_charm
+            )
         ),
     )
 
@@ -3337,7 +3363,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_defeat_KingBulblinDesert(state, player)
                 and (
                     can_use(state, player, "Gerudo Desert Bulblin Camp Key")
-                    or (can_do_map_glitch(state, player) and has_sword(state, player))
+                    or (
+                        can_do_map_glitch(state, player)
+                        and has_sword(state, player)
+                    )
                 )
             )
             or state._tp_skip_arbiters_entrance(player)
