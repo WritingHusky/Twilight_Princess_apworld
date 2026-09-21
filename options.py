@@ -462,20 +462,33 @@ class SkipSnowpeakEntrance(Toggle):
     default = True
 
 
-class TotEntrance(Choice):
+class GroveEntrance(Choice):
     """
-    Controls requirements for accessing the Temple of Time.
+    Controls requirements for accessing the the Sacred Grove.
 
     - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
     - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
     - **Open:** Open Grove but player does not need Master Sword to access Past.
     """
 
-    display_name = "Temple of Time Entrance"
+    display_name = "Sacred Grove Entrance"
     option_closed = 0
     option_open_grove = 1
     option_open = 2
     default = 2
+
+
+class ToTEntrance:
+    """
+    TODO: Please fill out
+    """
+
+    display_name = "TODO"
+    option_none = 0
+    wooden_sword = 1
+    ordon_sword = 2
+    master_sword = 3
+    light_sword = 4
 
 
 class SkipCityInTheSkyEntrance(Toggle):
@@ -646,7 +659,8 @@ class TPOptions(PerGameCommonOptions):
     skip_snowpeak_entrance: SkipSnowpeakEntrance
     skip_city_in_the_sky_entrance: SkipCityInTheSkyEntrance
     goron_mines_entrance: GoronMinesEntrance
-    tot_entrance: TotEntrance
+    grove_entrance: GroveEntrance
+    tot_entrance: ToTEntrance
 
     early_shadow_crystal: EarlyShadowCrystal
 
@@ -730,7 +744,7 @@ tp_option_groups: list[OptionGroup] = [
             SkipSnowpeakEntrance,
             SkipCityInTheSkyEntrance,
             GoronMinesEntrance,
-            TotEntrance,
+            GroveEntrance,
         ],
         start_collapsed=True,
     ),

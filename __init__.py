@@ -1795,8 +1795,8 @@ class TPWorld(World):
             "Snowpeak Entrance Requirements": self.options.skip_snowpeak_entrance.get_option_name(
                 self.options.skip_snowpeak_entrance.value
             ),
-            "Temple of Time Entrance Requirements": self.options.tot_entrance.get_option_name(
-                self.options.tot_entrance.value
+            "Sacred Grove Entrance Requirements": self.options.grove_entrance.get_option_name(
+                self.options.grove_entrance.value
             ),
             "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
                 self.options.skip_city_in_the_sky_entrance.value

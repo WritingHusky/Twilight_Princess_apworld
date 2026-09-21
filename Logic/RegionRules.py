@@ -458,13 +458,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             state.has("Goron Mines Small Key", player, 1)
             or (
-                False and state.has("Iron Boots", player)  # Setting GM Shortcut == True
+                False
+                and state.has("Iron Boots", player)  # TODO Setting GM Shortcut == True
             )
         ),
         lambda state: (
             state.has("Goron Mines Small Key", player, 1)
             or (
-                (False or has_sword(state, player))  # Setting GM Shortcut == True
+                (False or has_sword(state, player))  # TODO Setting GM Shortcut == True
                 and state.has("Iron Boots", player)
             )
         ),
@@ -477,14 +478,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (
                 state.has("Goron Mines Small Key", player, 1)
-                or False  # Setting GM Shortcut == true
+                or False  # TODO Setting GM Shortcut == true
             )
             and state.has("Iron Boots", player)
         ),
         lambda state: (
             (
                 state.has("Goron Mines Small Key", player, 1)
-                or False  # Setting GM Shortcut == true
+                or False  # TODO Setting GM Shortcut == true
                 or has_sword(state, player)
             )
             and state.has("Iron Boots", player)
@@ -603,7 +604,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_Bokoblin(state, player)
             and can_defeat_Lizalfos(state, player)
-            and False  # Setting HC Shortcut == True
+            and False  # TODO Setting HC Shortcut == True
             and state.has("Progressive Clawshot", player, 2)
         ),
     )
@@ -712,7 +713,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             (state.has("Lantern", player) and can_defeat_Dinalfos(state, player))
-            or False  # Setting HC Shortcut == True
+            or False  # TODO Setting HC Shortcut == True
         ),
     )
 
@@ -1480,11 +1481,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and can_defeat_Darknut(state, player)
                 and state.has("Temple of Time Small Key", player, 3)
             )
-            or state._tp_tot_entrance(player)  # needs to be changed to DoT setting
+            or state._tp_tot_entrance(player)  # TODO needs to be changed to DoT setting
         ),
         lambda state: (
             state.has("Progressive Dominion Rod", player, 1)
-            or state._tp_tot_entrance(player)  # needs to be changed to DoT setting
+            or state._tp_tot_entrance(player)  # TODO needs to be changed to DoT setting
         ),
     )
 
@@ -1898,7 +1899,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and can_complete_lanayru_twilight(state, player)  # always True
                 and state.can_reach_region("Kakariko Malo Mart", player)
             )
-            or False  # Setting Skip Bridge Donation == True
+            or False  # TODO Setting Skip Bridge Donation == True
         ),
         lambda state: (
             (
@@ -1908,7 +1909,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 )
                 and can_complete_eldin_twilight(state, player)  # always True
             )
-            or False  # Setting Skip Bridge Donation == True
+            or False  # TODO Setting Skip Bridge Donation == True
         ),
     )
 
@@ -1973,7 +1974,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and can_complete_eldin_twilight(state, player)  # always True
                 and can_complete_lanayru_twilight(state, player)  # always True
             )
-            or False  # Setting Skip Bridge Donation == True
+            or False  # TODO Setting Skip Bridge Donation == True
         ),
     )
 
@@ -2029,7 +2030,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 state.can_reach_region("Kakariko Renados Sanctuary", player)
                 and state.has("Wooden Statue", player)
             )
-            or False  # Setting Ilia Quest == Charm
+            or False  # TODO Setting Ilia Quest == Charm
         ),
     )
 
@@ -2529,7 +2530,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("South Faron Woods -> South Faron Woods Behind Gate"),
         lambda state: (
-            True  # state.has("Faron Woods Coro Key", player)
+            True  # TODO state.has("Faron Woods Coro Key", player)
             or state.has("Shadow Crystal", player)
         ),
     )
@@ -2568,7 +2569,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("South Faron Woods Behind Gate -> South Faron Woods"),
         lambda state: (
-            True  # state.has("Faron Woods Coro Key", player)
+            True  # TODO state.has("Faron Woods Coro Key", player)
             or state.has("Shadow Crystal", player)
         ),
     )
@@ -2833,14 +2834,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance(
             "Mist Area Near North Faron Woods -> Mist Area Near North Faron Woods Behind Gate"
         ),
-        lambda state: (True),  # state.has("North Faron Woods Gate Key", player)
+        lambda state: (True),  # TODO state.has("North Faron Woods Gate Key", player)
     )
 
     set_rule_if_exits(
         world.get_entrance(
             "Mist Area Near North Faron Woods Behind Gate -> Mist Area Near North Faron Woods"
         ),
-        lambda state: (True),  # state.has("North Faron Woods Gate Key", player)
+        lambda state: (True),  # TODO state.has("North Faron Woods Gate Key", player)
     )
 
     set_rule_if_exits(
@@ -2957,16 +2958,16 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (can_defeat_SkullKid(state, player) and state.has("Shadow Crystal", player))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
         lambda state: (
             (can_defeat_SkullKid(state, player) and state.has("Shadow Crystal", player))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
             or can_do_js_moon_boots(state, player)
         ),
     )
@@ -2976,9 +2977,9 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (can_defeat_SkullKid(state, player) and state.has("Shadow Crystal", player))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
     )
 
@@ -2997,9 +2998,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_SkullKid(state, player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (
+                state._tp_grove_entrancece(player) == GroveEntrance.option_open_grove
+            )  #
         ),
     )
 
@@ -3019,9 +3022,9 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_SkullKid(state, player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
     )
 
@@ -3064,16 +3067,16 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
             or can_do_js_moon_boots(state, player)
         ),
     )
@@ -3377,7 +3380,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             can_defeat_ShadowBeast(state, player)
             or (
                 state.has("Shadow Crystal", player)
-                and False  # state.has("Mirror Chamber Portal Item", player)
+                and False  # TODO state.has("Mirror Chamber Portal Item", player)
             )
         ),
     )
@@ -3389,7 +3392,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_defeat_ShadowBeast(state, player)
                 or (
                     state.has("Shadow Crystal", player)
-                    and False  # state.has("Mirror Chamber Portal Item", player)
+                    and False  # TODO state.has("Mirror Chamber Portal Item", player)
                 )
             )
             and (
@@ -3428,7 +3431,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             can_defeat_ShadowBeast(state, player)
             or (
                 state.has("Shadow Crystal", player)
-                and False  # state.has("Mirror Chamber Portal Item", player)
+                and False  # TODO state.has("Mirror Chamber Portal Item", player)
             )
         ),
     )
@@ -3672,8 +3675,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             state.has("Invoice", player)
-            or False  # Setting Ilia Quest == Statue
-            or False  # Setting Ilia Quest == Charm
+            or False  # TODO Setting Ilia Quest == Statue
+            or False  # TODO Setting Ilia Quest == Charm
         ),
     )
 
@@ -3683,8 +3686,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             state.has("Invoice", player)
-            or False  # Setting Ilia Quest == Statue
-            or False  # Setting Ilia Quest == Charm
+            or False  # TODO Setting Ilia Quest == Statue
+            or False  # TODO Setting Ilia Quest == Charm
         ),
     )
 
@@ -4203,7 +4206,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                     can_defeat_ShadowBeast(state, player)
                     and state._tp_transform_anywhere(player)
                 )
-                or False  # state.has("Upper Zoras River Portal Item", player)
+                or False  # TODO state.has("Upper Zoras River Portal Item", player)
             )
             and can_complete_lanayru_twilight(state, player)  # always True
         ),
@@ -4569,7 +4572,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Snowpeak Summit Upper -> Snowpeak Summit Lower"),
         lambda state: (
             (
-                False  # state.has("Snowpeak Portal Item", player)
+                False  # TODO state.has("Snowpeak Portal Item", player)
                 or can_defeat_ShadowBeast(state, player)
             )
             and (
