@@ -1080,7 +1080,7 @@ def can_defeat_KingBulblinDesert(state: CollectionState, player: int):
         or (
             can_do_difficult_combat(state, player)
             and (
-                can_use(state, player, "Shadow Crystal")
+                can_use(state, player, "Spinner")
                 or can_use(state, player, "Iron Boots")
                 or has_bombs(state, player)
                 or can_use(state, player, "Progressive Hero's Bow", 2)
@@ -1098,7 +1098,7 @@ def can_defeat_KingBulblinCastle(state: CollectionState, player: int):
         or (
             can_do_difficult_combat(state, player)
             and (
-                can_use(state, player, "Shadow Crystal")
+                can_use(state, player, "Spinner")
                 or can_use(state, player, "Iron Boots")
                 or has_bombs(state, player)
                 or can_use_backslice_as_sword(state, player)
@@ -1308,7 +1308,7 @@ def has_shield(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House", player)
-            and True  # (not state._tp_shops_shuffled(player)) # not yet implemented
+            and not state._tp_shops_shuffled(player)
         )
         or state.can_reach_region("Death Mountain Hot Spring", player)
     )
@@ -1329,7 +1329,10 @@ def can_use_bottled_fairies(state: CollectionState, player: int):
 
 
 def can_use_oil_bottle(state: CollectionState, player: int):
-    return has_bottle(state, player)
+    return (
+        can_use(state, player, "Lantern")
+        and has_bottle(state, player)
+    )
 
 
 def can_launch_bombs(state: CollectionState, player: int):
@@ -1352,14 +1355,11 @@ def can_cut_hanging_web(state: CollectionState, player: int):
 
 
 def get_player_health(state: CollectionState, player: int):
-    playerHealth = 3.0  # start at 3 since we have 3 hearts.
-
-    playerHealth = playerHealth + (
-        state.world_state.get_item_count("Piece of Heart") * 0.2
-    )  # Pieces of heart are 1/5 of a heart.
-    playerHealth = playerHealth + state.world_state.get_item_count("Heart Container")
-
-    return playerHealth
+    return (
+        3
+        + (state.count("Piece of Heart", player) * 0.2)
+        + state.count("Heart Container", player)
+    )
 
 
 def can_knock_down_hc_painting(state: CollectionState, player: int):
@@ -1422,7 +1422,7 @@ def can_free_all_monkeys(state: CollectionState, player: int):
         and (
             can_use(state, player, "Lantern")
             or (
-                can_use(state, player, "Forest Temple Small Key", 4)  # (same as keysy setting enabled)
+                can_use(state, player, "Forest Temple Small Key", 4)
                 and (
                     has_bombs(state, player)
                     or can_use(state, player, "Iron Boots")
@@ -1494,7 +1494,7 @@ def can_get_arrows(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House Balcony", player)
-            and True  # (not state._tp_shops_shuffled(player)) # not yet implemented
+            and not state._tp_shops_shuffled(player)
         )
     )
 
@@ -1515,7 +1515,7 @@ def can_refill_oil(state: CollectionState, player: int):
         )
         or (
             state.can_reach_region("Castle Town Goron House", player)
-            and True  # (not state._tp_shops_shuffled(player)) # not yet implemented
+            and not state._tp_shops_shuffled(player)
         )
         or state.can_reach_region("Death Mountain Hot Spring", player)
         or state.can_reach_region("City in The Sky Entrance", player)
@@ -1540,36 +1540,53 @@ def can_refill_oil(state: CollectionState, player: int):
 
 def can_complete_prologue(state: CollectionState, player: int):
     return True
-
-
-#     assert False, "This is no longer used"
-#     # return (
-#     #     state.can_reach_region("North Faron Woods", player)
-#     #     and can_defeat_Bokoblin(state, player)
-#     # ) or state._tp_skip_prologue(player)
+    # return (
+    #     (
+    #         state.can_reach_region("North Faron Woods", player)
+    #         and can_defeat_Bokoblin(state, player)
+    #     )
+    #     or state._tp_skip_prologue(player)
 
 
 def can_complete_goats1(state: CollectionState, player: int):
-    return state.can_reach_region("Ordon Ranch", player) or can_complete_prologue(
-        state, player
+    return (
+        state.can_reach_region("Ordon Ranch", player)
+        or can_complete_prologue(state, player)
     )
 
 
 def can_complete_MDH(state: CollectionState, player: int):
     return True
-
-
-#     assert False, "This is no longer used"
-#     # return state._tp_skip_mdh(player) or (
-#     #     can_complete_lakebed_temple(state, player)
-#     #     and state.can_reach_region("Castle Town South", player)
-#     # )
-#     # return (canCompleteLakebedTemple() or (state.world.options.skip_mdh.value == True))
+    return (
+        state._tp_skip_mdh(player)
+        or (
+            can_complete_lakebed_temple(state, player)
+            and state.can_reach_region("Castle Town South", player)
+        )
+    )
 
 
 # TODO: Figure this out
 def can_strike_pedestal(state: CollectionState, player: int):
-    return has_sword(state, player, 3)  # sword amount >= setting tot entrance required
+    return (
+        state._tp_tot_entrance == ToTEntrance.option_none
+        or (
+            state._tp_tot_entrance == ToTEntrance.option_wooden_sword
+            and has_sword(state, player, 1)
+        )
+        or (
+            state._tp_tot_entrance == ToTEntrance.option_ordon_sword
+            and has_sword(state, player, 2)
+        )
+        or (
+            state._tp_tot_entrance == ToTEntrance.option_master_sword
+            and has_sword(state, player, 3)
+        )
+        or (
+            state._tp_tot_entrance == ToTEntrance.option_light_sword
+            and has_sword(state, player, 4)
+        )
+    )
 
 
 def can_clear_forest(state: CollectionState, player: int):
@@ -1585,95 +1602,95 @@ def can_clear_forest(state: CollectionState, player: int):
 
 def can_complete_faron_twilight(state: CollectionState, player: int):
     return True
-
-
-#     assert False, "This is no longer used"
-#     return ( # state._tp_faron_twilight_cleared(player) or
-#         can_complete_prologue(state, player)
-#         and state.can_reach_region("South Faron Woods", player)
-#         and state.can_reach_region("Faron Woods Coros House Lower", player)
-#         and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
-#         and state.can_reach_region("North Faron Woods", player)
-#         and state.can_reach_region("Ordon Spring", player)
-#         and (
-#             not state._tp_bonks_do_damage(player)
-#             or (
-#                 state._tp_bonks_do_damage(player)
-#                 and (
-#                     (
-#                         state._tp_damage_magnification(player)
-#                         is not DamageMagnification.option_ohko
-#                     )
-#                     or can_use_bottled_fairies(state, player)
-#                 )
-#             )
-#         )
-#     )
+    # return (
+    #     state._tp_faron_twilight_cleared(player)
+    #     or (
+    #         can_complete_prologue(state, player)
+    #         and state.can_reach_region("South Faron Woods", player)
+    #         and state.can_reach_region("Faron Woods Coros House Lower", player)
+    #         and state.can_reach_region("Mist Area Near Faron Woods Cave", player)
+    #         and state.can_reach_region("North Faron Woods", player)
+    #         and state.can_reach_region("Ordon Spring", player)
+    #         and (
+    #             not state._tp_bonks_do_damage(player)
+    #             or (
+    #                 state._tp_bonks_do_damage(player)
+    #                 and (
+    #                     (
+    #                         state._tp_damage_magnification(player)
+    #                         is not DamageMagnification.option_ohko
+    #                     )
+    #                     or can_use_bottled_fairies(state, player)
+    #                 )
+    #             )
+    #         )
+    #     )
+    # )
 
 
 def can_complete_eldin_twilight(state: CollectionState, player: int):
     return True
-
-
-#     assert False, "This is no longer used"
-#     return state._tp_eldin_twilight_cleared(player) or (
-#         state.can_reach_region("Faron Field", player)
-#         and state.can_reach_region("Lower Kakariko Village", player)
-#         and state.can_reach_region("Kakariko Graveyard", player)
-#         and state.can_reach_region("Kakariko Malo Mart", player)
-#         and state.can_reach_region("Kakariko Barnes Bomb Shop Upper", player)
-#         and state.can_reach_region("Kakariko Renados Sanctuary Basement", player)
-#         and state.can_reach_region("Kakariko Elde Inn", player)
-#         and state.can_reach_region("Kakariko Bug House", player)
-#         and state.can_reach_region("Upper Kakariko Village", player)
-#         and state.can_reach_region("Kakariko Watchtower", player)
-#         and state.can_reach_region("Death Mountain Volcano", player)
-#         and (
-#             not state._tp_bonks_do_damage(player)
-#             or (
-#                 state._tp_bonks_do_damage(player)
-#                 and (
-#                     (
-#                         state._tp_damage_magnification(player)
-#                         is not DamageMagnification.option_ohko
-#                     )
-#                     or can_use_bottled_fairies(state, player)
-#                 )
-#             )
-#         )
-#     )
+    # return (
+    #     state._tp_eldin_twilight_cleared(player)
+    #     or (
+    #         state.can_reach_region("Faron Field", player)
+    #         and state.can_reach_region("Lower Kakariko Village", player)
+    #         and state.can_reach_region("Kakariko Graveyard", player)
+    #         and state.can_reach_region("Kakariko Malo Mart", player)
+    #         and state.can_reach_region("Kakariko Barnes Bomb Shop Upper", player)
+    #         and state.can_reach_region("Kakariko Renados Sanctuary Basement", player)
+    #         and state.can_reach_region("Kakariko Elde Inn", player)
+    #         and state.can_reach_region("Kakariko Bug House", player)
+    #         and state.can_reach_region("Upper Kakariko Village", player)
+    #         and state.can_reach_region("Kakariko Watchtower", player)
+    #         and state.can_reach_region("Death Mountain Volcano", player)
+    #         and (
+    #             not state._tp_bonks_do_damage(player)
+    #             or (
+    #                 state._tp_bonks_do_damage(player)
+    #                 and (
+    #                     (
+    #                         state._tp_damage_magnification(player)
+    #                         is not DamageMagnification.option_ohko
+    #                     )
+    #                     or can_use_bottled_fairies(state, player)
+    #                 )
+    #             )
+    #         )
+    #     )
+    # )
 
 
 def can_complete_lanayru_twilight(state: CollectionState, player: int):
     return True
-
-
-#     assert False, "This is no longer used"
-#     # return state._tp_lanayru_twilight_cleared(player) or (
-#     #     (
-#     #         state.can_reach_region("North Eldin Field", player)
-#     #         or can_use(state, player, "Shadow Crystal")
-#     #     )
-#     #     and state.can_reach_region("Zoras Domain", player)
-#     #     and state.can_reach_region("Zoras Domain Throne Room", player)
-#     #     and state.can_reach_region("Upper Zoras River", player)
-#     #     and state.can_reach_region("Lake Hylia", player)
-#     #     and state.can_reach_region("Lake Hylia Lanayru Spring", player)
-#     #     and state.can_reach_region("Castle Town South", player)
-#     #     and (
-#     #         not state._tp_bonks_do_damage(player)
-#     #         or (
-#     #             state._tp_bonks_do_damage(player)
-#     #             and (
-#     #                 (
-#     #                     state._tp_damage_magnification(player)
-#     #                     is not DamageMagnification.option_ohko
-#     #                 )
-#     #                 or can_use_bottled_fairies(state, player)
-#     #             )
-#     #         )
-#     #     )
-#     # )
+    # return (
+    #     state._tp_lanayru_twilight_cleared(player)
+    #     or (
+    #         (
+    #             state.can_reach_region("North Eldin Field", player)
+    #             or can_use(state, player, "Shadow Crystal")
+    #         )
+    #         and state.can_reach_region("Zoras Domain", player)
+    #         and state.can_reach_region("Zoras Domain Throne Room", player)
+    #         and state.can_reach_region("Upper Zoras River", player)
+    #         and state.can_reach_region("Lake Hylia", player)
+    #         and state.can_reach_region("Lake Hylia Lanayru Spring", player)
+    #         and state.can_reach_region("Castle Town South", player)
+    #         and (
+    #             not state._tp_bonks_do_damage(player)
+    #             or (
+    #                 state._tp_bonks_do_damage(player)
+    #                 and (
+    #                     (
+    #                         state._tp_damage_magnification(player)
+    #                         is not DamageMagnification.option_ohko
+    #                     )
+    #                     or can_use_bottled_fairies(state, player)
+    #                 )
+    #             )
+    #         )
+    #     )
+    # )
 
 
 def can_complete_all_twilight(state: CollectionState, player: int):
@@ -1731,17 +1748,9 @@ def can_complete_all_dungeons(state: CollectionState, player: int):
 
 def has_bug(state: CollectionState, player: int):
     for bug in GoldenBugs:
-        if state.has(bug, player):
+        if can_use(state, player, bug):
             return True
     return False
-
-
-def has_bugs(state: CollectionState, player: int, count: int):
-    n = 0
-    for bug in GoldenBugs:
-        if state.has(bug, player):
-            n += 1
-    return n >= count
 
 
 def can_unlock_ordona_map(state: CollectionState, player: int):
@@ -2035,6 +2044,10 @@ def can_warp_meteor(state: CollectionState, player: int):
 
 
 def can_break_hc_barrier(state: CollectionState, player: int):
+    dungeonCount = 0
+    for item in BossItems:
+        if can_use(state, player, item):
+            dungeonCount += 1
     return (
         (
             state._tp_castle_requirements(player)
@@ -2045,23 +2058,21 @@ def can_break_hc_barrier(state: CollectionState, player: int):
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_fused_shadows
             )
-            and can_use(state, player, "Progressive Fused Shadow", 3)
+            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_amount)
         )
         or (
             (
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_mirror_shards
             )
-            and can_use(state, player, "Progressive Mirror Shard", 4)
+            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_amount)
         )
         or (
             (
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_all_dungeons
             )
-            and can_complete_all_dungeons(
-                state, player
-            )  # completed dungeon amount >= required dungeon amount
+            and (dungeonCount >= state._tp_hc_bk_amount)
         )
         or (
             (
@@ -2070,17 +2081,49 @@ def can_break_hc_barrier(state: CollectionState, player: int):
             )
             and can_complete_palace_of_twilight(state, player)
         )
-        # if poe souls >= required poe souls
-        #    return True
-        # if max health >= required may health
-        #    return True
+        or (
+            (
+                state._tp_castle_requirements(player)
+                == CastleRequirements.option_poe_souls
+            )
+            and can_use(state, player, "Poe Soul", state._tp_hc_amount)
+        )
+        or (
+            (
+                state._tp_castle_requirements(player)
+                == CastleRequirements.option_hearts
+            )
+            and (get_player_health(state, player) >= state._tp_hc_amount)
+        )
     )
 
 
 def can_buy_magic_armor(state: CollectionState, player: int):
     return (
-        state._tp_increase_wallet(player)
-        or can_use(state, player, "Progressive Wallet")
+        (
+            state._tp_wallet_size(player)
+            == WalletSize.Large
+        )
+        or (
+            (
+                state._tp_wallet_size(player)
+                == WalletSize.Reduced
+            )
+            and can_use(state, player, "Progressive Wallet", 2)
+        )
+        or (
+            (
+                (
+                    state._tp_wallet_size(player)
+                    == WalletSize.Vanilla
+                )
+                or (
+                    state._tp_wallet_size(player)
+                    == WalletSize.HD
+                )
+            )
+            and can_use(state, player, "Progressive Wallet")
+        )
     )
 
 
@@ -2099,29 +2142,57 @@ def can_midna_charge(state: CollectionState, player: int):
 
 
 def can_open_hc_bk_gate(state: CollectionState, player: int):
+    dungeonCount = 0
+    for item in BossItems:
+        if can_use(state, player, item):
+            dungeonCount += 1
     return (
-        True
-        # castle BK requirement == none
-        # or (
-        #     castle BK requirement == fused shadows
-        #     and fused shadows >= requirement
-        # )
-        # or (
-        #     castle BK requirement == mirror shards
-        #     and mirror shards >= requirement
-        # )
-        # or (
-        #     castle BK requirement == dungeons
-        #     and dungeons >= requirement
-        # )
-        # or (
-        #     castle BK requirement == poe souls
-        #     and poe souls >= requirement
-        # )
-        # or (
-        #     castle BK requirement == hearts
-        #     and hearts >= requirement
-        # )
+        (
+            state._tp_castle_bk_requirements(player)
+            == CastleBKRequirements.option_open
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_fused_shadows
+            )
+            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_bk_amount)
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_mirror_shards
+            )
+            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_bk_amount)
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_dungeons
+            )
+            and (dungeonCount >= state._tp_hc_bk_amount)
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_vanilla
+            )
+            and can_complete_palace_of_twilight(state, player)
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_poe_souls
+            )
+            and can_use(state, player, "Poe Soul", state._tp_hc_bk_amount)
+        )
+        or (
+            (
+                state._tp_castle_bk_requirements(player)
+                == CastleBKRequirements.option_hearts
+            )
+            and (get_player_health(state, player) >= state._tp_hc_bk_amount)
+        )
     )
 
 
