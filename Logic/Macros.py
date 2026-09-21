@@ -1569,21 +1569,21 @@ def can_complete_MDH(state: CollectionState, player: int):
 # TODO: Figure this out
 def can_strike_pedestal(state: CollectionState, player: int):
     return (
-        state._tp_tot_entrance == ToTEntrance.option_none
+        state._tp_tot_entrance(player) == ToTEntrance.option_none
         or (
-            state._tp_tot_entrance == ToTEntrance.option_wooden_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_wooden_sword
             and has_sword(state, player, 1)
         )
         or (
-            state._tp_tot_entrance == ToTEntrance.option_ordon_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_ordon_sword
             and has_sword(state, player, 2)
         )
         or (
-            state._tp_tot_entrance == ToTEntrance.option_master_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_master_sword
             and has_sword(state, player, 3)
         )
         or (
-            state._tp_tot_entrance == ToTEntrance.option_light_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_light_sword
             and has_sword(state, player, 4)
         )
     )
@@ -2058,21 +2058,21 @@ def can_break_hc_barrier(state: CollectionState, player: int):
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_fused_shadows
             )
-            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_amount)
+            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_amount(player))
         )
         or (
             (
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_mirror_shards
             )
-            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_amount)
+            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_amount(player))
         )
         or (
             (
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_all_dungeons
             )
-            and (dungeonCount >= state._tp_hc_bk_amount)
+            and (dungeonCount >= state._tp_hc_bk_amount(player))
         )
         or (
             (
@@ -2086,14 +2086,14 @@ def can_break_hc_barrier(state: CollectionState, player: int):
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_poe_souls
             )
-            and can_use(state, player, "Poe Soul", state._tp_hc_amount)
+            and can_use(state, player, "Poe Soul", state._tp_hc_amount(player))
         )
         or (
             (
                 state._tp_castle_requirements(player)
                 == CastleRequirements.option_hearts
             )
-            and (get_player_health(state, player) >= state._tp_hc_amount)
+            and (get_player_health(state, player) >= state._tp_hc_amount(player))
         )
     )
 
@@ -2156,35 +2156,35 @@ def can_open_hc_bk_gate(state: CollectionState, player: int):
                 state._tp_castle_bk_requirements(player)
                 == CastleBKRequirements.option_fused_shadows
             )
-            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_bk_amount)
+            and can_use(state, player, "Progressive Fused Shadow", state._tp_hc_bk_amount(player))
         )
         or (
             (
                 state._tp_castle_bk_requirements(player)
                 == CastleBKRequirements.option_mirror_shards
             )
-            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_bk_amount)
+            and can_use(state, player, "Progressive Mirror Shard", state._tp_hc_bk_amount(player))
         )
         or (
             (
                 state._tp_castle_bk_requirements(player)
                 == CastleBKRequirements.option_dungeons
             )
-            and (dungeonCount >= state._tp_hc_bk_amount)
+            and (dungeonCount >= state._tp_hc_bk_amount(player))
         )
         or (
             (
                 state._tp_castle_bk_requirements(player)
                 == CastleBKRequirements.option_poe_souls
             )
-            and can_use(state, player, "Poe Soul", state._tp_hc_bk_amount)
+            and can_use(state, player, "Poe Soul", state._tp_hc_bk_amount(player))
         )
         or (
             (
                 state._tp_castle_bk_requirements(player)
                 == CastleBKRequirements.option_hearts
             )
-            and (get_player_health(state, player) >= state._tp_hc_bk_amount)
+            and (get_player_health(state, player) >= state._tp_hc_bk_amount(player))
         )
     )
 
