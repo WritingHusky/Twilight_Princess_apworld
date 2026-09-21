@@ -24,3 +24,17 @@ Missing state getters (defined nowhere in Rules.py):
 \_tp_castle_bk_requirements
 \_tp_hc_bk_amount
 \_tp_wallet_size
+
+Things to add:
+
+# Portals
+
+Need to make portals into items. Also need to confirm usage, should be treat as events or items?
+
+# Quest items
+
+need to bring back quest items to fill out logic. (should check spellings of the items)
+
+# Seed encoder
+
+fun times
