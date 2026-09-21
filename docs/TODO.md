@@ -1,6 +1,6 @@
 MACROS IS NOT WORKING YET:
 
-# "ToTEntrance"
+# "ToTEntrance" done
 
 options.py defines class ToTEntrance with option_closed/open_grove/open, NOT option_none/wooden_sword/ordon_sword/master_sword/light_sword. can_strike_pedestal (Macros.py:1572-1586) uses ToTEntrance + sword tiers; will NameError.
 1.3 split open grove and tot entrance requirements into 2 options - tot entrance needs to be changed to new system
