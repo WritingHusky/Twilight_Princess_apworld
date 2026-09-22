@@ -2102,12 +2102,12 @@ def can_buy_magic_armor(state: CollectionState, player: int):
     return (
         (
             state._tp_wallet_size(player)
-            == WalletSize.Large
+            == WalletSize.option_large
         )
         or (
             (
                 state._tp_wallet_size(player)
-                == WalletSize.Reduced
+                == WalletSize.option_reduced
             )
             and can_use(state, player, "Progressive Wallet", 2)
         )
@@ -2115,11 +2115,11 @@ def can_buy_magic_armor(state: CollectionState, player: int):
             (
                 (
                     state._tp_wallet_size(player)
-                    == WalletSize.Vanilla
+                    == WalletSize.option_vanilla
                 )
                 or (
                     state._tp_wallet_size(player)
-                    == WalletSize.HD
+                    == WalletSize.option_hd
                 )
             )
             and can_use(state, player, "Progressive Wallet")
