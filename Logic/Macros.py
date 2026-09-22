@@ -1557,13 +1557,13 @@ def can_complete_goats1(state: CollectionState, player: int):
 
 def can_complete_MDH(state: CollectionState, player: int):
     return True
-    return (
-        state._tp_skip_mdh(player)
-        or (
-            can_complete_lakebed_temple(state, player)
-            and state.can_reach_region("Castle Town South", player)
-        )
-    )
+    # return (
+    #     state._tp_skip_mdh(player)
+    #     or (
+    #         can_complete_lakebed_temple(state, player)
+    #         and state.can_reach_region("Castle Town South", player)
+    #     )
+    # )
 
 
 # TODO: Figure this out
