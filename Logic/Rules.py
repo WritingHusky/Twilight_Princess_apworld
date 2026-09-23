@@ -1999,7 +1999,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_use(state, player, "Progressive Clawshot", 1)
         ),
         lambda state: (
-            and can_do_hidden_village_glitched(state, player)
+            can_do_hidden_village_glitched(state, player)
             and can_use(state, player, "Shadow Crystal")
         ),
     )
@@ -2223,7 +2223,7 @@ def set_location_access_rules(world: "TPWorld"):
             and can_use(state, player, "Progressive Clawshot", 1)
         ),
         lambda state: (
-            and can_do_hidden_village_glitched(state, player)
+            can_do_hidden_village_glitched(state, player)
             and can_use(state, player, "Shadow Crystal")
         ),
     )
@@ -3992,7 +3992,7 @@ def set_location_access_rules(world: "TPWorld"):
     )
     set_rule_if_exists(
         "Upper Zoras River East Underwater Boulder Rupee",
-        lambda state: 
+        lambda state: (
             can_use(state, player, "Iron Boots")
             and can_use_water_bombs(state, player)
         ),
