@@ -2039,6 +2039,17 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and can_complete_eldin_twilight(state, player) # always True
         ),
+        lambda state: (
+            (
+                can_use(state, player, "Iron Boots")
+                or has_shield(state, player)
+            )
+            and (
+                can_defeat_Goron(state, player)
+                or can_complete_goron_mines(state, player)
+            )
+            and can_complete_eldin_twilight(state, player) # always True
+        ),
     )
     set_rule_if_exists(
         "Death Mountain Volcano Ledge Rupee 2",
@@ -2050,11 +2061,33 @@ def set_location_access_rules(world: "TPWorld"):
             )
             and can_complete_eldin_twilight(state, player) # always True
         ),
+        lambda state: (
+            (
+                can_use(state, player, "Iron Boots")
+                or has_shield(state, player)
+            )
+            and (
+                can_defeat_Goron(state, player)
+                or can_complete_goron_mines(state, player)
+            )
+            and can_complete_eldin_twilight(state, player) # always True
+        ),
     )
     set_rule_if_exists(
         "Death Mountain Volcano Ledge Rupee 3",
         lambda state: (
             can_use(state, player, "Iron Boots")
+            and (
+                can_defeat_Goron(state, player)
+                or can_complete_goron_mines(state, player)
+            )
+            and can_complete_eldin_twilight(state, player) # always True
+        ),
+        lambda state: (
+            (
+                can_use(state, player, "Iron Boots")
+                or has_shield(state, player)
+            )
             and (
                 can_defeat_Goron(state, player)
                 or can_complete_goron_mines(state, player)
@@ -2417,7 +2450,7 @@ def set_location_access_rules(world: "TPWorld"):
         "Kakariko Village Hot Spring Ledge Box Rupee",
         lambda state: (
             (
-                can_use(state, player, "Progressive Clawshot", 1)
+                can_use(state, player, "Shadow Crystal")
                 or can_use(state, player, "Gale Boomerang")
             )
             and can_complete_eldin_twilight(state, player)  # always True
@@ -2475,11 +2508,25 @@ def set_location_access_rules(world: "TPWorld"):
             can_smash(state, player)
             and can_complete_eldin_twilight(state, player)  # always True
         ),
+        lambda state: (
+            (
+                can_smash(state, player)
+                or can_use(state, player, "Shadow Crystal")
+            )
+            and can_complete_eldin_twilight(state, player)  # always True
+        ),
     )
     set_rule_if_exists(
         "Kakariko Village Spring Shortcut Box Rupee 2",
         lambda state: (
             can_smash(state, player)
+            and can_complete_eldin_twilight(state, player)  # always True
+        ),
+        lambda state: (
+            (
+                can_smash(state, player)
+                or can_use(state, player, "Shadow Crystal")
+            )
             and can_complete_eldin_twilight(state, player)  # always True
         ),
     )
