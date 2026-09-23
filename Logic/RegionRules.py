@@ -2979,16 +2979,16 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
         lambda state: (
             (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
             or can_do_js_moon_boots(state, player)
         ),
     )
@@ -2998,9 +2998,9 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
     )
 
@@ -3019,9 +3019,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_SkullKid(state, player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (
+                state._tp_grove_entrancece(player) == GroveEntrance.option_open_grove
+            )  #
         ),
     )
 
@@ -3041,9 +3043,9 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             can_defeat_SkullKid(state, player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
     )
 
@@ -3086,16 +3088,16 @@ def set_region_access_rules(world: "TPWorld", player: int):
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
             or (
-                state._tp_tot_entrance(player) == TotEntrance.option_open
-            )  # Setting Skip Grove Entrance == True
-            or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)  #
+                state._tp_grove_entrance(player) == GroveEntrance.option_open
+            )  # TODO Setting Skip Grove Entrance == True
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
             or can_do_js_moon_boots(state, player)
         ),
     )

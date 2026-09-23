@@ -8,7 +8,7 @@ from ..options import (
     DamageMagnification,
     LogicRules,
     SmallKeySettings,
-    TotEntrance,
+    GroveEntrance,
 )
 from .Macros import *
 from ..Locations import LOCATION_TABLE
@@ -78,6 +78,9 @@ class TPLogic(LogicMixin):
 
     def _tp_skip_snowpeak_entrance(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.skip_snowpeak_entrance.value
+
+    def _tp_grove_entrancece(self, player: int) -> int:
+        return self.multiworld.worlds[player].options.grove_entrance.value
 
     def _tp_tot_entrance(self, player: int) -> int:
         return self.multiworld.worlds[player].options.tot_entrance.value
@@ -2824,8 +2827,8 @@ def set_location_access_rules(world: "TPWorld"):
             can_use(state, player, "Lantern")
             and (
                 can_defeat_SkullKid(state, player)
-                or (state._tp_tot_entrance(player) == TotEntrance.option_open)
-                or (state._tp_tot_entrance(player) == TotEntrance.option_open_grove)
+                or (state._tp_grove_entrance(player) == GroveEntrance.option_open)
+                or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)
             )
         ),
     )

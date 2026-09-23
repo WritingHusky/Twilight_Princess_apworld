@@ -241,7 +241,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "skip_snowpeak_entrance": SkipSnowpeakEntrance.default,
             "skip_city_in_the_sky_entrance": SkipCityInTheSkyEntrance.default,
             "goron_mines_entrance": GoronMinesEntrance.default,
-            "tot_entrance": TotEntrance.default,
+            "tot_entrance": GroveEntrance.default,
             "early_shadow_crystal": EarlyShadowCrystal.default,
         }
         self.world_setup(get_seed())
