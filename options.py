@@ -154,7 +154,6 @@ class EarlyShadowCrystal(Toggle):
 
 
 class DungeonItem(Choice):
-    value: int
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
