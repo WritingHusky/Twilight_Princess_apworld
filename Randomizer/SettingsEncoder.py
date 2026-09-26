@@ -142,42 +142,45 @@ def encode_as_6_bit_string(bit_string: str):
 def get_setting_string(multiworld: MultiWorld, player: int):
     assert isinstance(multiworld, MultiWorld)
 
-    # Skip prolougue, Twilights and MDH are hardcoded currently.
-    # In the future I may want to add them so it's better to have them in the setting string to start
-
+    world = multiworld.worlds[player]
+    if TYPE_CHECKING:
+        assert isinstance(world, TPWorld)
     settings_map: list[int | tuple[int, int]] = [
-        # (multiworld.worlds[player].options.logic_rules.value, 2), # Just in ccase
-        (multiworld.worlds[player].options.castle_requirements.value, 3),
-        (multiworld.worlds[player].options.palace_requirements.value, 2),
-        (multiworld.worlds[player].options.faron_woods_logic.value, 1),
-        (multiworld.worlds[player].options.small_key_settings.value, 3),
-        (multiworld.worlds[player].options.big_key_settings.value, 3),
-        (multiworld.worlds[player].options.map_and_compass_settings.value, 3),
-        True,  # Skip prologue
-        True,  # Faron Twilight Cleared
-        True,  # Eldin Twilight Cleared
-        True,  # Lanayru Twilight Cleared
-        True,  # Skip MDH
-        bool(multiworld.worlds[player].options.skip_minor_cutscenes.value),
-        bool(multiworld.worlds[player].options.fast_iron_boots.value),
-        bool(multiworld.worlds[player].options.quick_transform.value),
-        bool(multiworld.worlds[player].options.transform_anywhere.value),
-        bool(multiworld.worlds[player].options.increase_wallet.value),
-        bool(multiworld.worlds[player].options.modify_shop_models.value),
-        (multiworld.worlds[player].options.goron_mines_entrance.value, 2),
-        bool(multiworld.worlds[player].options.skip_lakebed_entrance.value),
-        bool(multiworld.worlds[player].options.skip_arbiters_grounds_entrance.value),
-        bool(multiworld.worlds[player].options.skip_snowpeak_entrance.value),
-        (multiworld.worlds[player].options.tot_entrance.value, 2),
-        bool(multiworld.worlds[player].options.skip_city_in_the_sky_entrance.value),
-        bool(multiworld.worlds[player].options.instant_message_text.value),
-        bool(multiworld.worlds[player].options.open_map.value),
-        bool(multiworld.worlds[player].options.increase_spinner_speed.value),
-        bool(multiworld.worlds[player].options.open_door_of_time.value),
-        (multiworld.worlds[player].options.damage_magnification.value, 3),
-        bool(multiworld.worlds[player].options.bonks_do_damage.value),
-        bool(multiworld.worlds[player].options.skip_major_cutscenes.value),
-        (multiworld.worlds[player].options.starting_tod.value, 3),
+        (world.options.castle_requirements.value, 3),
+        (world.options.palace_requirements.value, 2),
+        (world.options.faron_woods_logic.value, 1),
+        bool(world.options.skip_minor_cutscenes.value),
+        bool(world.options.fast_iron_boots.value),
+        bool(world.options.quick_transform.value),
+        bool(world.options.transform_anywhere.value),
+        bool(world.options.increase_wallet.value),
+        bool(world.options.modify_shop_models.value),
+        (world.options.goron_mines_entrance.value, 2),
+        bool(world.options.skip_lakebed_entrance.value),
+        bool(world.options.skip_arbiters_grounds_entrance.value),
+        bool(world.options.skip_snowpeak_entrance.value),
+        # grove
+        (world.options.tot_entrance.value, 3),
+        bool(world.options.skip_city_in_the_sky_entrance.value),
+        bool(world.options.instant_message_text.value),
+        bool(world.options.open_map.value),
+        bool(world.options.increase_spinner_speed.value),
+        bool(world.options.open_door_of_time.value),
+        (world.options.damage_magnification.value, 3),
+        bool(world.options.bonks_do_damage.value),
+        bool(world.options.skip_major_cutscenes.value),
+        (world.options.starting_tod.value, 3),
+        # starting point
+        # gm short cut
+        # hc short cut
+        # ilia
+        # mirror enter
+        (world.options.castle_requirements_count, 6),
+        # BK req
+        # ^ count
+        # auto fill wallet
+        # skip brdg don
+        # malo don
     ]
 
     bit_string = ""
