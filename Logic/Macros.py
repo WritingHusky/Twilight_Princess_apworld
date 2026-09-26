@@ -1303,10 +1303,13 @@ def can_complete_goats1(state: CollectionState, player: int):
 
 def can_complete_MDH(state: CollectionState, player: int):
     return True
-    return state._tp_skip_mdh(player) or (
-        can_complete_lakebed_temple(state, player)
-        and state.can_reach_region("Castle Town South", player)
-    )
+    # return (
+    #     state._tp_skip_mdh(player)
+    #     or (
+    #         can_complete_lakebed_temple(state, player)
+    #         and state.can_reach_region("Castle Town South", player)
+    #     )
+    # )
 
 
 # TODO: Figure this out
@@ -1813,15 +1816,27 @@ def can_break_hc_barrier(state: CollectionState, player: int):
 
 def can_buy_magic_armor(state: CollectionState, player: int):
     return (
-        (state._tp_wallet_size(player) == WalletSize.Large)
+        (
+            state._tp_wallet_size(player)
+            == WalletSize.option_large
+        )
         or (
-            (state._tp_wallet_size(player) == WalletSize.Reduced)
+            (
+                state._tp_wallet_size(player)
+                == WalletSize.option_reduced
+            )
             and can_use(state, player, "Progressive Wallet", 2)
         )
         or (
             (
-                (state._tp_wallet_size(player) == WalletSize.Vanilla)
-                or (state._tp_wallet_size(player) == WalletSize.HD)
+                (
+                    state._tp_wallet_size(player)
+                    == WalletSize.option_vanilla
+                )
+                or (
+                    state._tp_wallet_size(player)
+                    == WalletSize.option_hd
+                )
             )
             and can_use(state, player, "Progressive Wallet")
         )
