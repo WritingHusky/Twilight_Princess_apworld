@@ -1770,7 +1770,9 @@ def can_break_hc_barrier(state: CollectionState, player: int):
         if can_use(state, player, item):
             dungeonCount += 1
     return (
+        # Open
         (state._tp_castle_requirements(player) == CastleRequirements.option_open)
+        # Fused Shadow
         or (
             (
                 state._tp_castle_requirements(player)
@@ -1780,6 +1782,7 @@ def can_break_hc_barrier(state: CollectionState, player: int):
                 state, player, "Progressive Fused Shadow", state._tp_hc_amount(player)
             )
         )
+        # Mirror Shard
         or (
             (
                 state._tp_castle_requirements(player)
@@ -1789,17 +1792,20 @@ def can_break_hc_barrier(state: CollectionState, player: int):
                 state, player, "Progressive Mirror Shard", state._tp_hc_amount(player)
             )
         )
+        # Dungeon
         or (
             (
                 state._tp_castle_requirements(player)
-                == CastleRequirements.option_all_dungeons
+                == CastleRequirements.option_dungeons
             )
-            and (dungeonCount >= state._tp_hc_bk_amount(player))
+            and (dungeonCount >= state._tp_hc_amount(player))
         )
+        # Vanilla
         or (
             (state._tp_castle_requirements(player) == CastleRequirements.option_vanilla)
             and can_complete_palace_of_twilight(state, player)
         )
+        # Poe
         or (
             (
                 state._tp_castle_requirements(player)
@@ -1807,6 +1813,7 @@ def can_break_hc_barrier(state: CollectionState, player: int):
             )
             and can_use(state, player, "Poe Soul", state._tp_hc_amount(player))
         )
+        # Hearts
         or (
             (state._tp_castle_requirements(player) == CastleRequirements.option_hearts)
             and (get_player_health(state, player) >= state._tp_hc_amount(player))
@@ -1816,27 +1823,15 @@ def can_break_hc_barrier(state: CollectionState, player: int):
 
 def can_buy_magic_armor(state: CollectionState, player: int):
     return (
-        (
-            state._tp_wallet_size(player)
-            == WalletSize.option_large
-        )
+        (state._tp_wallet_size(player) == WalletSize.option_large)
         or (
-            (
-                state._tp_wallet_size(player)
-                == WalletSize.option_reduced
-            )
+            (state._tp_wallet_size(player) == WalletSize.option_reduced)
             and can_use(state, player, "Progressive Wallet", 2)
         )
         or (
             (
-                (
-                    state._tp_wallet_size(player)
-                    == WalletSize.option_vanilla
-                )
-                or (
-                    state._tp_wallet_size(player)
-                    == WalletSize.option_hd
-                )
+                (state._tp_wallet_size(player) == WalletSize.option_vanilla)
+                or (state._tp_wallet_size(player) == WalletSize.option_hd)
             )
             and can_use(state, player, "Progressive Wallet")
         )

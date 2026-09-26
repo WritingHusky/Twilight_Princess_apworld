@@ -5,6 +5,7 @@ from Options import (
     DeathLink,
     OptionGroup,
     PerGameCommonOptions,
+    Range,
     StartInventoryPool,
     Toggle,
 )
@@ -253,24 +254,42 @@ class CastleRequirements(Choice):
     """
     Controls requirements for accessing Hyrule Castle.
 
-    - Open: No requirements
-    - Fused Shadows: Requires all Fused Shadows
-    - Mirror Shards: Requires all Mirror Shards
-    - All Dungeons: Requires completing all dungeons
-    - Vanilla: Beat Palace of Twilight
+    - Open: The barrier around Hyrule Castle is dispelled from the beginning.
+    - Fused Shadows: The barrier will be dispelled once the required number of Fused Shadows have been collected.
+    - Mirror Shards: The barrier will be dispelled once the required number of Mirror Shards have been collected.
+    - Dungeons: The barrier will be dispelled once the required number of Dungeons have been cleared.
+    - Vanilla: The player must complete Palace of Twilight.
+    - Poe Souls: The barrier will be dispelled once the required number of Poe Souls have been collected.
+    - Hearts: The barrier will be dispelled once the required number of Hearts have been reached.
 
-    Note:
-    Choosing All Dungeons or Vanilla will force Hyrule Castle to only have it's own dungeon items inside.
-        i.e. If All Dungeons and Keys Anywhere is picked Forest temple Boss key cannot be in Hyrule Castle and Hyrule Castle small key can only be in Hyrule Castle
     """
 
     display_name = "Castle Requirements"
     option_open = 0
     option_fused_shadows = 1
     option_mirror_shards = 2
-    option_all_dungeons = 3
+    option_dungeons = 3
     option_vanilla = 4
+    option_poe_souls = 5
+    option_hearts = 6
     default = 0
+
+
+class CastleRequirementsCount(Range):
+    """
+    Controls the required number of things for th Castle requirements
+
+    - Open: not used
+    - Fused Shadows: max 3
+    - Mirror Shards: max 4
+    - Dungeons: max 8
+    - Vanilla: not used
+    - Poe Souls: max 60
+    - Hearts: min 4, max 20
+    """
+
+    display_name = "Castle Requirement Count"
+    range_end = 60
 
 
 class PalaceRequirements(Choice):
@@ -624,6 +643,7 @@ class TPOptions(PerGameCommonOptions):
     # Logic Settings
     logic_rules: LogicRules
     castle_requirements: CastleRequirements
+    castle_requirements_count: CastleRequirementsCount
     palace_requirements: PalaceRequirements
     faron_woods_logic: FaronWoodsLogic
 
@@ -686,6 +706,7 @@ tp_option_groups: list[OptionGroup] = [
         [
             LogicRules,
             CastleRequirements,
+            CastleRequirementsCount,
             PalaceRequirements,
             FaronWoodsLogic,
         ],

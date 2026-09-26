@@ -268,6 +268,39 @@ class TPWorld(World):
                 "[Twilight Princess] One of Overworld and Dungeons must be shuffled, Please fix this"
             )
 
+        if (
+            self.options.castle_requirements_count.value < 0
+        ):  # Should not occur but just incase
+            raise OptionError(
+                "[Twilight Princess] Castle Requirment Count cannot be a negative number"
+            )
+
+        if (
+            self.options.castle_requirements.value
+            not in [CastleRequirements.option_open, CastleRequirements.option_vanilla]
+        ) and (self.options.castle_requirements_count.value == 0):
+            raise OptionError(
+                "[Twilight Princess] A non Zero value must be chosen for your Castle Requirement setting"
+            )
+        max_count = 0
+        match (self.options.castle_requirements.value):
+            case CastleRequirements.option_fused_shadows:
+                max_count = min(self.options.castle_requirements_count.value, 3)
+            case CastleRequirements.option_mirror_shards:
+                max_count = min(self.options.castle_requirements_count.value, 4)
+            case CastleRequirements.option_dungeons:
+                max_count = min(self.options.castle_requirements_count.value, 8)
+            case CastleRequirements.option_poe_souls:
+                max_count = min(self.options.castle_requirements_count.value, 60)
+            case CastleRequirements.option_hearts:
+                max_count = min(
+                    max(self.options.castle_requirements_count.value, 4), 20
+                )
+            case CastleRequirements.option_mirror_shards:
+                max_count = min(self.options.castle_requirements_count.value, 4)
+            case _:
+                pass
+        self.options.castle_requirements_count = max_count
         self.boss_defeat_items = get_boss_defeat_items(self)
 
         # Early into generation, set the options for the keys and map/compass.
@@ -1111,7 +1144,7 @@ class TPWorld(World):
 
                         if (
                             self.options.castle_requirements
-                            == CastleRequirements.option_all_dungeons
+                            == CastleRequirements.option_dungeons
                         ):
                             for name, item in self.boss_defeat_items.items():
                                 state.collect(item)
@@ -1120,6 +1153,7 @@ class TPWorld(World):
                             == CastleRequirements.option_vanilla
                         ):
                             state.collect(self.boss_defeat_items["Zant"])
+
                         state.sweep_for_advancements()
 
                     assert len(locations) >= len(
@@ -1172,7 +1206,7 @@ class TPWorld(World):
                     if dungeon_name == "Hyrule Castle":
                         if self.options.castle_requirements.value in [
                             CastleRequirements.option_vanilla,
-                            CastleRequirements.option_all_dungeons,
+                            CastleRequirements.option_dungeons,
                         ]:
                             skip_hyrule_castle = True
                             continue
@@ -1355,7 +1389,7 @@ class TPWorld(World):
 
                         if (
                             self.options.castle_requirements
-                            == CastleRequirements.option_all_dungeons
+                            == CastleRequirements.option_dungeons
                         ):
                             for name, item in self.boss_defeat_items.items():
                                 state.collect(item)

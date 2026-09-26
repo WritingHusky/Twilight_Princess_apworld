@@ -10,7 +10,7 @@ options.py defines class ToTEntrance with option_closed/open_grove/open, NOT opt
 no such class in options.py (only CastleRequirements and PalaceRequirements). can_open_hc_bk_gate (Macros.py:2152-2185) uses .option_none/fused_shadows_mirror_shards/dungeons/poe_souls/hearts
 new setting for the door to the hyrule castle big key chest
 
-# CastleRequirements.option_poe_souls / option_hearts
+# CastleRequirements.option_poe_souls / option_hearts Done
 
 options.py CastleRequirements only has open/fused_shadows/mirror_shards/all_dungeons/vanilla. can_break_hc_barrier (Macros.py:2089/2096) uses them; will AttributeError.
 poe souls and hearts got added

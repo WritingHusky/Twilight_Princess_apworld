@@ -572,7 +572,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 classification=(
                     IC.progression
                     if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
+                    == CastleRequirements.option_dungeons
                     else IC.useful
                 ),
                 item_id=1,
@@ -589,7 +589,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                     IC.progression
                     if world.options.castle_requirements.value
                     in [
-                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_dungeons,
                         CastleRequirements.option_vanilla,
                     ]
                     else IC.useful
@@ -639,7 +639,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 classification=(
                     IC.progression
                     if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
+                    == CastleRequirements.option_dungeons
                     or world.options.palace_requirements
                     == PalaceRequirements.option_vanilla
                     else IC.useful
@@ -658,7 +658,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                     IC.progression
                     if world.options.castle_requirements.value
                     in [
-                        CastleRequirements.option_all_dungeons,
+                        CastleRequirements.option_dungeons,
                         CastleRequirements.option_vanilla,
                     ]
                     else IC.useful
