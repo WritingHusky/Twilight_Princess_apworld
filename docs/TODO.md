@@ -38,3 +38,25 @@ need to bring back quest items to fill out logic. (should check spellings of the
 # Seed encoder
 
 fun times
+
+# Key Rings
+
+NOT YET WORKING:
+used in Rules.py:
+new: \_tp_wallet_size
+WalletSize.option_reduced
+WalletSize.option_vanilla
+WalletSize.option_hd
+WalletSize.option_large
+new: \_tp_ilia_quest:
+IliaQuest.option_vanilla
+not used anymore: \_tp_increase_wallet
+used in RegionRules.py:
+new: \_tp_ilia_quest:
+IliaQuest.option_charm
+IliaQuest.option_statue
+new: \_tp_open_door_of_time - True/False
+new: \_tp_gm_shortcut - True/False
+new: \_tp_hc_shortcut - True/False
+used in both:
+new: \_tp_skip_bridge_donation - True/False
