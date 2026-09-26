@@ -115,8 +115,14 @@ class TPLogic(LogicMixin):
     def _tp_transform_anywhere(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.transform_anywhere.value
 
-    def _tp_hc_count(self, player: int) -> int:
+    def _tp_hc_amount(self, player: int) -> int:
         return self.multiworld.worlds[player].options.castle_requirements_count.value
+
+    def _tp_castle_bk_requirements(self, player: int) -> int:
+        return self.multiworld.worlds[player].options.castle_bk_requirements.value
+
+    def _tp_hc_bk_amount(self, player: int) -> int:
+        return self.multiworld.worlds[player].options.castle_bk_requirements_count.value
 
 
 def set_location_access_rules(world: "TPWorld"):

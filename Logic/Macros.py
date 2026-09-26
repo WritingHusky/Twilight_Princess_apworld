@@ -1,7 +1,7 @@
 from BaseClasses import CollectionState
 from ..Items import GoldenBugs, TPItem, BossItems
 from ..RoomFunctions import RoomFunctions
-from ..options import FaronWoodsLogic, CastleRequirements, ToTEntrance
+from ..options import *
 
 
 # region Glichless Logic

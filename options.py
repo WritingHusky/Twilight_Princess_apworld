@@ -277,7 +277,7 @@ class CastleRequirements(Choice):
 
 class CastleRequirementsCount(Range):
     """
-    Controls the required number of things for th Castle requirements
+    Controls the required number of things for the Castle requirements
 
     - Open: not used
     - Fused Shadows: max 3
@@ -289,6 +289,43 @@ class CastleRequirementsCount(Range):
     """
 
     display_name = "Castle Requirement Count"
+    range_end = 60
+
+
+class CastleBKRequirements(Choice):
+    """
+    When enabled, the HC Big Key will be placed in its vanilla location with the gate in front of it locked. Only when the specified criteria have been met will the gate unlock.
+
+    -None: The gate is opened and the key is randomized according to the respective Big Key settings.
+    -Fused Shadows: The gate will open once the required number of Fused Shadows have been collected.
+    -Mirror Shards: The gate will open once the required number of Mirror Shards have been collected.
+    -Dungeons: The gate will open once the required number of Dungeons have been cleared.
+    -Poe Souls: The gate will open once the required number of Poe Souls have been collected.
+    -Hearts: The gate will open once the required number of Hearts have been reached."""
+
+    display_name = "Castle Boss Key Requirements"
+    option_none = 0
+    option_fused_shadows = 1
+    option_mirror_shards = 2
+    option_dungeons = 3
+    option_poe_souls = 4
+    option_hearts = 5
+
+
+class CastleBKRequirementsCount(Range):
+    """
+    Controls the required number of things for the Castle Boss Key requirements
+
+    - Open: not used
+    - Fused Shadows: max 3
+    - Mirror Shards: max 4
+    - Dungeons: max 8
+    - Vanilla: not used
+    - Poe Souls: max 60
+    - Hearts: min 4, max 20
+    """
+
+    display_name = "Castle Boss Key Requirement Count"
     range_end = 60
 
 
@@ -644,6 +681,8 @@ class TPOptions(PerGameCommonOptions):
     logic_rules: LogicRules
     castle_requirements: CastleRequirements
     castle_requirements_count: CastleRequirementsCount
+    castle_bk_requirements: CastleBKRequirements
+    castle_bk_requirements_count: CastleBKRequirementsCount
     palace_requirements: PalaceRequirements
     faron_woods_logic: FaronWoodsLogic
 

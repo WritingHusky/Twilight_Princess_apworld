@@ -395,7 +395,14 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 )
                 or (
                     item in item_name_groups["Big Keys"]
-                    and world.options.big_key_settings.in_dungeon
+                    and (
+                        world.options.big_key_settings.in_dungeon
+                        or (
+                            item == "Hyrule Castle Big Key"
+                            and world.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        )
+                    )
                 )
                 or (
                     item in item_name_groups["Maps and Compasses"]

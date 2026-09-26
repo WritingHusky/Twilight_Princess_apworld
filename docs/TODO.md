@@ -60,3 +60,7 @@ new: \_tp_gm_shortcut - True/False
 new: \_tp_hc_shortcut - True/False
 used in both:
 new: \_tp_skip_bridge_donation - True/False
+
+\_tp_castle_bk_requirements
+CastleBKRequirements
+\_tp_hc_bk_amount

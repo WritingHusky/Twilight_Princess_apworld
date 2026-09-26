@@ -272,7 +272,7 @@ class TPWorld(World):
             self.options.castle_requirements_count.value < 0
         ):  # Should not occur but just incase
             raise OptionError(
-                "[Twilight Princess] Castle Requirment Count cannot be a negative number"
+                "[Twilight Princess] Castle Requirement Count cannot be a negative number"
             )
 
         if (
@@ -301,6 +301,42 @@ class TPWorld(World):
             case _:
                 pass
         self.options.castle_requirements_count = max_count
+
+        if (
+            self.options.castle_bk_requirements_count.value < 0
+        ):  # Should not occur but just incase
+            raise OptionError(
+                "[Twilight Princess] Castle Boss Key Requirement Count cannot be a negative number"
+            )
+
+        if (
+            self.options.castle_bk_requirements.value
+            != CastleBKRequirements.option_none
+        ) and (self.options.castle_bk_requirements_count.value == 0):
+            raise OptionError(
+                "[Twilight Princess] A non Zero value must be chosen for your Castle Boss Key Requirement setting"
+            )
+        max_count = 0
+        match (self.options.castle_bk_requirements.value):
+            case CastleBKRequirements.option_fused_shadows:
+                max_count = min(self.options.castle_bk_requirements_count.value, 3)
+            case CastleBKRequirements.option_mirror_shards:
+                max_count = min(self.options.castle_bk_requirements_count.value, 4)
+            case CastleBKRequirements.option_dungeons:
+                max_count = min(self.options.castle_bk_requirements_count.value, 8)
+            case CastleBKRequirements.option_poe_souls:
+                max_count = min(self.options.castle_bk_requirements_count.value, 60)
+            case CastleBKRequirements.option_hearts:
+                max_count = min(
+                    max(self.options.castle_bk_requirements_count.value, 4), 20
+                )
+            case CastleBKRequirements.option_mirror_shards:
+                max_count = min(self.options.castle_bk_requirements_count.value, 4)
+            case _:
+                pass
+
+        self.options.castle_bk_requirements_count = max_count
+
         self.boss_defeat_items = get_boss_defeat_items(self)
 
         # Early into generation, set the options for the keys and map/compass.
@@ -337,6 +373,7 @@ class TPWorld(World):
         if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
             self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
             self.multiworld.local_early_items[self.player]["Lantern"] = 1
+            self.multiworld.local_early_items[self.player]["Shadow Crystal"] = 1
 
     def create_regions(self) -> None:
         """
@@ -576,6 +613,9 @@ class TPWorld(World):
             assert (
                 not self.options.small_key_settings.in_dungeon
             ), "[Twilight Princess] No pre fill items but small keys in dungeon"
+            assert (
+                self.options.castle_bk_requirements == CastleBKRequirements.option_none
+            ), "[Twilight Princess] No pre fill items but Castle Boss Key has requirements"
             assert (
                 not self.options.big_key_settings.in_dungeon
             ), "[Twilight Princess] No pre fill items but big keys in dungeon"
@@ -850,13 +890,6 @@ class TPWorld(World):
         if self.options.faron_woods_logic == FaronWoodsLogic.option_closed:
             collection_state_base.collect(self.boss_defeat_items["Diababa"])
 
-        # No need to consider other players items
-        # for player in self.multiworld.player_ids:
-        #     if player == self.player:
-        #         continue
-        #     subworld = self.multiworld.worlds[player]
-        #     for item in subworld.get_pre_fill_items():
-        #         collection_state_base.collect(item)
         collection_state_base.sweep_for_advancements()
 
         # region DugeonItem-Setup
@@ -1093,6 +1126,28 @@ class TPWorld(World):
 
                         # Don't place item if its precollected
                         skip_item = False
+
+                        if (
+                            item_name == "Hyrule Castle Big Key"
+                            and self.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        ):
+                            hc_bk_item = list(
+                                filter(
+                                    lambda item: item.name == item_name, pre_fill_items
+                                )
+                            )[0]
+
+                            assert isinstance(
+                                hc_bk_item, TPItem
+                            ), "[Twilight Princess] (Own Dungeon) Castle Key not found"
+
+                            self.get_location(
+                                "Hyrule Castle Big Key Chest"
+                            ).place_locked_item(hc_bk_item)
+                            pre_fill_items.remove(hc_bk_item)
+                            continue
+
                         for item in starting_pool_copy:
                             if item.name == item_name:
                                 skip_item = True
@@ -1101,21 +1156,21 @@ class TPWorld(World):
                         if skip_item:
                             continue
 
-                        new_items = list(
+                        new_item = list(
                             filter(lambda item: item.name == item_name, pre_fill_items)
                         )
 
                         # assert isinstance(
-                        #     new_items, list
-                        # ), f"[Twilight Princess] (Own dungeon) items not a list {new_items=}"
+                        #     new_item, list
+                        # ), f"[Twilight Princess] (Own dungeon) items not a list {new_item=}"
                         # assert (
-                        #     len(new_items) > 0
+                        #     len(new_item) > 0
                         # ), f"[Twilight Princess] (Own dungeon) No items found in pre fill items {item_name=}"
-                        # assert len(new_items) == len(
+                        # assert len(new_item) == len(
                         #     vanilla[dungeon_name][item_name]
                         # ), f"[Twilight Princess] (Own dungeon) Items does not match number needed {items=}"
 
-                        items.extend(new_items)
+                        items.extend(new_item)
 
                     # Sanity check
                     item_name = None
@@ -1249,6 +1304,28 @@ class TPWorld(World):
 
                         # Don't place item if its precollected
                         skip_item = False
+
+                        if (
+                            item_name == "Hyrule Castle Big Key"
+                            and self.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        ):
+                            hc_bk_item = list(
+                                filter(
+                                    lambda item: item.name == item_name, pre_fill_items
+                                )
+                            )[0]
+
+                            assert isinstance(
+                                hc_bk_item, TPItem
+                            ), "[Twilight Princess] (any Dungeon) Castle Key not found"
+
+                            self.get_location(
+                                "Hyrule Castle Big Key Chest"
+                            ).place_locked_item(hc_bk_item)
+                            pre_fill_items.remove(hc_bk_item)
+                            continue
+
                         for item in starting_pool_copy:
                             if item.name == item_name:
                                 skip_item = True
@@ -1335,6 +1412,27 @@ class TPWorld(World):
                     for item_name in vanilla[dungeon_name]:
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
+
+                        if (
+                            item_name == "Hyrule Castle Big Key"
+                            and self.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        ):
+                            hc_bk_item = list(
+                                filter(
+                                    lambda item: item.name == item_name, pre_fill_items
+                                )
+                            )[0]
+
+                            assert isinstance(
+                                hc_bk_item, TPItem
+                            ), "[Twilight Princess] (any Dungeon) Castle Key not found"
+
+                            self.get_location(
+                                "Hyrule Castle Big Key Chest"
+                            ).place_locked_item(hc_bk_item)
+                            pre_fill_items.remove(hc_bk_item)
+                            continue
 
                         # Don't place item if its precollected
                         skip_item = False
