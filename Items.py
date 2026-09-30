@@ -260,6 +260,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Invoice": TPItemData("Quest", IC.progression, 135, 0, 0x81),
     "Wooden Statue": TPItemData("Quest", IC.progression, 136, 0, 0x82),
     "Ilias Charm": TPItemData("Quest", IC.progression, 137, 0, 0x83),
+    "North Faron Woods Gate Key": TPItemData("Small Key", IC.progression, 137, 1, 0xEE),
     # Portals
     "Ordon Spring Portal": TPItemData("Portal", IC.progression, None, 0, 0x14),
     "South Faron Portal": TPItemData("Portal", IC.progression, None, 0, 0x15),

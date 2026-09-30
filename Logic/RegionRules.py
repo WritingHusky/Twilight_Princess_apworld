@@ -3039,9 +3039,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             or (
                 state._tp_grove_entrance(player) == GroveEntrance.option_open
             )  # TODO Setting Skip Grove Entrance == True
-            or (
-                state._tp_grove_entrancece(player) == GroveEntrance.option_open_grove
-            )  #
+            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
     )
 

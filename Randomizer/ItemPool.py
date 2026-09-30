@@ -498,6 +498,8 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 item in PortalItems
             ), f"[Twilight Princess] {item}"
 
+    progression_pool.extend(world.pre_pool)
+
     # Get the number of locations that have not been filled yet
     placeable_locations = [
         location
@@ -506,7 +508,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     ]
 
     num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
-
     # Check progression pool against locations that can hold progression items
     # if len(progression_pool) > len(
     #     [
@@ -592,12 +593,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_dungeons
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -608,15 +604,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    in [
-                        CastleRequirements.option_dungeons,
-                        CastleRequirements.option_vanilla,
-                    ]
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -659,14 +647,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_dungeons
-                    or world.options.palace_requirements
-                    == PalaceRequirements.option_vanilla
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -677,15 +658,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    in [
-                        CastleRequirements.option_dungeons,
-                        CastleRequirements.option_vanilla,
-                    ]
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -766,7 +739,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
     else:
         item = world.create_item("Green Rupee")
         if world.options.ilia_quest.value == IliaQuest.option_letter:
-            world.progression_pool.append("Renado's Letter")
+            world.pre_pool.append("Renado's Letter")
         else:
             world.push_precollected(world.create_item("Renado's Letter"))
 
@@ -781,7 +754,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
     else:
         item = world.create_item("Green Rupee")
         if world.options.ilia_quest.value == IliaQuest.option_invoice:
-            world.progression_pool.append("Invoice")
+            world.pre_pool.append("Invoice")
         else:
             world.push_precollected(world.create_item("Invoice"))
     world.get_location("Telma Invoice").place_locked_item(item)
@@ -796,7 +769,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
     else:
         item = world.create_item("Green Rupee")
         if world.options.ilia_quest.value == IliaQuest.option_statue:
-            world.progression_pool.append("Wooden Statue")
+            world.pre_pool.append("Wooden Statue")
         else:
             world.push_precollected(world.create_item("Wooden Statue"))
 
@@ -807,7 +780,7 @@ def place_deterministic_items(world: "TPWorld") -> None:
         item = world.create_item("Ilias Charm")
     else:
         item = world.create_item("Green Rupee")
-        world.progression_pool.append("Ilias Charm")
+        world.pre_pool.append("Ilias Charm")
 
     world.get_location("Ilia Charm").place_locked_item(item)
     del item

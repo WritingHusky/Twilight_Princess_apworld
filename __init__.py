@@ -177,6 +177,7 @@ class TPWorld(World):
         self.prefill_pool: list[str] = []
 
         self.progression_pool = []
+        self.pre_pool: list[str] = []
 
         self.invalid_locations: list[str] = []
 
@@ -326,7 +327,7 @@ class TPWorld(World):
                 max_count = min(self.options.castle_requirements_count.value, 4)
             case _:
                 pass
-        self.options.castle_requirements_count = max_count
+        self.options.castle_requirements_count.from_any(max_count)
 
         if (
             self.options.castle_bk_requirements_count.value < 0
@@ -361,7 +362,7 @@ class TPWorld(World):
             case _:
                 pass
 
-        self.options.castle_bk_requirements_count = max_count
+        self.options.castle_bk_requirements_count.from_any(max_count)
 
         self.boss_defeat_items = get_boss_defeat_items(self)
 
@@ -420,35 +421,35 @@ class TPWorld(World):
         menu = self.get_region(self.origin_region_name)
         menu.connect(self.get_region("Outside Links House"))
 
-        # Connect the menu region to the portal locations if open map is selected
-        if self.options.open_map.value == OpenMap.option_true:
-            portal_regions = [
-                "Zoras Domain Throne Room",
-                # "Upper Zoras River",
-                "Lake Hylia",
-                "Outside Castle Town West",
-                # "Gerudo Desert Cave of Ordeals Plateau",
-                "Sacred Grove Lower",
-                "North Faron Woods",
-                "South Faron Woods",
-                "Lower Kakariko Village",
-                "Eldin Field",
-                "Kakariko Gorge",
-                "Death Mountain Volcano",
-                # "Mirror Chamber Upper",
-                "Ordon Spring",
-            ]
-            if (
-                self.options.skip_snowpeak_entrance.value
-                == SkipSnowpeakEntrance.option_true
-            ):
-                portal_regions.append("Snowpeak Summit Upper")
+        # # Connect the menu region to the portal locations if open map is selected
+        # if self.options.open_map.value == OpenMap.option_true:
+        #     portal_regions = [
+        #         "Zoras Domain Throne Room",
+        #         # "Upper Zoras River",
+        #         "Lake Hylia",
+        #         "Outside Castle Town West",
+        #         # "Gerudo Desert Cave of Ordeals Plateau",
+        #         "Sacred Grove Lower",
+        #         "North Faron Woods",
+        #         "South Faron Woods",
+        #         "Lower Kakariko Village",
+        #         "Eldin Field",
+        #         "Kakariko Gorge",
+        #         "Death Mountain Volcano",
+        #         # "Mirror Chamber Upper",
+        #         "Ordon Spring",
+        #     ]
+        #     if (
+        #         self.options.skip_snowpeak_entrance.value
+        #         == SkipSnowpeakEntrance.option_true
+        #     ):
+        #         portal_regions.append("Snowpeak Summit Upper")
 
-            for portal_region in portal_regions:
-                portal_exit = menu.connect(self.get_region(portal_region))
-                portal_exit.access_rule = lambda state: state.has(
-                    "Shadow Crystal", self.player
-                )
+        #     for portal_region in portal_regions:
+        #         portal_exit = menu.connect(self.get_region(portal_region))
+        #         portal_exit.access_rule = lambda state: state.has(
+        #             "Shadow Crystal", self.player
+        #         )
 
         # Ensure that all locations are added to lists
         if len(self.progress_locations) + len(self.nonprogress_locations) != len(
@@ -1936,8 +1937,9 @@ class TPWorld(World):
                 location_classification = "Excluded"
             else:
                 continue
+
             slot_data["LocationClassification"][
-                f"{TPLocation.get_apid(location.code)}"
+                f"{TPLocation.get_apid(location.code) if location.code != None else location.name}"
             ] = location_classification
 
         return slot_data
@@ -1993,8 +1995,8 @@ class TPWorld(World):
             "Transform Anywhere": self.options.transform_anywhere.get_option_name(
                 self.options.transform_anywhere.value
             ),
-            "Increase Wallet": self.options.increase_wallet.get_option_name(
-                self.options.increase_wallet.value
+            "Wallet Size": self.options.wallet_size.get_option_name(
+                self.options.wallet_size.value
             ),
             "Modify Shop Models": self.options.modify_shop_models.get_option_name(
                 self.options.modify_shop_models.value
