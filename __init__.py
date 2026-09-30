@@ -9,7 +9,7 @@ import zipfile
 import yaml
 
 from Fill import fill_restrictive
-from BaseClasses import CollectionState, Item, LocationProgressType
+from BaseClasses import CollectionState, Item, LocationProgressType, Region
 from BaseClasses import ItemClassification as IC
 from BaseClasses import Tutorial
 from Utils import visualize_regions
@@ -175,6 +175,8 @@ class TPWorld(World):
         self.filler_pool: list[str] = []
         self.prefill_pool: list[str] = []
 
+        self.progression_pool = []
+
         self.invalid_locations: list[str] = []
 
     def _determine_nonprogress_and_progress_locations(
@@ -205,13 +207,36 @@ class TPWorld(World):
         nonprogress_locations: set[str] = set()
         progress_locations: set[str] = set()
 
+        CHECK_TYPE_MASK = (
+            TPFlag.Always
+            | TPFlag.Dungeon
+            | TPFlag.Overworld
+            # | TPFlag.Rupee_Hidden
+            # | TPFlag.Rupee_Freestanding
+            | TPFlag.Npc
+            | TPFlag.Golden_Bug
+            # | TPFlag.Bug_Reward
+            | TPFlag.Poe
+            | TPFlag.Shop
+            # | TPFlag.Quest
+            | TPFlag.Boss
+            # | TPFlag.Dungeon_Reward
+            | TPFlag.Heart_Container
+            | TPFlag.Hidden_Skill
+            | TPFlag.Sky_Book
+        )
+
         for location, data in LOCATION_TABLE.items():
-            if data.flags & enabled_flags == data.flags:
+            # Mask both sides to only compare check-type flags
+            location_check_flags = data.flags & CHECK_TYPE_MASK
+            enabled_check_flags = enabled_flags & CHECK_TYPE_MASK
+
+            if location_check_flags & enabled_check_flags == location_check_flags:
                 progress_locations.add(location)
             else:
                 nonprogress_locations.add(location)
 
-        assert progress_locations.isdisjoint(nonprogress_locations)
+                assert progress_locations.isdisjoint(nonprogress_locations)
 
         return nonprogress_locations, progress_locations
 
@@ -369,6 +394,8 @@ class TPWorld(World):
         self.nonprogress_locations, self.progress_locations = (
             self._determine_nonprogress_and_progress_locations()
         )
+
+        assert len(self.progress_locations) > 10
 
         if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
             self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
@@ -582,6 +609,56 @@ class TPWorld(World):
 
         # Quick sanity check, Must happen here so it runs before plando-ed items
         allstate = self.multiworld.get_all_state()
+        explorable_regions = [
+            self.get_region(self.origin_region_name),
+        ]
+        checked_regions: list[Region] = []
+        just_checked_regions: list[Region] = []
+        fresh_regions: list[Region] = []
+
+        # BFS through graph to see if all state reaches
+        while True:
+            for region in explorable_regions:
+                if allstate.can_reach_region(region.name, self.player):
+                    fresh_regions.append(region)
+                    explorable_regions.remove(region)
+                    checked_regions.append(region)
+                    just_checked_regions.append(region)
+                else:
+                    raise Exception(
+                        f"[Twilight Princess] All regions Should be accessible with allstate. Failed check for {region.name=}"
+                    )
+
+            for region in fresh_regions:
+
+                for exit in region.entrances:
+                    if exit.connected_region not in checked_regions:
+                        explorable_regions.append(exit.connected_region)
+                    elif exit.parent_region not in checked_regions:
+                        explorable_regions.append(exit.parent_region)
+                for exit in region.exits:
+                    if exit.connected_region not in checked_regions:
+                        explorable_regions.append(exit.connected_region)
+                    elif exit.parent_region not in checked_regions:
+                        explorable_regions.append(exit.parent_region)
+                fresh_regions.remove(region)
+
+            if any(
+                [
+                    True
+                    for region in checked_regions
+                    if region.name == "Ganondorf Castle"
+                ]
+            ):
+                break
+
+            if len(explorable_regions) == 0:
+                raise Exception(
+                    f"[Twilight Princess] No more explorable regions and Ganon was not found {just_checked_regions=}"
+                )
+            else:
+                just_checked_regions = []
+
         for location in [
             location_name
             for location_name in LOCATION_TABLE.keys()

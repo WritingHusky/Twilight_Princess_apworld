@@ -463,6 +463,10 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.map_and_compass_settings.value
                     == DungeonItem.option_startwith
                 )
+                or (
+                    item == "Horse Call"
+                    and bool(world.options.start_with_horse_call.value)
+                )
             ):
                 precollected_items.extend([item] * data.quantity)
                 continue
@@ -495,19 +499,22 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
 
     # Check progression pool against locations that can hold progression items
-    if len(progression_pool) > len(
-        [
-            location
-            for location in placeable_locations
-            if location.progress_type != LocationProgressType.EXCLUDED
-        ]
-    ):
-        raise FillError(
-            "[Twilight Princess] There are insufficient locations to place progression items! "
-            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
-        )
-
-    world.progression_pool = progression_pool
+    # if len(progression_pool) > len(
+    #     [
+    #         location
+    #         for location in placeable_locations
+    #         if location.progress_type != LocationProgressType.EXCLUDED
+    #     ]
+    # ):
+    #     raise FillError(
+    #         "[Twilight Princess] There are insufficient locations to place progression items! "
+    #         f"Trying to place {len(progression_pool)} items in only {[
+    #                     location
+    #                     for location in placeable_locations
+    #                     if location.progress_type != LocationProgressType.EXCLUDED
+    #                 ]} locations. {len(placeable_locations)=}"
+    #     )
+    world.progression_pool.extend(progression_pool)
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
 
@@ -793,5 +800,5 @@ def place_deterministic_items(world: "TPWorld") -> None:
         item = world.create_item("Green Rupee")
         world.progression_pool.append("Ilias Charm")
 
-    world.get_location("Ilias Charm").place_locked_item(item)
+    world.get_location("Ilia Charm").place_locked_item(item)
     del item

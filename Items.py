@@ -133,8 +133,10 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Bomblings (3)": TPItemData("Ammo", IC.filler, 20, 1, 0x1C),
     "Bomblings (5)": TPItemData("Ammo", IC.filler, 21, 1, 0x1A),
     "Bomblings (10)": TPItemData("Ammo", IC.filler, 22, 1, 0x1B),
-    "Piece of Heart": TPItemData("Heart", IC.useful, 23, 45, 0x21),
-    "Heart Container": TPItemData("Heart", IC.useful, 24, 8, 0x22),
+    "Piece of Heart": TPItemData(
+        "Heart", IC.progression_deprioritized_skip_balancing, 23, 45, 0x21
+    ),
+    "Heart Container": TPItemData("Heart", IC.progression, 24, 8, 0x22),
     "Progressive Master Sword": TPItemData("Item", VERY_USEFUL, 25, 4, 0x29),
     "Ordon Shield": TPItemData("Item", IC.progression_deprioritized, 26, 1, 0x2A),
     "Hylian Shield": TPItemData("Item", IC.progression, 27, 1, 0x2C),
@@ -253,7 +255,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
     # Story Items
-    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
+    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 1, 0x84),
     "Renado's Letter": TPItemData("Quest", IC.progression, 134, 0, 0x80),
     "Invoice": TPItemData("Quest", IC.progression, 135, 0, 0x81),
     "Wooden Statue": TPItemData("Quest", IC.progression, 136, 0, 0x82),

@@ -79,7 +79,7 @@ class TPLogic(LogicMixin):
     def _tp_skip_snowpeak_entrance(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.skip_snowpeak_entrance.value
 
-    def _tp_grove_entrancece(self, player: int) -> int:
+    def _tp_grove_entrance(self, player: int) -> int:
         return self.multiworld.worlds[player].options.grove_entrance.value
 
     def _tp_tot_entrance(self, player: int) -> int:
@@ -113,13 +113,13 @@ class TPLogic(LogicMixin):
         return self.multiworld.worlds[player].options.transform_anywhere.value
 
     def _tp_hc_amount(self, player: int) -> int:
-        return self.multiworld.worlds[player].options.castle_requirements_count.value
+        return self.multiworld.worlds[player].options.castle_requirements_count
 
     def _tp_castle_bk_requirements(self, player: int) -> int:
         return self.multiworld.worlds[player].options.castle_bk_requirements.value
 
     def _tp_hc_bk_amount(self, player: int) -> int:
-        return self.multiworld.worlds[player].options.castle_bk_requirements_count.value
+        return self.multiworld.worlds[player].options.castle_bk_requirements_count
 
     def _tp_gm_shortcut(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.goron_mines_sc.value
@@ -148,7 +148,7 @@ def set_location_access_rules(world: "TPWorld"):
         glitched_rule: Callable[[CollectionState], bool] = None,
     ) -> None:
         # Only worry about logic if the location can be a progress item (and location_name not in world.nonprogress_locations) do not worry bout yet
-        assert location_name in LOCATION_TABLE, f"{location=}"
+        assert location_name in LOCATION_TABLE, f"{location_name=}"
         location = world.get_location(location_name)
 
         if (
@@ -2293,7 +2293,7 @@ def set_location_access_rules(world: "TPWorld"):
         ),
     )
     set_rule_if_exists(
-        "Ilias Charm",
+        "Ilia Charm",
         lambda state: (
             can_use(state, player, "Progressive Hero's Bow", 1)
             and can_use(state, player, "Wooden Statue")

@@ -136,7 +136,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             (
                 can_use(state, player, "Progressive Clawshot", 1)
                 and can_use(state, player, "Iron Boots")
-                and (can_use(state, player, "Shadow Crystal") or can_do_lja(state, player))
+                and (
+                    can_use(state, player, "Shadow Crystal")
+                    or can_do_lja(state, player)
+                )
             )
             and (
                 state._tp_damage_magnification(player)
@@ -445,10 +448,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Goron Mines Entrance -> Goron Mines Magnet Room"),
         lambda state: (
-            can_use(state, player, "Iron Boots") and can_break_wooden_door(state, player)
+            can_use(state, player, "Iron Boots")
+            and can_break_wooden_door(state, player)
         ),
         lambda state: (
-            (can_use(state, player, "Iron Boots") or can_use(state, player, "Shadow Crystal"))
+            (
+                can_use(state, player, "Iron Boots")
+                or can_use(state, player, "Shadow Crystal")
+            )
             and (
                 can_break_wooden_door(state, player)
                 or can_do_bs_moon_boots(state, player)
@@ -470,18 +477,12 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Goron Mines Magnet Room -> Goron Mines Lower West Wing"),
         lambda state: (
             can_use(state, player, "Goron Mines Small Key", 1)
-            or (
-                state._tp_gm_shortcut(player)
-                and can_use(state, player, "Iron Boots")
-            )
+            or (state._tp_gm_shortcut(player) and can_use(state, player, "Iron Boots"))
         ),
         lambda state: (
             can_use(state, player, "Goron Mines Small Key", 1)
             or (
-                (
-                    state._tp_gm_shortcut(player)
-                    or has_sword(state, player)
-                )
+                (state._tp_gm_shortcut(player) or has_sword(state, player))
                 and can_use(state, player, "Iron Boots")
             )
         ),
@@ -530,7 +531,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             can_use(state, player, "Goron Mines Key Shard", 3)
             and can_use(state, player, "Progressive Hero's Bow", 1)
             and (
-                (can_use(state, player, "Iron Boots") and can_defeat_Bulblin(state, player))
+                (
+                    can_use(state, player, "Iron Boots")
+                    and can_defeat_Bulblin(state, player)
+                )
                 or can_use(state, player, "Progressive Clawshot")
                 or can_do_lja(state, player)
             )
@@ -728,10 +732,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Hyrule Castle Third Floor Balcony -> Hyrule Castle After Double Dinalfos"
         ),
         lambda state: (
-            (
-                can_use(state, player, "Lantern")
-                and can_defeat_Dinalfos(state, player)
-            )
+            (can_use(state, player, "Lantern") and can_defeat_Dinalfos(state, player))
             or state._tp_hc_shortcut(player)
         ),
     )
@@ -783,10 +784,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             and can_defeat_Ganondorf(state, player)
         ),
         lambda state: (
-            (
-                can_use(state, player, "Spinner")
-                or can_do_js_lja(state, player)
-            )
+            (can_use(state, player, "Spinner") or can_do_js_lja(state, player))
             and can_use(state, player, "Progressive Clawshot", 1)
             and can_defeat_Darknut(state, player)
             and can_defeat_Lizalfos(state, player)
@@ -1119,7 +1117,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Snowpeak Ruins East Courtyard -> Snowpeak Ruins Yeto and Yeta"
         ),
         lambda state: (
-            can_use(state, player, "Shadow Crystal") or can_use(state, player, "Ball and Chain")
+            can_use(state, player, "Shadow Crystal")
+            or can_use(state, player, "Ball and Chain")
         ),
     )
 
@@ -1357,7 +1356,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (can_use(state, player, "Ball and Chain")),
         lambda state: (
-            can_use(state, player, "Ball and Chain") or can_use(state, player, "Shadow Crystal")
+            can_use(state, player, "Ball and Chain")
+            or can_use(state, player, "Shadow Crystal")
         ),
     )
 
@@ -1385,7 +1385,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Snowpeak Ruins Yeto and Yeta -> Snowpeak Ruins East Courtyard"
         ),
         lambda state: (
-            can_use(state, player, "Shadow Crystal") or can_use(state, player, "Ball and Chain")
+            can_use(state, player, "Shadow Crystal")
+            or can_use(state, player, "Ball and Chain")
         ),
     )
 
@@ -1588,7 +1589,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Death Mountain Near Kakariko -> Death Mountain Trail"),
         lambda state: (
-            can_use(state, player, "Iron Boots") or can_complete_goron_mines(state, player)
+            can_use(state, player, "Iron Boots")
+            or can_complete_goron_mines(state, player)
         ),
     )
 
@@ -1646,7 +1648,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             )
             or (
                 has_sword(state, player)
-                and (can_do_lja(state, player) or can_use(state, player, "Shadow Crystal"))
+                and (
+                    can_do_lja(state, player)
+                    or can_use(state, player, "Shadow Crystal")
+                )
             )
         ),
     )
@@ -1893,7 +1898,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Kakariko Gorge Behind Gate -> Kakariko Gorge"),
         lambda state: (
-            can_use(state, player, "Shadow Crystal") or can_use(state, player, "Gate Keys")
+            can_use(state, player, "Shadow Crystal")
+            or can_use(state, player, "Gate Keys")
         ),
     )
 
@@ -2052,10 +2058,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 state.can_reach_region("Kakariko Renados Sanctuary", player)
                 and can_use(state, player, "Wooden Statue")
             )
-            or (
-                state._tp_ilia_quest(player)
-                == IliaQuest.option_charm
-            )
+            or (state._tp_ilia_quest(player) == IliaQuest.option_charm)
         ),
     )
 
@@ -2105,7 +2108,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (can_use(state, player, "Iron Boots")),
         lambda state: (
-            can_use(state, player, "Iron Boots") or can_use(state, player, "Shadow Crystal")
+            can_use(state, player, "Iron Boots")
+            or can_use(state, player, "Shadow Crystal")
         ),
     )
 
@@ -2134,10 +2138,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Lower Kakariko Village -> Upper Kakariko Village"),
         lambda state: (
-            (
-                can_complete_goron_mines(state, player)
-                or can_smash(state, player)
-            )
+            (can_complete_goron_mines(state, player) or can_smash(state, player))
             and can_complete_eldin_twilight(state, player)  # always True
         ),
     )
@@ -2523,7 +2524,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Kakariko Graveyard -> Lake Hylia"),
         lambda state: (
             can_use(state, player, "Gate Keys")
-            and (can_use(state, player, "Iron Boots") or can_use(state, player, "Zora Armor"))
+            and (
+                can_use(state, player, "Iron Boots")
+                or can_use(state, player, "Zora Armor")
+            )
             and can_use_water_bombs(state, player)
             and can_complete_eldin_twilight(state, player)  # always True
         ),
@@ -2539,7 +2543,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 and (
                     (
                         has_bombs(state, player)
-                        and (has_sword(state, player) or can_use(state, player, "Spinner"))
+                        and (
+                            has_sword(state, player)
+                            or can_use(state, player, "Spinner")
+                        )
                     )
                     or can_do_lja(state, player)
                     or can_do_moon_boots(state, player)
@@ -2712,7 +2719,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Mist Area Near Faron Woods Cave -> Mist Area Under Owl Statue Chest"
         ),
         lambda state: (
-            can_use(state, player, "Lantern") or can_use(state, player, "Shadow Crystal")
+            can_use(state, player, "Lantern")
+            or can_use(state, player, "Shadow Crystal")
         ),
     )
 
@@ -2937,7 +2945,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Faron Field -> Lake Hylia Bridge"),
         lambda state: (can_use(state, player, "Gate Keys")),
         lambda state: (
-            can_use(state, player, "Gate Keys") or can_use(state, player, "Shadow Crystal")
+            can_use(state, player, "Gate Keys")
+            or can_use(state, player, "Shadow Crystal")
         ),
     )
 
@@ -2977,14 +2986,20 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Lost Woods -> Lost Woods Lower Battle Arena"),
         lambda state: (
-            (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
+            (
+                can_defeat_SkullKid(state, player)
+                and can_use(state, player, "Shadow Crystal")
+            )
             or (
                 state._tp_grove_entrance(player) == GroveEntrance.option_open
             )  # TODO Setting Skip Grove Entrance == True
             or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
         ),
         lambda state: (
-            (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
+            (
+                can_defeat_SkullKid(state, player)
+                and can_use(state, player, "Shadow Crystal")
+            )
             or (
                 state._tp_grove_entrance(player) == GroveEntrance.option_open
             )  # TODO Setting Skip Grove Entrance == True
@@ -2996,7 +3011,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Lost Woods -> Lost Woods Upper Battle Arena"),
         lambda state: (
-            (can_defeat_SkullKid(state, player) and can_use(state, player, "Shadow Crystal"))
+            (
+                can_defeat_SkullKid(state, player)
+                and can_use(state, player, "Shadow Crystal")
+            )
             or (
                 state._tp_grove_entrance(player) == GroveEntrance.option_open
             )  # TODO Setting Skip Grove Entrance == True
@@ -3365,10 +3383,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_defeat_KingBulblinDesert(state, player)
                 and (
                     can_use(state, player, "Gerudo Desert Bulblin Camp Key")
-                    or (
-                        can_do_map_glitch(state, player)
-                        and has_sword(state, player)
-                    )
+                    or (can_do_map_glitch(state, player) and has_sword(state, player))
                 )
             )
             or state._tp_skip_arbiters_entrance(player)
@@ -3699,14 +3714,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             can_use(state, player, "Invoice")
-            or (
-                state._tp_ilia_quest(player)
-                == IliaQuest.option_statue
-            )
-            or (
-                state._tp_ilia_quest(player)
-                == IliaQuest.option_charm
-            )
+            or (state._tp_ilia_quest(player) == IliaQuest.option_statue)
+            or (state._tp_ilia_quest(player) == IliaQuest.option_charm)
         ),
     )
 
@@ -3716,14 +3725,8 @@ def set_region_access_rules(world: "TPWorld", player: int):
         ),
         lambda state: (
             can_use(state, player, "Invoice")
-            or (
-                state._tp_ilia_quest(player)
-                == IliaQuest.option_statue
-            )
-            or (
-                state._tp_ilia_quest(player)
-                == IliaQuest.option_charm
-            )
+            or (state._tp_ilia_quest(player) == IliaQuest.option_statue)
+            or (state._tp_ilia_quest(player) == IliaQuest.option_charm)
         ),
     )
 
@@ -4043,7 +4046,10 @@ def set_region_access_rules(world: "TPWorld", player: int):
             and can_complete_lanayru_twilight(state, player)  # always True
         ),
         lambda state: (
-            (can_use(state, player, "Gate Keys") or can_use(state, player, "Shadow Crystal"))
+            (
+                can_use(state, player, "Gate Keys")
+                or can_use(state, player, "Shadow Crystal")
+            )
             and can_complete_lanayru_twilight(state, player)  # always True
         ),
     )
