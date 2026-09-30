@@ -687,6 +687,23 @@ class SkipBridgeDona(Toggle):
     default = False
 
 
+class IliaQuest(Choice):
+    """
+    With this setting, the player can choose the point in the sequence they want the Ilia Memory Quest to start.
+    Selecting an item shuffles that specific item into world, precompleting the previous items in the quest.
+
+    Later items in the sequence are vanilla with the exception of the 'Ilia Memory Reward' item, which is always randomized.
+    """
+
+    display_name = "Ilia Memory Quest"
+    option_vanilla = 0
+    option_letter = 1
+    option_invoice = 2
+    option_statue = 3
+    option_charm = 4
+    defult = 0
+
+
 # endregion
 
 
@@ -755,6 +772,7 @@ class TPOptions(PerGameCommonOptions):
     start_with_horse_call: StartWithHorseCall
     auto_fill_wallet: AutoFillWalet
     skip_bridge_don: SkipBridgeDona
+    ilia_quest: IliaQuest
 
     # Dungeon Entrance Settings
     skip_lakebed_entrance: SkipLakebedEntrance
@@ -841,6 +859,7 @@ tp_option_groups: list[OptionGroup] = [
             DamageMagnification,
             StartingToD,
             # HintDistribution,
+            IliaQuest,
         ],
         start_collapsed=True,
     ),

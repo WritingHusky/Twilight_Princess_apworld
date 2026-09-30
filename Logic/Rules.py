@@ -136,6 +136,9 @@ class TPLogic(LogicMixin):
     def _tp_open_door_of_time(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.open_door_of_time.value
 
+    def _tp_ilia_quest(self, player: int) -> int:
+        return self.multiworld.worlds[player].options.ilia_quest.value
+
 
 def set_location_access_rules(world: "TPWorld"):
 

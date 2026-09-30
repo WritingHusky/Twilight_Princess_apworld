@@ -172,7 +172,7 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         (world.options.starting_tod.value, 3),
         bool(world.options.goron_mines_sc.value),
         bool(world.options.castle_sc.value),
-        # ilia
+        (world.options.ilia_quest.value, 3),
         (world.options.castle_requirements_count, 6),
         (world.options.castle_bk_requirements, 3),
         (world.options.castle_bk_requirements_count, 6),

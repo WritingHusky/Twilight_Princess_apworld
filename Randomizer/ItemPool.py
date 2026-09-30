@@ -743,72 +743,55 @@ def place_deterministic_items(world: "TPWorld") -> None:
         world.boss_defeat_items["Zant"]
     )
 
-    # Manually place items that cannot be randomized yet.
-    # These are still items in-game, but are not worried about post generation
-    world.get_location("Renados Letter").place_locked_item(
-        TPItem(
-            "Renado's Letter",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x80,
-            ),
-        )
-    )
-    world.get_location("Telma Invoice").place_locked_item(
-        TPItem(
-            "Invoice",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x81,
-            ),
-        )
-    )
-    world.get_location("Wooden Statue").place_locked_item(
-        TPItem(
-            "Wooden Statue",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x82,
-            ),
-        )
-    )
-    world.get_location("Ilias Charm").place_locked_item(
-        TPItem(
-            "Ilias Charm",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x83,
-            ),
-        )
-    )
-    # Base Rando forces this as horse call
-    # NOTE: Collecting Horse Call/Any Quest item will disable/lock all previous items in the quest chain
-    world.get_location("Ilia Memory Reward").place_locked_item(
-        TPItem(
-            "Horse Call",
-            world.player,
-            TPItemData(
-                code=None,  # was code 53
-                type="Item",
-                quantity=1,
-                classification=IC.progression | IC.useful,
-                item_id=0x84,
-            ),
-        )
-    )
+    # Manually deal with quest locations. Place item or green ruppee
+    # # Also precollect or shuffled the choosen item
+    if world.options.ilia_quest.value == IliaQuest.option_vanilla:
+        item = world.create_item("Renado's Letter")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_letter:
+            world.progression_pool.append("Renado's Letter")
+        else:
+            world.push_precollected(world.create_item("Renado's Letter"))
+
+    world.get_location("Renados Letter").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value in [
+        IliaQuest.option_vanilla,
+        IliaQuest.option_letter,
+    ]:
+        item = world.create_item("Invoice")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_invoice:
+            world.progression_pool.append("Invoice")
+        else:
+            world.push_precollected(world.create_item("Invoice"))
+    world.get_location("Telma Invoice").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value in [
+        IliaQuest.option_vanilla,
+        IliaQuest.option_letter,
+        IliaQuest.option_invoice,
+    ]:
+        item = world.create_item("Wooden Statue")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_statue:
+            world.progression_pool.append("Wooden Statue")
+        else:
+            world.push_precollected(world.create_item("Wooden Statue"))
+
+    world.get_location("Wooden Statue").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value != IliaQuest.option_charm:
+        item = world.create_item("Ilias Charm")
+    else:
+        item = world.create_item("Green Rupee")
+        world.progression_pool.append("Ilias Charm")
+
+    world.get_location("Ilias Charm").place_locked_item(item)
+    del item

@@ -155,8 +155,6 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Slingshot": TPItemData("Item", IC.progression_deprioritized, 44, 1, 0x4B),
     "Bomb Bag": TPItemData("Item", IC.progression, 45, 3, 0x51),
     "Progressive Bottle": TPItemData("Bottle", IC.progression, 46, 4, 0x9D),
-    # Story Items fit here (useful if randomized eventually)
-    # "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
     "Forest Temple Small Key": TPItemData("Small key", IC.progression, 54, 4, 0x85),
     "Goron Mines Small Key": TPItemData("Small key", IC.progression, 55, 3, 0x86),
     "Lakebed Temple Small Key": TPItemData("Small key", IC.progression, 56, 3, 0x87),
@@ -254,6 +252,12 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
     "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
+    # Story Items
+    "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 0, 0x84),
+    "Renado's Letter": TPItemData("Quest", IC.progression, 134, 0, 0x80),
+    "Invoice": TPItemData("Quest", IC.progression, 135, 0, 0x81),
+    "Wooden Statue": TPItemData("Quest", IC.progression, 136, 0, 0x82),
+    "Ilias Charm": TPItemData("Quest", IC.progression, 137, 0, 0x83),
 }
 
 LOOKUP_ID_TO_NAME: dict[int, str] = {
