@@ -153,13 +153,13 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         bool(world.options.fast_iron_boots.value),
         bool(world.options.quick_transform.value),
         bool(world.options.transform_anywhere.value),
-        bool(world.options.increase_wallet.value),
+        (world.options.wallet_size.value, 2),
         bool(world.options.modify_shop_models.value),
         (world.options.goron_mines_entrance.value, 2),
         bool(world.options.skip_lakebed_entrance.value),
         bool(world.options.skip_arbiters_grounds_entrance.value),
         bool(world.options.skip_snowpeak_entrance.value),
-        # grove
+        bool(world.options.grove_entrance.value),
         (world.options.tot_entrance.value, 3),
         bool(world.options.skip_city_in_the_sky_entrance.value),
         bool(world.options.instant_message_text.value),
@@ -170,17 +170,14 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         bool(world.options.bonks_do_damage.value),
         bool(world.options.skip_major_cutscenes.value),
         (world.options.starting_tod.value, 3),
-        # starting point
-        # gm short cut
-        # hc short cut
+        bool(world.options.goron_mines_sc.value),
+        bool(world.options.castle_sc.value),
         # ilia
-        # mirror enter
         (world.options.castle_requirements_count, 6),
-        # BK req
-        # ^ count
-        # auto fill wallet
-        # skip brdg don
-        # malo don
+        (world.options.castle_bk_requirements, 3),
+        (world.options.castle_bk_requirements_count, 6),
+        bool(world.options.auto_fill_wallet.value),
+        bool(world.options.skip_bridge_don.value),
     ]
 
     bit_string = ""

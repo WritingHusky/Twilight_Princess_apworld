@@ -103,9 +103,6 @@ class TPLogic(LogicMixin):
     # def _tp_barren_dungeons(self, player: int) -> bool:
     #     return self.multiworld.worlds[player].options.barren_dungeons.value
 
-    def _tp_increase_wallet(self, player: int) -> bool:
-        return self.multiworld.worlds[player].options.increase_wallet.value
-
     def _tp_bonks_do_damage(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.bonks_do_damage.value
 
@@ -123,6 +120,21 @@ class TPLogic(LogicMixin):
 
     def _tp_hc_bk_amount(self, player: int) -> int:
         return self.multiworld.worlds[player].options.castle_bk_requirements_count.value
+
+    def _tp_gm_shortcut(self, player: int) -> bool:
+        return self.multiworld.worlds[player].options.goron_mines_sc.value
+
+    def _tp_hc_shortcut(self, player: int) -> bool:
+        return self.multiworld.worlds[player].options.castle_sc.value
+
+    def _tp_wallet_size(self, player: int) -> int:
+        return self.multiworld.worlds[player].options.wallet_size.value
+
+    def _tp_skip_bridge_donation(self, player: int) -> bool:
+        return self.multiworld.worlds[player].options.skip_bridge_don.value
+
+    def _tp_open_door_of_time(self, player: int) -> bool:
+        return self.multiworld.worlds[player].options.open_door_of_time.value
 
 
 def set_location_access_rules(world: "TPWorld"):

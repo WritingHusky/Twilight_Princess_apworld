@@ -289,6 +289,7 @@ class CastleRequirementsCount(Range):
 
     display_name = "Castle Requirement Count"
     range_end = 60
+    default = 0
 
 
 class CastleBKRequirements(Choice):
@@ -309,6 +310,7 @@ class CastleBKRequirements(Choice):
     option_dungeons = 3
     option_poe_souls = 4
     option_hearts = 5
+    default = 0
 
 
 class CastleBKRequirementsCount(Range):
@@ -326,6 +328,7 @@ class CastleBKRequirementsCount(Range):
 
     display_name = "Castle Boss Key Requirement Count"
     range_end = 60
+    default = 0
 
 
 class PalaceRequirements(Choice):
@@ -456,15 +459,6 @@ class TransformAnywhere(Toggle):
     default = True
 
 
-class IncreaseWalletCapacity(Toggle):
-    """
-    If enabled, the wallet capacity is increased.
-    """
-
-    display_name = "Increase Wallet Capacity"
-    default = True
-
-
 class ModifyShopModels(Toggle):
     """
     If enabled, swap shop models with the items that are placed there.
@@ -533,7 +527,7 @@ class GroveEntrance(Choice):
     default = 2
 
 
-class ToTEntrance:
+class ToTEntrance(Choice):
     """
     TODO: Please fill out
     """
@@ -544,6 +538,7 @@ class ToTEntrance:
     ordon_sword = 2
     master_sword = 3
     light_sword = 4
+    default = 0
 
 
 class SkipCityInTheSkyEntrance(Toggle):
@@ -646,6 +641,52 @@ class StartWithHorseCall(Toggle):
     default = False
 
 
+class GoronMinesShortcut(Toggle):
+    """If enabled, all magnets within Goron Mines except the final one will automatically be activated. The final magnet remains deactivated to avoid a softlock."""
+
+    display_name = "Active Goron Mine Magnets"
+    default = False
+
+
+class CastleShortcut(Toggle):
+    """If enabled, the shortcut chandelier in the Hyrule Castle main hall will be lowered, and the double Dinalfos room will be cleared.
+
+    This allows for you to continue from the main hall to the southern balcony more quickly and with fewer item requirements (ex: no Gale Boomerang).
+    """
+
+    display_name = "Lower Hyrule Castle Chandelier"
+    default = False
+
+
+class WalletSize(Choice):
+    """Changes the capacity of the wallet
+    - Reduced: Sets the wallet capacities to 99, 500, and 1000
+    - Vanila: Sets the wallet capacities to 300, 600, and 1000.
+    - HD: Sets the wallet capacities to 500, 1000, and 2000.
+    - Large: Sets the wallet capacities to 1000, 5000, and 9999."""
+
+    display_name = " Wallet Size"
+    option_reduced = 0
+    option_vanilla = 1
+    option_hd = 2
+    option_large = 3
+    default = 1
+
+
+class AutoFillWalet(Toggle):
+    """Starts the player with a full wallet. Wallet upgrades will also fill the wallet."""
+
+    display_name = "Automatically Fill Wallets"
+    default = False
+
+
+class SkipBridgeDona(Toggle):
+    """If enabled, the bridge to Castle Town from Eldin Field will be automatically repaired."""
+
+    display_name = "Skip Castle Town Bridge Donation"
+    default = False
+
+
 # endregion
 
 
@@ -699,7 +740,9 @@ class TPOptions(PerGameCommonOptions):
     open_map: OpenMap
     increase_spinner_speed: IncreaseSpinnerSpeed
     open_door_of_time: OpenDoorOfTime
-    increase_wallet: IncreaseWalletCapacity
+    wallet_size: WalletSize
+    goron_mines_sc: GoronMinesShortcut
+    castle_sc: CastleShortcut
 
     # Additional Settings
     transform_anywhere: TransformAnywhere
@@ -710,6 +753,8 @@ class TPOptions(PerGameCommonOptions):
     starting_tod: StartingToD
     # hint_distribution: HintDistribution
     start_with_horse_call: StartWithHorseCall
+    auto_fill_wallet: AutoFillWalet
+    skip_bridge_don: SkipBridgeDona
 
     # Dungeon Entrance Settings
     skip_lakebed_entrance: SkipLakebedEntrance
@@ -779,6 +824,9 @@ tp_option_groups: list[OptionGroup] = [
             OpenDoorOfTime,
             EarlyShadowCrystal,
             StartWithHorseCall,
+            GoronMinesShortcut,
+            CastleShortcut,
+            SkipBridgeDona,
         ],
         start_collapsed=True,
     ),
@@ -786,7 +834,8 @@ tp_option_groups: list[OptionGroup] = [
         "Additional Settings",
         [
             TransformAnywhere,
-            IncreaseWalletCapacity,
+            WalletSize,
+            AutoFillWalet,
             BonksDoDamage,
             TrapFrequency,
             DamageMagnification,
