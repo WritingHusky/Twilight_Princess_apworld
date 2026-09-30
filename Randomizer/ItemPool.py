@@ -15,7 +15,14 @@ from ..options import (
     SkyCharactersShuffled,
 )
 
-from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
+from ..Items import (
+    ITEM_TABLE,
+    PortalItems,
+    TPItem,
+    TPItemData,
+    item_factory,
+    item_name_groups,
+)
 
 if TYPE_CHECKING:
     from .. import TPWorld
@@ -487,7 +494,9 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 filler_pool.extend([item] * data.quantity)
 
         else:
-            assert item in ["Victory", "Ice Trap"], f"[Twilight Princess] {item}"
+            assert (item in ["Victory", "Ice Trap"]) or (
+                item in PortalItems
+            ), f"[Twilight Princess] {item}"
 
     # Get the number of locations that have not been filled yet
     placeable_locations = [
@@ -802,3 +811,54 @@ def place_deterministic_items(world: "TPWorld") -> None:
 
     world.get_location("Ilia Charm").place_locked_item(item)
     del item
+    #
+    #
+    #
+    #
+    #
+
+    world.get_location("Ordon Spring Portal").place_locked_item(
+        world.create_item("Ordon Spring Portal")
+    )
+    world.get_location("South Faron Portal").place_locked_item(
+        world.create_item("South Faron Portal")
+    )
+    world.get_location("Upper Zoras River Portal").place_locked_item(
+        world.create_item("Upper Zoras River Portal")
+    )
+    world.get_location("Castle Town Portal").place_locked_item(
+        world.create_item("Castle Town Portal")
+    )
+    world.get_location("Gerudo Desert Portal").place_locked_item(
+        world.create_item("Gerudo Desert Portal")
+    )
+    world.get_location("North Faron Portal").place_locked_item(
+        world.create_item("North Faron Portal")
+    )
+    world.get_location("Kakariko Gorge Portal").place_locked_item(
+        world.create_item("Kakariko Gorge Portal")
+    )
+    world.get_location("Kakariko Village Portal").place_locked_item(
+        world.create_item("Kakariko Village Portal")
+    )
+    world.get_location("Death Mountain Portal").place_locked_item(
+        world.create_item("Death Mountain Portal")
+    )
+    world.get_location("Zoras Domain Portal").place_locked_item(
+        world.create_item("Zoras Domain Portal")
+    )
+    world.get_location("Lake Hylia Portal").place_locked_item(
+        world.create_item("Lake Hylia Portal")
+    )
+    world.get_location("Mirror Chamber Portal").place_locked_item(
+        world.create_item("Mirror Chamber Portal")
+    )
+    world.get_location("Snowpeak Portal").place_locked_item(
+        world.create_item("Snowpeak Portal")
+    )
+    world.get_location("Sacred Grove Portal").place_locked_item(
+        world.create_item("Sacred Grove Portal")
+    )
+    world.get_location("Bridge of Eldin Portal").place_locked_item(
+        world.create_item("Bridge of Eldin Portal")
+    )

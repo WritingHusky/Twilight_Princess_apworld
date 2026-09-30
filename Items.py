@@ -260,6 +260,22 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Invoice": TPItemData("Quest", IC.progression, 135, 0, 0x81),
     "Wooden Statue": TPItemData("Quest", IC.progression, 136, 0, 0x82),
     "Ilias Charm": TPItemData("Quest", IC.progression, 137, 0, 0x83),
+    # Portals
+    "Ordon Spring Portal": TPItemData("Portal", IC.progression, None, 0, 0x14),
+    "South Faron Portal": TPItemData("Portal", IC.progression, None, 0, 0x15),
+    "Upper Zoras River Portal": TPItemData("Portal", IC.progression, None, 0, 0x39),
+    "Castle Town Portal": TPItemData("Portal", IC.progression, None, 0, 0x3A),
+    "Gerudo Desert Portal": TPItemData("Portal", IC.progression, None, 0, 0x3B),
+    "North Faron Portal": TPItemData("Portal", IC.progression, None, 0, 0x3C),
+    "Kakariko Gorge Portal": TPItemData("Portal", IC.progression, None, 0, 0x4D),
+    "Kakariko Village Portal": TPItemData("Portal", IC.progression, None, 0, 0x4E),
+    "Death Mountain Portal": TPItemData("Portal", IC.progression, None, 0, 0x52),
+    "Zoras Domain Portal": TPItemData("Portal", IC.progression, None, 0, 0x57),
+    "Lake Hylia Portal": TPItemData("Portal", IC.progression, None, 0, 0x8F),
+    "Mirror Chamber Portal": TPItemData("Portal", IC.progression, None, 0, 0xAE),
+    "Snowpeak Portal": TPItemData("Portal", IC.progression, None, 0, 0xAF),
+    "Sacred Grove Portal": TPItemData("Portal", IC.progression, None, 0, 0x14),
+    "Bridge of Eldin Portal": TPItemData("Portal", IC.progression, None, 0, 0xE8),
 }
 
 LOOKUP_ID_TO_NAME: dict[int, str] = {
@@ -590,7 +606,7 @@ BossItems = [
 ]
 
 PortalItems = [
-    "Ordon Portal",
+    "Ordon Spring Portal",
     "South Faron Portal",
     "North Faron Portal",
     "Kakariko Gorge Portal",

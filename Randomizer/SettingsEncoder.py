@@ -174,7 +174,7 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         bool(world.options.castle_sc.value),
         (world.options.ilia_quest.value, 3),
         (world.options.castle_requirements_count, 6),
-        (world.options.castle_bk_requirements, 3),
+        (world.options.castle_bk_requirements.value, 3),
         (world.options.castle_bk_requirements_count, 6),
         bool(world.options.auto_fill_wallet.value),
         bool(world.options.skip_bridge_don.value),

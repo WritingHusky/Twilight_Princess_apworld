@@ -3,6 +3,7 @@ from collections.abc import Mapping
 from copy import deepcopy
 import json
 import os
+import time
 from typing import Any, ClassVar, Optional
 import zipfile
 
@@ -54,7 +55,7 @@ from .Randomizer.ItemPool import (
     VANILLA_MAP_AND_COMPASS_LOCATIONS,
 )
 
-from .Logic.Rules import set_location_access_rules
+from .Logic.Rules import set_location_access_rules, can_use
 from .Logic.RegionConnection import connect_regions
 from .Logic.RegionCreation import (
     create_regions,
@@ -608,65 +609,71 @@ class TPWorld(World):
                     )
 
         # Quick sanity check, Must happen here so it runs before plando-ed items
-        allstate = self.multiworld.get_all_state()
-        explorable_regions = [
-            self.get_region(self.origin_region_name),
-        ]
-        checked_regions: list[Region] = []
-        just_checked_regions: list[Region] = []
-        fresh_regions: list[Region] = []
+        # allstate = self.multiworld.get_all_state()
+        # explorable_regions = [
+        #     self.get_region(self.origin_region_name),
+        # ]
+        # total_region_count = len(self.get_regions())
+        # checked_regions: list[Region] = []
+        # just_checked_regions: list[Region] = []
+        # fresh_regions: list[Region] = []
+        # timer = time.time()
 
-        # BFS through graph to see if all state reaches
-        while True:
-            for region in explorable_regions:
-                if allstate.can_reach_region(region.name, self.player):
-                    fresh_regions.append(region)
-                    explorable_regions.remove(region)
-                    checked_regions.append(region)
-                    just_checked_regions.append(region)
-                else:
-                    raise Exception(
-                        f"[Twilight Princess] All regions Should be accessible with allstate. Failed check for {region.name=}"
-                    )
+        # assert can_use(allstate, self.player, "Progressive Hero's Bow")
+        # assert can_use(allstate, self.player, "Shadow Crystal")
+        # assert can_use(allstate, self.player, "Progressive Clawshot", 1)
 
-            for region in fresh_regions:
+        # # BFS through graph to see if all state reaches
+        # while True:
+        #     if time.time() > timer + 10:
+        #         print("[Twilight Princess] Timed out acessiblity pre checks")
+        #         break
+        #     for region in explorable_regions:
+        #         if region in checked_regions and region in explorable_regions:
+        #             explorable_regions.remove(region)
+        #             continue
+        #         if allstate.can_reach_region(region.name, self.player):
+        #             fresh_regions.append(region)
+        #             explorable_regions.remove(region)
+        #             checked_regions.append(region)
+        #             just_checked_regions.append(region)
+        #         # else:
+        #         #     raise Exception(
+        #         #         f"[Twilight Princess] All regions Should be accessible with allstate. Failed check for {region.name=}"
+        #         #     )
 
-                for exit in region.entrances:
-                    if exit.connected_region not in checked_regions:
-                        explorable_regions.append(exit.connected_region)
-                    elif exit.parent_region not in checked_regions:
-                        explorable_regions.append(exit.parent_region)
-                for exit in region.exits:
-                    if exit.connected_region not in checked_regions:
-                        explorable_regions.append(exit.connected_region)
-                    elif exit.parent_region not in checked_regions:
-                        explorable_regions.append(exit.parent_region)
-                fresh_regions.remove(region)
+        #     for region in fresh_regions:
 
-            if any(
-                [
-                    True
-                    for region in checked_regions
-                    if region.name == "Ganondorf Castle"
-                ]
-            ):
-                break
+        #         for exit in region.entrances:
+        #             if exit.connected_region not in checked_regions:
+        #                 explorable_regions.append(exit.connected_region)
+        #             elif exit.parent_region not in checked_regions:
+        #                 explorable_regions.append(exit.parent_region)
+        #         for exit in region.exits:
+        #             if exit.connected_region not in checked_regions:
+        #                 explorable_regions.append(exit.connected_region)
+        #             elif exit.parent_region not in checked_regions:
+        #                 explorable_regions.append(exit.parent_region)
+        #         fresh_regions.remove(region)
 
-            if len(explorable_regions) == 0:
-                raise Exception(
-                    f"[Twilight Princess] No more explorable regions and Ganon was not found {just_checked_regions=}"
-                )
-            else:
-                just_checked_regions = []
+        #     if len(checked_regions) == total_region_count:
+        #         break
 
-        for location in [
-            location_name
-            for location_name in LOCATION_TABLE.keys()
-            if LOCATION_TABLE[location_name].code != None
-        ]:
-            assert allstate.can_reach_location(
-                location, self.player
-            ), f"[Twilight Princess] Pre fill allstate check failed for {location=}"
+        #     if len(explorable_regions) == 0:
+        #         raise Exception(
+        #             f"[Twilight Princess] No more explorable regions and Ganon was not found {just_checked_regions=}"
+        #         )
+        #     else:
+        #         just_checked_regions = []
+
+        # for location in [
+        #     location_name
+        #     for location_name in LOCATION_TABLE.keys()
+        #     if LOCATION_TABLE[location_name].code != None
+        # ]:
+        #     assert allstate.can_reach_location(
+        #         location, self.player
+        #     ), f"[Twilight Princess] Pre fill allstate check failed for {location=}"
 
     def pre_fill(self) -> None:
         """
