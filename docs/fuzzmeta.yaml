@@ -7,11 +7,11 @@ Twilight Princess:
     skip_major_cutscenes: false
     skip_minor_cutscenes: false
     increase_spinner_speed: false
-    early_shadow_crystal: false
+    # early_shadow_crystal: false
 
     # TPRando Settings
     # open_map: false
-    faron_woods_logic: open # Need to craft generation to be consistent
+    # faron_woods_logic: open # Need to craft generation to be consistent
     # castle_requirements: open
     # palace_requirements: open
     # skip_lakebed_entrance: true

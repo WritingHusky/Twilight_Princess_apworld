@@ -1014,6 +1014,12 @@ class TPWorld(World):
         if self.options.big_key_settings.in_dungeon:
             for dungeon_name in VANILLA_BIG_KEY_LOCATIONS:
                 for item_name in VANILLA_BIG_KEY_LOCATIONS[dungeon_name]:
+                    if (
+                        item_name == "Hyrule Castle Big Key"
+                        and self.options.castle_bk_requirements.value
+                        != CastleBKRequirements.option_none
+                    ):
+                        continue  # Handle in place deterministic
                     assert (
                         item_name in self.prefill_pool
                     ), f"[Twilight Princess] {item_name=} not in prefill pool"
@@ -1115,6 +1121,12 @@ class TPWorld(World):
             if option.value == setting.option_vanilla:
                 for dungeon_name in vanilla:
                     for item_name in vanilla[dungeon_name]:
+                        if (
+                            item_name == "Hyrule Castle Big Key"
+                            and self.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        ):
+                            continue  # handled in place deterministic
 
                         assert (
                             item_name in ITEM_TABLE
@@ -1210,32 +1222,18 @@ class TPWorld(World):
                     items: list[Item] = []
 
                     for item_name in vanilla[dungeon_name]:
-                        assert item_name in ITEM_TABLE
-                        assert item_name in self.prefill_pool
-
-                        # Don't place item if its precollected
-                        skip_item = False
-
                         if (
                             item_name == "Hyrule Castle Big Key"
                             and self.options.castle_bk_requirements.value
                             != CastleBKRequirements.option_none
                         ):
-                            hc_bk_item = list(
-                                filter(
-                                    lambda item: item.name == item_name, pre_fill_items
-                                )
-                            )[0]
+                            continue  # handled in place deterministic
 
-                            assert isinstance(
-                                hc_bk_item, TPItem
-                            ), "[Twilight Princess] (Own Dungeon) Castle Key not found"
+                        assert item_name in ITEM_TABLE
+                        assert item_name in self.prefill_pool
 
-                            self.get_location(
-                                "Hyrule Castle Big Key Chest"
-                            ).place_locked_item(hc_bk_item)
-                            pre_fill_items.remove(hc_bk_item)
-                            continue
+                        # Don't place item if its precollected
+                        skip_item = False
 
                         for item in starting_pool_copy:
                             if item.name == item_name:
@@ -1388,32 +1386,18 @@ class TPWorld(World):
                     locations.extend(new_locations)
 
                     for item_name in vanilla[dungeon_name]:
-                        assert item_name in ITEM_TABLE
-                        assert item_name in self.prefill_pool
-
-                        # Don't place item if its precollected
-                        skip_item = False
-
                         if (
                             item_name == "Hyrule Castle Big Key"
                             and self.options.castle_bk_requirements.value
                             != CastleBKRequirements.option_none
                         ):
-                            hc_bk_item = list(
-                                filter(
-                                    lambda item: item.name == item_name, pre_fill_items
-                                )
-                            )[0]
+                            continue  # handled in place deterministic
 
-                            assert isinstance(
-                                hc_bk_item, TPItem
-                            ), "[Twilight Princess] (any Dungeon) Castle Key not found"
+                        assert item_name in ITEM_TABLE
+                        assert item_name in self.prefill_pool
 
-                            self.get_location(
-                                "Hyrule Castle Big Key Chest"
-                            ).place_locked_item(hc_bk_item)
-                            pre_fill_items.remove(hc_bk_item)
-                            continue
+                        # Don't place item if its precollected
+                        skip_item = False
 
                         for item in starting_pool_copy:
                             if item.name == item_name:
@@ -1499,29 +1483,15 @@ class TPWorld(World):
                     items: list[Item] = []
 
                     for item_name in vanilla[dungeon_name]:
-                        assert item_name in ITEM_TABLE
-                        assert item_name in self.prefill_pool
-
                         if (
                             item_name == "Hyrule Castle Big Key"
                             and self.options.castle_bk_requirements.value
                             != CastleBKRequirements.option_none
                         ):
-                            hc_bk_item = list(
-                                filter(
-                                    lambda item: item.name == item_name, pre_fill_items
-                                )
-                            )[0]
+                            continue  # handled in place deterministic
 
-                            assert isinstance(
-                                hc_bk_item, TPItem
-                            ), "[Twilight Princess] (any Dungeon) Castle Key not found"
-
-                            self.get_location(
-                                "Hyrule Castle Big Key Chest"
-                            ).place_locked_item(hc_bk_item)
-                            pre_fill_items.remove(hc_bk_item)
-                            continue
+                        assert item_name in ITEM_TABLE
+                        assert item_name in self.prefill_pool
 
                         # Don't place item if its precollected
                         skip_item = False
@@ -1624,9 +1594,9 @@ class TPWorld(World):
         # endregion
 
         # All items in the pre fill pool need to be processed in the pre fill
-        # assert (
-        #     len(pre_fill_items) == 0
-        # ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
+        assert (
+            len(pre_fill_items) == 0
+        ), f"[Twilight Princess] Not all pre fill items placed {pre_fill_items=}"
 
         for location in self.multiworld.get_filled_locations(self.player):
             if location.address != None and location.item.advancement:
@@ -1694,11 +1664,19 @@ class TPWorld(World):
             output_directory, f"info_{multiworld.get_out_file_name_base(player)}.txt"
         )
         with open(debug_file_path, "w") as f:
-            for location in LOCATION_TABLE.keys():
+            sorted_keys = sorted(
+                [
+                    loc
+                    for loc in LOCATION_TABLE.keys()
+                    if LOCATION_TABLE[loc].code != None
+                ],
+                key=lambda name: LOCATION_TABLE[name].code,
+            )
+            for location in sorted_keys:
                 data = LOCATION_TABLE[location]
                 if data.code == None:
                     continue
-                f.write(f"{location}, {data.code}")
+                f.write(f"{location}, {data.code}\n")
 
         # Output the settings and item_placement to file.
         file_path = os.path.join(

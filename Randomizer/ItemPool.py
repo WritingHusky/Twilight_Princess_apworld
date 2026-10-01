@@ -394,6 +394,12 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     for item, data in ITEM_TABLE.items():
         # Catch items that need special handling
         if data.code != None and item not in ["Victory", "Ice Trap"]:
+            if (
+                item == "Hyrule Castle Big Key"
+                and world.options.castle_bk_requirements.value
+                != CastleBKRequirements.option_none
+            ):
+                continue  # already handled in place deterministic
             # Prefill check
             if (
                 (
@@ -672,6 +678,11 @@ def place_deterministic_items(world: "TPWorld") -> None:
     world.get_location("Hyrule Castle Ganondorf").place_locked_item(
         item_factory("Victory", world)
     )
+
+    if world.options.castle_bk_requirements.value != CastleBKRequirements.option_none:
+        world.get_location("Hyrule Castle Big Key Chest").place_locked_item(
+            item_factory("Hyrule Castle Big Key", world)
+        )
 
     # Place a Boss Defeated item on the boss rooms
     set_rule(

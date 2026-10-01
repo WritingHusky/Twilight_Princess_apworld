@@ -1316,19 +1316,19 @@ def can_strike_pedestal(state: CollectionState, player: int):
     return (
         state._tp_tot_entrance(player) == ToTEntrance.option_none
         or (
-            state._tp_tot_entrance(player) == ToTEntrance.wooden_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_wooden_sword
             and has_sword(state, player, 1)
         )
         or (
-            state._tp_tot_entrance(player) == ToTEntrance.ordon_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_ordon_sword
             and has_sword(state, player, 2)
         )
         or (
-            state._tp_tot_entrance(player) == ToTEntrance.master_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_master_sword
             and has_sword(state, player, 3)
         )
         or (
-            state._tp_tot_entrance(player) == ToTEntrance.light_sword
+            state._tp_tot_entrance(player) == ToTEntrance.option_light_sword
             and has_sword(state, player, 4)
         )
     )

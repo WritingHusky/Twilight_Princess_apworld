@@ -289,7 +289,8 @@ class CastleRequirementsCount(Range):
 
     display_name = "Castle Requirement Count"
     range_end = 60
-    default = 0
+    range_start = 1
+    default = 1
 
 
 class CastleBKRequirements(Choice):
@@ -328,7 +329,8 @@ class CastleBKRequirementsCount(Range):
 
     display_name = "Castle Boss Key Requirement Count"
     range_end = 60
-    default = 0
+    range_start = 1
+    default = 1
 
 
 class PalaceRequirements(Choice):
@@ -537,10 +539,10 @@ class ToTEntrance(Choice):
 
     display_name = "Temple of Time Sword Requirement"
     option_none = 0
-    wooden_sword = 1
-    ordon_sword = 2
-    master_sword = 3
-    light_sword = 4
+    option_wooden_sword = 1
+    option_ordon_sword = 2
+    option_master_sword = 3
+    option_light_sword = 4
     default = 0
 
 
