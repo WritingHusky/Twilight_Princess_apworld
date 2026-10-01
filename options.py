@@ -529,10 +529,13 @@ class GroveEntrance(Choice):
 
 class ToTEntrance(Choice):
     """
-    TODO: Please fill out
+    Sets the minimum progressive sword level that is required to strike the pedestal in Sacred Grove and the Temple of Time.
+    This means that if set to Ordon Sword, the pedestal can be struck with the Ordon, Master, or Light Sword, but not the Wooden Sword.
+
+    If set to 'none', the player does not need to strike the sword into the pedestal.
     """
 
-    display_name = "TODO"
+    display_name = "Temple of Time Sword Requirement"
     option_none = 0
     wooden_sword = 1
     ordon_sword = 2

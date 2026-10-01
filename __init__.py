@@ -327,7 +327,9 @@ class TPWorld(World):
                 max_count = min(self.options.castle_requirements_count.value, 4)
             case _:
                 pass
-        self.options.castle_requirements_count.from_any(max_count)
+        self.options.castle_requirements_count = (
+            self.options.castle_requirements_count.from_any(max_count)
+        )
 
         if (
             self.options.castle_bk_requirements_count.value < 0
@@ -362,7 +364,9 @@ class TPWorld(World):
             case _:
                 pass
 
-        self.options.castle_bk_requirements_count.from_any(max_count)
+        self.options.castle_bk_requirements_count = (
+            self.options.castle_bk_requirements_count.from_any(max_count)
+        )
 
         self.boss_defeat_items = get_boss_defeat_items(self)
 
@@ -610,71 +614,71 @@ class TPWorld(World):
                     )
 
         # Quick sanity check, Must happen here so it runs before plando-ed items
-        # allstate = self.multiworld.get_all_state()
-        # explorable_regions = [
-        #     self.get_region(self.origin_region_name),
-        # ]
-        # total_region_count = len(self.get_regions())
-        # checked_regions: list[Region] = []
-        # just_checked_regions: list[Region] = []
-        # fresh_regions: list[Region] = []
-        # timer = time.time()
+        allstate = self.multiworld.get_all_state()
+        explorable_regions = [
+            self.get_region(self.origin_region_name),
+        ]
+        total_region_count = len(self.get_regions())
+        checked_regions: list[Region] = []
+        just_checked_regions: list[Region] = []
+        fresh_regions: list[Region] = []
+        timer = time.time()
 
-        # assert can_use(allstate, self.player, "Progressive Hero's Bow")
-        # assert can_use(allstate, self.player, "Shadow Crystal")
-        # assert can_use(allstate, self.player, "Progressive Clawshot", 1)
+        # BFS through graph to see if all state reaches
+        while True:
+            if time.time() > timer + 3:
+                print("[Twilight Princess] Timed out acessiblity pre checks")
+                break
+            for region in explorable_regions:
+                if region in checked_regions and region in explorable_regions:
+                    explorable_regions.remove(region)
+                    continue
+                if allstate.can_reach_region(region.name, self.player):
+                    fresh_regions.append(region)
+                    explorable_regions.remove(region)
+                    checked_regions.append(region)
+                    just_checked_regions.append(region)
+                # else:
+                #     raise Exception(
+                #         f"[Twilight Princess] All regions Should be accessible with allstate. Failed check for {region.name=}"
+                #     )
 
-        # # BFS through graph to see if all state reaches
-        # while True:
-        #     if time.time() > timer + 10:
-        #         print("[Twilight Princess] Timed out acessiblity pre checks")
-        #         break
-        #     for region in explorable_regions:
-        #         if region in checked_regions and region in explorable_regions:
-        #             explorable_regions.remove(region)
-        #             continue
-        #         if allstate.can_reach_region(region.name, self.player):
-        #             fresh_regions.append(region)
-        #             explorable_regions.remove(region)
-        #             checked_regions.append(region)
-        #             just_checked_regions.append(region)
-        #         # else:
-        #         #     raise Exception(
-        #         #         f"[Twilight Princess] All regions Should be accessible with allstate. Failed check for {region.name=}"
-        #         #     )
+            for region in fresh_regions:
 
-        #     for region in fresh_regions:
+                for exit in region.entrances:
+                    if exit.connected_region not in checked_regions:
+                        explorable_regions.append(exit.connected_region)
+                    elif exit.parent_region not in checked_regions:
+                        explorable_regions.append(exit.parent_region)
+                for exit in region.exits:
+                    if exit.connected_region not in checked_regions:
+                        explorable_regions.append(exit.connected_region)
+                    elif exit.parent_region not in checked_regions:
+                        explorable_regions.append(exit.parent_region)
+                fresh_regions.remove(region)
 
-        #         for exit in region.entrances:
-        #             if exit.connected_region not in checked_regions:
-        #                 explorable_regions.append(exit.connected_region)
-        #             elif exit.parent_region not in checked_regions:
-        #                 explorable_regions.append(exit.parent_region)
-        #         for exit in region.exits:
-        #             if exit.connected_region not in checked_regions:
-        #                 explorable_regions.append(exit.connected_region)
-        #             elif exit.parent_region not in checked_regions:
-        #                 explorable_regions.append(exit.parent_region)
-        #         fresh_regions.remove(region)
+            if len(checked_regions) == total_region_count:
+                break
 
-        #     if len(checked_regions) == total_region_count:
-        #         break
+            if len(explorable_regions) == 0:
+                raise Exception(
+                    f"[Twilight Princess] No more explorable regions and Ganon was not found {just_checked_regions=}"
+                )
+            else:
+                just_checked_regions = []
 
-        #     if len(explorable_regions) == 0:
-        #         raise Exception(
-        #             f"[Twilight Princess] No more explorable regions and Ganon was not found {just_checked_regions=}"
-        #         )
-        #     else:
-        #         just_checked_regions = []
+        assert allstate.can_reach_region(
+            "Hyrule Castle Third Floor Balcony", self.player
+        ), f"{self.options.castle_bk_requirements=}  {self.options.castle_bk_requirements_count}"
 
-        # for location in [
-        #     location_name
-        #     for location_name in LOCATION_TABLE.keys()
-        #     if LOCATION_TABLE[location_name].code != None
-        # ]:
-        #     assert allstate.can_reach_location(
-        #         location, self.player
-        #     ), f"[Twilight Princess] Pre fill allstate check failed for {location=}"
+        for location in [
+            location_name
+            for location_name in LOCATION_TABLE.keys()
+            if LOCATION_TABLE[location_name].code != None
+        ]:
+            assert allstate.can_reach_location(
+                location, self.player
+            ), f"[Twilight Princess] Pre fill allstate check failed for {location=}"
 
     def pre_fill(self) -> None:
         """
@@ -1685,12 +1689,16 @@ class TPWorld(World):
         #         return obj.__dict__
         #     return str(obj)
 
-        # # Output the details to debug file.
-        # debug_file_path = os.path.join(
-        #     output_directory, f"debug_{multiworld.get_out_file_name_base(player)}.aptp"
-        # )
-        # with open(debug_file_path, "w") as f:
-        #     f.write(json.dumps(output_data, indent=4, default=custom_serializer))
+        # Output the details to debug file.
+        debug_file_path = os.path.join(
+            output_directory, f"info_{multiworld.get_out_file_name_base(player)}.txt"
+        )
+        with open(debug_file_path, "w") as f:
+            for location in LOCATION_TABLE.keys():
+                data = LOCATION_TABLE[location]
+                if data.code == None:
+                    continue
+                f.write(f"{location}, {data.code}")
 
         # Output the settings and item_placement to file.
         file_path = os.path.join(

@@ -218,7 +218,7 @@ def get_setting_string(multiworld: MultiWorld, player: int):
 
     extra_bits = len(bit_string) % 6
     seed_body = encode_as_6_bit_string(bit_string)
-    version = 5
+    version = 6
     ver = hex(version)[2:]
 
     num_length_chars = 0

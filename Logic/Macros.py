@@ -1312,7 +1312,6 @@ def can_complete_MDH(state: CollectionState, player: int):
     # )
 
 
-# TODO: Figure this out
 def can_strike_pedestal(state: CollectionState, player: int):
     return (
         state._tp_tot_entrance(player) == ToTEntrance.option_none
