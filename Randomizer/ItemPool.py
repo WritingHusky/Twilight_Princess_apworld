@@ -476,10 +476,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.map_and_compass_settings.value
                     == DungeonItem.option_startwith
                 )
-                or (
-                    item == "Horse Call"
-                    and bool(world.options.start_with_horse_call.value)
-                )
             ):
                 precollected_items.extend([item] * data.quantity)
                 continue

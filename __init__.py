@@ -1945,32 +1945,14 @@ class TPWorld(World):
         return None
 
     def get_settings_map(self):
+        """A map of all the settings for slot data, settings marked 'Gen only' only affect placement of items not in game changes"""
         return {
-            "Castle Requirements": self.options.castle_requirements.get_option_name(
-                self.options.castle_requirements.value
-            ),
-            "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
-                self.options.palace_requirements.value
-            ),
-            "Faron Woods Logic": self.options.faron_woods_logic.get_option_name(
-                self.options.faron_woods_logic.value
-            ),
-            "Small Key Settings": self.options.small_key_settings.get_option_name(
-                self.options.small_key_settings.value
-            ),
-            "Big Key Settings": self.options.big_key_settings.get_option_name(
-                self.options.big_key_settings.value
-            ),
-            "Map and Compass Settings": self.options.map_and_compass_settings.get_option_name(
-                self.options.map_and_compass_settings.value
-            ),
-            "Skip Prologue": "Yes",
-            "Faron Twilight Cleared": "Yes",
-            "Eldin Twilight Cleared": "Yes",
-            "Lanayru Twilight Cleared": "Yes",
-            "Skip MDH": "Yes",
+            # Time Savers
             "Skip Minor Cutscenes": self.options.skip_minor_cutscenes.get_option_name(
                 self.options.skip_minor_cutscenes.value
+            ),
+            "Skip Major Cutscenes": self.options.skip_major_cutscenes.get_option_name(
+                self.options.skip_major_cutscenes.value
             ),
             "Fast Iron Boots": self.options.fast_iron_boots.get_option_name(
                 self.options.fast_iron_boots.value
@@ -1978,15 +1960,59 @@ class TPWorld(World):
             "Quick Transform": self.options.quick_transform.get_option_name(
                 self.options.quick_transform.value
             ),
+            "Instant Message Text": self.options.instant_message_text.get_option_name(
+                self.options.instant_message_text.value
+            ),
+            "Open Map": self.options.open_map.get_option_name(
+                self.options.open_map.value
+            ),
+            "Increase Spinner Speed": self.options.increase_spinner_speed.get_option_name(
+                self.options.increase_spinner_speed.value
+            ),
+            "Open Door of Time": self.options.open_door_of_time.get_option_name(
+                self.options.open_door_of_time.value
+            ),
+            "Early Shadow Crystal": self.options.early_shadow_crystal.get_option_name(  # Gen only
+                self.options.early_shadow_crystal.value
+            ),
+            "Goron Mines Shortcut": self.options.goron_mines_sc.get_option_name(
+                self.options.goron_mines_sc.value
+            ),
+            "Castle Shortcut": self.options.castle_sc.get_option_name(
+                self.options.castle_sc.value
+            ),
+            "Skip Bridge Donation": self.options.skip_bridge_don.get_option_name(
+                self.options.skip_bridge_don.value
+            ),
+            # Additional Settings
             "Transform Anywhere": self.options.transform_anywhere.get_option_name(
                 self.options.transform_anywhere.value
             ),
             "Wallet Size": self.options.wallet_size.get_option_name(
                 self.options.wallet_size.value
             ),
+            "Auto Fill Wallet": self.options.auto_fill_wallet.get_option_name(
+                self.options.auto_fill_wallet.value
+            ),
+            "Bonks do Damage": self.options.bonks_do_damage.get_option_name(
+                self.options.bonks_do_damage.value
+            ),
+            "Trap Frequency": self.options.trap_frequency.get_option_name(
+                self.options.trap_frequency.value
+            ),
+            "Damage Magnification": self.options.damage_magnification.get_option_name(
+                self.options.damage_magnification.value
+            ),
+            "Starting ToD": self.options.starting_tod.get_option_name(
+                self.options.starting_tod.value
+            ),
+            "Ilia Quest": self.options.ilia_quest.get_option_name(  # Gen only
+                self.options.ilia_quest.value
+            ),
             "Modify Shop Models": self.options.modify_shop_models.get_option_name(
                 self.options.modify_shop_models.value
             ),
+            # Dungeon Entrance Settings
             "Goron Mines Entrance Requirements": self.options.goron_mines_entrance.get_option_name(
                 self.options.goron_mines_entrance.value
             ),
@@ -2005,67 +2031,70 @@ class TPWorld(World):
             "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
                 self.options.skip_city_in_the_sky_entrance.value
             ),
-            "Instant Message Text": self.options.instant_message_text.get_option_name(
-                self.options.instant_message_text.value
-            ),
-            "Open Map": self.options.open_map.get_option_name(
-                self.options.open_map.value
-            ),
-            "Increase Spinner Speed": self.options.increase_spinner_speed.get_option_name(
-                self.options.increase_spinner_speed.value
-            ),
-            "Open Door of Time": self.options.open_door_of_time.get_option_name(
-                self.options.open_door_of_time.value
-            ),
-            "Damage Magnification": self.options.damage_magnification.get_option_name(
-                self.options.damage_magnification.value
-            ),
-            "Bonks do Damage": self.options.bonks_do_damage.get_option_name(
-                self.options.bonks_do_damage.value
-            ),
-            "Skip Major Cutscenes": self.options.skip_major_cutscenes.get_option_name(
-                self.options.skip_major_cutscenes.value
-            ),
-            "Starting ToD": self.options.starting_tod.get_option_name(
-                self.options.starting_tod.value
-            ),
-            "Logic Settings": self.options.logic_rules.get_option_name(
+            # Logic Settings
+            "Logic Settings": self.options.logic_rules.get_option_name(  # Gen only
                 self.options.logic_rules.value
             ),
-            "Golden Bugs Shuffled": self.options.golden_bugs_shuffled.get_option_name(
+            "Castle Requirements": self.options.castle_requirements.get_option_name(
+                self.options.castle_requirements.value
+            ),
+            "Castle Requirements Count": self.options.castle_requirements_count.get_option_name(
+                self.options.castle_requirements_count.value
+            ),
+            "Castle Big Key Requirements": self.options.castle_bk_requirements.get_option_name(
+                self.options.castle_requirements.value
+            ),
+            "Castle Big Key Requirements Count": self.options.castle_bk_requirements_count.get_option_name(
+                self.options.castle_requirements_count.value
+            ),
+            "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
+                self.options.palace_requirements.value
+            ),
+            "Faron Woods Logic": self.options.faron_woods_logic.get_option_name(
+                self.options.faron_woods_logic.value
+            ),
+            # Item Pool / Location settings
+            "Golden Bugs Shuffled": self.options.golden_bugs_shuffled.get_option_name(  # Gen only
                 self.options.golden_bugs_shuffled.value
             ),
-            "Sky Chracters Shuffled": self.options.sky_characters_shuffled.get_option_name(
+            "Sky Chracters Shuffled": self.options.sky_characters_shuffled.get_option_name(  # Gen only
                 self.options.sky_characters_shuffled.value
             ),
-            "NPC Items Shuffled": self.options.npc_items_shuffled.get_option_name(
+            "NPC Items Shuffled": self.options.npc_items_shuffled.get_option_name(  # Gen only
                 self.options.npc_items_shuffled.value
             ),
-            "Shop Items Shuffled": self.options.shop_items_shuffled.get_option_name(
+            "Shop Items Shuffled": self.options.shop_items_shuffled.get_option_name(  # Gen only
                 self.options.shop_items_shuffled.value
             ),
-            "Hidden Skills Shuffled": self.options.hidden_skills_shuffled.get_option_name(
+            "Hidden Skills Shuffled": self.options.hidden_skills_shuffled.get_option_name(  # Gen only
                 self.options.hidden_skills_shuffled.value
             ),
-            "Poes Shuffled": self.options.poe_shuffled.get_option_name(
+            "Poes Shuffled": self.options.poe_shuffled.get_option_name(  # Gen only
                 self.options.poe_shuffled.value
             ),
-            "Heart Pieces Shuffled": self.options.heart_piece_shuffled.get_option_name(
+            "Heart Pieces Shuffled": self.options.heart_piece_shuffled.get_option_name(  # Gen only
                 self.options.heart_piece_shuffled.value
             ),
-            "Overworld Shuffled": self.options.overworld_shuffled.get_option_name(
+            "Overworld Shuffled": self.options.overworld_shuffled.get_option_name(  # Gen only
                 self.options.overworld_shuffled.value
             ),
-            "Dungeons Shuffled": self.options.dungeons_shuffled.get_option_name(
+            "Dungeons Shuffled": self.options.dungeons_shuffled.get_option_name(  # Gen only
                 self.options.dungeons_shuffled.value
             ),
-            "Dungeon Rewards Progression": self.options.dungeon_rewards_progression.get_option_name(
+            # Dungeon Items
+            "Dungeon Rewards Progression": self.options.dungeon_rewards_progression.get_option_name(  # Gen only
                 self.options.dungeon_rewards_progression.value
             ),
-            "Trap Frequency": self.options.trap_frequency.get_option_name(
-                self.options.trap_frequency.value
+            "Small Key Settings": self.options.small_key_settings.get_option_name(  # Gen only
+                self.options.small_key_settings.value
             ),
-            "Early Shadow Crystal": self.options.early_shadow_crystal.get_option_name(
-                self.options.early_shadow_crystal.value
+            "Big Key Settings": self.options.big_key_settings.get_option_name(  # Gen only
+                self.options.big_key_settings.value
+            ),
+            "Map and Compass Settings": self.options.map_and_compass_settings.get_option_name(  # Gen only
+                self.options.map_and_compass_settings.value
+            ),
+            "Small Keys On Bosses": self.options.small_keys_on_bosses.get_option_name(  # Gen only
+                self.options.small_keys_on_bosses.value
             ),
         }

@@ -637,15 +637,6 @@ class StartingToD(Choice):
     default = 0
 
 
-class StartWithHorseCall(Toggle):
-    """
-    If enabled, you will spawn with horse call
-    """
-
-    display_name = "Start with Horse Call"
-    default = False
-
-
 class GoronMinesShortcut(Toggle):
     """If enabled, all magnets within Goron Mines except the final one will automatically be activated. The final magnet remains deactivated to avoid a softlock."""
 
@@ -749,11 +740,6 @@ class TPOptions(PerGameCommonOptions):
     faron_woods_logic: FaronWoodsLogic
 
     # Timesavers
-    # skip_prologue: SkipPrologue  #
-    # faron_twilight_cleared: FaronTwilightCleared  #
-    # eldin_twilight_cleared: EldinTwilightCleared  #
-    # lanayru_twilight_cleared: LanayruTwilightCleared  #
-    # skip_mdh: SkipMdh  #
     skip_minor_cutscenes: SkipMinorCutscenes
     skip_major_cutscenes: SkipMajorCutscenes
     fast_iron_boots: FastIronBoots
@@ -773,8 +759,6 @@ class TPOptions(PerGameCommonOptions):
     trap_frequency: TrapFrequency
     damage_magnification: DamageMagnification
     starting_tod: StartingToD
-    # hint_distribution: HintDistribution
-    start_with_horse_call: StartWithHorseCall
     auto_fill_wallet: AutoFillWalet
     skip_bridge_don: SkipBridgeDona
     ilia_quest: IliaQuest
@@ -813,6 +797,8 @@ tp_option_groups: list[OptionGroup] = [
             LogicRules,
             CastleRequirements,
             CastleRequirementsCount,
+            CastleBKRequirements,
+            CastleBKRequirementsCount,
             PalaceRequirements,
             FaronWoodsLogic,
         ],
@@ -825,28 +811,22 @@ tp_option_groups: list[OptionGroup] = [
             BigKeySettings,
             MapAndCompassSettings,
             DungeonRewardsProgression,
+            SmallKeysOnBosses,
         ],
         start_collapsed=True,
     ),
     OptionGroup(
         "Timesavers",
         [
-            # SkipPrologue,
-            # FaronTwilightCleared,
-            # EldinTwilightCleared,
-            # LanayruTwilightCleared,
-            # SkipMdh,
             SkipMinorCutscenes,
             SkipMajorCutscenes,
             FastIronBoots,
             QuickTransform,
-            # UnrequiredDungeonAreBarren,
             InstantMessageText,
             OpenMap,
             IncreaseSpinnerSpeed,
             OpenDoorOfTime,
             EarlyShadowCrystal,
-            StartWithHorseCall,
             GoronMinesShortcut,
             CastleShortcut,
             SkipBridgeDona,
@@ -865,6 +845,7 @@ tp_option_groups: list[OptionGroup] = [
             StartingToD,
             # HintDistribution,
             IliaQuest,
+            ModifyShopModels,
         ],
         start_collapsed=True,
     ),
@@ -877,6 +858,7 @@ tp_option_groups: list[OptionGroup] = [
             SkipCityInTheSkyEntrance,
             GoronMinesEntrance,
             GroveEntrance,
+            ToTEntrance,
         ],
         start_collapsed=True,
     ),
