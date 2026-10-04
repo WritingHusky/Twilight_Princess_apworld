@@ -2990,20 +2990,14 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_defeat_SkullKid(state, player)
                 and can_use(state, player, "Shadow Crystal")
             )
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            or (state._tp_grove_entrance(player))
         ),
         lambda state: (
             (
                 can_defeat_SkullKid(state, player)
                 and can_use(state, player, "Shadow Crystal")
             )
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            or (state._tp_grove_entrance(player))
             or can_do_js_moon_boots(state, player)
         ),
     )
@@ -3015,10 +3009,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
                 can_defeat_SkullKid(state, player)
                 and can_use(state, player, "Shadow Crystal")
             )
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            or (state._tp_grove_entrance(player))
         ),
     )
 
@@ -3035,11 +3026,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
     set_rule_if_exits(
         world.get_entrance("Lost Woods Lower Battle Arena -> Sacred Grove Lower"),
         lambda state: (
-            can_defeat_SkullKid(state, player)
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            can_defeat_SkullKid(state, player) or (state._tp_grove_entrance(player))
         ),
     )
 
@@ -3057,11 +3044,7 @@ def set_region_access_rules(world: "TPWorld", player: int):
             "Lost Woods Upper Battle Arena -> Sacred Grove Before Block"
         ),
         lambda state: (
-            can_defeat_SkullKid(state, player)
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            can_defeat_SkullKid(state, player) or (state._tp_grove_entrance(player))
         ),
     )
 
@@ -3103,17 +3086,11 @@ def set_region_access_rules(world: "TPWorld", player: int):
         world.get_entrance("Sacred Grove Lower -> Sacred Grove Upper"),
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            or (state._tp_grove_entrance(player))
         ),
         lambda state: (
             state.can_reach_region("Sacred Grove Before Block", player)
-            or (
-                state._tp_grove_entrance(player) == GroveEntrance.option_open
-            )  # TODO Setting Skip Grove Entrance == True
-            or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)  #
+            or (state._tp_grove_entrance(player))
             or can_do_js_moon_boots(state, player)
         ),
     )

@@ -79,7 +79,7 @@ class TPLogic(LogicMixin):
     def _tp_skip_snowpeak_entrance(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.skip_snowpeak_entrance.value
 
-    def _tp_grove_entrance(self, player: int) -> int:
+    def _tp_grove_entrance(self, player: int) -> bool:
         return self.multiworld.worlds[player].options.grove_entrance.value
 
     def _tp_tot_entrance(self, player: int) -> int:
@@ -2822,9 +2822,7 @@ def set_location_access_rules(world: "TPWorld"):
         lambda state: (
             can_use(state, player, "Lantern")
             and (
-                can_defeat_SkullKid(state, player)
-                or (state._tp_grove_entrance(player) == GroveEntrance.option_open)
-                or (state._tp_grove_entrance(player) == GroveEntrance.option_open_grove)
+                can_defeat_SkullKid(state, player) or (state._tp_grove_entrance(player))
             )
         ),
     )

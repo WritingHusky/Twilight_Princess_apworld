@@ -513,20 +513,13 @@ class SkipSnowpeakEntrance(Toggle):
     default = True
 
 
-class GroveEntrance(Choice):
+class GroveEntrance(Toggle):
     """
-    Controls requirements for accessing the the Sacred Grove.
-
-    - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
-    - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
-    - **Open:** Open Grove but player does not need Master Sword to access Past.
+    If enabled, Skull Kid will not need to be defeated to access Sacred Grove.
     """
 
     display_name = "Sacred Grove Entrance"
-    option_closed = 0
-    option_open_grove = 1
-    option_open = 2
-    default = 2
+    default: False
 
 
 class ToTEntrance(Choice):
