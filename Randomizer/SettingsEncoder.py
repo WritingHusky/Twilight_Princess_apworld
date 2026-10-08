@@ -76,20 +76,22 @@ def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
     result += "1"
 
-    smallest = next(iter(check_num_id_to_item_id))  # Get the first key (0)
-    assert smallest == 0
-    largest = next(reversed(check_num_id_to_item_id))  # Get the last key (474)
-    assert largest == 474
+    sorted_keys = sorted(check_num_id_to_item_id.items(), key=lambda item: item[0])
 
-    result += encode_num_as_bits(smallest, 9)
-    result += encode_num_as_bits(largest, 9)
+    smallest = sorted_keys[0][0]  # Get the first key (0)
+    assert smallest == 0, f"{smallest=}"
+    largest = sorted_keys[-1][0]  # Get the last key (574)
+    assert largest == 574, f"{largest=}"
+
+    result += encode_num_as_bits(smallest, 10)
+    result += encode_num_as_bits(largest, 10)
 
     item_bits = ""
 
     for i in range(smallest, largest + 1):
         if i in check_num_id_to_item_id:
             result += "1"
-            item_bits += encode_num_as_bits(check_num_id_to_item_id[i], 8)
+            item_bits += encode_num_as_bits(check_num_id_to_item_id[i], 9)
         else:
             result += "0"
 

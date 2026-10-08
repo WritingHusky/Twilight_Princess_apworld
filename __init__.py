@@ -1660,23 +1660,23 @@ class TPWorld(World):
         #     return str(obj)
 
         # Output the details to debug file.
-        debug_file_path = os.path.join(
-            output_directory, f"info_{multiworld.get_out_file_name_base(player)}.txt"
-        )
-        with open(debug_file_path, "w") as f:
-            sorted_keys = sorted(
-                [
-                    loc
-                    for loc in LOCATION_TABLE.keys()
-                    if LOCATION_TABLE[loc].code != None
-                ],
-                key=lambda name: LOCATION_TABLE[name].code,
-            )
-            for location in sorted_keys:
-                data = LOCATION_TABLE[location]
-                if data.code == None:
-                    continue
-                f.write(f"{location}, {data.code}\n")
+        # debug_file_path = os.path.join(
+        #     output_directory, f"info_{multiworld.get_out_file_name_base(player)}.txt"
+        # )
+        # with open(debug_file_path, "w") as f:
+        #     sorted_keys = sorted(
+        #         [
+        #             loc
+        #             for loc in LOCATION_TABLE.keys()
+        #             if LOCATION_TABLE[loc].code != None
+        #         ],
+        #         key=lambda name: LOCATION_TABLE[name].code,
+        #     )
+        #     for location in sorted_keys:
+        #         data = LOCATION_TABLE[location]
+        #         if data.code == None:
+        #             continue
+        #         f.write(f"{location}, {data.code}\n")
 
         # Output the settings and item_placement to file.
         file_path = os.path.join(
@@ -2042,10 +2042,10 @@ class TPWorld(World):
                 self.options.castle_requirements_count.value
             ),
             "Castle Big Key Requirements": self.options.castle_bk_requirements.get_option_name(
-                self.options.castle_requirements.value
+                self.options.castle_bk_requirements.value
             ),
             "Castle Big Key Requirements Count": self.options.castle_bk_requirements_count.get_option_name(
-                self.options.castle_requirements_count.value
+                self.options.castle_bk_requirements_count.value
             ),
             "Palace of Twilight Requirements": self.options.palace_requirements.get_option_name(
                 self.options.palace_requirements.value

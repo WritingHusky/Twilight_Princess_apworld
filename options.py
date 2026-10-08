@@ -289,7 +289,7 @@ class CastleRequirementsCount(Range):
 
     display_name = "Castle Requirement Count"
     range_end = 60
-    range_start = 1
+    range_start = 0
     default = 1
 
 
@@ -329,7 +329,7 @@ class CastleBKRequirementsCount(Range):
 
     display_name = "Castle Boss Key Requirement Count"
     range_end = 60
-    range_start = 1
+    range_start = 0
     default = 1
 
 
