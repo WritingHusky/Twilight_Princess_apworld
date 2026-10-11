@@ -14,7 +14,7 @@ from ..options import (
     PoeShuffled,
     SkyCharactersShuffled,
 )
-
+from ..Locations import TPLocation, TPLocationData
 from ..Items import (
     ITEM_TABLE,
     PortalItems,
@@ -796,49 +796,302 @@ def place_deterministic_items(world: "TPWorld") -> None:
     #
     #
     #
+    menu = world.get_region(world.origin_region_name)
 
+    # Ordonn Portal
     world.get_location("Ordon Spring Portal").place_locked_item(
         world.create_item("Ordon Spring Portal")
     )
+    set_rule(
+        world.get_location("Ordon Spring Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.OrdonaMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Ordon Spring"),
+        lambda state: (
+            can_use(state, world.player, "Ordon Spring Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Ordon Spring",
+    )
+
+    # South Faron Portal
     world.get_location("South Faron Portal").place_locked_item(
         world.create_item("South Faron Portal")
     )
-    world.get_location("Upper Zoras River Portal").place_locked_item(
-        world.create_item("Upper Zoras River Portal")
+    set_rule(
+        world.get_location("South Faron Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.FaronMapRooms
+                ]
+            )
+        ),
     )
-    world.get_location("Castle Town Portal").place_locked_item(
-        world.create_item("Castle Town Portal")
+
+    world.create_entrance(
+        menu,
+        world.get_region("South Faron Woods"),
+        lambda state: (
+            can_use(state, world.player, "South Faron Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> South Faron Woods",
     )
-    world.get_location("Gerudo Desert Portal").place_locked_item(
-        world.create_item("Gerudo Desert Portal")
-    )
+
+    # North Faron Woods Portal
     world.get_location("North Faron Portal").place_locked_item(
         world.create_item("North Faron Portal")
     )
-    world.get_location("Kakariko Gorge Portal").place_locked_item(
-        world.create_item("Kakariko Gorge Portal")
+    set_rule(
+        world.get_location("North Faron Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.FaronMapRooms
+                ]
+            )
+        ),
     )
-    world.get_location("Kakariko Village Portal").place_locked_item(
-        world.create_item("Kakariko Village Portal")
+
+    world.create_entrance(
+        menu,
+        world.get_region("North Faron Woods"),
+        lambda state: (
+            can_use(state, world.player, "North Faron Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> North Faron Woods",
     )
-    world.get_location("Death Mountain Portal").place_locked_item(
-        world.create_item("Death Mountain Portal")
-    )
+
     world.get_location("Zoras Domain Portal").place_locked_item(
         world.create_item("Zoras Domain Portal")
     )
+    set_rule(
+        world.get_location("Zoras Domain Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Zoras Domain Throne Room"),
+        lambda state: (
+            can_use(state, world.player, "Zoras Domain Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Zoras Domain Throne Room",
+    )
+
+    world.get_location("Castle Town Portal").place_locked_item(
+        world.create_item("Castle Town Portal")
+    )
+    set_rule(
+        world.get_location("Castle Town Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Outside Castle Town West"),
+        lambda state: (
+            can_use(state, world.player, "Castle Town Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Outside Castle Town West",
+    )
+
     world.get_location("Lake Hylia Portal").place_locked_item(
         world.create_item("Lake Hylia Portal")
     )
-    world.get_location("Mirror Chamber Portal").place_locked_item(
-        world.create_item("Mirror Chamber Portal")
+    set_rule(
+        world.get_location("Lake Hylia Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
     )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Lake Hylia"),
+        lambda state: (
+            can_use(state, world.player, "Lake Hylia Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Lake Hylia",
+    )
+
+    world.get_location("Kakariko Gorge Portal").place_locked_item(
+        world.create_item("Kakariko Gorge Portal")
+    )
+    set_rule(
+        world.get_location("Kakariko Gorge Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Kakariko Gorge"),
+        lambda state: (
+            can_use(state, world.player, "Kakariko Gorge Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Kakariko Gorge",
+    )
+
+    world.get_location("Kakariko Village Portal").place_locked_item(
+        world.create_item("Kakariko Village Portal")
+    )
+    set_rule(
+        world.get_location("Kakariko Village Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Lower Kakariko Village"),
+        lambda state: (
+            can_use(state, world.player, "Kakariko Village Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Lower Kakariko Village",
+    )
+
+    world.get_location("Death Mountain Portal").place_locked_item(
+        world.create_item("Death Mountain Portal")
+    )
+    set_rule(
+        world.get_location("Death Mountain Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Death Mountain Volcano"),
+        lambda state: (
+            can_use(state, world.player, "Death Mountain Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Death Mountain Volcano",
+    )
+
     world.get_location("Snowpeak Portal").place_locked_item(
         world.create_item("Snowpeak Portal")
     )
+    set_rule(
+        world.get_location("Snowpeak Portal"),
+        lambda state: state._tp_skip_snowpeak_entrance(world.player)
+        and (
+            state._tp_open_map(world.player)
+            or (
+                not state._tp_open_map(world.player)
+                and any(
+                    [
+                        state.can_reach_region(region, world.player)
+                        for region in RoomFunctions.SnowpeakMapRooms
+                    ]
+                )
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Snowpeak Summit Upper"),
+        lambda state: (
+            can_use(state, world.player, "Snowpeak Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Snowpeak Summit Upper",
+    )
+
+    # Additional Portals
+    # These portal locations are inplace unlocks, so accounting for the portal Travel is usless
+    # Techincally they could be unlocked with pre collection but I will ignore that for now
+    world.get_location("Upper Zoras River Portal").place_locked_item(
+        world.create_item("Upper Zoras River Portal")
+    )
+
+    world.get_location("Bridge of Eldin Portal").place_locked_item(
+        world.create_item("Bridge of Eldin Portal")
+    )
+
     world.get_location("Sacred Grove Portal").place_locked_item(
         world.create_item("Sacred Grove Portal")
     )
-    world.get_location("Bridge of Eldin Portal").place_locked_item(
-        world.create_item("Bridge of Eldin Portal")
+
+    world.get_location("Mirror Chamber Portal").place_locked_item(
+        world.create_item("Mirror Chamber Portal")
+    )
+    world.get_location("Gerudo Desert Portal").place_locked_item(
+        world.create_item("Gerudo Desert Portal")
     )
