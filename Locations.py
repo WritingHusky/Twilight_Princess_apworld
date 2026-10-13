@@ -3057,7 +3057,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Region,
         region=NodeID.Faron,
-        offset=0xD,
+        offset=0x7FD,
         bit=0x2,
     ),
     "Coro Lantern": TPLocationData(
@@ -3066,7 +3066,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0xF,
+        offset=0x7FF,
         bit=0x1,
     ),
     "Faron Field Bridge Chest": TPLocationData(

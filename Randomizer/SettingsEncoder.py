@@ -13,7 +13,7 @@ char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 # Based off of:
 # https://github.com/lunarsoap5/Randomizer-Web-Generator-1/blob/9a5f38e972669209f3d21596b0a9744f1319412f/Generator/Logic/SeedGenResults.cs#L130
 
-FILLER_ITEM_CODE = 0x8F
+FILLER_ITEM_CODE = 0xDC
 
 
 def get_item_placements(
