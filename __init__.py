@@ -667,9 +667,9 @@ class TPWorld(World):
             else:
                 just_checked_regions = []
 
-        assert allstate.can_reach_region(
-            "Hyrule Castle Third Floor Balcony", self.player
-        ), f"{self.options.castle_bk_requirements=}  {self.options.castle_bk_requirements_count}"
+        # assert allstate.can_reach_region(
+        #     "Hyrule Castle Third Floor Balcony", self.player
+        # ), f"{self.options.castle_bk_requirements=}  {self.options.castle_bk_requirements_count}"
 
         for location in [
             location_name

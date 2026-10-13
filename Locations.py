@@ -3975,7 +3975,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x63,
+        offset=0x853,
         bit=0x10,
     ),
     "Castle Town Goron Shop Hylian Shield": TPLocationData(
@@ -3984,7 +3984,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x63,
+        offset=0x853,
         bit=0x80,
     ),
     "Castle Town Goron Shop Lantern Oil": TPLocationData(
@@ -3993,7 +3993,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x63,
+        offset=0x853,
         bit=0x20,
     ),
     "Castle Town Goron Shop Red Potion": TPLocationData(
@@ -4002,7 +4002,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Unkown,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x63,
+        offset=0x853,
         bit=0x40,
     ),
     "Castle Town Malo Mart Magic Armor": TPLocationData(

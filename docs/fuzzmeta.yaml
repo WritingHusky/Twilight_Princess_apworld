@@ -20,7 +20,7 @@ Twilight Princess:
     # skip_city_in_the_sky_entrance: true
     # goron_mines_entrance: open
     # tot_entrance: open
-    # dungeon_rewards_progression: vanilla
+    # dungeon_rewards_progression: anything
     # transform_anywhere: true
     # increase_wallet: true
     # damage_magnification: vanilla

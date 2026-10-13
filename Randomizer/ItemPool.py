@@ -1047,11 +1047,11 @@ def place_deterministic_items(world: "TPWorld") -> None:
     world.get_location("Snowpeak Portal").place_locked_item(
         world.create_item("Snowpeak Portal")
     )
-    set_rule(
-        world.get_location("Snowpeak Portal"),
-        lambda state: state._tp_skip_snowpeak_entrance(world.player)
-        and (
-            state._tp_open_map(world.player)
+    if world.options.skip_snowpeak_entrance.value:
+
+        set_rule(
+            world.get_location("Snowpeak Portal"),
+            lambda state: state._tp_open_map(world.player)
             or (
                 not state._tp_open_map(world.player)
                 and any(
@@ -1060,19 +1060,18 @@ def place_deterministic_items(world: "TPWorld") -> None:
                         for region in RoomFunctions.SnowpeakMapRooms
                     ]
                 )
-            )
-        ),
-    )
+            ),
+        )
 
-    world.create_entrance(
-        menu,
-        world.get_region("Snowpeak Summit Upper"),
-        lambda state: (
-            can_use(state, world.player, "Snowpeak Portal")
-            and can_use(state, world.player, "Shadow Crystal")
-        ),
-        "Menu -> Snowpeak Summit Upper",
-    )
+        world.create_entrance(
+            menu,
+            world.get_region("Snowpeak Summit Upper"),
+            lambda state: (
+                can_use(state, world.player, "Snowpeak Portal")
+                and can_use(state, world.player, "Shadow Crystal")
+            ),
+            "Menu -> Snowpeak Summit Upper",
+        )
 
     # Additional Portals
     # These portal locations are inplace unlocks, so accounting for the portal Travel is usless

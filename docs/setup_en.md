@@ -1,3 +1,5 @@
+# Needs to be updated for v0.4 (In Process)
+
 # Setup Guide for Twilight Princess Archipelago
 
 Welcome to Twilight Princess Archipelago! This guide will help you set up the randomizer and play your first multiworld.

@@ -1,6 +1,6 @@
 import dolphin_memory_engine
 
-from .Locations import NodeID  # type:
+from .Locations import NodeID  # type: 
 from .ClientUtils import KEY_TO_OFFSET
 
 ACTIVE_SLOT_OFFSET = 0x768
@@ -334,6 +334,26 @@ def check_item_count(item_name: str, save_file_addr: int) -> int:
             else:
                 return 0
 
+        case "Renado's Letter":
+            if check_flag(0x1, save_file_addr + 0xDF):
+                return 1
+            return 0
+        case "Invoice":
+            if check_flag(0x2, save_file_addr + 0xDF):
+                return 1
+            return 0
+        case "Wooden Statue":
+            if check_flag(0x4, save_file_addr + 0xDF):
+                return 1
+            return 0
+        case "Ilias Charm":
+            if check_flag(0x8, save_file_addr + 0xDF):
+                return 1
+            return 0
+        case "North Faron Woods Gate Key":
+            if check_flag(0x40, save_file_addr + 0xEA):
+                return 1
+            return 0
         case _:
             if item_name in KEY_TO_OFFSET.keys():
                 key_offset = save_file_addr + 0x901 + KEY_TO_OFFSET[item_name]

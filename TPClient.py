@@ -169,12 +169,12 @@ class TPCommandProcessor(ClientCommandProcessor):
     def _cmd_debug_name(self) -> None:
         """Debug to get player name"""
         logger.info(self.ctx.auth)
-        logger.info(read_string(read_pointer(0x800042BC) + 0x80, 16))
+        logger.info(read_string(read_pointer(0x800042BC) + 0xAC, 16))
 
     def _cmd_debug_seed(self) -> None:
         """Debug to get player name"""
         logger.info(self.ctx.SeedID)
-        logger.info(read_string(read_pointer(0x800042BC) + 0x70, 16))
+        logger.info(read_string(read_pointer(0x800042BC) + 0x9C, 16))
 
     @mark_raw
     def _cmd_name(self, name: str = "") -> None:
@@ -302,11 +302,13 @@ class TPContext(CommonContext):
         self.server_data_sent = False
         self.validation_time_start = time.time()
         self.check_in_game_msg_timer = time.time()
+        self.hint_timer = time.time()
         self.SeedID = ""
         self.rando_loaded_message = False
         self.connection_tried = False
         # Event is used for pause as it better represents how I want to think about it
         self.validation_pause = asyncio.Event()
+        self.hints_created: dict[str, bool] = {}
 
     async def disconnect(self, allow_autoreconnect: bool = False) -> None:
         """
@@ -336,7 +338,7 @@ class TPContext(CommonContext):
                 raise Exception(
                     "Failed to read Seed; Please Make sure dolphin is connected correctly"
                 )
-            self.auth = read_string(pointer + 0x80, 16)
+            self.auth = read_string(pointer + 0xAC, 16)
         await self.send_connect()
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
@@ -368,7 +370,7 @@ class TPContext(CommonContext):
                     raise Exception(
                         "Failed to read Seed; Please Make sure dolphin is connected correctly"
                     )
-                read_seedID = read_string(pointer + 0x70, 16)
+                read_seedID = read_string(pointer + 0x9C, 16)
                 if DEBUGGING:
                     logger.info(
                         f"Debug: Connected checking seed ids\nServer wants: {self.SeedID}\nClient has:  {read_seedID}"
@@ -419,7 +421,7 @@ class TPContext(CommonContext):
 
             # Every ValidationTime (10s) try to sync if items bad. Also msg to tell people what is happening
             if len(self.items_received) < self.last_received_index:
-                if self.item_imbalance_msg_timer > time.time + VALIDATION_TIME:
+                if self.item_imbalance_msg_timer > time.time() + VALIDATION_TIME:
                     logger.info(
                         ITEM_IMBALANCE_MSG_1
                         + self.last_received_index
@@ -944,9 +946,12 @@ def _validate_item(
         "Ammo",
         "Trap",
         "Event",
+        "Portal",
     ]:
         # Skip all non insurable items
         return -1
+
+    assert isinstance(item_data.code, int), f"{item_name=} does not have a code"
 
     item_id = item_data.code + ITEM_APID_BASE
 
@@ -958,6 +963,7 @@ def _validate_item(
         "Bottle",
         "Bug",
         "Poe",
+        "Quest",
     ]:
         actual_item_count = check_item_count(item_name, SAVE_FILE_ADDR)
 
@@ -1146,7 +1152,7 @@ async def check_locations(ctx: TPContext) -> None:
     :param ctx: Twilight Princess client context.
     """
 
-    if not check_ingame(ctx):
+    if not await check_ingame(ctx):
         return
 
     current_node = read_byte(CURR_NODE_ADDR)
@@ -1433,7 +1439,7 @@ async def check_locations(ctx: TPContext) -> None:
             logger.info("Debug: Stage changed during location checks skiping checks")
         return
 
-    if not check_ingame(ctx):
+    if not await check_ingame(ctx):
         if DEBUGGING:
             logger.info(
                 "Debug: No longer in game during loation checks skipping checks"
@@ -1466,6 +1472,56 @@ async def check_locations(ctx: TPContext) -> None:
                 message,
             ]
         )
+
+
+async def check_hints(ctx: TPContext) -> None:
+    """
+    Parse through a list of shop checks, if the stage and room lines up, then scout the location
+    """
+    if not await check_ingame(ctx):
+        return
+
+    if ctx.hint_timer > time.time() + (VALIDATION_TIME / 2):
+        return
+
+    current_stage = read_string(SAVE_FILE_ADDR + 0x4E00, 8)
+
+    layer_address = SAVE_FILE_ADDR + 0x27220
+    if REGION_CODE == 0x50:
+        layer_address += 0x20
+    current_room = read_byte(layer_address)
+    await asyncio.sleep(3)
+    if current_room != read_byte(layer_address):
+        return
+
+    for location, data in HINT_DATA.items():
+        assert location in LOCATION_TABLE.keys(), f"{location}"
+
+        stage = data["stage"]
+        room = data["room"]
+
+        # assert stage == current_stage, f"{stage=}  {current_stage=}"
+
+        if current_stage != stage:
+            continue
+        if current_room != room:
+            continue
+
+        loc_id = LOCATION_TABLE[location].code
+        assert isinstance(loc_id, int), f"Error: {location=} has no code"
+
+        loc_id = TPLocation.get_apid(loc_id)
+
+        await ctx.send_msgs(
+            [
+                {
+                    "cmd": "CreateHints",
+                    "locations": [loc_id],
+                    "player": ctx.slot,
+                }
+            ]
+        )
+        ctx.hint_timer = time.time()
 
 
 async def check_alive() -> bool:
@@ -1598,7 +1654,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                         raise Exception(
                             "Failed to read Seed; Please Make sure dolphin is connected correctly"
                         )
-                    read_seedID = read_string(pointer + 0x70, 16)
+                    read_seedID = read_string(pointer + 0x9C, 16)
                     logger.info(
                         f"Randomizer loaded, you may now connect. Using seed id {read_seedID}"
                     )
@@ -1614,6 +1670,7 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                         ctx.server_data_sent = True
                     await give_items(ctx)
                     await check_locations(ctx)
+                    await check_hints(ctx)
                     await validate_items(ctx)
 
                 await asyncio.sleep(0.1)

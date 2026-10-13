@@ -42,6 +42,56 @@ Settings_Format = {
     "Small keys on Bosses": "No",  # Can be removed if not needed by anyone
 }
 
+HINT_DATA = {
+    "Castle Town Malo Mart Magic Armor": {
+        "stage": "R_SP160",
+        "room": 0,
+    },
+    "Sera Shop Slingshot": {
+        "stage": "R_SP01",
+        "room": 1,
+    },
+    "Barnes Bomb Bag": {
+        "stage": "R_SP109",
+        "room": 1,
+    },
+    "Kakariko Village Malo Mart Hawkeye": {
+        "stage": "R_SP109",
+        "room": 3,
+    },
+    "Kakariko Village Malo Mart Hylian Shield": {
+        "stage": "R_SP109",
+        "room": 3,
+    },
+    "Kakariko Village Malo Mart Red Potion": {
+        "stage": "R_SP109",
+        "room": 3,
+    },
+    "Kakariko Village Malo Mart Wooden Shield": {
+        "stage": "R_SP109",
+        "room": 3,
+    },
+    "Coro Bottle": {
+        "stage": "F_SP108",
+        "room": 4,
+    },
+    "Castle Town Goron Shop Arrow Refill": {
+        "stage": "R_SP160",
+        "room": 4,
+    },
+    "Castle Town Goron Shop Hylian Shield": {
+        "stage": "R_SP160",
+        "room": 4,
+    },
+    "Castle Town Goron Shop Lantern Oil": {
+        "stage": "R_SP160",
+        "room": 4,
+    },
+    "Castle Town Goron Shop Red Potion": {
+        "stage": "R_SP160",
+        "room": 4,
+    },
+}
 
 NODE_TO_STRING = {
     "Ordon": 0x0,
