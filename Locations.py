@@ -2370,7 +2370,7 @@ LOCATION_TABLE = {
     "Bridge of Eldin Boulder Rupee": TPLocationData(
         code=475,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -2460,7 +2460,7 @@ LOCATION_TABLE = {
     "Death Mountain Volcano Ledge Rupee 1": TPLocationData(
         code=476,
         flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2469,7 +2469,7 @@ LOCATION_TABLE = {
     "Death Mountain Volcano Ledge Rupee 2": TPLocationData(
         code=477,
         flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2478,7 +2478,7 @@ LOCATION_TABLE = {
     "Death Mountain Volcano Ledge Rupee 3": TPLocationData(
         code=478,
         flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2487,7 +2487,7 @@ LOCATION_TABLE = {
     "Death Mountain Volcano Pipe Ledge Rock Rupee": TPLocationData(
         code=479,
         flags=TPFlag.Overworld | TPFlag.Death_Mountain | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Death_Mountain,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2613,7 +2613,7 @@ LOCATION_TABLE = {
     "Eldin Spring Underwater Boulder Rupee": TPLocationData(
         code=480,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1A,
@@ -2730,7 +2730,7 @@ LOCATION_TABLE = {
     "Kakariko Gorge Owl Statue Boulder Rupee": TPLocationData(
         code=483,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -2775,7 +2775,7 @@ LOCATION_TABLE = {
     "Kakariko Gorge Spire Boulder Rupee": TPLocationData(
         code=484,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Eldin | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Eldin_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -2838,7 +2838,7 @@ LOCATION_TABLE = {
     "Kakariko Graveyard Underwater Boulder Rupee": TPLocationData(
         code=485,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Graveyard | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Graveyard,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1A,
@@ -2856,7 +2856,7 @@ LOCATION_TABLE = {
     "Kakariko Village Ant House Ledge Box Rupee": TPLocationData(
         code=486,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2865,7 +2865,7 @@ LOCATION_TABLE = {
     "Kakariko Village Bell Rupee": TPLocationData(
         code=487,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1A,
@@ -2901,7 +2901,7 @@ LOCATION_TABLE = {
     "Kakariko Village Hot Spring Ledge Box Rupee": TPLocationData(
         code=488,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
@@ -2955,7 +2955,7 @@ LOCATION_TABLE = {
     "Kakariko Village Spring Shortcut Box Rupee 1": TPLocationData(
         code=489,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1A,
@@ -2964,7 +2964,7 @@ LOCATION_TABLE = {
     "Kakariko Village Spring Shortcut Box Rupee 2": TPLocationData(
         code=490,
         flags=TPFlag.Overworld | TPFlag.Kakariko_Village | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village,
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1A,
@@ -3018,7 +3018,7 @@ LOCATION_TABLE = {
     "Shad Dominion Rod": TPLocationData(
         code=492,
         flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Kakariko_Village,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Kakariko_Village_Interiors,
         type=TPLocationType.Flag,
         region=None,
         offset=0x63,
@@ -3054,8 +3054,8 @@ LOCATION_TABLE = {
     "Coro Gate Key": TPLocationData(
         code=493,
         flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Faron_Woods,
-        stage_id=TPStages.Unkown,
-        type=TPLocationType.Region,
+        stage_id=TPStages.Faron_Woods,
+        type=TPLocationType.Flag,
         region=NodeID.Faron,
         offset=0x7FD,
         bit=0x2,
@@ -3063,7 +3063,7 @@ LOCATION_TABLE = {
     "Coro Lantern": TPLocationData(
         code=494,
         flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Faron_Woods,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Flag,
         region=None,
         offset=0x7FF,
@@ -3198,7 +3198,7 @@ LOCATION_TABLE = {
     "Faron Woods Coro Boulder Rupee 1": TPLocationData(
         code=495,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
         offset=0x1B,
@@ -3207,7 +3207,7 @@ LOCATION_TABLE = {
     "Faron Woods Coro Boulder Rupee 2": TPLocationData(
         code=496,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
         offset=0x1B,
@@ -3216,7 +3216,7 @@ LOCATION_TABLE = {
     "Faron Woods Coro Boulder Rupee 3": TPLocationData(
         code=497,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
         offset=0x1B,
@@ -3225,7 +3225,7 @@ LOCATION_TABLE = {
     "Faron Woods Coro Boulder Rupee 4": TPLocationData(
         code=498,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Faron_Woods,
         type=TPLocationType.Region,
         region=NodeID.Faron,
         offset=0x1B,
@@ -3972,7 +3972,7 @@ LOCATION_TABLE = {
     "Castle Town Goron Shop Arrow Refill": TPLocationData(
         code=499,
         flags=TPFlag.Overworld | TPFlag.Castle_Town | TPFlag.Shop,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Castle_Town_Interiors,
         type=TPLocationType.Flag,
         region=None,
         offset=0x853,
@@ -3981,7 +3981,7 @@ LOCATION_TABLE = {
     "Castle Town Goron Shop Hylian Shield": TPLocationData(
         code=500,
         flags=TPFlag.Overworld | TPFlag.Castle_Town | TPFlag.Shop,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Castle_Town_Interiors,
         type=TPLocationType.Flag,
         region=None,
         offset=0x853,
@@ -3990,7 +3990,7 @@ LOCATION_TABLE = {
     "Castle Town Goron Shop Lantern Oil": TPLocationData(
         code=501,
         flags=TPFlag.Overworld | TPFlag.Castle_Town | TPFlag.Shop,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Castle_Town_Interiors,
         type=TPLocationType.Flag,
         region=None,
         offset=0x853,
@@ -3999,7 +3999,7 @@ LOCATION_TABLE = {
     "Castle Town Goron Shop Red Potion": TPLocationData(
         code=502,
         flags=TPFlag.Overworld | TPFlag.Castle_Town | TPFlag.Shop,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Castle_Town_Interiors,
         type=TPLocationType.Flag,
         region=None,
         offset=0x853,
@@ -4242,7 +4242,7 @@ LOCATION_TABLE = {
     "Lake Hylia Bridge Faron Boulder Rupee": TPLocationData(
         code=503,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -4269,7 +4269,7 @@ LOCATION_TABLE = {
     "Lake Hylia Bridge Owl Statue Boulder Rupee": TPLocationData(
         code=504,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -4314,7 +4314,7 @@ LOCATION_TABLE = {
     "Lake Hylia Left Underwater Boulder Rupee": TPLocationData(
         code=505,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x18,
@@ -4323,7 +4323,7 @@ LOCATION_TABLE = {
     "Lake Hylia Left Underwater Pillar Rupee": TPLocationData(
         code=506,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -4341,7 +4341,7 @@ LOCATION_TABLE = {
     "Lake Hylia Right Underwater Boulder Rupee": TPLocationData(
         code=507,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x18,
@@ -4350,7 +4350,7 @@ LOCATION_TABLE = {
     "Lake Hylia Right Underwater Pillar Rupee": TPLocationData(
         code=508,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -4593,7 +4593,7 @@ LOCATION_TABLE = {
     "Lanayru Field North Spinner Track Boulder Rupee": TPLocationData(
         code=509,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -4602,7 +4602,7 @@ LOCATION_TABLE = {
     "Lanayru Field North Underwater Boulder Rupee": TPLocationData(
         code=510,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1B,
@@ -4638,7 +4638,7 @@ LOCATION_TABLE = {
     "Lanayru Field South Spinner Track Boulder Rupee": TPLocationData(
         code=511,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -4647,7 +4647,7 @@ LOCATION_TABLE = {
     "Lanayru Field South Underwater Boulder Rupee": TPLocationData(
         code=512,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1B,
@@ -4665,7 +4665,7 @@ LOCATION_TABLE = {
     "Lanayru Field Tree Boulder Rupee": TPLocationData(
         code=513,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1A,
@@ -4719,7 +4719,7 @@ LOCATION_TABLE = {
     "Lanayru Spring Lower Underwater Boulder Rupee": TPLocationData(
         code=514,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -4746,7 +4746,7 @@ LOCATION_TABLE = {
     "Lanayru Spring Upper Underwater Boulder Rupee": TPLocationData(
         code=515,
         flags=TPFlag.Overworld | TPFlag.Lake_Hylia | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lake_Hylia,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -4791,7 +4791,7 @@ LOCATION_TABLE = {
     "Outside South Castle Town Boulder Rupee": TPLocationData(
         code=516,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1B,
@@ -4908,7 +4908,7 @@ LOCATION_TABLE = {
     "Upper Zoras River Central Underwater Boulder Rupee": TPLocationData(
         code=518,
         flags=TPFlag.Overworld | TPFlag.Upper_Zoras_River | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -4917,7 +4917,7 @@ LOCATION_TABLE = {
     "Upper Zoras River East Underwater Boulder Rupee": TPLocationData(
         code=519,
         flags=TPFlag.Overworld | TPFlag.Upper_Zoras_River | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -4935,7 +4935,7 @@ LOCATION_TABLE = {
     "Upper Zoras River Ledge Boulder Rupee": TPLocationData(
         code=520,
         flags=TPFlag.Overworld | TPFlag.Upper_Zoras_River | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -4962,7 +4962,7 @@ LOCATION_TABLE = {
     "Upper Zoras River West Underwater Boulder Rupee": TPLocationData(
         code=521,
         flags=TPFlag.Overworld | TPFlag.Upper_Zoras_River | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Upper_Zoras_River,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -5007,7 +5007,7 @@ LOCATION_TABLE = {
     "West Hyrule Field Northern Boulder Rupee": TPLocationData(
         code=522,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1B,
@@ -5016,7 +5016,7 @@ LOCATION_TABLE = {
     "West Hyrule Field Southern Boulder Rupee": TPLocationData(
         code=523,
         flags=TPFlag.Overworld | TPFlag.Hyrule_Field_Lanayru | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Lanayru_Field,
         type=TPLocationType.Region,
         region=NodeID.Hyrule_Field,
         offset=0x1B,
@@ -5034,7 +5034,7 @@ LOCATION_TABLE = {
     "Zoras Domain Behind Waterfall Rupee": TPLocationData(
         code=525,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x18,
@@ -5043,7 +5043,7 @@ LOCATION_TABLE = {
     "Zoras Domain Central Underwater Boulder Rupee": TPLocationData(
         code=526,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5106,7 +5106,7 @@ LOCATION_TABLE = {
     "Zoras Domain North Underwater Boulder Rupee": TPLocationData(
         code=527,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5124,7 +5124,7 @@ LOCATION_TABLE = {
     "Zoras Domain Shortcut Ledge Rupee": TPLocationData(
         code=528,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -5133,7 +5133,7 @@ LOCATION_TABLE = {
     "Zoras Domain Shortcut Lower Boulder Rupee": TPLocationData(
         code=529,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5142,7 +5142,7 @@ LOCATION_TABLE = {
     "Zoras Domain Shortcut Upper Boulder Rupee": TPLocationData(
         code=530,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Hidden,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5151,7 +5151,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne East Gate Underwater Rupee": TPLocationData(
         code=531,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5160,7 +5160,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne East Underwater Rupee": TPLocationData(
         code=532,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -5169,7 +5169,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne Northwest Underwater Rupee": TPLocationData(
         code=533,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -5178,7 +5178,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne South Underwater Rupee": TPLocationData(
         code=534,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5187,7 +5187,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne West Gate Underwater Rupee": TPLocationData(
         code=535,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1A,
@@ -5196,7 +5196,7 @@ LOCATION_TABLE = {
     "Zoras Domain Throne West Underwater Rupee": TPLocationData(
         code=536,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -5205,7 +5205,7 @@ LOCATION_TABLE = {
     "Zoras Domain Top Ledge Rupee": TPLocationData(
         code=537,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x1B,
@@ -5223,7 +5223,7 @@ LOCATION_TABLE = {
     "Zoras Domain Vine Ledge Rupee": TPLocationData(
         code=538,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -5232,7 +5232,7 @@ LOCATION_TABLE = {
     "Zoras Domain Waterfall Ledge Rupee": TPLocationData(
         code=539,
         flags=TPFlag.Overworld | TPFlag.Zoras_Domain | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
         offset=0x19,
@@ -5268,7 +5268,7 @@ LOCATION_TABLE = {
     "Ordon Bo Cliff Rupee": TPLocationData(
         code=540,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5277,7 +5277,7 @@ LOCATION_TABLE = {
     "Ordon Bo Roof Rupee": TPLocationData(
         code=541,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1A,
@@ -5286,7 +5286,7 @@ LOCATION_TABLE = {
     "Ordon Bo Window Rupee 1": TPLocationData(
         code=542,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5295,7 +5295,7 @@ LOCATION_TABLE = {
     "Ordon Bo Window Rupee 2": TPLocationData(
         code=543,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1A,
@@ -5313,7 +5313,7 @@ LOCATION_TABLE = {
     "Ordon Hidden Rusl House Rupee": TPLocationData(
         code=544,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1A,
@@ -5331,7 +5331,7 @@ LOCATION_TABLE = {
     "Ordon Rupee In Grass By Bo": TPLocationData(
         code=545,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x19,
@@ -5340,7 +5340,7 @@ LOCATION_TABLE = {
     "Ordon Rupee In River 1": TPLocationData(
         code=546,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x19,
@@ -5349,7 +5349,7 @@ LOCATION_TABLE = {
     "Ordon Rupee In River 2": TPLocationData(
         code=547,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x19,
@@ -5358,7 +5358,7 @@ LOCATION_TABLE = {
     "Ordon Rupee Under Bridge": TPLocationData(
         code=548,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5367,7 +5367,7 @@ LOCATION_TABLE = {
     "Ordon Rupee Under Tall Tree 1": TPLocationData(
         code=549,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5376,7 +5376,7 @@ LOCATION_TABLE = {
     "Ordon Rupee Under Tall Tree 2": TPLocationData(
         code=550,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5385,7 +5385,7 @@ LOCATION_TABLE = {
     "Ordon Rusl House Roof Rupee 1": TPLocationData(
         code=551,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5394,7 +5394,7 @@ LOCATION_TABLE = {
     "Ordon Rusl House Roof Rupee 2": TPLocationData(
         code=552,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1B,
@@ -5403,7 +5403,7 @@ LOCATION_TABLE = {
     "Ordon Shield House Ledge Grass Rupee": TPLocationData(
         code=553,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x19,
@@ -5439,7 +5439,7 @@ LOCATION_TABLE = {
     "Ordon Tree Long Branch Rupee": TPLocationData(
         code=554,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x19,
@@ -5448,7 +5448,7 @@ LOCATION_TABLE = {
     "Ordon Tree Short Branch Rupee": TPLocationData(
         code=555,
         flags=TPFlag.Overworld | TPFlag.Faron_Woods | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Ordon_Village,
         type=TPLocationType.Region,
         region=NodeID.Ordon,
         offset=0x1A,
@@ -5511,7 +5511,7 @@ LOCATION_TABLE = {
     "Snowboarding Bridge Ledge Bottom Rupee": TPLocationData(
         code=556,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5520,7 +5520,7 @@ LOCATION_TABLE = {
     "Snowboarding Bridge Ledge Middle Rupee": TPLocationData(
         code=557,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5529,7 +5529,7 @@ LOCATION_TABLE = {
     "Snowboarding Bridge Ledge Upper Rupee": TPLocationData(
         code=558,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5538,7 +5538,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 1": TPLocationData(
         code=559,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5547,7 +5547,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 10": TPLocationData(
         code=560,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5556,7 +5556,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 11": TPLocationData(
         code=561,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5565,7 +5565,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 2": TPLocationData(
         code=562,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5574,7 +5574,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 3": TPLocationData(
         code=563,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5583,7 +5583,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 4": TPLocationData(
         code=564,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5592,7 +5592,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 5": TPLocationData(
         code=565,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1B,
@@ -5601,7 +5601,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 6": TPLocationData(
         code=566,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5610,7 +5610,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 7": TPLocationData(
         code=567,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5619,7 +5619,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 8": TPLocationData(
         code=568,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5628,7 +5628,7 @@ LOCATION_TABLE = {
     "Snowboarding Shortcut Rupee 9": TPLocationData(
         code=569,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5637,7 +5637,7 @@ LOCATION_TABLE = {
     "Snowboarding Snowy Tree Top Rupee 1": TPLocationData(
         code=570,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5646,7 +5646,7 @@ LOCATION_TABLE = {
     "Snowboarding Snowy Tree Top Rupee 2": TPLocationData(
         code=571,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x1A,
@@ -5655,7 +5655,7 @@ LOCATION_TABLE = {
     "Snowboarding Snowy Tree Top Rupee 3": TPLocationData(
         code=572,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x19,
@@ -5664,7 +5664,7 @@ LOCATION_TABLE = {
     "Snowboarding Top Left Rupee": TPLocationData(
         code=573,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x19,
@@ -5673,7 +5673,7 @@ LOCATION_TABLE = {
     "Snowboarding Top Right Rupee": TPLocationData(
         code=574,
         flags=TPFlag.Overworld | TPFlag.Snowpeak | TPFlag.Rupee_Freestanding,
-        stage_id=TPStages.Unkown,
+        stage_id=TPStages.Snowpeak,
         type=TPLocationType.Region,
         region=NodeID.Snowpeak,
         offset=0x19,
