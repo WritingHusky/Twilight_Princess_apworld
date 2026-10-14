@@ -204,6 +204,10 @@ class TPWorld(World):
         enabled_flags |= add_flag(options.heart_piece_shuffled, TPFlag.Heart_Container)
         enabled_flags |= add_flag(options.overworld_shuffled, TPFlag.Overworld)
         enabled_flags |= add_flag(options.dungeons_shuffled, TPFlag.Dungeon)
+        enabled_flags |= add_flag(
+            options.freestanding_rupee_shuffled, TPFlag.Rupee_Freestanding
+        )
+        enabled_flags |= add_flag(options.hidden_rupee_shuffled, TPFlag.Rupee_Hidden)
 
         # If not all the flags for a location are set, then force that location to have a non-progress item.
         nonprogress_locations: set[str] = set()
@@ -226,6 +230,8 @@ class TPWorld(World):
             | TPFlag.Heart_Container
             | TPFlag.Hidden_Skill
             | TPFlag.Sky_Book
+            | TPFlag.Rupee_Freestanding
+            | TPFlag.Rupee_Hidden
         )
 
         for location, data in LOCATION_TABLE.items():

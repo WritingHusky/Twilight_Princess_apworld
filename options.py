@@ -114,6 +114,24 @@ class HeartPieceShuffled(Toggle):
     default = True
 
 
+class FreeStandingRupeeShuffle(Toggle):
+    """
+    If enabled, Freestanding Rupee locations can contain progression items.
+    """
+
+    display_name = "Freestanding Rupee Shuffle"
+    default = False
+
+
+class HiddenRupeeShuffle(Toggle):
+    """
+    If enabled, Hidden Rupee locations can contain progression items.
+    """
+
+    display_name = "Hidden Rupee Shuffle"
+    default = False
+
+
 class DungeonsShuffled(Toggle):
     """
     If enabled, Dungeons locations can contain progression items.
@@ -713,6 +731,8 @@ class TPOptions(PerGameCommonOptions):
     hidden_skills_shuffled: HiddenSkillsShuffled
     poe_shuffled: PoeShuffled
     heart_piece_shuffled: HeartPieceShuffled
+    freestanding_rupee_shuffled: FreeStandingRupeeShuffle
+    hidden_rupee_shuffled: HiddenRupeeShuffle
     overworld_shuffled: OverWoldShuffled
     dungeons_shuffled: DungeonsShuffled
 
@@ -779,6 +799,8 @@ tp_option_groups: list[OptionGroup] = [
             HiddenSkillsShuffled,
             PoeShuffled,
             HeartPieceShuffled,
+            FreeStandingRupeeShuffle,
+            HiddenRupeeShuffle,
             OverWoldShuffled,
             DungeonsShuffled,
         ],
