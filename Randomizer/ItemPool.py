@@ -542,6 +542,19 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     world.useful_pool = useful_pool
     world.filler_pool = filler_pool
     world.prefill_pool = prefill_pool
+    pre_fill_copy = prefill_pool.copy()
+    # go through all pre fill dungeon items and add item if precollected
+    for pre_item in [
+        item
+        for item in world.multiworld.precollected_items[world.player]
+        if item.name in item_name_groups["Dungeon Items"]
+    ]:
+        for fill_item in pre_fill_copy:
+            if pre_item.name == fill_item:
+                # remove to counter repeats, also break
+                num_items_left_to_place += 1
+                pre_fill_copy.remove(fill_item)
+                break
 
     assert len(world.useful_pool) > 0, f"[Twilight Princess] {len(world.useful_pool)=}"
     assert len(world.filler_pool) > 0, f"[Twilight Princess] {len(world.filler_pool)=}"

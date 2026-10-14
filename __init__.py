@@ -1235,17 +1235,20 @@ class TPWorld(World):
                         # Don't place item if its precollected
                         skip_item = False
 
+                        new_item = list(
+                            filter(lambda item: item.name == item_name, pre_fill_items)
+                        )
+
                         for item in starting_pool_copy:
                             if item.name == item_name:
                                 skip_item = True
                                 starting_pool_copy.remove(item)
                                 break
-                        if skip_item:
-                            continue
 
-                        new_item = list(
-                            filter(lambda item: item.name == item_name, pre_fill_items)
-                        )
+                        if skip_item:
+                            for nu_item in new_item:
+                                pre_fill_items.remove(nu_item)
+                            continue
 
                         # assert isinstance(
                         #     new_item, list
@@ -1396,6 +1399,10 @@ class TPWorld(World):
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
 
+                        new_items = list(
+                            filter(lambda item: item.name == item_name, pre_fill_items)
+                        )
+
                         # Don't place item if its precollected
                         skip_item = False
 
@@ -1405,11 +1412,9 @@ class TPWorld(World):
                                 starting_pool_copy.remove(item)
                                 break
                         if skip_item:
+                            for nu_item in new_items:
+                                pre_fill_items.remove(nu_item)
                             continue
-
-                        new_items = list(
-                            filter(lambda item: item.name == item_name, pre_fill_items)
-                        )
 
                         # assert isinstance(
                         #     new_items, list
@@ -1493,6 +1498,10 @@ class TPWorld(World):
                         assert item_name in ITEM_TABLE
                         assert item_name in self.prefill_pool
 
+                        new_items = list(
+                            filter(lambda item: item.name == item_name, pre_fill_items)
+                        )
+
                         # Don't place item if its precollected
                         skip_item = False
                         for item in starting_pool_copy:
@@ -1501,11 +1510,9 @@ class TPWorld(World):
                                 starting_pool_copy.remove(item)
                                 break
                         if skip_item:
+                            for nu_item in new_item:
+                                pre_fill_items.remove(nu_item)
                             continue
-
-                        new_items = list(
-                            filter(lambda item: item.name == item_name, pre_fill_items)
-                        )
 
                         # assert isinstance(
                         #     new_items, list
