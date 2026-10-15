@@ -709,9 +709,6 @@ class TPWorld(World):
                 not self.options.small_key_settings.in_dungeon
             ), "[Twilight Princess] No pre fill items but small keys in dungeon"
             assert (
-                self.options.castle_bk_requirements == CastleBKRequirements.option_none
-            ), "[Twilight Princess] No pre fill items but Castle Boss Key has requirements"
-            assert (
                 not self.options.big_key_settings.in_dungeon
             ), "[Twilight Princess] No pre fill items but big keys in dungeon"
             assert (
