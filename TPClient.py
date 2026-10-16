@@ -172,7 +172,7 @@ class TPCommandProcessor(ClientCommandProcessor):
         logger.info(read_string(read_pointer(0x800042BC) + 0xAC, 16))
 
     def _cmd_debug_seed(self) -> None:
-        """Debug to get player name"""
+        """Debug to get Seed name"""
         logger.info(self.ctx.SeedID)
         logger.info(read_string(read_pointer(0x800042BC) + 0x9C, 16))
 
@@ -239,34 +239,21 @@ class TPCommandProcessor(ClientCommandProcessor):
             logger.info("Resuming Validation")
             self.ctx.validation_pause.clear()
 
-    @mark_raw
-    def _cmd_give(self, item: str) -> None:
-        """Cheat in an item. Note: Use the EXACT! name of item, (can be found in the item.py file on github)"""
-        try:
-            assert isinstance(item, str)
-            assert item in ITEM_TABLE.keys()
-            logger.info("Giving link, " + item)
+    # @mark_raw
+    # def _cmd_give(self, item: str) -> None:
+    #     """Cheat in an item. Note: Use the EXACT! name of item, (can be found in the item.py file on github)"""
+    #     try:
+    #         assert isinstance(item, str)
+    #         assert item in ITEM_TABLE.keys()
+    #         logger.info("Giving link, " + item)
 
-            async def try_give():
-                while not await _give_items(self.ctx, [item]):
-                    await asyncio.sleep(0.5)
+    #         async def try_give():
+    #             while not await _give_items(self.ctx, [item]):
+    #                 await asyncio.sleep(0.5)
 
-            asyncio.create_task(try_give())
-        except AssertionError:
-            logger.info("Invalid item please use exact item name")
-
-    def _cmd_seed_validate(self):
-        """"""
-        try:
-
-            file_path = filedialog.askopenfilename()
-            assert file_path.endswith(".aptp")
-            with open(file_path) as f:
-                string = f.read()
-                run_decoder(string, file_path)
-
-        except Exception as e:
-            logger.info(e)
+    #         asyncio.create_task(try_give())
+    #     except AssertionError:
+    #         logger.info("Invalid item please use exact item name")
 
 
 class TPContext(CommonContext):
