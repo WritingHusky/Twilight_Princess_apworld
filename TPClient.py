@@ -1015,8 +1015,8 @@ def _validate_item(
         actual_heart_pieace_count = read_short(SAVE_FILE_ADDR)
         heart_piece_count = 0
         heart_container_count = 0
-        heart_container_id = ITEM_TABLE["Piece of Heart"].code + ITEM_APID_BASE
-        heart_piece_id = ITEM_TABLE["Heart Container"].code + ITEM_APID_BASE
+        heart_piece_id = ITEM_TABLE["Piece of Heart"].code + ITEM_APID_BASE
+        heart_container_id = ITEM_TABLE["Heart Container"].code + ITEM_APID_BASE
 
         heart_piece_count = [item.item for item in ctx.items_received].count(
             heart_piece_id
