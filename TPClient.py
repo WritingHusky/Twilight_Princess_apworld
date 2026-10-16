@@ -176,26 +176,26 @@ class TPCommandProcessor(ClientCommandProcessor):
         logger.info(self.ctx.SeedID)
         logger.info(read_string(read_pointer(0x800042BC) + 0x9C, 16))
 
-    @mark_raw
-    def _cmd_name(self, name: str = "") -> None:
-        """Change the name of the current save file (i.e. /name Player1 )"""
+    # @mark_raw
+    # def _cmd_name(self, name: str = "") -> None:
+    #     """Change the name of the current save file (i.e. /name Player1 )"""
 
-        if not isinstance(self.ctx, TPContext):
-            return
+    #     if not isinstance(self.ctx, TPContext):
+    #         return
 
-        assert isinstance(name, str)
+    #     assert isinstance(name, str)
 
-        if self.ctx.dolphin_status != CONNECTION_CONNECTED_STATUS:
-            logger.info("Client must be connected to dolphin first")
-            return
+    #     if self.ctx.dolphin_status != CONNECTION_CONNECTED_STATUS:
+    #         logger.info("Client must be connected to dolphin first")
+    #         return
 
-        async def try_write_name():
-            if not await check_ingame(self.ctx):
-                logger.info("Must be in game to change name")
-            else:
-                write_name(name)
+    #     async def try_write_name():
+    #         if not await check_ingame(self.ctx):
+    #             logger.info("Must be in game to change name")
+    #         else:
+    #             write_name(name)
 
-        asyncio.create_task(try_write_name())
+    #     asyncio.create_task(try_write_name())
 
     @mark_raw
     def _cmd_validate(self, item_name: str = "") -> None:
