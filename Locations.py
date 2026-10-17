@@ -3055,10 +3055,10 @@ LOCATION_TABLE = {
         code=493,
         flags=TPFlag.Overworld | TPFlag.Npc | TPFlag.Faron_Woods,
         stage_id=TPStages.Faron_Woods,
-        type=TPLocationType.Flag,
+        type=TPLocationType.Region,
         region=NodeID.Faron,
-        offset=0x7FD,
-        bit=0x2,
+        offset=0xD,
+        bit=0x4,
     ),
     "Coro Lantern": TPLocationData(
         code=494,
