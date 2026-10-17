@@ -14,7 +14,6 @@ from .ClientItemChecker import check_dungeon_item_count, check_item_count  # typ
 from .ClientUtils import *
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME, TPItem, item_factory
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
-from .Randomizer.SettingsDecoder import run_decoder
 import Utils
 from CommonClient import (
     ClientCommandProcessor,
@@ -50,7 +49,7 @@ CONNECTION_CONNECTED_STATUS = "Dolphin connected successfully."
 CONNECTION_INITIAL_STATUS = "Dolphin connection has not been initiated."
 
 RANDO_NOT_LOADED_MSG = "Randomizer is not loaded, Client will not work until fixed"
-WRONG_SEED_LOADED_MSG = "Invalid Seed; Either the wrong seed was loaded, or you are not in game yet; Seed to use: "
+WRONG_SEED_LOADED_MSG = "Invalid Seed\nEither the wrong seed was loaded, or you are not in game yet\nSeed to use: "
 CONNECT_IN_GAME_MSG = (
     "Please load a save file and gain control of link before attempting to connect"
 )
@@ -364,8 +363,8 @@ class TPContext(CommonContext):
                     )
                 if self.SeedID != read_seedID:
 
-                    logger.info(WRONG_SEED_LOADED_MSG + self.SeedID)
                     Utils.async_start(self.disconnect())
+                    raise Exception(WRONG_SEED_LOADED_MSG + self.SeedID)
 
             if args["slot_data"] is not None and "DeathLink" in args["slot_data"]:
                 assert isinstance(
@@ -442,8 +441,8 @@ class TPContext(CommonContext):
                         if DEBUGGING:
                             logger.info(f"Debug: Adding into the queue {item=}")
                         self.item_queue.append((item, self.last_received_index))
-                    # Add local keys to the validation count
-                    elif LOOKUP_ID_TO_NAME[item.item] in KEY_TO_OFFSET.keys():
+                    # Add keys to the validation count
+                    if LOOKUP_ID_TO_NAME[item.item] in KEY_TO_OFFSET.keys():
                         # if DEBUGGING:
                         #     logger.info(f"Debug: Found Key locally so adding to count")
                         key_offset = (
