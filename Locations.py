@@ -2860,7 +2860,7 @@ LOCATION_TABLE = {
         type=TPLocationType.Region,
         region=NodeID.Eldin,
         offset=0x1B,
-        bit=0x10,
+        bit=0x20,
     ),
     "Kakariko Village Bell Rupee": TPLocationData(
         code=487,
