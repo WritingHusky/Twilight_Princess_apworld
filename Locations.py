@@ -3021,7 +3021,7 @@ LOCATION_TABLE = {
         stage_id=TPStages.Kakariko_Village_Interiors,
         type=TPLocationType.Flag,
         region=None,
-        offset=0x63,
+        offset=0x853,
         bit=0x8,
     ),
     "Skybook From Impaz": TPLocationData(
@@ -5037,8 +5037,8 @@ LOCATION_TABLE = {
         stage_id=TPStages.Zoras_Domain,
         type=TPLocationType.Region,
         region=NodeID.Lanayru,
-        offset=0x18,
-        bit=0x1,
+        offset=0x19,
+        bit=0x40,
     ),
     "Zoras Domain Central Underwater Boulder Rupee": TPLocationData(
         code=526,
