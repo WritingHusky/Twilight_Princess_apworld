@@ -2398,6 +2398,7 @@ def set_location_access_rules(world: "TPWorld"):
                 or can_use(state, player, "Zora Armor")
             )
             and can_use_water_bombs(state, player)
+            and can_use(state, player, "Gate Keys")
         ),
         lambda state: (
             (
@@ -2406,6 +2407,7 @@ def set_location_access_rules(world: "TPWorld"):
                 or can_use(state, player, "Zora Armor")
             )
             and can_use_water_bombs(state, player)
+            and can_use(state, player, "Gate Keys")
         ),
     )
     set_rule_if_exists(
