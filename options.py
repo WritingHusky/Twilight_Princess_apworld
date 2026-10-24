@@ -340,7 +340,6 @@ class CastleBKRequirementsCount(Range):
     - Fused Shadows: max 3
     - Mirror Shards: max 4
     - Dungeons: max 8
-    - Vanilla: not used
     - Poe Souls: max 60
     - Hearts: min 4, max 20
     """

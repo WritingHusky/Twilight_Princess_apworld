@@ -9,11 +9,14 @@ from typing import TYPE_CHECKING, Any, Optional
 from MultiServer import mark_raw
 import dolphin_memory_engine
 
+from Options import Choice
+
 from .ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
 from .ClientUtils import *
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME, TPItem, item_factory
-from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
+from .Locations import LOCATION_TABLE, TPLocation, TPLocationType, TPFlag
+from .options import IliaQuest
 import Utils
 from CommonClient import (
     ClientCommandProcessor,
@@ -383,6 +386,19 @@ class TPContext(CommonContext):
                 ), f"{args["slot_data"]["StartInventory"]=}"
 
                 self.start_inventory: list[int] = args["slot_data"]["StartInventory"]
+            if (
+                args["slot_data"] is not None
+                and "Settings" in args["slot_data"]
+                and "Ilia Quest" in args["slot_data"]["Settings"]
+            ):
+                assert isinstance(
+                    args["slot_data"]["Settings"]["Ilia Quest"], int
+                ), f"{args["slot_data"]["Settings"]["Ilia Quest"]=}"
+
+                self.ilia_quest = IliaQuest.from_any(
+                    args["slot_data"]["Settings"]["Ilia Quest"]
+                )
+
             if args["slot_data"] is not None and (
                 not args["slot_data"]["World Version"]
                 or args["slot_data"]["World Version"] != VERSION
@@ -1178,6 +1194,34 @@ async def check_locations(ctx: TPContext) -> None:
         ):
             logger.info(f"Debug: location:{location} has weird formating")
             continue
+
+        # Skip quest locations if they are pre-collected inverse of itempool handling
+        # # Still checking determistic placements for the messages / UT
+        if data.flags & TPFlag.Quest:
+            if (
+                (
+                    location == "Renados Letter"
+                    and not ctx.ilia_quest.value == IliaQuest.option_vanilla
+                )
+                or (
+                    location == "Telma Invoice"
+                    and not ctx.ilia_quest.value
+                    in [
+                        IliaQuest.option_vanilla,
+                        IliaQuest.option_letter,
+                    ]
+                )
+                or (
+                    location == "Wooden Statue"
+                    and ctx.ilia_quest.value
+                    in [IliaQuest.option_statue, IliaQuest.option_charm]
+                )
+                or (
+                    location == "Ilias Charm"
+                    and ctx.ilia_quest.value == IliaQuest.option_charm
+                )
+            ):
+                continue
 
         # Depening on locatin type find the memory address for the flag
         # Checks the active memory for the current node
