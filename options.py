@@ -699,6 +699,9 @@ class IliaQuest(Choice):
     Selecting an item shuffles that specific item into world, precompleting the previous items in the quest.
 
     Later items in the sequence are vanilla with the exception of the 'Ilia Memory Reward' item, which is always randomized.
+
+    Note:
+    Skipped locations will still appear on UT / Trackers but will not be collectable
     """
 
     display_name = "Ilia Memory Quest"

@@ -348,6 +348,7 @@ class TPContext(CommonContext):
             self.start_inventory: list = []
             self.locations_checked = set()
             self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
+            self.ilia_quest = IliaQuest.from_any(IliaQuest.option_vanilla)
 
             if args["slot_data"] is not None and "SeedID" in args["slot_data"]:
                 assert isinstance(
@@ -392,10 +393,10 @@ class TPContext(CommonContext):
                 and "Ilia Quest" in args["slot_data"]["Settings"]
             ):
                 assert isinstance(
-                    args["slot_data"]["Settings"]["Ilia Quest"], int
+                    args["slot_data"]["Settings"]["Ilia Quest"], str
                 ), f"{args["slot_data"]["Settings"]["Ilia Quest"]=}"
 
-                self.ilia_quest = IliaQuest.from_any(
+                self.ilia_quest = IliaQuest.from_text(
                     args["slot_data"]["Settings"]["Ilia Quest"]
                 )
 
