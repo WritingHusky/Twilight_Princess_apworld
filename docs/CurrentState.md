@@ -20,7 +20,7 @@ The client has a validation check every 10s. Interval can be changed with `/vali
 The location settings will label locations as excluded which will means that they will prevent progession and usefull items from being placed at that location.
 \*In some cases this will place the items in their vanilla location
 
-With there being 475(soon to be more) locations in the game there may be mistakes in the data. If you notice a location not triggering correctly please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
+With there being 575 locations in the game there may be mistakes in the data. If you notice a location not triggering correctly please leave a comment on the [Issue thread for it](https://github.com/WritingHusky/Twilight_Princess_apworld/issues/2)
 
 ## Generation
 
