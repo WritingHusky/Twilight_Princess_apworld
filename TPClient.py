@@ -102,7 +102,7 @@ def set_address(
             saveFileAddr = 0x80400300
             STRING_ENCODING = "shift-jis"
 
-    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR, LINK_POINTER_ADDR, M_EVENT_STATUS_ADDR, REGION_CODE
+    global CURR_HEALTH_ADDR, CURR_NODE_ADDR, SLOT_NAME_ADDR, ITEM_WRITE_ADDR, EXPECTED_INDEX_ADDR, NODES_START_ADDR, ACTIVE_NODE_ADDR, SAVE_FILE_ADDR, LINK_POINTER_ADDR, M_EVENT_STATUS_ADDR, REGION_CODE, MENU_STATE
 
     REGION_CODE = regionCode
 
@@ -136,6 +136,13 @@ def set_address(
         if m_event_status_addr is not None
         else saveFileAddr + 0x4FAD
     )
+    match (regionCode):
+        case 0x50:  # ASCII for 'P', which is EU
+            MENU_STATE = 0x80432207
+        case 0x4A:  # ASCII for 'J', which is JP
+            MENU_STATE = 0x8042A387
+        case _:
+            MENU_STATE = 0x80430247
 
 
 # ...existing code...
@@ -162,6 +169,11 @@ class TPCommandProcessor(ClientCommandProcessor):
             assert isinstance(self.ctx.dolphin_status, str)
 
             logger.info(f"Dolphin Status: {self.ctx.dolphin_status}")
+
+    def _cmd_deathlink(self) -> None:
+        """Toggles Deathlink on / off"""
+        logger.info("Updating Deathlink")
+        Utils.async_start(self.ctx.update_death_link(not self.ctx.deathlink_enabled))
 
     def _cmd_debug(self) -> None:
         """Toggles Debug messages from showing"""
@@ -284,6 +296,7 @@ class TPContext(CommonContext):
         self.dolphin_status = CONNECTION_INITIAL_STATUS
         self.last_received_index = -1
         self.has_send_death = False
+        self.waiting_to_kill = False
         self.current_node = 0xFF
         self.server_data_copy: dict[str, str | bool] = {}
         self.server_data = deepcopy(server_data)
@@ -349,6 +362,7 @@ class TPContext(CommonContext):
             self.locations_checked = set()
             self.last_received_index = read_short(EXPECTED_INDEX_ADDR)
             self.ilia_quest = IliaQuest.from_any(IliaQuest.option_vanilla)
+            self.deathlink_enabled = False
 
             if args["slot_data"] is not None and "SeedID" in args["slot_data"]:
                 assert isinstance(
@@ -374,13 +388,10 @@ class TPContext(CommonContext):
                 assert isinstance(
                     args["slot_data"]["DeathLink"], int
                 ), f"{args["slot_data"]["DeathLink"]=}"
-                Utils.async_start(
-                    self.update_death_link(bool(args["slot_data"]["DeathLink"]))
-                )
+                self.deathlink_enabled = bool(args["slot_data"]["DeathLink"])
+                Utils.async_start(self.update_death_link(self.deathlink_enabled))
                 if DEBUGGING:
-                    logger.info(
-                        f"Debug: Seting deathlink to {bool(args["slot_data"]["DeathLink"])}"
-                    )
+                    logger.info(f"Debug: Seting deathlink to {self.deathlink_enabled}")
             if args["slot_data"] is not None and "StartInventory" in args["slot_data"]:
                 assert isinstance(
                     args["slot_data"]["StartInventory"], list
@@ -640,7 +651,24 @@ def _give_death(ctx: TPContext) -> None:
         and _check_status()
     ):
         ctx.has_send_death = True
+
+        # async def do_death():
+        #     asyncio.sleep(1)
+        #     if (
+        #         ctx.slot is not None
+        #         and dolphin_memory_engine.is_hooked()
+        #         and ctx.dolphin_status == CONNECTION_CONNECTED_STATUS
+        #         and _check_status()
+        #     ):
+        if read_byte(MENU_STATE) == 2:
+            if DEBUGGING:
+                logger.info("Debug: Skipped death waiting for out of menu")
+            ctx.waiting_to_kill = True
+            return
+
         write_short(CURR_HEALTH_ADDR, 0)
+
+        # Utils.async_start(do_death())
         if DEBUGGING:
             logger.info("Debug: Health set to 0")
 
@@ -1572,6 +1600,8 @@ async def check_death(ctx: TPContext) -> None:
 
     :return: `True` if the player is dead, otherwise `False`.
     """
+    if ctx.waiting_to_kill:
+        return
     if ctx.slot is not None and await check_ingame(ctx):
         cur_health = read_short(CURR_HEALTH_ADDR)
         if cur_health == 0:
@@ -1693,6 +1723,11 @@ async def dolphin_sync_task(ctx: TPContext) -> None:
                 if ctx.slot is not None:
                     if "DeathLink" in ctx.tags:
                         await check_death(ctx)
+                        if ctx.waiting_to_kill:
+                            if read_byte(MENU_STATE) != 2 and _check_status():
+                                ctx.waiting_to_kill = False
+                                await asyncio.sleep(2)
+                                _give_death(ctx)
                     # Build data storage here, as on connect cannot deal with async calls and this is before location checks
                     if not ctx.server_data_sent:
                         await ctx.send_msgs(
