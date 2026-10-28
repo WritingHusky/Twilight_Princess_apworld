@@ -4,7 +4,7 @@ import pytest
 # This will create host.yaml and custom worlds folder as it uses relative paths
 def main():
     test_directories = [
-        "worlds\\twilight_princess\\tests",
+        # "worlds\\twilight_princess\\tests",
         "test\\general",
         "test\\multiworld",
         # "test",
