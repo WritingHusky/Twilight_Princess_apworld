@@ -431,11 +431,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
                 or (
-                    item == "Shadow Crystal"
-                    and world.options.early_shadow_crystal
-                    == EarlyShadowCrystal.option_true
-                )
-                or (
                     item == "Progressive Sky Book"
                     and world.options.sky_characters_shuffled.value
                     == SkyCharactersShuffled.option_false

@@ -160,7 +160,7 @@ class OverWoldShuffled(Toggle):
 
 class EarlyShadowCrystal(Toggle):
     """
-    When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
+    When Enabled, the generator will be told to place the Shadow Crystal in the early spheres
     """
 
     display_name = "Early Shadow Crystal"

@@ -291,7 +291,8 @@ class TPWorld(World):
             # self.multiworld.local_early_items[self.player]["Progressive Hero's Bow"] = 1
             # self.multiworld.local_early_items[self.player]["Progressive Clawshot"] = 1
             # self.multiworld.local_early_items[self.player]["Bomb bag"] = 1
-            self.multiworld.local_early_items[self.player]["Gate Keys"] = 1
+            self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+            self.multiworld.early_items[self.player]["Gate Keys"] = 1
 
         if (
             self.options.overworld_shuffled.value == OverWoldShuffled.option_false
@@ -410,9 +411,12 @@ class TPWorld(World):
         assert len(self.progress_locations) > 10
 
         if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
-            self.multiworld.local_early_items[self.player]["Gale Boomerang"] = 1
-            self.multiworld.local_early_items[self.player]["Lantern"] = 1
-            self.multiworld.local_early_items[self.player]["Shadow Crystal"] = 1
+            self.multiworld.early_items[self.player]["Gale Boomerang"] = 1
+            self.multiworld.early_items[self.player]["Lantern"] = 1
+            self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+
+        if self.options.early_shadow_crystal.value == EarlyShadowCrystal.option_true:
+            self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
 
     def create_regions(self) -> None:
         """
@@ -695,14 +699,6 @@ class TPWorld(World):
 
         collection_state_base = CollectionState(self.multiworld)
 
-        if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
-            found_shadow_crystal = False
-            for item in pre_fill_items:
-                if item.name == "Shadow Crystal":
-                    found_shadow_crystal = True
-            assert found_shadow_crystal, f"Shadow crystal no in pre fill pool"
-            del item
-
         # Only do pre fill if it is needed
         if len(pre_fill_items) == 0:
             assert (
@@ -721,9 +717,6 @@ class TPWorld(World):
             assert (
                 self.options.poe_shuffled.value == PoeShuffled.option_true
             ), "[Twilight Princess] No pre fill items but poes not shuffled"
-            assert (
-                self.options.early_shadow_crystal == EarlyShadowCrystal.option_false
-            ), "[Twilight Princess] No pre fill items but early shadow crystal"
             assert self.options.dungeon_rewards_progression.value in [
                 DungeonRewardsProgression.option_anything,
                 DungeonRewardsProgression.option_any_progressive,
@@ -834,43 +827,6 @@ class TPWorld(World):
             ), f"[Twilight Princess] {location=}"
             # Sky book chest will already be excluded
             del location, character_list, character
-
-        if self.options.early_shadow_crystal == EarlyShadowCrystal.option_true:
-            locations = self.multiworld.get_locations(self.player)
-            locations = [
-                location
-                for location in locations
-                if isinstance(location.address, int)
-                and collection_state_base.can_reach(location)
-            ]
-
-            assert len(locations) > 0, f"[Twilight Princess] {locations=}"
-            self.multiworld.random.shuffle(locations)
-            # Add shadow crystal to world
-            shadow_crystal_item_s = [
-                item for item in pre_fill_items if item.name == "Shadow Crystal"
-            ]
-            assert (
-                len(shadow_crystal_item_s) == 1
-            ), f"[Twilight Princess] {shadow_crystal_item_s=}"
-            shadow_crystal_item_copy = deepcopy(shadow_crystal_item_s)
-            fill_restrictive(
-                self.multiworld,
-                collection_state_base,
-                locations,
-                shadow_crystal_item_s,
-                single_player_placement=True,
-                lock=True,
-                allow_excluded=False,
-                # allow_partial=True,
-            )
-            assert (
-                len(shadow_crystal_item_s) == 0
-            ), "[Twilight Princess] Shadow crystal not placed"
-            pre_fill_items.remove(shadow_crystal_item_copy[0])
-            collection_state_base.collect(shadow_crystal_item_copy[0])
-
-            del locations
 
         # Place boss items
         if (
