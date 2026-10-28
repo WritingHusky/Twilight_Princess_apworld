@@ -1955,7 +1955,8 @@ class TPWorld(World):
         return None
 
     def get_settings_map(self):
-        """A map of all the settings for slot data, settings marked 'Gen only' only affect placement of items not in game changes"""
+        """A map of all the settings for slot data, settings marked 'Gen only' only affect placement of items not in game changes
+        See ClientUtils.py L:6 for a full break down of the possible values"""
         return {
             # Time Savers
             "Skip Minor Cutscenes": self.options.skip_minor_cutscenes.get_option_name(
