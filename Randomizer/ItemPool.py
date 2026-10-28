@@ -1,20 +1,15 @@
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from typing import TYPE_CHECKING, List, Tuple
 
-from BaseClasses import ItemClassification as IC, LocationProgressType
-from Fill import FillError
+from BaseClasses import ItemClassification as IC
 from ..Logic.Macros import *
 from ...generic.Rules import set_rule
 from ..options import (
-    CastleRequirements,
     DungeonItem,
     DungeonRewardsProgression,
-    EarlyShadowCrystal,
     GoldenBugsShuffled,
-    PalaceRequirements,
     PoeShuffled,
     SkyCharactersShuffled,
 )
-from ..Locations import TPLocation, TPLocationData
 from ..Items import (
     ITEM_TABLE,
     PortalItems,
@@ -440,11 +435,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.dungeon_rewards_progression.value
                     == DungeonRewardsProgression.option_vanilla
                 )
-                # or (
-                #     item == "Heart Container"
-                #     and world.options.dungeon_rewards_progression.value
-                #     == DungeonRewardsProgression.option_vanilla
-                # )
             ):
                 prefill_pool.extend([item] * data.quantity)
                 continue
@@ -505,22 +495,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     ]
 
     num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
-    # Check progression pool against locations that can hold progression items
-    # if len(progression_pool) > len(
-    #     [
-    #         location
-    #         for location in placeable_locations
-    #         if location.progress_type != LocationProgressType.EXCLUDED
-    #     ]
-    # ):
-    #     raise FillError(
-    #         "[Twilight Princess] There are insufficient locations to place progression items! "
-    #         f"Trying to place {len(progression_pool)} items in only {[
-    #                     location
-    #                     for location in placeable_locations
-    #                     if location.progress_type != LocationProgressType.EXCLUDED
-    #                 ]} locations. {len(placeable_locations)=}"
-    #     )
+
     world.progression_pool.extend(progression_pool)
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
@@ -560,7 +535,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     return pool, precollected_items
 
 
-# TODO Check varible classification of boss items
 # Used to fill out boss defeat events and result used to fill out prefill Collection State
 def get_boss_defeat_items(world: "TPWorld"):
     return {
@@ -571,12 +545,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -587,12 +556,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -625,12 +589,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -641,12 +600,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),

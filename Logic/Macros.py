@@ -1,5 +1,5 @@
 from BaseClasses import CollectionState
-from ..Items import GoldenBugs, TPItem, BossItems
+from ..Items import GoldenBugs, BossItems
 from ..RoomFunctions import RoomFunctions
 from ..options import *
 

@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, NamedTuple, Optional, Union
+from typing import NamedTuple, Optional, Union
 
 from BaseClasses import Item, Item
 from BaseClasses import ItemClassification as IC

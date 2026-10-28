@@ -8,7 +8,6 @@ from ..options import (
     DamageMagnification,
     LogicRules,
     SmallKeySettings,
-    GroveEntrance,
 )
 from .Macros import *
 from ..Locations import LOCATION_TABLE

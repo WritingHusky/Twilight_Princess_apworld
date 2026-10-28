@@ -391,54 +391,6 @@ class FaronWoodsLogic(Choice):
 
 
 # endregion
-# region Intro
-
-# Timesavers
-# class SkipPrologue(Toggle):
-#     """
-#     Controls whether the prologue is skipped.
-#     """
-
-#     display_name = "Skip Prologue"
-#     default = True
-
-
-# class FaronTwilightCleared(Toggle):
-#     """
-#     Controls whether Faron Twilight is cleared.
-#     """
-
-#     display_name = "Faron Twilight Cleared"
-#     default = True
-
-
-# class EldinTwilightCleared(Toggle):
-#     """
-#     Controls whether Eldin Twilight is cleared.
-#     """
-
-#     display_name = "Eldin Twilight Cleared"
-#     default = True
-
-
-# class LanayruTwilightCleared(Toggle):
-#     """
-#     Controls whether Lanayru Twilight is cleared.
-#     """
-
-#     display_name = "Lanayru Twilight Cleared"
-#     default = True
-
-
-# class SkipMdh(Toggle):
-#     """
-#     Controls whether the Midna's Darkest Hour is skipped.
-#     """
-
-#     display_name = "Skip Midna's Darkest Hour"
-#     default = True
-
-# endregion
 # region Timesavers
 
 
