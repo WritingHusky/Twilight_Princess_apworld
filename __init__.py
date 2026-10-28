@@ -624,7 +624,7 @@ class TPWorld(World):
                     )
 
         # Quick sanity check, Must happen here so it runs before plando-ed items
-        allstate = self.multiworld.get_all_state()
+        allstate = self.multiworld.get_all_state(allow_partial_entrances=True)
         explorable_regions = [
             self.get_region(self.origin_region_name),
         ]
