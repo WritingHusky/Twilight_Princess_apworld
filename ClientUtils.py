@@ -2,7 +2,47 @@ ITEM_APID_BASE = 2320000
 
 VERSION = "v0.4.0"
 
+# A list of all possible options for the settings map in slot data
 Settings_Format = {
+    # Time Savers
+    "Skip Minor Cutscenes": "Yes/No",
+    "Skip Major Cutscenes": "Yes/No",
+    "Fast Iron Boots": "Yes/No",
+    "Quick Transform": "Yes/No",
+    "Instant Message Text": "Yes/No",
+    "Open Map": "Yes/No",
+    "Increase Spinner Speed": "Yes/No",
+    "Open Door of Time": "Yes/No",
+    "Early Shadow Crystal": "Yes/No",
+    "Goron Mines Shortcut": "Yes/No",
+    "Castle Shortcut": "Yes/No",
+    "Skip Bridge Donation": "Yes/No",
+    # Additional Settings
+    "Transform Anywhere": "Yes/No",
+    "Wallet Size": "Reduced/Vanilla/Hd/Large",
+    "Auto Fill Wallet": "Yes/No",
+    "Bonks do Damage": "Yes/No",
+    "Trap Frequency": "No Traps/Few/Many/Mayhem/Nightmare",
+    "Damage Magnification": "Vanilla/Double/Triple/Quadruple/Ohko",
+    "Starting ToD": "Morning/Noon/Evening/Night",
+    "Ilia Quest": "Vanilla/Letter/Invoice/Statue/Charm",
+    "Modify Shop Models": "Yes/No",
+    # Dungeon Enterance Settings
+    "Goron Mines Entrance Requirements": "Open/No Wrestling/Closed",
+    "Lakebed Entrance Requirements": "Yes/No",
+    "Arbiters Grounds Entrance Requirements": "Yes/No",
+    "Snowpeak Entrance Requirements": "Yes/No",
+    "Sacred Grove Entrance Requirements": "Yes/No",
+    "City in the Sky Entrance Requirements": "Yes/No",
+    # Logic Settings
+    "Logic Settings": "Glitchless/Glitched",
+    "Castle Requirements": "Open/Fused Shadows/Mirror Shards/Dungeons/Vanilla/Poe Souls/Hearts",
+    "Castle Requirements Count": "[0-60]",
+    "Castle Big Key Requirements": "None/Fused Shadows/Mirror Shards/Dungeons/Vanilla/Poe Souls/Hearts",
+    "Castle Big Key Requirements Count": "[0-60]",
+    "Palace of Twilight Requirements": "Open/Fused Shadows/Mirror Shards/Vanilla",
+    "Faron Woods Logic": "Open/Closed",
+    # Item Pool / Location Settings
     "Golden Bugs Shuffled": "Yes/No",
     "Sky Chracters Shuffled": "Yes/No",
     "NPC Items Shuffled": "Yes/No",
@@ -12,34 +52,12 @@ Settings_Format = {
     "Heart Pieces Shuffled": "Yes/No",
     "Overworld Shuffled": "Yes/No",
     "Dungeons Shuffled": "Yes/No",
+    # Dungeon Items
+    "Dungeon Rewards Progression": "Any Progressive/Vanilla/Anything",
     "Small Key Settings": "Start With/Vanilla/Own Dungeon/Any Dungeon/Anywhere",
     "Big Key Settings": "Start With/Vanilla/Own Dungeon/Any Dungeon/Anywhere",
     "Map and Compass Settings": "Start With/Vanilla/Own Dungeon/Any Dungeon/Anywhere",
-    "Dungeon Rewards Progression": "Yes/No",
-    "Logic Settings": "Glitchless/Glitched/No Logic",
-    "Castle Requirements": "Open/Fused Shadows/Mirror Shards/All Dungeons/Vanilla",
-    "Palace of Twilight Requirements": "Open/Fused Shadows/Mirror Shards/Vanilla",
-    "Faron Woods Logic": "Open/Closed",
-    "Open Map": "Yes/No",
-    "Increase Wallet": "Yes/No",
-    "Transform Anywhere": "Yes/No",
-    "Bonks do Damage": "Yes/No",
-    "Trap Frequency": "No Traps/Few/Many/Mayhem/Nightmare",
-    "Damage Magnification": "Vanilla/Double/Triple/Quadruple/Ohko",
-    "Lakebed Entrance Requirements": "Yes/No",
-    "Arbiters Grounds Entrance Requirements": "Yes/No",
-    "Snowpeak Entrance Requirements": "Yes/No",
-    "City in the Sky Entrance Requirements": "Yes/No",
-    "Goron Mines Entrance Requirements": "Open/No Wrestling/Closed",
-    "Temple of Time Entrance Requirements": "Open/Open Grove/Closed",
-    "Early Shadow Crystal": "Yes/No",
-    "Skip Prologue": "Yes",
-    "Faron Twilight Cleared": "Yes",
-    "Eldin Twilight Cleared": "Yes",
-    "Lanayru Twilight Cleared": "Yes",
-    "Skip MDH": "Yes",
-    "Open Door of Time": "Yes",
-    "Small keys on Bosses": "No",  # Can be removed if not needed by anyone
+    "Small Keys On Bosses": "Yes/No",
 }
 
 HINT_DATA = {
