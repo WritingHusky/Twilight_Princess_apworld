@@ -265,29 +265,30 @@ class TPWorld(World):
 
         # If overworld is not shuffled then override for vanilla placements if in overworld (locations already excluded but prefill needs note)
         if self.options.overworld_shuffled.value == OverWoldShuffled.option_false:
-            raise OptionError(
-                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Please enbale Overworld Shuffle to generate"
+            print(
+                "[Twilight Princess] functionality for disabling overworld shuffle is not yet implemented, Overworld Shuffle is being enabled"
             )
-            self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
-            self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
-            self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
-            self.options.hidden_skills_shuffled.value = (
-                HiddenSkillsShuffled.option_false
-            )
-            self.options.sky_characters_shuffled.value = (
-                SkyCharactersShuffled.option_false
-            )
-            self.options.poe_shuffled.value = PoeShuffled.option_false
+            self.options.overworld_shuffled.value = OverWoldShuffled.option_true
+            # self.options.golden_bugs_shuffled.value = GoldenBugsShuffled.option_false
+            # self.options.shop_items_shuffled.value = ShopItemsShuffled.option_false
+            # self.options.heart_piece_shuffled.value = HeartPieceShuffled.option_false
+            # self.options.hidden_skills_shuffled.value = (
+            #     HiddenSkillsShuffled.option_false
+            # )
+            # self.options.sky_characters_shuffled.value = (
+            #     SkyCharactersShuffled.option_false
+            # )
+            # self.options.poe_shuffled.value = PoeShuffled.option_false
 
-            # Add things needed to beat dungeons to early spheres
-            # self.multiworld.local_early_items[self.player][
-            #     "Progressive Master Sword"
-            # ] = 1
-            # self.multiworld.local_early_items[self.player]["Progressive Hero's Bow"] = 1
-            # self.multiworld.local_early_items[self.player]["Progressive Clawshot"] = 1
-            # self.multiworld.local_early_items[self.player]["Bomb bag"] = 1
-            self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
-            self.multiworld.early_items[self.player]["Gate Keys"] = 1
+            # # Add things needed to beat dungeons to early spheres
+            # # self.multiworld.local_early_items[self.player][
+            # #     "Progressive Master Sword"
+            # # ] = 1
+            # # self.multiworld.local_early_items[self.player]["Progressive Hero's Bow"] = 1
+            # # self.multiworld.local_early_items[self.player]["Progressive Clawshot"] = 1
+            # # self.multiworld.local_early_items[self.player]["Bomb bag"] = 1
+            # self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+            # self.multiworld.early_items[self.player]["Gate Keys"] = 1
 
         if (
             self.options.overworld_shuffled.value == OverWoldShuffled.option_false
