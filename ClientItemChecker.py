@@ -354,6 +354,11 @@ def check_item_count(item_name: str, save_file_addr: int) -> int:
             if check_flag(0x40, save_file_addr + 0xEA):
                 return 1
             return 0
+        case "Faron Woods Coro Key":
+            if check_flag(0x40, save_file_addr + 0xE8):
+                return 1
+            return 0
+
         case _:
             if item_name in KEY_TO_OFFSET.keys():
                 key_offset = save_file_addr + 0x901 + KEY_TO_OFFSET[item_name]

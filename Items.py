@@ -141,7 +141,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ordon Shield": TPItemData("Item", IC.progression_deprioritized, 26, 1, 0x2A),
     "Hylian Shield": TPItemData("Item", IC.progression, 27, 1, 0x2C),
     "Magic Armor": TPItemData("Item", IC.progression, 28, 1, 0x30),
-    "Zora Armor": TPItemData("Item", IC.progression, 29, 1, 0x31),
+    "Zora Armor": TPItemData("Item", VERY_USEFUL, 29, 1, 0x31),
     "Shadow Crystal": TPItemData("Item", VERY_USEFUL, 30, 1, 0x32),
     "Progressive Wallet": TPItemData("Item", IC.progression_deprioritized, 31, 2, 0x36),
     "Hawkeye": TPItemData("Item", IC.useful, 32, 1, 0x3E),
@@ -154,7 +154,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Dominion Rod": TPItemData("Item", IC.progression, 39, 2, 0x46),
     "Lantern": TPItemData("Item", VERY_USEFUL, 40, 1, 0x48),
     "Progressive Fishing Rod": TPItemData("Item", IC.progression, 41, 2, 0x4A),
-    "Slingshot": TPItemData("Item", IC.progression_deprioritized, 44, 1, 0x4B),
+    "Slingshot": TPItemData("Item", IC.progression, 44, 1, 0x4B),
     "Bomb Bag": TPItemData("Item", IC.progression, 45, 3, 0x51),
     "Progressive Bottle": TPItemData("Bottle", IC.progression, 46, 4, 0x9D),
     "Horse Call": TPItemData("Item", VERY_USEFUL, 53, 1, 0x84),
@@ -169,10 +169,8 @@ ITEM_TABLE: dict[str, TPItemData] = {
         "Small key", IC.progression, 61, 7, 0x8C
     ),
     "Hyrule Castle Small Key": TPItemData("Small key", IC.progression, 62, 3, 0x8D),
-    # "Small Key (North Faron Gate)": TPItemData(
-    #     "Small key", IC.progression, 63, 1, 0xEE
-    # ),
-    # "Small Key (Coro)": TPItemData("Small key", IC.progression, 64, 1, 0xFE),
+    "North Faron Woods Gate Key": TPItemData("Item", IC.progression, 63, 1, 0xEE),
+    "Faron Woods Coro Key": TPItemData("Item", IC.progression, 64, 1, 0xFE),
     "Gate Keys": TPItemData(
         "Item", IC.progression, 65, 1, 0xF3
     ),  # Item to not have to count like other keys
@@ -251,7 +249,6 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Invoice": TPItemData("Quest", IC.progression, 135, 0, 0x81),
     "Wooden Statue": TPItemData("Quest", IC.progression, 136, 0, 0x82),
     "Ilias Charm": TPItemData("Quest", IC.progression, 137, 0, 0x83),
-    "North Faron Woods Gate Key": TPItemData("Small key", IC.progression, 138, 1, 0xEE),
     # Portals
     "Ordon Spring Portal": TPItemData("Portal", IC.progression, None, 0, 0x14),
     "South Faron Portal": TPItemData("Portal", IC.progression, None, 0, 0x15),
