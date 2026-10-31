@@ -9,12 +9,10 @@ from typing import TYPE_CHECKING, Any, Optional
 from MultiServer import mark_raw
 import dolphin_memory_engine
 
-from Options import Choice
-
 from .ClientItemChecker import check_dungeon_item_count, check_item_count  # type: ignore
 
 from .ClientUtils import *
-from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME, TPItem, item_factory
+from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType, TPFlag
 from .options import IliaQuest
 import Utils
@@ -32,7 +30,6 @@ from CommonClient import (
 # Retrieved 2026-03-25, License - CC BY-SA 4.0
 
 import tkinter as tk
-from tkinter import filedialog
 
 root = tk.Tk()
 root.withdraw()
@@ -74,7 +71,7 @@ VALIDATION_TIME = 10
 LINK_POINTER_ADDR = 0x8040BF6C
 M_EVENT_STATUS_ADDR = 0x8040B16D
 
-DEBUGGING = True
+DEBUGGING = False
 
 
 def set_address(

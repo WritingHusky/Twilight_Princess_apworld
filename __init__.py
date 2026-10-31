@@ -409,7 +409,9 @@ class TPWorld(World):
         if self.options.faron_woods_logic.value == FaronWoodsLogic.option_closed:
             self.multiworld.early_items[self.player]["Gale Boomerang"] = 1
             self.multiworld.early_items[self.player]["Lantern"] = 1
-            self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
+            self.multiworld.early_items[self.player]["North Faron Woods Gate Key"] = 1
+            self.multiworld.early_items[self.player]["Faron Woods Coro Key"] = 1
+            # self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
 
         if self.options.early_shadow_crystal.value == EarlyShadowCrystal.option_true:
             self.multiworld.early_items[self.player]["Shadow Crystal"] = 1
