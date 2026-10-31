@@ -32,400 +32,525 @@ description: Default Twilight Princess Template
 
 game: Twilight Princess
 requires:
-  version: 0.6.1 # Version of Archipelago required for this yaml to work as expected.
+    version: 0.6.8 # Version of Archipelago required for this yaml to work as expected.
+    game:
+        Twilight Princess: 0.4.0 # Version of the world required for this yaml to work as expected.
 
 Twilight Princess:
-  # Game Options
-  progression_balancing:
-    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
-    #
-    # A lower setting means more getting stuck. A higher setting means less getting stuck.
-    #
-    # You can define additional values between the minimum and maximum values.
-    # Minimum value is 0
-    # Maximum value is 99
-    random: 0
-    random-low: 0
-    random-high: 0
-    disabled: 0 # equivalent to 0
-    normal: 50 # equivalent to 50
-    extreme: 0 # equivalent to 99
+    ################
+    # Game Options #
+    ################
+    progression_balancing:
+        # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+        #
+        # A lower setting means more getting stuck. A higher setting means less getting stuck.
+        #
+        # You can define additional values between the minimum and maximum values.
+        # Minimum value is 0
+        # Maximum value is 99
+        random: 0
+        random-low: 0 # random value weighted towards lower values
+        random-high: 0 # random value weighted towards higher values
+        random-range-0-99: 0 # random value between 0 and 99
+        disabled: 0 # equivalent to 0
+        normal: 50 # equivalent to 50
+        extreme: 0 # equivalent to 99
 
-  accessibility:
-    # Set rules for reachability of your items/locations.
-    #
-    # **Full:** ensure everything can be reached and acquired.
-    #
-    # **Minimal:** ensure what is needed to reach your goal can be acquired.
-    full: 50
-    minimal: 0
+    accessibility:
+        # Set rules for reachability of your items/locations.
+        #
+        # **Full:** ensure everything can be reached and acquired.
+        #
+        # **Minimal:** ensure what is needed to reach your goal can be acquired.
+        full: 50
+        minimal: 0
 
-  death_link:
-    # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
-    "false": 50
-    "true": 0
+    death_link:
+        # When you die, everyone who enabled death link dies. Of course, the reverse is true too.
+        "false": 50
+        "true": 0
 
-  small_keys_on_bosses:
-    # If disabled, Small keys cannot be placed on boss rewards
-    "false": 50
-    "true": 0
+    #################################
+    # Item Pool / Location Settings #
+    #################################
+    golden_bugs_shuffled:
+        # If enabled, golden bugs will be shuffled into the itempool.
+        # If disabled, bugs will be vanilla and agitha will not be progression
+        # Note: If vanilla any precollected bugs will not be removed from vanilla locations
+        "false": 0
+        "true": 50
 
-  modify_shop_models:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, swap shop models with the items that are placed there.
-    "false": 50
-    "true": 0
+    sky_characters_shuffled:
+        # If enabled, sky characters will be shuffled into the itempool.
+        # If disabled, sky characters will be vanilla.
+        # Note: If vanilla any precollected sky characters will not be removed from vanilla locations
+        "false": 0
+        "true": 50
 
-  # Item Pool / Location Settings
-  golden_bugs_shuffled:
-    # If enabled, golden bugs will be shuffled into the itempool.
-    # If disabled, bugs will be vanilla and agitha will not be progression
-    "false": 0
-    "true": 50
+    npc_items_shuffled:
+        # If enabled, Gifts from NPCs can be progression items.
+        "false": 0
+        "true": 50
 
-  sky_characters_shuffled:
-    # If enabled, sky characters will be shuffled into the itempool.
-    # If disabled, sky characters will be vanilla.
-    "false": 0
-    "true": 50
+    shop_items_shuffled:
+        # If enabled, Shop Items can be progression items.
+        "false": 0
+        "true": 50
 
-  npc_items_shuffled:
-    # If enabled, Gifts from NPCs can be progression items.
-    "false": 0
-    "true": 50
+    hidden_skills_shuffled:
+        # If enabled, golden wolfs can be progression items.
+        # *Hidden skills will always be shuffled into item pool.
+        "false": 0
+        "true": 50
 
-  shop_items_shuffled:
-    # If enabled, Shop Items can be progression items.
-    "false": 0
-    "true": 50
+    poe_shuffled:
+        # If enabled, Poes will be shuffled into the itempool.
+        # If disabled, Poes will be vanilla.
+        # Note: If vanilla any precollected poes will not be removed from vanilla locations
+        "false": 0
+        "true": 50
 
-  hidden_skills_shuffled:
-    # If enabled, golden wolfs can be progression items.
-    # *Hidden skills will always be shuffled into item pool.
-    "false": 0
-    "true": 50
+    heart_piece_shuffled:
+        # If enabled, Heart Piece locations can contain progression items.
+        "false": 0
+        "true": 50
 
-  poe_shuffled:
-    # If enabled, Poes will be shuffled into the itempool.
-    # If disabled, Poes will be vanilla.
-    "false": 0
-    "true": 50
+    freestanding_rupee_shuffled:
+        # If enabled, Freestanding Rupee locations can contain progression items.
+        "false": 50
+        "true": 0
 
-  heart_piece_shuffled:
-    # If enabled, Heart Piece locations can contain progression items.
-    "false": 0
-    "true": 50
+    hidden_rupee_shuffled:
+        # If enabled, Hidden Rupee locations can contain progression items.
+        "false": 50
+        "true": 0
 
-  overworld_shuffled:
-    # If enabled, Overworld locations can contain progression items.
-    # Cannot be disabled if Dungeon shuffle is disabled
-    # Note:
-    # Disabling may lead to generation failures as the possible location count is reduced dramtically.
-    "false": 0
-    "true": 50
+    overworld_shuffled:
+        # !!!!! Do not disable !!!!
+        # -- Currently disabling will cause generation failure --
+        # -- System to allow for succesful generation is in devlopment --
+        #
+        # If enabled, Overworld locations can contain progression items.
+        # Cannot be disabled if Dungeon shuffle is disabled
+        # Note:
+        # Disabling may lead to generation failures as the possible location count is reduced dramtically.
+        "false": 0
+        "true": 50
 
-  dungeons_shuffled:
-    # If enabled, Dungeons locations can contain progression items.
-    # Cannot be disabled if Overworld shuffle is disabled
-    "false": 0
-    "true": 50
+    dungeons_shuffled:
+        # If enabled, Dungeons locations can contain progression items.
+        # Cannot be disabled if Overworld shuffle is disabled
+        "false": 0
+        "true": 50
 
-  # Logic Settings
-  logic_rules:
-    # Controls what types of tricks the logic can expect you to perform.
-    #
-    # - Glitchless: Only intended mechanics are required
-    # - Glitched: Some glitches may be required
-    glitchless: 50
-    glitched: 0
+    ##################
+    # Logic Settings #
+    ##################
+    logic_rules:
+        # Controls what types of tricks the logic can expect you to perform.
+        #
+        # - Glitchless: Only intended mechanics are required
+        # - Glitched: Some glitches may be required
+        glitchless: 50
+        glitched: 0
 
-  castle_requirements:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls requirements for accessing Hyrule Castle.
-    #
-    # - Open: No requirements
-    # - Fused Shadows: Requires all Fused Shadows
-    # - Mirror Shards: Requires all Mirror Shards
-    # - All Dungeons: Requires completing all dungeons
-    # - Vanilla: Beat Palace of Twilight
-    #
-    # Note:
-    # Choosing All Dungeons or Vanilla will force dungeons items to be in Hyrule Castle if Any Dungeon is chosen for them
-    #     This also removes Hyrule castle from list of dungeons for other of that dungeon item to be in
-    open: 50
-    fused_shadows: 0
-    mirror_shards: 0
-    all_dungeons: 0
-    vanilla: 0
+    castle_requirements:
+        # Controls requirements for accessing Hyrule Castle.
+        #
+        # - Open: The barrier around Hyrule Castle is dispelled from the beginning.
+        # - Fused Shadows: The barrier will be dispelled once the required number of Fused Shadows have been collected.
+        # - Mirror Shards: The barrier will be dispelled once the required number of Mirror Shards have been collected.
+        # - Dungeons: The barrier will be dispelled once the required number of Dungeons have been cleared.
+        # - Vanilla: The player must complete Palace of Twilight.
+        # - Poe Souls: The barrier will be dispelled once the required number of Poe Souls have been collected.
+        # - Hearts: The barrier will be dispelled once the required number of Hearts have been reached.
+        open: 50
+        fused_shadows: 0
+        mirror_shards: 0
+        dungeons: 0
+        vanilla: 0
+        poe_souls: 0
+        hearts: 0
 
-  palace_requirements:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls requirements for accessing Palace of Twilight.
-    #
-    # - Open: No requirements
-    # - Fused Shadows: Requires all Fused Shadows
-    # - Mirror Shards: Requires all Mirror Shards
-    # - Vanilla: Beat City in the Sky
-    #
-    # Note:
-    # Choosing Vanilla will force dungeons items to be in Palace of Twilight if Any Dungeon is chosen for them
-    #     This also removes Palace of Twilight from list of dungeons for other of that dungeon item to be in
-    open: 50
-    fused_shadows: 0
-    mirror_shards: 0
-    vanilla: 0
+    castle_requirements_count:
+        # Controls the required number of things for the Castle requirements
+        #
+        # - Open: not used
+        # - Fused Shadows: max 3
+        # - Mirror Shards: max 4
+        # - Dungeons: max 8
+        # - Vanilla: not used
+        # - Poe Souls: max 60
+        # - Hearts: min 4, max 20
+        #
+        # You can define additional values between the minimum and maximum values.
+        # Minimum value is 0
+        # Maximum value is 60
+        1: 50
+        random: 0
+        random-low: 0 # random value weighted towards lower values
+        random-high: 0 # random value weighted towards higher values
+        random-range-0-60: 0 # random value between 0 and 60
 
-  faron_woods_logic:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls logic for accessing Faron Woods.
-    #
-    # - Open: No special requirements
-    # - Closed: Requires forest temple to be beaten before leaving faron woods
-    #
-    # Note:
-    # Choosing Closed will force dungeons items to be in Forest Temple if Any Dungeon is chosen for them
-    #     This also removes Forest Temple from list of dungeons for other of that dungeon item to be in
-    open: 50
-    closed: 0
+    castle_bk_requirements:
+        # When enabled, the HC Big Key will be placed in its vanilla location with the gate in front of it locked. Only when the specified criteria have been met will the gate unlock.
+        #
+        # -None: The gate is opened and the key is randomized according to the respective Big Key settings.
+        # -Fused Shadows: The gate will open once the required number of Fused Shadows have been collected.
+        # -Mirror Shards: The gate will open once the required number of Mirror Shards have been collected.
+        # -Dungeons: The gate will open once the required number of Dungeons have been cleared.
+        # -Poe Souls: The gate will open once the required number of Poe Souls have been collected.
+        # -Hearts: The gate will open once the required number of Hearts have been reached.
+        none: 50
+        fused_shadows: 0
+        mirror_shards: 0
+        dungeons: 0
+        poe_souls: 0
+        hearts: 0
 
-  # Dungeon Items
-  small_key_settings:
-    # Controls how small keys are randomized.
-    #
-    # - **Start With Small Keys:** You will start the game with the small keys for all dungeons.
-    # - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
-    # - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
-    # - **Anywhere:** Small keys can be found in any progression location, if dungeons are randomized.
-    #
-    # Note:
-    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
-    vanilla: 50
-    own_dungeon: 0
-    any_dungeon: 0
-    anywhere: 0
-    startwith: 0
+    castle_bk_requirements_count:
+        # Controls the required number of things for the Castle Boss Key requirements
+        #
+        # - Open: not used
+        # - Fused Shadows: max 3
+        # - Mirror Shards: max 4
+        # - Dungeons: max 8
+        # - Poe Souls: max 60
+        # - Hearts: min 4, max 20
+        #
+        # You can define additional values between the minimum and maximum values.
+        # Minimum value is 0
+        # Maximum value is 60
+        1: 50
+        random: 0
+        random-low: 0 # random value weighted towards lower values
+        random-high: 0 # random value weighted towards higher values
+        random-range-0-60: 0 # random value between 0 and 60
 
-  big_key_settings:
-    # Controls how big keys are randomized.
-    #
-    # - **Start With Big Keys:** You will start the game with the big keys for all dungeons.
-    # - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
-    # - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
-    # - **Anywhere:** Big keys can be found in any progression location.
-    #
-    # Note:
-    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
-    vanilla: 50
-    own_dungeon: 0
-    any_dungeon: 0
-    anywhere: 0
-    startwith: 0
+    palace_requirements:
+        # Controls requirements for accessing Palace of Twilight.
+        #
+        # - Open: No requirements
+        # - Fused Shadows: Requires all Fused Shadows
+        # - Mirror Shards: Requires all Mirror Shards
+        # - Vanilla: Beat City in the Sky
+        #
+        # Note:
+        # Choosing Vanilla will force Palace of Twilight(PoT) to only have it's own dungeon items inside.
+        #     i.e. If Vanilla and Keys Anywhere is picked Palace of Twilight Boss key cannot be in PoT and PoT. small key can only be in PoT.
+        open: 50
+        fused_shadows: 0
+        mirror_shards: 0
+        vanilla: 0
 
-  map_and_compass_settings:
-    # Controls how dungeon maps and compasses are randomized.
-    #
-    # - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
-    # - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
-    # - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
-    # - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
-    # - **Anywhere:** Dungeon maps and compasses can be found anywhere, without restriction.
-    #
-    # Note:
-    # Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
-    vanilla: 50
-    own_dungeon: 0
-    any_dungeon: 0
-    anywhere: 0
-    startwith: 0
+    faron_woods_logic:
+        # Controls logic for accessing Faron Woods.
+        #
+        # - Open: No special requirements
+        # - Closed: Requires forest temple to be beaten before leaving faron woods
+        #
+        # Note:
+        # Choosing Closed will force dungeons items to be in Forest Temple if Any Dungeon is chosen for them
+        #     This also removes Forest Temple from list of dungeons for other of that dungeon item to be in
+        open: 50
+        closed: 0
 
-  dungeon_rewards_progression:
-    # Controls whether dungeon reward and heart containers are forced to have progression items.
-    "false": 0
-    "true": 50
+    #################
+    # Dungeon Items #
+    #################
+    small_key_settings:
+        # Controls how small keys are randomized.
+        #
+        # - **Start With Small Keys:** You will start the game with the small keys for all dungeons.
+        # - **Vanilla Small Keys:** Small keys will be kept in their vanilla location (non-randomized).
+        # - **Own Dungeon Small Keys:** Small keys will be randomized locally within their own dungeon.
+        # - **Any Dungeon Small Keys:** Small keys will be randomized locally within any dungeon.
+        # - **Anywhere:** Small keys can be found in any progression location, if dungeons are randomized.
+        #
+        # Note:
+        # - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+        # - If vanilla any precollected keys will not be removed from vanilla locations
+        vanilla: 50
+        own_dungeon: 0
+        any_dungeon: 0
+        anywhere: 0
+        startwith: 0
 
-  # Timesavers
-  skip_minor_cutscenes:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, minor cutscenes are skipped.
-    "false": 0
-    "true": 50
+    big_key_settings:
+        # Controls how big keys are randomized.
+        #
+        # - **Start With Big Keys:** You will start the game with the big keys for all dungeons.
+        # - **Vanilla Big Keys:** Big keys will be kept in their vanilla location (non-randomized).
+        # - **Own Dungeon Big Keys:** Big keys will be randomized locally within their own dungeon.
+        # - **Any Dungeon Big Keys:** Big keys will be randomized locally within any dungeon.
+        # - **Anywhere:** Big keys can be found in any progression location.
+        #
+        # Note:
+        # - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+        # - If vanilla any precollected keys will not be removed from vanilla locations
+        vanilla: 50
+        own_dungeon: 0
+        any_dungeon: 0
+        anywhere: 0
+        startwith: 0
 
-  skip_major_cutscenes:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, major cutscenes are skipped.
-    "false": 0
-    "true": 50
+    map_and_compass_settings:
+        # Controls how dungeon maps and compasses are randomized.
+        #
+        # - **Start With Maps & Compasses:** You will start the game with the dungeon maps and compasses for all dungeons.
+        # - **Vanilla Maps & Compasses:** Dungeon maps and compasses will be kept in their vanilla location (non-randomized).
+        # - **Own Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within their own dungeon.
+        # - **Any Dungeon Maps & Compasses:** Dungeon maps and compasses will be randomized locally within any dungeon.
+        # - **Anywhere:** Dungeon maps and compasses can be found anywhere, without restriction.
+        #
+        # Note:
+        # - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+        # - If vanilla any precollected map or compass will not be removed from vanilla locations
+        vanilla: 50
+        own_dungeon: 0
+        any_dungeon: 0
+        anywhere: 0
+        startwith: 0
 
-  fast_iron_boots:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, movement is not slowed when wearing Iron Boots.
-    "false": 0
-    "true": 50
+    dungeon_rewards_progression:
+        # Controls whether dungeon reward and heart containers are forced to have progression items.
+        # Note: chossing vanilla with dungeons shuffled can cause generation issues so be careful when chosing vanilla
+        any_progressive: 0
+        vanilla: 0
+        anything: 50
 
-  quick_transform:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, you can quickly transform by pressing R + Y.
-    "false": 0
-    "true": 50
+    small_keys_on_bosses:
+        # If disabled, Small keys cannot be placed on boss rewards
+        "false": 50
+        "true": 0
 
-  instant_message_text:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, message text is instant.
-    "false": 0
-    "true": 50
+    ##############
+    # Timesavers #
+    ##############
+    skip_minor_cutscenes:
+        # If enabled, minor cutscenes are skipped.
+        "false": 0
+        "true": 50
 
-  open_map:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, Map areas are unlocked and portals unlocked.
-    "false": 0
-    "true": 50
+    skip_major_cutscenes:
+        # If enabled, major cutscenes are skipped.
+        "false": 0
+        "true": 50
 
-  increase_spinner_speed:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, spinner speed is increased.
-    # *Spinner speed not taken into account in logic.
-    "false": 0
-    "true": 50
+    fast_iron_boots:
+        # If enabled, movement is not slowed when wearing Iron Boots.
+        "false": 0
+        "true": 50
 
-  open_door_of_time:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, the Door of Time is open.
-    "false": 0
-    "true": 50
+    quick_transform:
+        # If enabled, you can quickly transform by pressing R + Y.
+        "false": 0
+        "true": 50
 
-  early_shadow_crystal:
-    # When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
-    "false": 50
-    "true": 0
+    instant_message_text:
+        # If enabled, message text is instant.
+        "false": 0
+        "true": 50
 
-  # Additional Settings
-  transform_anywhere:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, the player can transform anywhere.
-    "false": 0
-    "true": 50
+    open_map:
+        # If enabled, Map areas are unlocked and portals unlocked.
+        "false": 0
+        "true": 50
 
-  increase_wallet:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, the wallet capacity is increased.
-    "false": 0
-    "true": 50
+    increase_spinner_speed:
+        # If enabled, spinner speed is increased.
+        # *Spinner speed not taken into account in logic.
+        "false": 0
+        "true": 50
 
-  bonks_do_damage:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, bonks do damage.
-    "false": 50
-    "true": 0
+    open_door_of_time:
+        # If enabled, the Door of Time is open.
+        "false": 50
+        "true": 0
 
-  trap_frequency:
-    # Controls the frequency of traps in the game.
-    no_traps: 50
-    few: 0
-    many: 0
-    mayhem: 0
-    nightmare: 0
+    early_shadow_crystal:
+        # When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
+        "false": 50
+        "true": 0
 
-  damage_magnification:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Multiplies the damage the player takes.
-    vanilla: 50
-    double: 0
-    triple: 0
-    quadruple: 0
-    ohko: 0
+    goron_mines_sc:
+        # If enabled, all magnets within Goron Mines except the final one will automatically be activated. The final magnet remains deactivated to avoid a softlock.
+        "false": 50
+        "true": 0
 
-  starting_tod:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls the starting time of day.
-    morning: 50
-    noon: 0
-    evening: 0
-    night: 0
+    castle_sc:
+        # If enabled, the shortcut chandelier in the Hyrule Castle main hall will be lowered, and the double Dinalfos room will be cleared.
+        #
+        # This allows for you to continue from the main hall to the southern balcony more quickly and with fewer item requirements (ex: no Gale Boomerang).
+        "false": 50
+        "true": 0
 
-  # Dungeon Entrance Settings
-  skip_lakebed_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, the Lakebed does not require water bombs.
-    "false": 0
-    "true": 50
+    skip_bridge_don:
+        # If enabled, the bridge to Castle Town from Eldin Field will be automatically repaired.
+        "false": 50
+        "true": 0
 
-  skip_arbiters_grounds_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, entering Arbiters Grounds does not require defeating King Bulblin.
-    "false": 0
-    "true": 50
+    #######################
+    # Additional Settings #
+    #######################
+    transform_anywhere:
+        # If enabled, the player can transform anywhere.
+        "false": 0
+        "true": 50
 
-  skip_snowpeak_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, Snowpeak does not require Reekfish Scent.
-    "false": 0
-    "true": 50
+    wallet_size:
+        # Changes the capacity of the wallet
+        # - Reduced: Sets the wallet capacities to 99, 500, and 1000
+        # - Vanila: Sets the wallet capacities to 300, 600, and 1000.
+        # - HD: Sets the wallet capacities to 500, 1000, and 2000.
+        # - Large: Sets the wallet capacities to 1000, 5000, and 9999.
+        reduced: 0
+        vanilla: 50
+        hd: 0
+        large: 0
 
-  skip_city_in_the_sky_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # If enabled, City in The Sky does not require filled Skybook.
-    "false": 0
-    "true": 50
+    auto_fill_wallet:
+        # Starts the player with a full wallet. Wallet upgrades will also fill the wallet.
+        "false": 50
+        "true": 0
 
-  goron_mines_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls requirements for accessing the Goron Mines.
-    #
-    # - **Closed:** Player must wrestle Gor Coron to enter the mines.
-    # - **No Wrestling:** Player does not have to wrestle Gor Coron.
-    # - **Open:** Same as No Wrestling but you can use the elevator immediately.
-    closed: 0
-    no_wrestling: 0
-    open: 50
+    bonks_do_damage:
+        # If enabled, bonks do damage.
+        "false": 50
+        "true": 0
 
-  tot_entrance:
-    # NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    # Controls requirements for accessing the Temple of Time.
-    #
-    # - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
-    # - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
-    # - **Open:** Open Grove but player does not need Master Sword to access Past.
-    closed: 0
-    open_grove: 0
-    open: 50
+    trap_frequency:
+        # Controls the frequency of traps in the game.
+        no_traps: 50
+        few: 0
+        many: 0
+        mayhem: 0
+        nightmare: 0
 
-  # Item & Location Options
-  local_items:
-    # Forces these items to be in their native world.
-    []
+    damage_magnification:
+        # Multiplies the damage the player takes.
+        vanilla: 50
+        double: 0
+        triple: 0
+        quadruple: 0
+        ohko: 0
 
-  non_local_items:
-    # Forces these items to be outside their native world.
-    []
+    starting_tod:
+        # Controls the starting time of day.
+        morning: 50
+        noon: 0
+        evening: 0
+        night: 0
 
-  start_inventory:
-    # Start with these items.
-    {}
+    ilia_quest:
+        # With this setting, the player can choose the point in the sequence they want the Ilia Memory Quest to start.
+        # Selecting an item shuffles that specific item into world, precompleting the previous items in the quest.
+        #
+        # Later items in the sequence are vanilla with the exception of the 'Ilia Memory Reward' item, which is always randomized.
+        #
+        # Note:
+        # Skipped locations will still appear on UT / Trackers but will not be collectable
+        vanilla: 50
+        letter: 0
+        invoice: 0
+        statue: 0
+        charm: 0
 
-  start_inventory_from_pool:
-    # Start with these items and don't place them in the world.
-    #
-    # The game decides what the replacement items will be.
-    {}
+    modify_shop_models:
+        # If enabled, swap shop models with the items that are placed there.
+        "false": 50
+        "true": 0
 
-  start_hints:
-    # Start with these item's locations prefilled into the ``!hint`` command.
-    []
+    #############################
+    # Dungeon Entrance Settings #
+    #############################
+    skip_lakebed_entrance:
+        # If enabled, the Lakebed does not require water bombs.
+        "false": 0
+        "true": 50
 
-  start_location_hints:
-    # Start with these locations and their item prefilled into the ``!hint`` command.
-    []
+    skip_arbiters_grounds_entrance:
+        # If enabled, entering Arbiters Grounds does not require defeating King Bulblin.
+        "false": 0
+        "true": 50
 
-  exclude_locations:
-    # Prevent these locations from having an important item.
-    []
+    skip_snowpeak_entrance:
+        # If enabled, Snowpeak does not require Reekfish Scent.
+        "false": 0
+        "true": 50
 
-  priority_locations:
-    # Prevent these locations from having an unimportant item.
-    []
+    skip_city_in_the_sky_entrance:
+        # If enabled, City in The Sky does not require filled Skybook.
+        "false": 0
+        "true": 50
 
-  item_links:
-    # Share part of your item pool with other players.
-    []
+    goron_mines_entrance:
+        # Controls requirements for accessing the Goron Mines.
+        #
+        # - **Closed:** Player must wrestle Gor Coron to enter the mines.
+        # - **No Wrestling:** Player does not have to wrestle Gor Coron.
+        # - **Open:** Same as No Wrestling but you can use the elevator immediately.
+        closed: 0
+        no_wrestling: 0
+        open: 50
+
+    grove_entrance:
+        # If enabled, Skull Kid will not need to be defeated to access Sacred Grove.
+        "false": 50
+        "true": 0
+
+    tot_entrance:
+        # Sets the minimum progressive sword level that is required to strike the pedestal in Sacred Grove and the Temple of Time.
+        # This means that if set to Ordon Sword, the pedestal can be struck with the Ordon, Master, or Light Sword, but not the Wooden Sword.
+        #
+        # If set to 'none', the player does not need to strike the sword into the pedestal.
+        none: 50
+        wooden_sword: 0
+        ordon_sword: 0
+        master_sword: 0
+        light_sword: 0
+
+    ###########################
+    # Item & Location Options #
+    ###########################
+    local_items:
+        # Forces these items to be in their native world.
+        []
+
+    non_local_items:
+        # Forces these items to be outside their native world.
+        []
+
+    start_inventory:
+        # Start with the specified amount of these items. Example: {Bomb: 1, Arrow: 3}
+        {}
+
+    start_inventory_from_pool:
+        # Start with the specified amount of these items and don't place them in the world. Example: {Bomb: 1, Arrow: 3}
+        #
+        # The game decides what the replacement items will be.
+        {}
+
+    start_hints:
+        # Start with these item's locations prefilled into the ``!hint`` command.
+        []
+
+    start_location_hints:
+        # Start with these locations and their item prefilled into the ``!hint`` command.
+        []
+
+    exclude_locations:
+        # Prevent these locations from having an important item.
+        []
+
+    priority_locations:
+        # Prevent these locations from having an unimportant item.
+        []
+
+    item_links:
+        # Share part of your item pool with other players.
+        []
+
+    plando_items:
+        # Generic items plando.
+        []
