@@ -7,7 +7,7 @@ from BaseClasses import get_seed
 from Fill import FillError
 from Options import OptionError
 
-from worlds.twilight_princess_apworld.options import *
+from worlds.twilight_princess.options import *
 from . import TwilightPrincessWorldTestBase
 
 bool_options = [
@@ -241,7 +241,7 @@ class TestShuffleOptions(TwilightPrincessWorldTestBase):
             "skip_snowpeak_entrance": SkipSnowpeakEntrance.default,
             "skip_city_in_the_sky_entrance": SkipCityInTheSkyEntrance.default,
             "goron_mines_entrance": GoronMinesEntrance.default,
-            "tot_entrance": TotEntrance.default,
+            "tot_entrance": GroveEntrance.default,
             "early_shadow_crystal": EarlyShadowCrystal.default,
         }
         self.world_setup(get_seed())

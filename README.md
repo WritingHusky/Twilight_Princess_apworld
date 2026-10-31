@@ -2,7 +2,7 @@
 
 ## Installation & Usage
 
-See the [setup guide](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md) for instructions.
+See the [setup guide](https://github.com/WritingHusky/twilight_princess/blob/main/docs/setup_en.md) for instructions.
 
 ## What does randomization do to this game?
 
@@ -30,7 +30,7 @@ No, those hints are based off of the contents of the locations which are all Gre
 
 ## I need help! What do I do?
 
-Refer to the [Base Randomizer Website](https://tprandomizer.com/) first. Then, try the troubleshooting steps in the [setup guide](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md). If you are still stuck, please ask in the Twilight Princess channel (in the `custom` section) in the Archipelago server.
+Refer to the [Base Randomizer Website](https://tprandomizer.com/) first. Then, try the troubleshooting steps in the [setup guide](https://github.com/WritingHusky/twilight_princess/blob/main/docs/setup_en.md). If you are still stuck, please ask in the Twilight Princess channel (in the `custom` section) in the Archipelago server.
 
 ## Running from source
 
@@ -40,7 +40,7 @@ Download and install git from here: https://git-scm.com/downloads
 Then clone this repository with git by running this in a command prompt:
 
 ```
-git clone https://github.com/WritingHusky/Twilight_Princess_apworld.git
+git clone https://github.com/WritingHusky/twilight_princess.git
 ```
 
 ### Installing Python

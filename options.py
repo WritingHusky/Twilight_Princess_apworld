@@ -5,6 +5,7 @@ from Options import (
     DeathLink,
     OptionGroup,
     PerGameCommonOptions,
+    Range,
     StartInventoryPool,
     Toggle,
 )
@@ -47,6 +48,7 @@ class GoldenBugsShuffled(Toggle):
     """
     If enabled, golden bugs will be shuffled into the itempool.
     If disabled, bugs will be vanilla and agitha will not be progression
+    Note: If vanilla any precollected bugs will not be removed from vanilla locations
     """
 
     display_name = "Golden Bugs"
@@ -57,6 +59,7 @@ class SkyCharactersShuffled(Toggle):
     """
     If enabled, sky characters will be shuffled into the itempool.
     If disabled, sky characters will be vanilla.
+    Note: If vanilla any precollected sky characters will not be removed from vanilla locations
     """
 
     display_name = "Sky Characters"
@@ -95,6 +98,7 @@ class PoeShuffled(Toggle):
     """
     If enabled, Poes will be shuffled into the itempool.
     If disabled, Poes will be vanilla.
+    Note: If vanilla any precollected poes will not be removed from vanilla locations
     """
 
     display_name = "Poe Shuffled"
@@ -108,6 +112,24 @@ class HeartPieceShuffled(Toggle):
 
     display_name = "Heart Pieces"
     default = True
+
+
+class FreeStandingRupeeShuffle(Toggle):
+    """
+    If enabled, Freestanding Rupee locations can contain progression items.
+    """
+
+    display_name = "Freestanding Rupee Shuffle"
+    default = False
+
+
+class HiddenRupeeShuffle(Toggle):
+    """
+    If enabled, Hidden Rupee locations can contain progression items.
+    """
+
+    display_name = "Hidden Rupee Shuffle"
+    default = False
 
 
 class DungeonsShuffled(Toggle):
@@ -138,7 +160,7 @@ class OverWoldShuffled(Toggle):
 
 class EarlyShadowCrystal(Toggle):
     """
-    When Enabled Shadow Crystal will be placed into Sphere 1 of the local world
+    When Enabled, the generator will be told to place the Shadow Crystal in the early spheres
     """
 
     display_name = "Early Shadow Crystal"
@@ -150,7 +172,6 @@ class EarlyShadowCrystal(Toggle):
 
 
 class DungeonItem(Choice):
-    value: int
     option_vanilla = 0
     option_own_dungeon = 1
     option_any_dungeon = 2
@@ -174,7 +195,8 @@ class SmallKeySettings(DungeonItem):
     - **Anywhere:** Small keys can be found in any progression location, if dungeons are randomized.
 
     Note:
-    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - If vanilla any precollected keys will not be removed from vanilla locations
     """
 
     item_name_group = "Small Keys"
@@ -192,7 +214,8 @@ class BigKeySettings(DungeonItem):
     - **Anywhere:** Big keys can be found in any progression location.
 
     Note:
-    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - If vanilla any precollected keys will not be removed from vanilla locations
     """
 
     item_name_group = "Big Keys"
@@ -210,21 +233,25 @@ class MapAndCompassSettings(DungeonItem):
     - **Anywhere:** Dungeon maps and compasses can be found anywhere, without restriction.
 
     Note:
-    Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - Not shuffling Dungeons will overwrite this to vanilla, unless you selected start with
+    - If vanilla any precollected map or compass will not be removed from vanilla locations
     """
 
     item_name_group = "Maps and Compasses"
     display_name = "Randomize Maps & Compasses"
 
 
-class DungeonRewardsProgression(Toggle):
+class DungeonRewardsProgression(Choice):
     """
     Controls whether dungeon reward and heart containers are forced to have progression items.
-
+    Note: chossing vanilla with dungeons shuffled can cause generation issues so be careful when chosing vanilla
     """
 
     display_name = "Dungeon Rewards are prgression"
-    default = True
+    option_any_progressive = 2
+    option_vanilla = 1
+    option_anything = 0
+    default = 0
 
 
 class SmallKeysOnBosses(Toggle):
@@ -242,32 +269,89 @@ class SmallKeysOnBosses(Toggle):
 
 class CastleRequirements(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing Hyrule Castle.
 
-    - Open: No requirements
-    - Fused Shadows: Requires all Fused Shadows
-    - Mirror Shards: Requires all Mirror Shards
-    - All Dungeons: Requires completing all dungeons
-    - Vanilla: Beat Palace of Twilight
+    - Open: The barrier around Hyrule Castle is dispelled from the beginning.
+    - Fused Shadows: The barrier will be dispelled once the required number of Fused Shadows have been collected.
+    - Mirror Shards: The barrier will be dispelled once the required number of Mirror Shards have been collected.
+    - Dungeons: The barrier will be dispelled once the required number of Dungeons have been cleared.
+    - Vanilla: The player must complete Palace of Twilight.
+    - Poe Souls: The barrier will be dispelled once the required number of Poe Souls have been collected.
+    - Hearts: The barrier will be dispelled once the required number of Hearts have been reached.
 
-    Note:
-    Choosing All Dungeons or Vanilla will force dungeons items to be in Hyrule Castle if Any Dungeon is chosen for them
-        This also removes Hyrule castle from list of dungeons for other of that dungeon item to be in
     """
 
     display_name = "Castle Requirements"
     option_open = 0
     option_fused_shadows = 1
     option_mirror_shards = 2
-    option_all_dungeons = 3
+    option_dungeons = 3
     option_vanilla = 4
+    option_poe_souls = 5
+    option_hearts = 6
     default = 0
+
+
+class CastleRequirementsCount(Range):
+    """
+    Controls the required number of things for the Castle requirements
+
+    - Open: not used
+    - Fused Shadows: max 3
+    - Mirror Shards: max 4
+    - Dungeons: max 8
+    - Vanilla: not used
+    - Poe Souls: max 60
+    - Hearts: min 4, max 20
+    """
+
+    display_name = "Castle Requirement Count"
+    range_end = 60
+    range_start = 0
+    default = 1
+
+
+class CastleBKRequirements(Choice):
+    """
+    When enabled, the HC Big Key will be placed in its vanilla location with the gate in front of it locked. Only when the specified criteria have been met will the gate unlock.
+
+    -None: The gate is opened and the key is randomized according to the respective Big Key settings.
+    -Fused Shadows: The gate will open once the required number of Fused Shadows have been collected.
+    -Mirror Shards: The gate will open once the required number of Mirror Shards have been collected.
+    -Dungeons: The gate will open once the required number of Dungeons have been cleared.
+    -Poe Souls: The gate will open once the required number of Poe Souls have been collected.
+    -Hearts: The gate will open once the required number of Hearts have been reached."""
+
+    display_name = "Castle Boss Key Requirements"
+    option_none = 0
+    option_fused_shadows = 1
+    option_mirror_shards = 2
+    option_dungeons = 3
+    option_poe_souls = 4
+    option_hearts = 5
+    default = 0
+
+
+class CastleBKRequirementsCount(Range):
+    """
+    Controls the required number of things for the Castle Boss Key requirements
+
+    - Open: not used
+    - Fused Shadows: max 3
+    - Mirror Shards: max 4
+    - Dungeons: max 8
+    - Poe Souls: max 60
+    - Hearts: min 4, max 20
+    """
+
+    display_name = "Castle Boss Key Requirement Count"
+    range_end = 60
+    range_start = 0
+    default = 1
 
 
 class PalaceRequirements(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing Palace of Twilight.
 
     - Open: No requirements
@@ -276,8 +360,8 @@ class PalaceRequirements(Choice):
     - Vanilla: Beat City in the Sky
 
     Note:
-    Choosing Vanilla will force dungeons items to be in Palace of Twilight if Any Dungeon is chosen for them
-        This also removes Palace of Twilight from list of dungeons for other of that dungeon item to be in
+    Choosing Vanilla will force Palace of Twilight(PoT) to only have it's own dungeon items inside.
+        i.e. If Vanilla and Keys Anywhere is picked Palace of Twilight Boss key cannot be in PoT and PoT. small key can only be in PoT.
     """
 
     display_name = "Palace Requirements"
@@ -290,7 +374,6 @@ class PalaceRequirements(Choice):
 
 class FaronWoodsLogic(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls logic for accessing Faron Woods.
 
     - Open: No special requirements
@@ -308,65 +391,11 @@ class FaronWoodsLogic(Choice):
 
 
 # endregion
-# region Intro
-
-# Timesavers
-# class SkipPrologue(Toggle):
-#     """
-#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-#     Controls whether the prologue is skipped.
-#     """
-
-#     display_name = "Skip Prologue"
-#     default = True
-
-
-# class FaronTwilightCleared(Toggle):
-#     """
-#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-#     Controls whether Faron Twilight is cleared.
-#     """
-
-#     display_name = "Faron Twilight Cleared"
-#     default = True
-
-
-# class EldinTwilightCleared(Toggle):
-#     """
-#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-#     Controls whether Eldin Twilight is cleared.
-#     """
-
-#     display_name = "Eldin Twilight Cleared"
-#     default = True
-
-
-# class LanayruTwilightCleared(Toggle):
-#     """
-#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-#     Controls whether Lanayru Twilight is cleared.
-#     """
-
-#     display_name = "Lanayru Twilight Cleared"
-#     default = True
-
-
-# class SkipMdh(Toggle):
-#     """
-#     NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-#     Controls whether the Midna's Darkest Hour is skipped.
-#     """
-
-#     display_name = "Skip Midna's Darkest Hour"
-#     default = True
-
-# endregion
 # region Timesavers
 
 
 class SkipMinorCutscenes(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, minor cutscenes are skipped.
     """
 
@@ -376,7 +405,6 @@ class SkipMinorCutscenes(Toggle):
 
 class FastIronBoots(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, movement is not slowed when wearing Iron Boots.
     """
 
@@ -386,7 +414,6 @@ class FastIronBoots(Toggle):
 
 class QuickTransform(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, you can quickly transform by pressing R + Y.
     """
 
@@ -396,7 +423,6 @@ class QuickTransform(Toggle):
 
 class TransformAnywhere(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, the player can transform anywhere.
     """
 
@@ -404,19 +430,8 @@ class TransformAnywhere(Toggle):
     default = True
 
 
-class IncreaseWalletCapacity(Toggle):
-    """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    If enabled, the wallet capacity is increased.
-    """
-
-    display_name = "Increase Wallet Capacity"
-    default = True
-
-
 class ModifyShopModels(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, swap shop models with the items that are placed there.
     """
 
@@ -426,7 +441,6 @@ class ModifyShopModels(Toggle):
 
 class GoronMinesEntrance(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls requirements for accessing the Goron Mines.
 
     - **Closed:** Player must wrestle Gor Coron to enter the mines.
@@ -443,7 +457,6 @@ class GoronMinesEntrance(Choice):
 
 class SkipLakebedEntrance(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, the Lakebed does not require water bombs.
     """
 
@@ -453,17 +466,15 @@ class SkipLakebedEntrance(Toggle):
 
 class SkipArbitersGroundsEntrance(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    If enabled, entering Arbiters Grounds does not require defeating King Bublin.
+    If enabled, entering Arbiters Grounds does not require defeating King Bulblin.
     """
 
-    display_name = "Arbiters Grounds Does not require Bublin Camp"
+    display_name = "Arbiters Grounds Does not require Bulblin Camp"
     default = True
 
 
 class SkipSnowpeakEntrance(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, Snowpeak does not require Reekfish Scent.
     """
 
@@ -471,26 +482,34 @@ class SkipSnowpeakEntrance(Toggle):
     default = True
 
 
-class TotEntrance(Choice):
+class GroveEntrance(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
-    Controls requirements for accessing the Temple of Time.
-
-    - **Closed:** Player must defeat Skull Kid to access Sacred Grove. Master Sword needed to access Past.
-    - **Open Grove:** Player doesn't need to defeat Skull Kid. Master Sword needed to access Past.
-    - **Open:** Open Grove but player does not need Master Sword to access Past.
+    If enabled, Skull Kid will not need to be defeated to access Sacred Grove.
     """
 
-    display_name = "Temple of Time Entrance"
-    option_closed = 0
-    option_open_grove = 1
-    option_open = 2
-    default = 2
+    display_name = "Sacred Grove Entrance"
+    default: False
+
+
+class ToTEntrance(Choice):
+    """
+    Sets the minimum progressive sword level that is required to strike the pedestal in Sacred Grove and the Temple of Time.
+    This means that if set to Ordon Sword, the pedestal can be struck with the Ordon, Master, or Light Sword, but not the Wooden Sword.
+
+    If set to 'none', the player does not need to strike the sword into the pedestal.
+    """
+
+    display_name = "Temple of Time Sword Requirement"
+    option_none = 0
+    option_wooden_sword = 1
+    option_ordon_sword = 2
+    option_master_sword = 3
+    option_light_sword = 4
+    default = 0
 
 
 class SkipCityInTheSkyEntrance(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, City in The Sky does not require filled Skybook.
     """
 
@@ -500,7 +519,6 @@ class SkipCityInTheSkyEntrance(Toggle):
 
 class InstantMessageText(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, message text is instant.
     """
 
@@ -510,7 +528,6 @@ class InstantMessageText(Toggle):
 
 class OpenMap(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, Map areas are unlocked and portals unlocked.
     """
 
@@ -520,7 +537,6 @@ class OpenMap(Toggle):
 
 class IncreaseSpinnerSpeed(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, spinner speed is increased.
     *Spinner speed not taken into account in logic.
     """
@@ -531,17 +547,15 @@ class IncreaseSpinnerSpeed(Toggle):
 
 class OpenDoorOfTime(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, the Door of Time is open.
     """
 
     display_name = "Open Door of Time"
-    default = True
+    default = False
 
 
 class DamageMagnification(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Multiplies the damage the player takes.
     """
 
@@ -556,7 +570,6 @@ class DamageMagnification(Choice):
 
 class BonksDoDamage(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, bonks do damage.
     """
 
@@ -566,7 +579,6 @@ class BonksDoDamage(Toggle):
 
 class SkipMajorCutscenes(Toggle):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     If enabled, major cutscenes are skipped.
     """
 
@@ -576,7 +588,6 @@ class SkipMajorCutscenes(Toggle):
 
 class StartingToD(Choice):
     """
-    NON-DEFAULT CHOICE NOT REPRESENTED IN GAME (must self enforce if changed from default)
     Controls the starting time of day.
     """
 
@@ -586,6 +597,72 @@ class StartingToD(Choice):
     option_evening = 2
     option_night = 3
     default = 0
+
+
+class GoronMinesShortcut(Toggle):
+    """If enabled, all magnets within Goron Mines except the final one will automatically be activated. The final magnet remains deactivated to avoid a softlock."""
+
+    display_name = "Active Goron Mine Magnets"
+    default = False
+
+
+class CastleShortcut(Toggle):
+    """If enabled, the shortcut chandelier in the Hyrule Castle main hall will be lowered, and the double Dinalfos room will be cleared.
+
+    This allows for you to continue from the main hall to the southern balcony more quickly and with fewer item requirements (ex: no Gale Boomerang).
+    """
+
+    display_name = "Lower Hyrule Castle Chandelier"
+    default = False
+
+
+class WalletSize(Choice):
+    """Changes the capacity of the wallet
+    - Reduced: Sets the wallet capacities to 99, 500, and 1000
+    - Vanila: Sets the wallet capacities to 300, 600, and 1000.
+    - HD: Sets the wallet capacities to 500, 1000, and 2000.
+    - Large: Sets the wallet capacities to 1000, 5000, and 9999."""
+
+    display_name = " Wallet Size"
+    option_reduced = 0
+    option_vanilla = 1
+    option_hd = 2
+    option_large = 3
+    default = 1
+
+
+class AutoFillWalet(Toggle):
+    """Starts the player with a full wallet. Wallet upgrades will also fill the wallet."""
+
+    display_name = "Automatically Fill Wallets"
+    default = False
+
+
+class SkipBridgeDona(Toggle):
+    """If enabled, the bridge to Castle Town from Eldin Field will be automatically repaired."""
+
+    display_name = "Skip Castle Town Bridge Donation"
+    default = False
+
+
+class IliaQuest(Choice):
+    """
+    With this setting, the player can choose the point in the sequence they want the Ilia Memory Quest to start.
+    Selecting an item shuffles that specific item into world, precompleting the previous items in the quest.
+
+    Later items in the sequence are vanilla with the exception of the 'Ilia Memory Reward' item, which is always randomized.
+
+    Note:
+    Skipped locations will still appear on UT / Trackers but will not be collectable
+    """
+
+    display_name = "Ilia Memory Quest"
+    option_vanilla = 0
+    option_letter = 1
+    option_invoice = 2
+    option_statue = 3
+    option_charm = 4
+    defult = 0
 
 
 # endregion
@@ -608,6 +685,8 @@ class TPOptions(PerGameCommonOptions):
     hidden_skills_shuffled: HiddenSkillsShuffled
     poe_shuffled: PoeShuffled
     heart_piece_shuffled: HeartPieceShuffled
+    freestanding_rupee_shuffled: FreeStandingRupeeShuffle
+    hidden_rupee_shuffled: HiddenRupeeShuffle
     overworld_shuffled: OverWoldShuffled
     dungeons_shuffled: DungeonsShuffled
 
@@ -621,15 +700,13 @@ class TPOptions(PerGameCommonOptions):
     # Logic Settings
     logic_rules: LogicRules
     castle_requirements: CastleRequirements
+    castle_requirements_count: CastleRequirementsCount
+    castle_bk_requirements: CastleBKRequirements
+    castle_bk_requirements_count: CastleBKRequirementsCount
     palace_requirements: PalaceRequirements
     faron_woods_logic: FaronWoodsLogic
 
     # Timesavers
-    # skip_prologue: SkipPrologue  #
-    # faron_twilight_cleared: FaronTwilightCleared  #
-    # eldin_twilight_cleared: EldinTwilightCleared  #
-    # lanayru_twilight_cleared: LanayruTwilightCleared  #
-    # skip_mdh: SkipMdh  #
     skip_minor_cutscenes: SkipMinorCutscenes
     skip_major_cutscenes: SkipMajorCutscenes
     fast_iron_boots: FastIronBoots
@@ -638,7 +715,9 @@ class TPOptions(PerGameCommonOptions):
     open_map: OpenMap
     increase_spinner_speed: IncreaseSpinnerSpeed
     open_door_of_time: OpenDoorOfTime
-    increase_wallet: IncreaseWalletCapacity
+    wallet_size: WalletSize
+    goron_mines_sc: GoronMinesShortcut
+    castle_sc: CastleShortcut
 
     # Additional Settings
     transform_anywhere: TransformAnywhere
@@ -647,7 +726,9 @@ class TPOptions(PerGameCommonOptions):
     trap_frequency: TrapFrequency
     damage_magnification: DamageMagnification
     starting_tod: StartingToD
-    # hint_distribution: HintDistribution
+    auto_fill_wallet: AutoFillWalet
+    skip_bridge_don: SkipBridgeDona
+    ilia_quest: IliaQuest
 
     # Dungeon Entrance Settings
     skip_lakebed_entrance: SkipLakebedEntrance
@@ -655,7 +736,8 @@ class TPOptions(PerGameCommonOptions):
     skip_snowpeak_entrance: SkipSnowpeakEntrance
     skip_city_in_the_sky_entrance: SkipCityInTheSkyEntrance
     goron_mines_entrance: GoronMinesEntrance
-    tot_entrance: TotEntrance
+    grove_entrance: GroveEntrance
+    tot_entrance: ToTEntrance
 
     early_shadow_crystal: EarlyShadowCrystal
 
@@ -671,6 +753,8 @@ tp_option_groups: list[OptionGroup] = [
             HiddenSkillsShuffled,
             PoeShuffled,
             HeartPieceShuffled,
+            FreeStandingRupeeShuffle,
+            HiddenRupeeShuffle,
             OverWoldShuffled,
             DungeonsShuffled,
         ],
@@ -681,6 +765,9 @@ tp_option_groups: list[OptionGroup] = [
         [
             LogicRules,
             CastleRequirements,
+            CastleRequirementsCount,
+            CastleBKRequirements,
+            CastleBKRequirementsCount,
             PalaceRequirements,
             FaronWoodsLogic,
         ],
@@ -693,27 +780,25 @@ tp_option_groups: list[OptionGroup] = [
             BigKeySettings,
             MapAndCompassSettings,
             DungeonRewardsProgression,
+            SmallKeysOnBosses,
         ],
         start_collapsed=True,
     ),
     OptionGroup(
         "Timesavers",
         [
-            # SkipPrologue,
-            # FaronTwilightCleared,
-            # EldinTwilightCleared,
-            # LanayruTwilightCleared,
-            # SkipMdh,
             SkipMinorCutscenes,
             SkipMajorCutscenes,
             FastIronBoots,
             QuickTransform,
-            # UnrequiredDungeonAreBarren,
             InstantMessageText,
             OpenMap,
             IncreaseSpinnerSpeed,
             OpenDoorOfTime,
             EarlyShadowCrystal,
+            GoronMinesShortcut,
+            CastleShortcut,
+            SkipBridgeDona,
         ],
         start_collapsed=True,
     ),
@@ -721,12 +806,15 @@ tp_option_groups: list[OptionGroup] = [
         "Additional Settings",
         [
             TransformAnywhere,
-            IncreaseWalletCapacity,
+            WalletSize,
+            AutoFillWalet,
             BonksDoDamage,
             TrapFrequency,
             DamageMagnification,
             StartingToD,
             # HintDistribution,
+            IliaQuest,
+            ModifyShopModels,
         ],
         start_collapsed=True,
     ),
@@ -738,7 +826,8 @@ tp_option_groups: list[OptionGroup] = [
             SkipSnowpeakEntrance,
             SkipCityInTheSkyEntrance,
             GoronMinesEntrance,
-            TotEntrance,
+            GroveEntrance,
+            ToTEntrance,
         ],
         start_collapsed=True,
     ),

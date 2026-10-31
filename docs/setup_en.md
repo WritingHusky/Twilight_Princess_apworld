@@ -12,13 +12,13 @@ You'll need the following components to be able to play/generate with Twilight P
 
 - Install [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) v0.6.1 or higher.\
    **Make sure to install the Generator if you intend to generate multiworlds.**
-- The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/Twilight_Princess_apworld/releases/latest).
+- The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/twilight_princess/releases/latest).
 
 ### If you're playing Twilight Princess, you'll also need:
 
 - Install [Dolphin Emulator](https://dolphin-emu.org/download/).\
    **We recommend using the latest release.**
-- A Twilight Princess ISO (North American version), probably named "Legend of Zelda, The - Twilight Princess (USA).iso".
+- A legaly obtained Twilight Princess ISO.
 
 If you intend to play under Linux, you will need to consider the following information.
 
@@ -32,15 +32,15 @@ If you intend to play under Linux, you will need to consider the following infor
 All users should follow these steps:
 
 1. Unzip the downloaded Twilight Princess APWorld zip file.
-2. Double-click the `Twilight Princess.apworld` file. It should automatically install the APWorld after a little while. You will get a
-   little dialog window telling you it has been installed successfully. \* Alternatively, copy the `Twilight Princess.apworld` to your Archipelago installation's `custom_worlds` folder (Windows default
+2. Double-click the `twilight_princess.apworld` file. It should automatically install the APWorld after a little while. You will get a
+   little dialog window telling you it has been installed successfully. \* Alternatively, copy the `twilight_princess.apworld` to your Archipelago installation's `custom_worlds` folder (Windows default
    to: `%programdata%/Archipelago`).
 
-If you're playing Twilight Princess, you'll need to download the "Archipelago Twilight Princess Files" from the [#twilight-princess](https://discord.com/channels/731205301247803413/1369050080887312506/1525200781698011287) channel in the [Archipelago Discord](https://discord.gg/archipelago). If you set Dolphin to use the GCI Folder method, you should be able to follow the README.txt in the zip you just downloaded to find the Save path. Place the 3 Files for your Region into the Folder where Dolphin makes its save files.
+### Note: If you have a previous version of the apworld you will need to remove it.
 
-Note: If you played the Standalone Randomizer of Twilight Princess before, make sure to delete the `Randomizer-1.2.0.[region].gci`, because we use a custom File which can detect the Ganon kill to send AP the "Goal reached".
+If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/downloads/ and place it in the save data of dolphin (See [Placing the files](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md#Placing-the-files)).
 
-Note 2: If you started the Game before placing the Files in the Folder, you might have a Vanilla Save called `01-GZ2E-gczelda2.gci` which needs to be removed to make the `REL Loader v2` show up in the 3rd save slot in game.
+Note: If you started the Game before placing the Files in the Folder, you might have a Vanilla Save called `01-GZ2E-gczelda2.gci` which needs to be removed to make the `REL Loader v2` show up in the 3rd save slot in game.
 
 ## Setting Up a YAML
 
@@ -49,8 +49,6 @@ The TP APWorld download includes a sample YAML file for Twilight Princess. The c
 setting's function.
 
 Once you're happy with your settings, provide the room host with your YAML file and proceed to the next step.
-
-Note: Please note the settings labled NON-DEFAULT CHOICE NOT REPRESENTED IN GAME, as these settings will alter logic however they will not be changed from default when playing the game.
 
 ## Generating a Multiworld
 
@@ -65,7 +63,7 @@ generator does not yet support Twilight Princess. Follow these steps to generate
    you will need the corresponding ROM files. A ROM file is not required for Twilight Princess at this stage.
 4. Unzip the `AP_XXXXX.zip` file. It should include a `.aptp` file for each player in the room playing Twilight Princess.
    Each file will be named `AP_XXXXX_P#_<name>.aptp`, where `#` corresponds to that player's slot number and `<name>` is
-   their slot (player) name. The `.aptp` file currently contains a spoiler log and other debug information it can be safely ignored.
+   their slot (player) name. The `.aptp` is used to create a seed file. This will be explained shortly.
 5. In the next section, use the archive file `AP_XXXXX.zip` to host a room or provide it to the room host.
 
 ## Hosting a Room
@@ -75,31 +73,46 @@ corresponding to your multiworld, follow
 [these steps](https://archipelago.gg/tutorial/Archipelago/setup/en#hosting-an-archipelago-server) to host a room. Follow
 the instructions for hosting on the website from a locally generated game or on a local machine.
 
+## Generating a Seed File
+
+In order to connect to a room you will need the seed file for the world.
+You will need the `.aptp` file created during generation. If your multiworld is hosted on a Archipelago webserver you can download the patch from there or ask the host for your file.
+
+1. Visit https://ap.tprandomizer.com/
+2. Choose to randomize cosmetics / audio as you wish.
+3. Upload `.aptp` file to the "AP File Upload" Section.
+4. Press "Get Download Link" and download the file.
+5. If you dont yet have the REL loader downloaded, download it at the bottom of the page (Note that it is region specific i.e. NA, PAL, and JP).
+
+If you would like to patch your game instead of using a seed, before downloading, upload your ISO and select Patch ISO. Then you can place the patched ISO wherever your vanilla ISO is.
+
+## Placing the files
+
+You should now have a seed and REL Loader file.
+
+1. Ensure that GCI Folder is the selected method. You can check this by going to 'Options > Configuration > Gamecube > Device Settings' Slot A should be selected as GCI Folder.
+    - Note: If you see a folder path under the Slot A drop down that is the folder you should put the file in.
+2. Now you will want to find where your dolphin is installed. By deafualt this is in `C:\Users\[your username]\AppData\Roaming\Dolphin Emulator`
+3. Travse to `Dolphin Emulator\GC\USA\Card A` and place your files there.
+4. If you see a file named `01-GZ2E-gczelda2.gci` that is your vanilla save data. You will need to remove / delete it.
+
 ## Connecting to a Room
 
-You may have the `.aptp` file provided to you by the multiworld generator (you can ignore it.) You should also have the room's server
-name and port number from the room's host.
+Before connecting make sure you have created and placed your seed file.
 
 Once you do, follow these steps to connect to the room:
 
-**Your save data folder should have `Tpr-?-APTest_APT-aptest.gci`, `GZ2?01_REL_Loader_v2.gci`, and `RandomizerAP.??.gci`** (question marks replaced with the Region specific letters)
-
-<img width="646" height="146" alt="grafik" src="https://github.com/user-attachments/assets/6f28b842-ade5-4018-8c4e-56f3f0cc30a7" />
-
-
-
 1. Open Dolphin and use it to open Twilight Princess. (Ensure `Enable Emulated Memory Size Override` is disabled. See troubleshooting for more details)
-2. Start the REL loader save file. The Game will restart and show a Screen like this:
-<img width="1920" height="1080" alt="grafik" src="https://github.com/user-attachments/assets/0276c2d6-e740-4b7f-9dbe-98785cd0648c" />
-
-3. Start a new save file and:
-  - If your Slot Name you've set in the YAML is at most 8 Characters an doesn't have Special Characters, you can just name Link the same as your Slot Name.
-  - If your Slot Name you've set in the YAML is at least 9 Characters or has Special Characters, leave the name as is for now (Will be changed next with a Command).
-4. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the text client. It should automatically connect to Dolphin.
-5. Wait until you have control of Link. Cutscenes should be skipped and you should wear the Hero's Clothes.
-6. If you skipped naming Link the same as your Slot Name, you can still do so by typing `/name [Your YAML name here]` to write that Name to Links' Name.
-   For Example: If your Name is set to `ABC` in the YAML, you type `/name ABC` in the Client.
-7. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted on the website, this will be `archipelago.gg:<port>`, where `<port>` is the port number. If a game is hosted from the `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
+2. Start the REL loader save file and select APTest as the seed you want to use.
+   The game will restart if you press 'R + Z' a console will pop up and it should say "Archipelego Randomizer - v1.3" at the top
+3. Start a new save file and leave links name as default, it will change when you begin.
+4. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `Twilight Princess Client`, which will open the
+   text client. It should automatically connect to Dolphin.
+5. You will see a message saying "Randomizer loaded .... Using Seed ID [Seed name] that is the name of the current seed.
+6. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
+   on the website, this will be `archipelago.gg:<port>`, where `<port>` is the port number. If a game is hosted from the
+   `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
+7. If the incorrect seed was loaded a message will appear with the name of the seed you are supossed to load.
 
 ## PopTracker
 
@@ -107,11 +120,12 @@ There's a working PopTracker pack for TP at: https://github.com/Kizugaya/TPRAP_p
 You will need to install PopTracker itself at: https://github.com/black-sliver/PopTracker/releases/latest <br/>
 If you have any issues with it, please DM `☆☬𝓚𝓲𝓻𝓲𝓽𝓸☬☆`/`kizugaya` on Discord or ping him in the [#twilight-princess](https://discord.com/channels/731205301247803413/1369050080887312506) channel in the [Archipelago Discord](https://discord.gg/archipelago). You can also open an Issue on GitHub on his Pack.
 
+
 ## Troubleshooting
 
-- Ensure that you are running version v0.6.1 or higher of Archipelago, and the latest version of the world.
-- If you do not see the client in the launcher, ensure the `Twilight Princess.apworld` file is in the correct folder (the `custom_worlds` folder of your Archipelago installation).
-  It will only show up if you start the Launcher *after* installing the apworld.
+- Ensure that you are running version v0.6.7 or higher of Archipelago, and the latest version of the world.
+- If you do not see the client in the launcher, ensure the `Twilight Princess.apworld` file is in the correct folder (the
+  `custom_worlds` folder of your Archipelago installation).
 - If the client says that seed version and client version do not match, it is recomended regenerate the seed with the current version.
   Differences in version can cause bugs which may make it unplayable.
 - If the client throws an error along the lines of "could not read memory at < some-number >", dolphin has been disconnected.
@@ -124,6 +138,9 @@ If you have any issues with it, please DM `☆☬𝓚𝓲𝓻𝓲𝓽𝓸☬☆`
   and checking `Skip Main Menu`.
 - If Dolphin does load the RELoader save file and has a popup saying something like "Save file cannot be loaded",
   There may be a normal save file in your dolphin save folder, this will need to be removed in order for the randomizer to load.
+- If you have killed Ganon but the world has not been realesed. Ensure that the host settings allows player releases.
+  Check that the Archipelego Randomizer is loaded by bringing up the console window.
+
 
 ## Frequently Asked Questions
 

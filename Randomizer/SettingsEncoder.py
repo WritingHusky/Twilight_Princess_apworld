@@ -1,15 +1,19 @@
+import math
 from typing import TYPE_CHECKING
 from BaseClasses import Item, MultiWorld
 from ..Items import TPItem
 from ..Locations import TPLocation
 from ..options import *
 
+if TYPE_CHECKING:
+    from .. import TPWorld
+
 char_map = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
 # Based off of:
 # https://github.com/lunarsoap5/Randomizer-Web-Generator-1/blob/9a5f38e972669209f3d21596b0a9744f1319412f/Generator/Logic/SeedGenResults.cs#L130
 
-FILLER_ITEM_CODE = 0x8F
+FILLER_ITEM_CODE = 0xDC
 
 
 def get_item_placements(
@@ -72,20 +76,22 @@ def encode_item_placements(check_num_id_to_item_id: dict[int, int]):
 
     result += "1"
 
-    smallest = next(iter(check_num_id_to_item_id))  # Get the first key (0)
-    assert smallest == 0
-    largest = next(reversed(check_num_id_to_item_id))  # Get the last key (474)
-    assert largest == 474
+    sorted_keys = sorted(check_num_id_to_item_id.items(), key=lambda item: item[0])
 
-    result += encode_num_as_bits(smallest, 9)
-    result += encode_num_as_bits(largest, 9)
+    smallest = sorted_keys[0][0]  # Get the first key (0)
+    assert smallest == 0, f"{smallest=}"
+    largest = sorted_keys[-1][0]  # Get the last key (574)
+    assert largest == 574, f"{largest=}"
+
+    result += encode_num_as_bits(smallest, 10)
+    result += encode_num_as_bits(largest, 10)
 
     item_bits = ""
 
     for i in range(smallest, largest + 1):
         if i in check_num_id_to_item_id:
             result += "1"
-            item_bits += encode_num_as_bits(check_num_id_to_item_id[i], 8)
+            item_bits += encode_num_as_bits(check_num_id_to_item_id[i], 9)
         else:
             result += "0"
 
@@ -138,42 +144,42 @@ def encode_as_6_bit_string(bit_string: str):
 def get_setting_string(multiworld: MultiWorld, player: int):
     assert isinstance(multiworld, MultiWorld)
 
-    # Skip prolougue, Twilights and MDH are hardcoded currently.
-    # In the future I may want to add them so it's better to have them in the setting string to start
-
+    world = multiworld.worlds[player]
+    if TYPE_CHECKING:
+        assert isinstance(world, TPWorld)
     settings_map: list[int | tuple[int, int]] = [
-        # (multiworld.worlds[player].options.logic_rules.value, 2), # Just in ccase
-        (multiworld.worlds[player].options.castle_requirements.value, 3),
-        (multiworld.worlds[player].options.palace_requirements.value, 2),
-        (multiworld.worlds[player].options.faron_woods_logic.value, 1),
-        (multiworld.worlds[player].options.small_key_settings.value, 3),
-        (multiworld.worlds[player].options.big_key_settings.value, 3),
-        (multiworld.worlds[player].options.map_and_compass_settings.value, 3),
-        True,  # Skip prologue
-        True,  # Faron Twilight Cleared
-        True,  # Eldin Twilight Cleared
-        True,  # Lanayru Twilight Cleared
-        True,  # Skip MDH
-        bool(multiworld.worlds[player].options.skip_minor_cutscenes.value),
-        bool(multiworld.worlds[player].options.fast_iron_boots.value),
-        bool(multiworld.worlds[player].options.quick_transform.value),
-        bool(multiworld.worlds[player].options.transform_anywhere.value),
-        bool(multiworld.worlds[player].options.increase_wallet.value),
-        bool(multiworld.worlds[player].options.modify_shop_models.value),
-        (multiworld.worlds[player].options.goron_mines_entrance.value, 2),
-        bool(multiworld.worlds[player].options.skip_lakebed_entrance.value),
-        bool(multiworld.worlds[player].options.skip_arbiters_grounds_entrance.value),
-        bool(multiworld.worlds[player].options.skip_snowpeak_entrance.value),
-        (multiworld.worlds[player].options.tot_entrance.value, 2),
-        bool(multiworld.worlds[player].options.skip_city_in_the_sky_entrance.value),
-        bool(multiworld.worlds[player].options.instant_message_text.value),
-        bool(multiworld.worlds[player].options.open_map.value),
-        bool(multiworld.worlds[player].options.increase_spinner_speed.value),
-        bool(multiworld.worlds[player].options.open_door_of_time.value),
-        (multiworld.worlds[player].options.damage_magnification.value, 3),
-        bool(multiworld.worlds[player].options.bonks_do_damage.value),
-        bool(multiworld.worlds[player].options.skip_major_cutscenes.value),
-        (multiworld.worlds[player].options.starting_tod.value, 3),
+        (world.options.castle_requirements.value, 3),
+        (world.options.palace_requirements.value, 2),
+        (world.options.faron_woods_logic.value, 1),
+        bool(world.options.skip_minor_cutscenes.value),
+        bool(world.options.fast_iron_boots.value),
+        bool(world.options.quick_transform.value),
+        bool(world.options.transform_anywhere.value),
+        (world.options.wallet_size.value, 2),
+        bool(world.options.modify_shop_models.value),
+        (world.options.goron_mines_entrance.value, 2),
+        bool(world.options.skip_lakebed_entrance.value),
+        bool(world.options.skip_arbiters_grounds_entrance.value),
+        bool(world.options.skip_snowpeak_entrance.value),
+        bool(world.options.grove_entrance.value),
+        (world.options.tot_entrance.value, 3),
+        bool(world.options.skip_city_in_the_sky_entrance.value),
+        bool(world.options.instant_message_text.value),
+        bool(world.options.open_map.value),
+        bool(world.options.increase_spinner_speed.value),
+        bool(world.options.open_door_of_time.value),
+        (world.options.damage_magnification.value, 3),
+        bool(world.options.bonks_do_damage.value),
+        bool(world.options.skip_major_cutscenes.value),
+        (world.options.starting_tod.value, 3),
+        bool(world.options.goron_mines_sc.value),
+        bool(world.options.castle_sc.value),
+        (world.options.ilia_quest.value, 3),
+        (world.options.castle_requirements_count.value, 6),
+        (world.options.castle_bk_requirements.value, 3),
+        (world.options.castle_bk_requirements_count.value, 6),
+        bool(world.options.auto_fill_wallet.value),
+        bool(world.options.skip_bridge_don.value),
     ]
 
     bit_string = ""
@@ -182,24 +188,30 @@ def get_setting_string(multiworld: MultiWorld, player: int):
         if isinstance(setting_value, bool):
             bit_string += "1" if setting_value else "0"
         elif isinstance(setting_value, tuple):
-            assert len(setting_value) == 2, f"[Twilight Princess] {setting_value}"
+            assert (
+                len(setting_value) == 2
+            ), f"[Twilight Princess] Unexpected length for setting value tuple {setting_value=}, {settings_map=}"
             assert isinstance(
                 setting_value[0], int
-            ), f"[Twilight Princess] {setting_value}"
+            ), f"[Twilight Princess] Found an invalid setting value number {setting_value=}, {settings_map=}"
             assert isinstance(
                 setting_value[1], int
-            ), f"[Twilight Princess] {setting_value}"
+            ), f"[Twilight Princess] Found an invalid setting value bit count {setting_value=}, {settings_map=}"
             bit_string += encode_num_as_bits(setting_value[0], setting_value[1])
         else:
-            assert False, f"[Twilight Princess] {setting_value}"
+            assert (
+                False
+            ), f"[Twilight Princess] Unexpected format for setting value {setting_value=}, {settings_map=}"
 
     # Create the starting inventory
     item_bit_string = ""
     for item in multiworld.precollected_items[player]:
         assert isinstance(
             item, TPItem
-        ), f"[Twilight Princess] {item=}, TP Player has precollected a non TP Item?"
-        assert isinstance(item.item_id, int), f"[Twilight Princess] {item=}"
+        ), f"[Twilight Princess] TP Player has precollected a non TP Item, {item=} \nSeed String cannot generate with Non TP precollected items"
+        assert isinstance(
+            item.item_id, int
+        ), f"[Twilight Princess] {item=} does not have a valid item id"
         item_bit_string += encode_num_as_bits(item.item_id, 9)
 
     item_bit_string += "111111111"
@@ -207,22 +219,25 @@ def get_setting_string(multiworld: MultiWorld, player: int):
     bit_string += item_bit_string
 
     extra_bits = len(bit_string) % 6
-    bits_as_chars = encode_as_6_bit_string(bit_string)
-    version = 5
+    seed_body = encode_as_6_bit_string(bit_string)
+    version = 6
     ver = hex(version)[2:]
 
     num_length_chars = 0
-    for i in range(1, 6):
-        max_num = 1 << (i * 6)
-        if len(bits_as_chars) <= max_num:
+    for i in range(1, 8):  # max number of len chars is 7
+        max_num = math.pow(64, i)
+        if len(seed_body) < max_num:
             num_length_chars = i
             break
 
-    length_chars = encode_as_6_bit_string(
+    length_char = encode_as_6_bit_string(
         encode_num_as_bits((extra_bits << 3) + num_length_chars, 6)
     )
     len_chars = encode_as_6_bit_string(
-        encode_num_as_bits(len(bits_as_chars), num_length_chars * 6)
+        encode_num_as_bits(len(seed_body), num_length_chars * 6)
     )
+    assert (
+        len(len_chars) == num_length_chars
+    ), f"[Twilight Princess] Failed to create Setting String. Length of size chars {len_chars=} does not match expected size {num_length_chars=}"
 
-    return ver + "s" + length_chars + len_chars + bits_as_chars
+    return ver + "s" + length_char + len_chars + seed_body

@@ -1,20 +1,23 @@
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from typing import TYPE_CHECKING, List, Tuple
 
-from BaseClasses import ItemClassification as IC, LocationProgressType
-from Fill import FillError
+from BaseClasses import ItemClassification as IC
 from ..Logic.Macros import *
 from ...generic.Rules import set_rule
 from ..options import (
-    CastleRequirements,
     DungeonItem,
-    EarlyShadowCrystal,
+    DungeonRewardsProgression,
     GoldenBugsShuffled,
-    PalaceRequirements,
     PoeShuffled,
     SkyCharactersShuffled,
 )
-
-from ..Items import ITEM_TABLE, TPItem, TPItemData, item_factory, item_name_groups
+from ..Items import (
+    ITEM_TABLE,
+    PortalItems,
+    TPItem,
+    TPItemData,
+    item_factory,
+    item_name_groups,
+)
 
 if TYPE_CHECKING:
     from .. import TPWorld
@@ -67,7 +70,7 @@ VANILLA_SMALL_KEYS_LOCATIONS = {
         "Temple of Time Small Key": [
             "Temple of Time Lobby Lantern Chest",
             "Temple of Time Armos Antechamber East Chest",
-            "Temple of Time Gilloutine Chest",
+            "Temple of Time Guillotine Chest",
         ],
     },
     "City in The Sky": {
@@ -386,6 +389,12 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     for item, data in ITEM_TABLE.items():
         # Catch items that need special handling
         if data.code != None and item not in ["Victory", "Ice Trap"]:
+            if (
+                item == "Hyrule Castle Big Key"
+                and world.options.castle_bk_requirements.value
+                != CastleBKRequirements.option_none
+            ):
+                continue  # already handled in place deterministic
             # Prefill check
             if (
                 (
@@ -394,7 +403,14 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 )
                 or (
                     item in item_name_groups["Big Keys"]
-                    and world.options.big_key_settings.in_dungeon
+                    and (
+                        world.options.big_key_settings.in_dungeon
+                        or (
+                            item == "Hyrule Castle Big Key"
+                            and world.options.castle_bk_requirements.value
+                            != CastleBKRequirements.option_none
+                        )
+                    )
                 )
                 or (
                     item in item_name_groups["Maps and Compasses"]
@@ -410,14 +426,14 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     and world.options.poe_shuffled.value == PoeShuffled.option_false
                 )
                 or (
-                    item == "Shadow Crystal"
-                    and world.options.early_shadow_crystal
-                    == EarlyShadowCrystal.option_true
-                )
-                or (
                     item == "Progressive Sky Book"
                     and world.options.sky_characters_shuffled.value
                     == SkyCharactersShuffled.option_false
+                )
+                or (
+                    item in item_name_groups["Boss items"]
+                    and world.options.dungeon_rewards_progression.value
+                    == DungeonRewardsProgression.option_vanilla
                 )
             ):
                 prefill_pool.extend([item] * data.quantity)
@@ -431,7 +447,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                     == DungeonItem.option_startwith
                 )
                 or (
-                    item in ["Gate Keys", "Gerudo Desert Bublin Camp Key"]
+                    item in ["Gate Keys", "Gerudo Desert Bulblin Camp Key"]
                     and world.options.small_key_settings.value
                     == DungeonItem.option_startwith
                 )
@@ -465,7 +481,11 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
                 filler_pool.extend([item] * data.quantity)
 
         else:
-            assert item in ["Victory", "Ice Trap"], f"[Twilight Princess] {item}"
+            assert (item in ["Victory", "Ice Trap"]) or (
+                item in PortalItems
+            ), f"[Twilight Princess] {item}"
+
+    progression_pool.extend(world.pre_pool)
 
     # Get the number of locations that have not been filled yet
     placeable_locations = [
@@ -476,20 +496,7 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
 
     num_items_left_to_place = len(placeable_locations) - len(prefill_pool)
 
-    # Check progression pool against locations that can hold progression items
-    if len(progression_pool) > len(
-        [
-            location
-            for location in placeable_locations
-            if location.progress_type != LocationProgressType.EXCLUDED
-        ]
-    ):
-        raise FillError(
-            "[Twilight Princess] There are insufficient locations to place progression items! "
-            f"Trying to place {len(progression_pool)} items in only {num_items_left_to_place} locations."
-        )
-
-    world.progression_pool = progression_pool
+    world.progression_pool.extend(progression_pool)
     pool.extend(progression_pool)
     num_items_left_to_place -= len(progression_pool)
 
@@ -505,6 +512,19 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     world.useful_pool = useful_pool
     world.filler_pool = filler_pool
     world.prefill_pool = prefill_pool
+    pre_fill_copy = prefill_pool.copy()
+    # go through all pre fill dungeon items and add item if precollected
+    for pre_item in [
+        item
+        for item in world.multiworld.precollected_items[world.player]
+        if item.name in item_name_groups["Dungeon Items"]
+    ]:
+        for fill_item in pre_fill_copy:
+            if pre_item.name == fill_item:
+                # remove to counter repeats, also break
+                num_items_left_to_place += 1
+                pre_fill_copy.remove(fill_item)
+                break
 
     assert len(world.useful_pool) > 0, f"[Twilight Princess] {len(world.useful_pool)=}"
     assert len(world.filler_pool) > 0, f"[Twilight Princess] {len(world.filler_pool)=}"
@@ -515,7 +535,6 @@ def get_pool_core(world: "TPWorld") -> Tuple[List[str], List[str]]:
     return pool, precollected_items
 
 
-# TODO Check varible classification of boss items
 # Used to fill out boss defeat events and result used to fill out prefill Collection State
 def get_boss_defeat_items(world: "TPWorld"):
     return {
@@ -526,12 +545,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -542,12 +556,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -558,12 +567,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -574,15 +578,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    in [
-                        CastleRequirements.option_all_dungeons,
-                        CastleRequirements.option_vanilla,
-                    ]
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -593,12 +589,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -609,12 +600,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    # if world.options.castle_requirements.value
-                    # == CastleRequirements.option_all_dungeons
-                    # else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -625,14 +611,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    == CastleRequirements.option_all_dungeons
-                    or world.options.palace_requirements
-                    == PalaceRequirements.option_vanilla
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -643,15 +622,7 @@ def get_boss_defeat_items(world: "TPWorld"):
                 code=None,
                 type="Boss Defeated",
                 quantity=1,
-                classification=(
-                    IC.progression
-                    if world.options.castle_requirements.value
-                    in [
-                        CastleRequirements.option_all_dungeons,
-                        CastleRequirements.option_vanilla,
-                    ]
-                    else IC.useful
-                ),
+                classification=(IC.progression),
                 item_id=1,
             ),
         ),
@@ -666,107 +637,422 @@ def place_deterministic_items(world: "TPWorld") -> None:
         item_factory("Victory", world)
     )
 
+    if world.options.castle_bk_requirements.value != CastleBKRequirements.option_none:
+        world.get_location("Hyrule Castle Big Key Chest").place_locked_item(
+            item_factory("Hyrule Castle Big Key", world)
+        )
+
     # Place a Boss Defeated item on the boss rooms
-    set_rule(world.get_location("Forest Temple Diababa"), lambda state: (can_defeat_Diababa(state, world.player)))
-    
+    set_rule(
+        world.get_location("Forest Temple Diababa"),
+        lambda state: (can_defeat_Diababa(state, world.player)),
+    )
+
     world.get_location("Forest Temple Diababa").place_locked_item(
         world.boss_defeat_items["Diababa"]
     )
-    set_rule(world.get_location("Goron Mines Fyrus"), lambda state: (can_defeat_Fyrus(state, world.player)))
+    set_rule(
+        world.get_location("Goron Mines Fyrus"),
+        lambda state: (can_defeat_Fyrus(state, world.player)),
+    )
     world.get_location("Goron Mines Fyrus").place_locked_item(
         world.boss_defeat_items["Fyrus"]
     )
-    set_rule(world.get_location("Lakebed Temple Morpheel"), lambda state: (can_defeat_Morpheel(state, world.player)))
+    set_rule(
+        world.get_location("Lakebed Temple Morpheel"),
+        lambda state: (can_defeat_Morpheel(state, world.player)),
+    )
     world.get_location("Lakebed Temple Morpheel").place_locked_item(
         world.boss_defeat_items["Morpheel"]
     )
-    set_rule(world.get_location("Arbiters Grounds Stallord"), lambda state: (can_defeat_Stallord(state, world.player)))
+    set_rule(
+        world.get_location("Arbiters Grounds Stallord"),
+        lambda state: (can_defeat_Stallord(state, world.player)),
+    )
     world.get_location("Arbiters Grounds Stallord").place_locked_item(
         world.boss_defeat_items["Stallord"]
     )
-    set_rule(world.get_location("Snowpeak Ruins Blizzeta"), lambda state: (can_defeat_Blizzeta(state, world.player)))
+    set_rule(
+        world.get_location("Snowpeak Ruins Blizzeta"),
+        lambda state: (can_defeat_Blizzeta(state, world.player)),
+    )
     world.get_location("Snowpeak Ruins Blizzeta").place_locked_item(
         world.boss_defeat_items["Blizzeta"]
     )
-    set_rule(world.get_location("Temple of Time Armogohma"), lambda state: (can_defeat_Armogohma(state, world.player)))
+    set_rule(
+        world.get_location("Temple of Time Armogohma"),
+        lambda state: (can_defeat_Armogohma(state, world.player)),
+    )
     world.get_location("Temple of Time Armogohma").place_locked_item(
         world.boss_defeat_items["Armogohma"]
     )
-    set_rule(world.get_location("City in The Sky Argorok"), lambda state: (can_defeat_Argorok(state, world.player)))
+    set_rule(
+        world.get_location("City in The Sky Argorok"),
+        lambda state: (can_defeat_Argorok(state, world.player)),
+    )
     world.get_location("City in The Sky Argorok").place_locked_item(
         world.boss_defeat_items["Argorok"]
     )
-    set_rule(world.get_location("Palace of Twilight Zant"), lambda state: (can_defeat_Zant(state, world.player)))
+    set_rule(
+        world.get_location("Palace of Twilight Zant"),
+        lambda state: (can_defeat_Zant(state, world.player)),
+    )
     world.get_location("Palace of Twilight Zant").place_locked_item(
         world.boss_defeat_items["Zant"]
     )
 
-    # Manually place items that cannot be randomized yet.
-    # These are still items in-game, but are not worried about post generation
-    world.get_location("Renados Letter").place_locked_item(
-        TPItem(
-            "Renado's Letter",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x80,
-            ),
-        )
+    # Manually deal with quest locations. Place item or green ruppee
+    # # Also precollect or shuffled the choosen item
+    if world.options.ilia_quest.value == IliaQuest.option_vanilla:
+        item = world.create_item("Renado's Letter")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_letter:
+            world.pre_pool.append("Renado's Letter")
+        else:
+            world.push_precollected(world.create_item("Renado's Letter"))
+
+    world.get_location("Renados Letter").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value in [
+        IliaQuest.option_vanilla,
+        IliaQuest.option_letter,
+    ]:
+        item = world.create_item("Invoice")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_invoice:
+            world.pre_pool.append("Invoice")
+        else:
+            world.push_precollected(world.create_item("Invoice"))
+    world.get_location("Telma Invoice").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value in [
+        IliaQuest.option_vanilla,
+        IliaQuest.option_letter,
+        IliaQuest.option_invoice,
+    ]:
+        item = world.create_item("Wooden Statue")
+    else:
+        item = world.create_item("Green Rupee")
+        if world.options.ilia_quest.value == IliaQuest.option_statue:
+            world.pre_pool.append("Wooden Statue")
+        else:
+            world.push_precollected(world.create_item("Wooden Statue"))
+
+    world.get_location("Wooden Statue").place_locked_item(item)
+    del item
+
+    if world.options.ilia_quest.value != IliaQuest.option_charm:
+        item = world.create_item("Ilias Charm")
+    else:
+        item = world.create_item("Green Rupee")
+        world.pre_pool.append("Ilias Charm")
+
+    world.get_location("Ilia Charm").place_locked_item(item)
+    del item
+    #
+    #
+    #
+    #
+    #
+    menu = world.get_region(world.origin_region_name)
+
+    # Ordonn Portal
+    world.get_location("Ordon Spring Portal").place_locked_item(
+        world.create_item("Ordon Spring Portal")
     )
-    world.get_location("Telma Invoice").place_locked_item(
-        TPItem(
-            "Invoice",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x81,
-            ),
-        )
+    set_rule(
+        world.get_location("Ordon Spring Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.OrdonaMapRooms
+                ]
+            )
+        ),
     )
-    world.get_location("Wooden Statue").place_locked_item(
-        TPItem(
-            "Wooden Statue",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x82,
-            ),
-        )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Ordon Spring"),
+        lambda state: (
+            can_use(state, world.player, "Ordon Spring Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Ordon Spring",
     )
-    world.get_location("Ilias Charm").place_locked_item(
-        TPItem(
-            "Ilias Charm",
-            world.player,
-            TPItemData(
-                code=None,
-                type="Quest",
-                quantity=1,
-                classification=IC.progression,
-                item_id=0x83,
-            ),
-        )
+
+    # South Faron Portal
+    world.get_location("South Faron Portal").place_locked_item(
+        world.create_item("South Faron Portal")
     )
-    # Base Rando forces this as horse call
-    # NOTE: Collecting Horse Call/Any Quest item will disable/lock all previous items in the quest chain
-    world.get_location("Ilia Memory Reward").place_locked_item(
-        TPItem(
-            "Horse Call",
-            world.player,
-            TPItemData(
-                code=None,  # was code 53
-                type="Item",
-                quantity=1,
-                classification=IC.progression | IC.useful,
-                item_id=0x84,
+    set_rule(
+        world.get_location("South Faron Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.FaronMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("South Faron Woods"),
+        lambda state: (
+            can_use(state, world.player, "South Faron Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> South Faron Woods",
+    )
+
+    # North Faron Woods Portal
+    world.get_location("North Faron Portal").place_locked_item(
+        world.create_item("North Faron Portal")
+    )
+    set_rule(
+        world.get_location("North Faron Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.FaronMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("North Faron Woods"),
+        lambda state: (
+            can_use(state, world.player, "North Faron Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> North Faron Woods",
+    )
+
+    world.get_location("Zoras Domain Portal").place_locked_item(
+        world.create_item("Zoras Domain Portal")
+    )
+    set_rule(
+        world.get_location("Zoras Domain Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Zoras Domain Throne Room"),
+        lambda state: (
+            can_use(state, world.player, "Zoras Domain Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Zoras Domain Throne Room",
+    )
+
+    world.get_location("Castle Town Portal").place_locked_item(
+        world.create_item("Castle Town Portal")
+    )
+    set_rule(
+        world.get_location("Castle Town Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Outside Castle Town West"),
+        lambda state: (
+            can_use(state, world.player, "Castle Town Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Outside Castle Town West",
+    )
+
+    world.get_location("Lake Hylia Portal").place_locked_item(
+        world.create_item("Lake Hylia Portal")
+    )
+    set_rule(
+        world.get_location("Lake Hylia Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.LanayruMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Lake Hylia"),
+        lambda state: (
+            can_use(state, world.player, "Lake Hylia Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Lake Hylia",
+    )
+
+    world.get_location("Kakariko Gorge Portal").place_locked_item(
+        world.create_item("Kakariko Gorge Portal")
+    )
+    set_rule(
+        world.get_location("Kakariko Gorge Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Kakariko Gorge"),
+        lambda state: (
+            can_use(state, world.player, "Kakariko Gorge Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Kakariko Gorge",
+    )
+
+    world.get_location("Kakariko Village Portal").place_locked_item(
+        world.create_item("Kakariko Village Portal")
+    )
+    set_rule(
+        world.get_location("Kakariko Village Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Lower Kakariko Village"),
+        lambda state: (
+            can_use(state, world.player, "Kakariko Village Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Lower Kakariko Village",
+    )
+
+    world.get_location("Death Mountain Portal").place_locked_item(
+        world.create_item("Death Mountain Portal")
+    )
+    set_rule(
+        world.get_location("Death Mountain Portal"),
+        lambda state: state._tp_open_map(world.player)
+        or (
+            not state._tp_open_map(world.player)
+            and any(
+                [
+                    state.can_reach_region(region, world.player)
+                    for region in RoomFunctions.EldinMapRooms
+                ]
+            )
+        ),
+    )
+
+    world.create_entrance(
+        menu,
+        world.get_region("Death Mountain Volcano"),
+        lambda state: (
+            can_use(state, world.player, "Death Mountain Portal")
+            and can_use(state, world.player, "Shadow Crystal")
+        ),
+        "Menu -> Death Mountain Volcano",
+    )
+
+    world.get_location("Snowpeak Portal").place_locked_item(
+        world.create_item("Snowpeak Portal")
+    )
+    if world.options.skip_snowpeak_entrance.value:
+
+        set_rule(
+            world.get_location("Snowpeak Portal"),
+            lambda state: state._tp_open_map(world.player)
+            or (
+                not state._tp_open_map(world.player)
+                and any(
+                    [
+                        state.can_reach_region(region, world.player)
+                        for region in RoomFunctions.SnowpeakMapRooms
+                    ]
+                )
             ),
         )
+
+        world.create_entrance(
+            menu,
+            world.get_region("Snowpeak Summit Upper"),
+            lambda state: (
+                can_use(state, world.player, "Snowpeak Portal")
+                and can_use(state, world.player, "Shadow Crystal")
+            ),
+            "Menu -> Snowpeak Summit Upper",
+        )
+
+    # Additional Portals
+    # These portal locations are inplace unlocks, so accounting for the portal Travel is usless
+    # Techincally they could be unlocked with pre collection but I will ignore that for now
+    world.get_location("Upper Zoras River Portal").place_locked_item(
+        world.create_item("Upper Zoras River Portal")
+    )
+
+    world.get_location("Bridge of Eldin Portal").place_locked_item(
+        world.create_item("Bridge of Eldin Portal")
+    )
+
+    world.get_location("Sacred Grove Portal").place_locked_item(
+        world.create_item("Sacred Grove Portal")
+    )
+
+    world.get_location("Mirror Chamber Portal").place_locked_item(
+        world.create_item("Mirror Chamber Portal")
+    )
+    world.get_location("Gerudo Desert Portal").place_locked_item(
+        world.create_item("Gerudo Desert Portal")
     )
