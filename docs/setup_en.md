@@ -14,7 +14,7 @@ You'll need the following components to be able to play/generate with Twilight P
    **Make sure to install the Generator if you intend to generate multiworlds.**
 - The latest version of the [Twilight Princess APWorld](https://github.com/WritingHusky/twilight_princess/releases/latest).
 
-If you're playing Twilight Princess, you'll also need:
+### If you're playing Twilight Princess, you'll also need:
 
 - Install [Dolphin Emulator](https://dolphin-emu.org/download/).\
    **We recommend using the latest release.**
@@ -39,6 +39,8 @@ All users should follow these steps:
 ### Note: If you have a previous version of the apworld you will need to remove it.
 
 If you're playing Twilight Princess, you must also download the REL loader from https://tprandomizer.com/downloads/ and place it in the save data of dolphin (See [Placing the files](https://github.com/WritingHusky/Twilight_Princess_apworld/blob/main/docs/setup_en.md#Placing-the-files)).
+
+Note: If you started the Game before placing the Files in the Folder, you might have a Vanilla Save called `01-GZ2E-gczelda2.gci` which needs to be removed to make the `REL Loader v2` show up in the 3rd save slot in game.
 
 ## Setting Up a YAML
 
@@ -112,6 +114,13 @@ Once you do, follow these steps to connect to the room:
    `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
 7. If the incorrect seed was loaded a message will appear with the name of the seed you are supossed to load.
 
+## PopTracker
+
+There's a working PopTracker pack for TP at: https://github.com/Kizugaya/TPRAP_poptracker/releases/latest <br/>
+You will need to install PopTracker itself at: https://github.com/black-sliver/PopTracker/releases/latest <br/>
+If you have any issues with it, please DM `☆☬𝓚𝓲𝓻𝓲𝓽𝓸☬☆`/`kizugaya` on Discord or ping him in the [#twilight-princess](https://discord.com/channels/731205301247803413/1369050080887312506) channel in the [Archipelago Discord](https://discord.gg/archipelago). You can also open an Issue on GitHub on his Pack.
+
+
 ## Troubleshooting
 
 - Ensure that you are running version v0.6.7 or higher of Archipelago, and the latest version of the world.
@@ -131,3 +140,64 @@ Once you do, follow these steps to connect to the room:
   There may be a normal save file in your dolphin save folder, this will need to be removed in order for the randomizer to load.
 - If you have killed Ganon but the world has not been realesed. Ensure that the host settings allows player releases.
   Check that the Archipelego Randomizer is loaded by bringing up the console window.
+
+
+## Frequently Asked Questions
+
+### Setup
+**Q:** "I can't find my GCI folder!" / "What do I do with the MemoryCardA.raw file?"<br/>
+**A:** In Dolphin settings, under the GC tab, please set Slot A to 'GCI Folder'; once you do, press the [...] button to set/confirm the directory for it if you don't want to use the default one (default ends in `Card A`).
+
+**Q:** "What goes in the GCI folder?"<br/>
+**A:** `GZ2E01_REL_Loader_v2.gci`, `RandomizerAP.us.gci` and `Tpr-E-APTest_APT-aptest.gci`.
+
+**Q:** "What does 'NON-DEFAULT CHOICE NOT REPRESENTED IN GAME' mean in the yaml?"<br/>
+**A:** Because the seed is 'pre-generated' (this is the APTest file), certain options are baked into the seed at present and cannot be un-set by Archipelago. If the setting has logical implications, such as Hyrule Castle entry requirements, all items you will need to meet the logical requirement can be obtained without performing the restricted action. If the setting does not have logical implications, such as fast Iron Boots, then you simply have to operate on the honor system.
+
+**Q:** "What do I do with the APTP patch file?"<br/>
+**A:** As of APworld v0.3.0, this file is only useful for debugging slot data. It is not currently used to patch Twilight Princess or connect to Archipelago in any way.
+
+**Q:** "I can't connect, the client says 'Invalid Slot'!"<br/>
+**A:** The client will only connect once you are in-game, with your file name set to your slot name (you can set your file name with the `/name` command in the client if the file is loaded).
+
+### In-Game
+
+**Q:** "Everything's showing up as green rupees!"<br/>
+**A:** This is normal as of APworld v0.3.0. On collecting the green rupee, Archipelago will send out the item at that location.
+
+**Q:** "Everything's *not* showing up as green rupees!"<br/>
+**A:** The REL Loader file must be run for each Dolphin session. Failing to do so will make the game think you're playing vanilla.
+
+**Q:** "I'm getting items twice!"<br/>
+**A:** The REL Loader file must only be run **once** per Dolphin session. Running more than once will cause you to receive items multiple times.
+
+**Q:** "My check didn't send!"<br/>
+**A:** If this check is "Palace of Twilight Zant Heart Container" or "Kakariko Village Malo Mart Hawkeye", these are known issues as of APworld v0.3.0
+
+**Q:** "I received an item during Plumm's minigame but never got it!"<br/>
+**A:** This is known. Currently the only workaround is Archipelago's item commands, either `!getitem` or the host's `/send`.<br/>
+Note: If you give give yourself by either way extra Items, the Poptracker will think that you have an extra copy of that Item and may show things in logic that actually aren't.<br/>
+For Example: You have 2 "Forest Temple Small Key"s, and get the 3rd while doing this Minigame, and then use one of the commands to give you another one so you have 3 in-game, then the PopTracker will think that you have 4 and show things in logic which aren't. you can still remove Item in the Tracker by right-clicking them.
+
+**Q:** "I'm stuck in the Darknut room in Temple of Time!"<br/>
+**A:** This is because the of the Open Door of Time setting (which is always on in AP). The only way to leave is to save and quit.
+
+**Q:** "I'm stuck in the Gerudo Desert and don't have the Shadow Crystal to warp out!"<br/>
+**A:** Same Answer as above: save and quit to get back to Lake Hylia
+
+**Q:** "How do I move the statue in the basement of the Kakariko hut?"<br/>
+**A:** You don't. If you are self-enforcing skip_city_in_the_sky_entrance: false, then you need seven Progressive Sky Books (the book itself and then six letters) before CitS is logically accessible. The Location "Shad Dominion Rod" doesn't exist here.
+
+**Q:** "My victory didn't send!"<br/>
+**A:** You're either not playing with the APTest Seed and generated a Seed yourself on the Standalone site (which is wrong), or you still have an old Randomizer file in your Dolphin Save Folder called `Randomizer-1.2.0.[region].gci` which has to be removed.
+
+### PopTracker
+
+**Q:** "What are these blue squares?"<br/>
+**A:** For Twilight Princess's Poptracker, the blue squares indicate howling stone locations. There is a blue square both at the howling stone itself and at the golden wolf that howling stone spawns. The golden wolf will not be shown as logically-available until the howling stone is activated.
+
+**Q:** "Why is a check marked red when I can get it?"<br/>
+**A:** If you are in a dungeon, the answer is probably key logic; essentially, logic has to assume you have used small keys on every other accessible locked door first, to ensure that you can't lock yourself out of a necessary progression item. If you are not in a dungeon, or you're absolutely sure key logic isn't the problem here, then please tell us about it!
+
+**Q:** "Why does the tracker only auto-tab *sometimes*?"<br/>
+**A:** The Twilight Princess APworld can only track which "region" you're in to send to Poptracker. For some places, like Ordona Province, or dungeons, there's only one map for that region anyway, and Poptracker is able to auto-tab to that map. For the major regions (Faron, Eldin, and Lanaryu), as there are multiple possible maps, Poptracker cannot tell which one you're in specifically. For the partial auto-tabbing (the default), this means it does not shift maps at all. If you instead set it to full auto-tabbing, then entering any of these regions will set Poptracker to switch to the full map.
