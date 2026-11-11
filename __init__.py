@@ -1708,6 +1708,9 @@ class TPWorld(World):
             "City in the Sky Entrance Requirements": self.options.skip_city_in_the_sky_entrance.get_option_name(
                 self.options.skip_city_in_the_sky_entrance.value
             ),
+            "Temple of Time Sword Requirement": self.options.tot_entrance.get_option_name(
+                self.options.tot_entrance.value
+            ),
             # Logic Settings
             "Logic Settings": self.options.logic_rules.get_option_name(  # Gen only
                 self.options.logic_rules.value
@@ -1751,6 +1754,12 @@ class TPWorld(World):
             ),
             "Heart Pieces Shuffled": self.options.heart_piece_shuffled.get_option_name(  # Gen only
                 self.options.heart_piece_shuffled.value
+            ),
+            "Freestanding Rupee Shuffled": self.options.freestanding_rupee_shuffled.get_option_name(  # Gen only
+                self.options.freestanding_rupee_shuffled.value
+            ),
+            "Hidden Rupee Shuffled": self.options.hidden_rupee_shuffled.get_option_name(  # Gen only
+                self.options.hidden_rupee_shuffled.value
             ),
             "Overworld Shuffled": self.options.overworld_shuffled.get_option_name(  # Gen only
                 self.options.overworld_shuffled.value

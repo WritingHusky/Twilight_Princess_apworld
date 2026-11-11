@@ -28,12 +28,13 @@ Settings_Format = {
     "Ilia Quest": "Vanilla/Letter/Invoice/Statue/Charm",
     "Modify Shop Models": "Yes/No",
     # Dungeon Enterance Settings
-    "Goron Mines Entrance Requirements": "Open/No Wrestling/Closed",
     "Lakebed Entrance Requirements": "Yes/No",
     "Arbiters Grounds Entrance Requirements": "Yes/No",
     "Snowpeak Entrance Requirements": "Yes/No",
-    "Sacred Grove Entrance Requirements": "Yes/No",
     "City in the Sky Entrance Requirements": "Yes/No",
+    "Goron Mines Entrance Requirements": "Open/No Wrestling/Closed",
+    "Sacred Grove Entrance Requirements": "Yes/No",
+    "Temple of Time Sword Requirement": "None/Wooden Sword/Ordon Sword/Master Sword/Light Sword",
     # Logic Settings
     "Logic Settings": "Glitchless/Glitched",
     "Castle Requirements": "Open/Fused Shadows/Mirror Shards/Dungeons/Vanilla/Poe Souls/Hearts",
@@ -50,6 +51,9 @@ Settings_Format = {
     "Hidden Skills Shuffled": "Yes/No",
     "Poes Shuffled": "Yes/No",
     "Heart Pieces Shuffled": "Yes/No",
+    "Freestanding Rupee Shuffle": "Yes/No",
+    "Hidden Rupee Shuffle": "Yes/No",
+    "Poes Shuffled": "Yes/No",
     "Overworld Shuffled": "Yes/No",
     "Dungeons Shuffled": "Yes/No",
     # Dungeon Items

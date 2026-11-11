@@ -716,20 +716,21 @@ class TPOptions(PerGameCommonOptions):
     open_map: OpenMap
     increase_spinner_speed: IncreaseSpinnerSpeed
     open_door_of_time: OpenDoorOfTime
-    wallet_size: WalletSize
+    early_shadow_crystal: EarlyShadowCrystal
     goron_mines_sc: GoronMinesShortcut
     castle_sc: CastleShortcut
+    skip_bridge_don: SkipBridgeDona
 
     # Additional Settings
     transform_anywhere: TransformAnywhere
-    modify_shop_models: ModifyShopModels
+    wallet_size: WalletSize
+    auto_fill_wallet: AutoFillWalet
     bonks_do_damage: BonksDoDamage
     trap_frequency: TrapFrequency
     damage_magnification: DamageMagnification
     starting_tod: StartingToD
-    auto_fill_wallet: AutoFillWalet
-    skip_bridge_don: SkipBridgeDona
     ilia_quest: IliaQuest
+    modify_shop_models: ModifyShopModels
 
     # Dungeon Entrance Settings
     skip_lakebed_entrance: SkipLakebedEntrance
@@ -739,8 +740,6 @@ class TPOptions(PerGameCommonOptions):
     goron_mines_entrance: GoronMinesEntrance
     grove_entrance: GroveEntrance
     tot_entrance: ToTEntrance
-
-    early_shadow_crystal: EarlyShadowCrystal
 
 
 tp_option_groups: list[OptionGroup] = [
@@ -813,7 +812,6 @@ tp_option_groups: list[OptionGroup] = [
             TrapFrequency,
             DamageMagnification,
             StartingToD,
-            # HintDistribution,
             IliaQuest,
             ModifyShopModels,
         ],
