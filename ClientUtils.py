@@ -53,7 +53,6 @@ Settings_Format = {
     "Heart Pieces Shuffled": "Yes/No",
     "Freestanding Rupee Shuffle": "Yes/No",
     "Hidden Rupee Shuffle": "Yes/No",
-    "Poes Shuffled": "Yes/No",
     "Overworld Shuffled": "Yes/No",
     "Dungeons Shuffled": "Yes/No",
     # Dungeon Items
