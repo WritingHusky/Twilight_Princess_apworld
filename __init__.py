@@ -191,12 +191,14 @@ class TPWorld(World):
         enabled_flags = TPFlag.Always
         enabled_flags |= TPFlag.Boss
         enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Golden_Bug)
+        enabled_flags |= add_flag(options.golden_bugs_shuffled, TPFlag.Bug_Reward)
         enabled_flags |= add_flag(options.shop_items_shuffled, TPFlag.Shop)
         enabled_flags |= add_flag(options.sky_characters_shuffled, TPFlag.Sky_Book)
         enabled_flags |= add_flag(options.poe_shuffled, TPFlag.Poe)
         enabled_flags |= add_flag(options.npc_items_shuffled, TPFlag.Npc)
         enabled_flags |= add_flag(options.hidden_skills_shuffled, TPFlag.Hidden_Skill)
         enabled_flags |= add_flag(options.heart_piece_shuffled, TPFlag.Heart_Container)
+        enabled_flags |= add_flag(options.heart_piece_shuffled, TPFlag.Heart_Piece)
         enabled_flags |= add_flag(options.overworld_shuffled, TPFlag.Overworld)
         enabled_flags |= add_flag(options.dungeons_shuffled, TPFlag.Dungeon)
         enabled_flags |= add_flag(
@@ -212,17 +214,18 @@ class TPWorld(World):
             TPFlag.Always
             | TPFlag.Dungeon
             | TPFlag.Overworld
-            # | TPFlag.Rupee_Hidden
-            # | TPFlag.Rupee_Freestanding
+            | TPFlag.Rupee_Hidden
+            | TPFlag.Rupee_Freestanding
             | TPFlag.Npc
             | TPFlag.Golden_Bug
-            # | TPFlag.Bug_Reward
+            | TPFlag.Bug_Reward
             | TPFlag.Poe
             | TPFlag.Shop
             # | TPFlag.Quest
             | TPFlag.Boss
             # | TPFlag.Dungeon_Reward
             | TPFlag.Heart_Container
+            | TPFlag.Heart_Piece
             | TPFlag.Hidden_Skill
             | TPFlag.Sky_Book
             | TPFlag.Rupee_Freestanding

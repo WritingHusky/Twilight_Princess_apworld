@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING, Callable
-from BaseClasses import Entrance
+from BaseClasses import CollectionState, Entrance
 from worlds.AutoWorld import World
 from worlds.generic.Rules import set_rule
 from .Macros import *
