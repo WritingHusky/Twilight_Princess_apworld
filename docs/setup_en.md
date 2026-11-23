@@ -120,6 +120,16 @@ There's a working PopTracker pack for TP at: https://github.com/Kizugaya/TPRAP_p
 You will need to install PopTracker itself at: https://github.com/black-sliver/PopTracker/releases/latest <br/>
 If you have any issues with it, please DM `☆☬𝓚𝓲𝓻𝓲𝓽𝓸☬☆`/`kizugaya` on Discord or ping him in the [#twilight-princess](https://discord.com/channels/731205301247803413/1369050080887312506) channel in the [Archipelago Discord](https://discord.gg/archipelago). You can also open an Issue on GitHub on his Pack.
 
+## Universal Tracker
+
+[Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases) can show Kizugaya's PopTracker maps with
+the apworld's own logic. No YAML is needed: it rebuilds your options from the server.
+
+1. Download the PopTracker pack .zip (see above). The maps match pack 1.0.0 and newer.
+2. In `host.yaml`, under `twilight_princess_options`, set `ut_pack_path` to the pack .zip. If you leave it empty,
+   Universal Tracker asks for the file when it connects.
+3. Open Universal Tracker from the Archipelago Launcher and connect to your slot. The maps are on the "Map Page" tab.
+
 ## Troubleshooting
 
 - Ensure that you are running version v0.6.7 or higher of Archipelago, and the latest version of the world.

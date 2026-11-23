@@ -2,9 +2,10 @@ from collections.abc import Mapping
 from copy import deepcopy
 import os
 import time
-from typing import Any, ClassVar, Optional
+from typing import Any, ClassVar, Optional, Union
 import zipfile
 
+import settings
 from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType, Region
 from BaseClasses import ItemClassification as IC
@@ -56,6 +57,7 @@ from .Logic.RegionCreation import (
     create_regions,
 )
 from .Logic.RegionRules import set_region_access_rules
+from .Tracker import options_from_slot_data, tracker_world as _tracker_world
 
 
 def run_client() -> None:
@@ -125,6 +127,28 @@ class TPWeb(WebWorld):
     rich_text_options_doc = True
 
 
+class TPSettings(settings.Group):
+    """Host settings for Twilight Princess."""
+
+    class UTPackPath(settings.UserFilePath):
+        """Path to the Twilight Princess PopTracker pack .zip, used by Universal Tracker to show maps.
+
+        Download the pack by Kizugaya from https://github.com/Kizugaya/TPRAP_poptracker/releases
+        and point this setting at the .zip. Leave it empty to be asked when Universal Tracker connects.
+        """
+
+        description = "Twilight Princess PopTracker pack (Universal Tracker, optional)"
+        ut_dialog_name = "Select the Twilight Princess PopTracker pack (.zip)"
+        required = False
+
+        def resolve(self) -> str:
+            # Keep an unset path as "" (Universal Tracker then asks for the pack). Resolving it would give the
+            # Archipelago folder, which "exists" and then fails validation as a file.
+            return super().resolve() if self else ""
+
+    ut_pack_path: Union[UTPackPath, str] = UTPackPath("")
+
+
 class TPWorld(World):
     """
     Join Link and Midna on their adventure through Hyrule in Twilight Princess.
@@ -153,6 +177,11 @@ class TPWorld(World):
     item_name_groups: ClassVar[dict[str, set[str]]] = item_name_groups
 
     web: ClassVar[TPWeb] = TPWeb()
+    settings: ClassVar[TPSettings]
+
+    # Universal Tracker
+    tracker_world: ClassVar[dict[str, Any]] = _tracker_world
+    ut_can_gen_without_yaml: ClassVar[bool] = True
 
     origin_region_name: str = "Menu"
 
@@ -251,6 +280,13 @@ class TPWorld(World):
         """
         Setup things ready for generation.
         """
+
+        # Universal Tracker regenerating a seed: use the options it was generated with (see interpret_slot_data).
+        re_gen_options = getattr(self.multiworld, "re_gen_passthrough", {}).get(self.game)
+        if re_gen_options is not None:
+            for option_name, value in re_gen_options.items():
+                option_type = type(getattr(self.options, option_name))
+                setattr(self.options, option_name, option_type.from_any(value))
 
         if len(self.player_name) > 16:
             raise OptionError(
@@ -1605,6 +1641,14 @@ class TPWorld(World):
             ] = location_classification
 
         return slot_data
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, int]:
+        """
+        Used by Universal Tracker: rebuild this slot's options from slot_data["Settings"] so it can regenerate
+        the seed's logic without the player's YAML. generate_early reads the result back from re_gen_passthrough.
+        """
+        return options_from_slot_data(slot_data)
 
     def collect_item(
         self, state: "CollectionState", item: "Item", remove: bool = False
