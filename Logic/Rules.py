@@ -2036,10 +2036,12 @@ def set_location_access_rules(world: "TPWorld"):
             can_use(state, player, "Progressive Hero's Bow", 1)
             and can_use(state, player, "Shadow Crystal")
             and can_use(state, player, "Progressive Clawshot", 1)
+            and can_use(state, player, "Ilias Charm")
         ),
         lambda state: (
             can_do_hidden_village_glitched(state, player)
             and can_use(state, player, "Shadow Crystal")
+            and can_use(state, player, "Ilias Charm")
         ),
     )
     set_rule_if_exists(
